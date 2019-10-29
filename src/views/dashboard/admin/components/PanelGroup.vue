@@ -25,7 +25,7 @@
         <div class="u-timeline-comtent">
           <div class="u-timeline-text">
             <div class="u-timeline-title">
-              <p style="margin:0px">日历+待办事项</p>
+              <!-- <el-calendar v-model="value"></el-calendar> -->
             </div>
           </div>
         </div>
@@ -36,13 +36,18 @@
 
 <script>
 export default {
+  data() {
+    return {
+      value: new Date()
+    };
+  },
   components: {},
   methods: {
     handleSetLineChartData(type) {
-      this.$emit('handleSetLineChartData', type)
+      this.$emit("handleSetLineChartData", type);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -97,21 +102,21 @@ export default {
       .u-examine-text {
         line-height: 18px;
         font-size: 18px;
-        .u-examine-title{
+        .u-examine-title {
           height: 50px;
           border-bottom: 1px solid #eee;
           margin: 0px 15px 0px 15px;
           padding: 14px;
         }
-          p {
-          margin: 0px ;
-          }
+        p {
+          margin: 0px;
+        }
       }
     }
   }
-  .u-timeline{
+  .u-timeline {
     background: #fff;
-    height:370px;
+    height: 370px;
   }
 
   @media (max-width: 550px) {
