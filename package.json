@@ -15,6 +15,7 @@
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
   },
   "dependencies": {
+    "@smallwei/avue": "^2.1.5",
     "axios": "0.18.1",
     "echarts": "^4.4.0",
     "element-ui": "^2.12.0",

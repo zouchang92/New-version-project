@@ -5,25 +5,40 @@
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
+        <tags-view />
       </div>
       <app-main />
+      <right-panel v-if="true">
+        <settings />
+      </right-panel>
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from './components'
+import RightPanel from '@/components/RightPanel'
+import { Navbar, Sidebar, Settings, AppMain, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-
+import { mapState } from 'vuex'
 export default {
   name: 'Layout',
   components: {
     Navbar,
     Sidebar,
-    AppMain
+    AppMain,
+    TagsView,
+    RightPanel,
+    Settings
   },
   mixins: [ResizeMixin],
   computed: {
+    ...mapState({
+      sidebar: state => state.app.sidebar,
+      device: state => state.app.device,
+      showSettings: state => state.settings.showSettings,
+      needTagsView: state => state.settings.tagsView,
+      fixedHeader: state => state.settings.fixedHeader
+    }),
     sidebar() {
       return this.$store.state.app.sidebar
     },

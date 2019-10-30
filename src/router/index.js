@@ -104,7 +104,25 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/systemManage',
+    component: Layout,
+    name: 'systemManage',
+    alwaysShow: true,
+    meta: {
+      title: '系统管理',
+      icon: 'nested'
+    },
+    children: [{
+      path: 'studentManage',
+      name: 'studentManage',
+      meta: {
+        title: '学生管理',
+        icon: 'nested'
+      },
+      component: () => import('@/views/system-manage/student-manage')
+    }]
+  },
   {
     path: '/nested',
     component: Layout,

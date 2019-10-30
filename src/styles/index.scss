@@ -23,6 +23,22 @@ html {
 
 #app {
   height: 100%;
+  background-color: #f2f2f2;
+}
+
+.table-container {
+  padding: 8px 10px;
+}
+
+.basic-container {
+  padding: 8px 10px;
+  border-radius: 10px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.basic-container:first-child {
+  padding-top: 0;
 }
 
 *,
@@ -62,4 +78,8 @@ div:focus {
 // main-container global css
 .app-container {
   padding: 20px;
+}
+
+.page-wrapper {
+  margin-top: 50px;
 }
