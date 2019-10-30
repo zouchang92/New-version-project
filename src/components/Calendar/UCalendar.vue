@@ -140,13 +140,6 @@ export default {
               month: month,
               date: this.format(year, month, day),
               //                日历要显示的其他内容
-              thing:
-                day == 22 || day == 4
-                  ? [
-                      { title: "生日", color: "red" },
-                      { title: "买蛋糕", color: "yellow" }
-                    ]
-                  : [],
               nongli: format.solar2lunar(year, month + 1, day),
               istoday:
                 this.today.getFullYear() == year &&
@@ -261,16 +254,17 @@ export default {
 </script>
 <style scoped>
 .calendar-box {
-  /*background: #4188d8;*/
-  color: #fff;
+  /* background: #fff; */
   position: relative;
-  height: 100%;
+  height: 300px;
   z-index: 99;
 }
 .calendar-head {
   display: flex;
   height: 30px;
   line-height: 30px;
+  list-style:none;
+  padding: 0px;
 }
 .calendar-head li {
   flex-grow: 1;
@@ -339,13 +333,16 @@ export default {
 .thing {
   margin-top: 3px;
 }
-.othermonth {
+/* .othermonth {
   color: #dcafaf;
-}
+} */
 .istoday {
   background: #06c7f3 !important;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
 }
-.ischecked {
+/* .ischecked {
   background-color: #f17117 !important;
-}
+} */
 </style>

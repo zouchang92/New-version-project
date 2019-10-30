@@ -8,9 +8,6 @@ import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 
 import '@/styles/index.scss' // global css
 
-// 添加自定义组件
-import Calendar from '@components/Calendar'
-
 import App from './App'
 import store from './store'
 import router from './router'
@@ -25,7 +22,6 @@ if (process.env.NODE_ENV === 'production') {
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
-Vue.use(Calendar)
 
 Vue.config.productionTip = false
 

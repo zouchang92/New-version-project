@@ -1,19 +1,21 @@
 <template>
   <el-row :gutter="40" class="panel-group">
-    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col" style="padding-right:13px">
+    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col" style="padding-right:15px;padding-left:30px">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-description">
           <div class="card-panel-text">
+            <p class="u-line"></p>
             <p>我的应用</p>
           </div>
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col" style='padding:0px'>
       <div class="u-examine" @click="handleSetLineChartData('newVisitis')">
         <div class="u-examine-comtent">
           <div class="u-examine-text">
             <div class="u-examine-title">
+              <p class="u-line"></p>
               <p>待审核</p>
             </div>
           </div>
@@ -26,6 +28,7 @@
           <div class="u-timeline-text">
             <div class="u-timeline-title">
               <!-- <el-calendar v-model="value"></el-calendar> -->
+              <!-- <UCalendar></UCalendar> -->
             </div>
           </div>
         </div>
@@ -35,13 +38,16 @@
 </template>
 
 <script>
+// import UCalendar from '@/components/Calendar/UCalendar'
 export default {
   data() {
     return {
       value: new Date()
     }
   },
-  components: {},
+  components: {
+    // UCalendar
+  },
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
@@ -52,14 +58,15 @@ export default {
 
 <style lang="scss" scoped>
 .panel-group {
-  margin-top: 18px;
+  margin-top: 0px;
 
   .card-panel-col {
-    margin-bottom: 32px;
+    margin-bottom: 0px;
   }
 
   .card-panel {
-    height: 130px;
+    // width:320px;
+    height:154px;
     cursor: pointer;
     font-size: 12px;
     position: relative;
@@ -82,11 +89,21 @@ export default {
         p {
           margin: -12px 0px 0px 32px;
         }
+
+        .u-line{
+          display: block;
+          width: 5px;
+          height: 16px;
+          background: rgba(1,142,237,1);
+          position: absolute;
+          left: -15px;
+          top: 28px;
+        }
       }
     }
   }
   .u-examine {
-    height: 326px;
+    height: 322px;
     cursor: pointer;
     font-size: 12px;
     position: relative;
@@ -111,12 +128,21 @@ export default {
         p {
           margin: 0px;
         }
+        .u-line{
+          display: block;
+          width: 5px;
+          height: 16px;
+          background: rgba(1,142,237,1);
+          position: absolute;
+          left: 15px;
+          top: 17px;
+        }
       }
     }
   }
   .u-timeline {
     background: #fff;
-    height: 370px;
+    height: 354px;
   }
 
   @media (max-width: 550px) {
