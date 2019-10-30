@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       value: new Date()
-    }
+    };
   },
   components: {},
   methods: {
