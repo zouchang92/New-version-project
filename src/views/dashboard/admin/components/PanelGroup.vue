@@ -39,15 +39,15 @@ export default {
   data() {
     return {
       value: new Date()
-    };
+    }
   },
   components: {},
   methods: {
     handleSetLineChartData(type) {
-      this.$emit("handleSetLineChartData", type);
+      this.$emit('handleSetLineChartData', type)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
