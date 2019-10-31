@@ -8,8 +8,6 @@ import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import Avue from '@smallwei/avue'
 import '@smallwei/avue/lib/index.css'
 
-
-
 import '@/styles/index.scss' // global css
 
 // 添加自定义组件
