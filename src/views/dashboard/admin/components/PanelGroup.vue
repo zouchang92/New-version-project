@@ -1,6 +1,12 @@
 <template>
   <el-row :gutter="40" class="panel-group">
-    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col" style="padding-right:15px;padding-left:30px">
+    <el-col
+      :xs="12"
+      :sm="8"
+      :lg="8"
+      class="card-panel-col"
+      style="padding-right:15px;padding-left:30px"
+    >
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-description">
           <div class="card-panel-text">
@@ -10,13 +16,43 @@
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col" style='padding:0px'>
+    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col" style="padding:0px;overflow:hidden">
       <div class="u-examine" @click="handleSetLineChartData('newVisitis')">
         <div class="u-examine-comtent">
           <div class="u-examine-text">
             <div class="u-examine-title">
               <p class="u-line"></p>
-              <p>待审核</p>
+              <el-badge :value="5">
+                <p>待审核</p>
+              </el-badge>
+              <div style="float:right">
+                <el-checkbox
+                  :indeterminate="isIndeterminate"
+                  v-model="checkAll"
+                  @change="handleCheckAllChange"
+                >全选</el-checkbox>
+              </div>
+            </div>
+            <div class="u-examine-content">
+              <ul class="u-content">
+                <li v-for="city in cities" :key="city">
+                  <el-checkbox-group
+                    v-model="checkedCities"
+                    @change="handleCheckedCitiesChange"
+                    style="padding-top:5px;padding-left:5px"
+                  >
+                    <el-checkbox :label="city">
+                      <span>{{city.content}}</span>
+                      <el-tag
+                        style="margin-left:10px;width: 56px;height: 20px;font-size: 12px;"
+                        size="mini"
+                        effect="dark"
+                        :type="city.type"
+                      >{{ city.label }}</el-tag>
+                    </el-checkbox>
+                  </el-checkbox-group>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -38,22 +74,43 @@
 </template>
 
 <script>
-// import UCalendar from '@/components/Calendar/UCalendar'
+const cityOptions = [
+  { type: "", content: "梨花的请假信息1111", label: "3分钟前" },
+  { type: "succes", content: "梨花的请假信息111", label: "30分钟前" },
+  { type: "info", content: "梨花的请假信息11", label: "4小时前" },
+  { type: "danger", content: "梨花的请假信息1", label: "3分钟前" },
+  { type: "warning", content: "梨花的请假信息", label: "3分钟前" },
+  { type: "danger", content: "梨花请假信息", label: "3分钟前" }
+];
 export default {
   data() {
     return {
-      value: new Date()
-    }
+      value: new Date(),
+      checkAll: false,
+      checkedCities: ["梨花的请假信息1111"],
+      cities: cityOptions,
+      isIndeterminate: true
+    };
   },
   components: {
     // UCalendar
   },
   methods: {
     handleSetLineChartData(type) {
-      this.$emit('handleSetLineChartData', type)
+      this.$emit("handleSetLineChartData", type);
+    },
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? cityOptions : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cities.length;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -66,7 +123,7 @@ export default {
 
   .card-panel {
     // width:320px;
-    height:154px;
+    height: 154px;
     cursor: pointer;
     font-size: 12px;
     position: relative;
@@ -85,16 +142,15 @@ export default {
       .card-panel-text {
         line-height: 18px;
         font-size: 18px;
-
         p {
           margin: -12px 0px 0px 32px;
         }
 
-        .u-line{
+        .u-line {
           display: block;
           width: 5px;
           height: 16px;
-          background: rgba(1,142,237,1);
+          background: rgba(1, 142, 237, 1);
           position: absolute;
           left: -15px;
           top: 28px;
@@ -128,14 +184,35 @@ export default {
         p {
           margin: 0px;
         }
-        .u-line{
+        .u-line {
           display: block;
           width: 5px;
           height: 16px;
-          background: rgba(1,142,237,1);
+          background: rgba(1, 142, 237, 1);
           position: absolute;
           left: 15px;
           top: 17px;
+        }
+      }
+      .u-examine-content {
+        .u-content {
+          list-style: none;
+          padding-left: 21px;
+          padding-top: 7px;
+          margin: 0px;
+        }
+        & li {
+          width: 403px;
+          height: 32px;
+          background: #f5f6fa;
+          margin-top: 10px;
+
+          span {
+            font-size: 16px;
+            font-family: Source Han Sans CN;
+            font-weight: 400;
+            color: #111111;
+          }
         }
       }
     }
@@ -163,5 +240,21 @@ export default {
       }
     }
   }
+}
+</style>
+<style>
+.is-fixed {
+  position: absolute;
+  top: 9px !important;
+  right: -5px !important;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+}
+/* .el-checkbox {
+  float: right;
+} */
+.u-examine-title .el-checkbox__input {
+  display: none;
 }
 </style>
