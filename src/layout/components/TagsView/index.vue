@@ -5,6 +5,7 @@
         v-for="tag in visitedViews"
         ref="tag"
         :key="tag.path"
+        v-if="!tag.meta.navChild"
         :class="isActive(tag)?'active':''"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
         tag="span"
@@ -66,9 +67,10 @@ export default {
   },
   methods: {
     isActive(route) {
-      return route.path === this.$route.path
+      return this.$route.path.indexOf(route.path) > -1
     },
     isAffix(tag) {
+      console.log(tag)
       return tag.meta && tag.meta.affix
     },
     filterAffixTags(routes, basePath = '/') {
@@ -193,45 +195,35 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
+  height: 45px;
   width: 100%;
+  margin-top: 3px;
   background: #fff;
-  border-bottom: 1px solid #d8dce5;
+  border-bottom: 1px solid #000000;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
+      height: 44px;
+      line-height: 44px;
       border: 1px solid #d8dce5;
+      border-right: none;
       color: #495060;
       background: #fff;
       padding: 0 8px;
       font-size: 12px;
-      margin-left: 5px;
-      margin-top: 4px;
       &:first-of-type {
         margin-left: 15px;
       }
       &:last-of-type {
         margin-right: 15px;
+        border-right: 1px solid #d8dce5;
       }
       &.active {
-        background-color: #42b983;
-        color: #fff;
-        border-color: #42b983;
-        &::before {
-          content: '';
-          background: #fff;
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          position: relative;
-          margin-right: 2px;
-        }
+        background-color: #ffffff;
+        color: #1890ff;
       }
     }
   }
@@ -272,9 +264,9 @@ export default {
       transition: all .3s cubic-bezier(.645, .045, .355, 1);
       transform-origin: 100% 50%;
       &:before {
-        transform: scale(.6);
+        transform: scale(1);
         display: inline-block;
-        vertical-align: -3px;
+        vertical-align: -2px;
       }
       &:hover {
         background-color: #b4bccc;

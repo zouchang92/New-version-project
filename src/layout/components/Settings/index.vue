@@ -9,6 +9,11 @@
       </div>
 
       <div class="drawer-item">
+        <span>主题色</span>
+        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
+      </div>
+
+      <div class="drawer-item">
         <span>Fixed Header</span>
         <el-switch v-model="fixedHeader" class="drawer-switch" />
       </div>
@@ -23,9 +28,13 @@
 </template>
 
 <script>
+import ThemePicker from '@/components/ThemePicker'
 export default {
   data() {
     return {}
+  },
+  components: {
+    ThemePicker
   },
   computed: {
     fixedHeader: {

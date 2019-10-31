@@ -39,7 +39,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard', affix: true }
     }]
   },
   {
@@ -161,38 +161,16 @@ export const constantRoutes = [
         name: 'testManageSub1',
         meta: {
           title: 'xxxxx管理',
+          navChild: true,
         },
         component: () => import('@/views/system-manage/student-manage'),
       }, {
         path: '/testManage/testManageSub/testManageSub2',
         name: 'testManageSub2',
+        
         meta: {
           title: 'xxxxxxx管理',
-        },
-        component: () => import('@/views/system-manage/student-manage'),
-      }]
-    }, {
-      path: '_testManageSub',
-      name: '_testManageSub',
-      alwaysShow: true,
-      isNavPage: true,
-      meta: {
-        title: 'xx管理',
-        icon: 'nested'
-      },
-      component: () => import('@/layout/components/ThirdNav'),
-      children: [{
-        path: '_testManageSub1',
-        name: '_testManageSub1',
-        meta: {
-          title: 'xxxxx管理',
-        },
-        component: () => import('@/views/system-manage/student-manage'),
-      }, {
-        path: '_testManageSub2',
-        name: '_testManageSub2',
-        meta: {
-          title: 'xxxxxxx管理',
+          navChild: true,
         },
         component: () => import('@/views/system-manage/student-manage'),
       }]

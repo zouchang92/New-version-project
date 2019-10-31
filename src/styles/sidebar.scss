@@ -62,7 +62,12 @@
       height: 100%;
       width: 100% !important;
     }
-
+    .el-submenu__title {
+      font-size: 16px!important;
+    }
+    .el-menu-item {
+      font-size: 16px!important
+    }
     // menu hover
     .submenu-title-noDropdown,
     .el-submenu__title {
