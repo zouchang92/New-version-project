@@ -1,12 +1,6 @@
 <template>
   <div class="calendarBox" ref="calendar" :class="{transition:transition}" :style="{height: calendarHeight == -100 ? 'calc(100% - 30px)':calendarHeight + 'px' }"
-       @touchstart.stop="moveStart"
-       @touchend.stop="moveEnd"
-       @touchmove.stop="move"
-       @mousedown.stop="moveStart_pc"
-       @mousemove.stop="move_pc"
-       @mouseup.stop="moveEnd_pc"
-       @mouseleave.stop="moveEnd_pc_1"
+   @mouseup.stop="moveEnd_pc"
        style="overflow:hidden;">
     <div style="height: 100%;white-space: nowrap" :class="{transition:transition}" :style="{transform: 'translate3d('+calendarMove.x+'px,'+calendarMove.y+'px,0px)'}" >
       <slot></slot>
@@ -56,22 +50,6 @@
           this.moveEnd_pc(e)
         }
       },
-//      pc端开始移动
-      moveStart_pc(e){
-        if(!ISPC)return
-        this.moveStart(e)
-      },
-      //      pc端移动
-      move_pc(e){
-        if(!ISPC)return
-        this.move(e)
-      },
-      //      pc端结束移动
-      moveEnd_pc(e){
-        if(!ISPC)return
-        this.moveEnd(e)
-      },
-      //      手机端端开始移动
       moveStart(e){
         var touch;
         if(e.changedTouches){
@@ -216,7 +194,7 @@
 <style scoped>
   .calendarBox{
     height: calc( 100% - 30px );
-    background: #4188d8;
+    background: #fff;
   }
   .transition{
     transition: all .2s ease ;
