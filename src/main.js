@@ -9,11 +9,11 @@ import Avue from '@smallwei/avue'
 import '@smallwei/avue/lib/index.css'
 
 
+
 import '@/styles/index.scss' // global css
 
 // 添加自定义组件
 import Calendar from './components/Calendar/Calendar.vue'
-console.log(Calendar)
 
 import App from './App'
 import store from './store'
@@ -31,6 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(ElementUI, { locale })
 Vue.use(Calendar)
 Vue.use(Avue)
+
 
 Vue.config.productionTip = false
 

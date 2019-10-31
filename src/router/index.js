@@ -32,6 +32,17 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [{
+      path: 'dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '首页', icon: 'dashboard' }
+    }]
+  },
+  {
     path: '/redirect',
     component: Layout,
     hidden: true,
@@ -58,17 +69,7 @@ export const constantRoutes = [
   //   component: () => import('../components/Calendar/Calendar.vue')
 
   // },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
-    }]
-  },
+
 
   {
     path: '/example',
@@ -118,9 +119,83 @@ export const constantRoutes = [
       name: 'studentManage',
       meta: {
         title: '学生管理',
-        icon: 'nested'
       },
       component: () => import('@/views/system-manage/student-manage')
+    }, {
+      path: 'parentManage',
+      name: 'parentManage',
+      meta: {
+        title: '家长管理',
+      },
+      component: () => import('@/views/system-manage/parent-manage')
+    }, {
+      path: 'teacherManage',
+      name: 'teacherManage',
+      meta: {
+        title: '老师管理',
+      },
+      component: () => import('@/views/system-manage/teacher-manage')
+    }]
+  },
+  {
+    path: '/testManage',
+    component: Layout,
+    name: 'testManage',
+    alwaysShow: true,
+    meta: {
+      title: '三级测试',
+      icon: 'nested'
+    },
+    children: [{
+      path: '/testManage/testManageSub',
+      name: 'testManageSub',
+      alwaysShow: true,
+      isNavPage: true,
+      meta: {
+        title: 'xx管理',
+        icon: 'nested'
+      },
+      component: () => import('@/layout/components/ThirdNav'),
+      children: [{
+        path: '/testManage/testManageSub/testManageSub1',
+        name: 'testManageSub1',
+        meta: {
+          title: 'xxxxx管理',
+        },
+        component: () => import('@/views/system-manage/student-manage'),
+      }, {
+        path: '/testManage/testManageSub/testManageSub2',
+        name: 'testManageSub2',
+        meta: {
+          title: 'xxxxxxx管理',
+        },
+        component: () => import('@/views/system-manage/student-manage'),
+      }]
+    }, {
+      path: '_testManageSub',
+      name: '_testManageSub',
+      alwaysShow: true,
+      isNavPage: true,
+      meta: {
+        title: 'xx管理',
+        icon: 'nested'
+      },
+      component: () => import('@/layout/components/ThirdNav'),
+      children: [{
+        path: '_testManageSub1',
+        name: '_testManageSub1',
+        meta: {
+          title: 'xxxxx管理',
+        },
+        component: () => import('@/views/system-manage/student-manage'),
+      }, {
+        path: '_testManageSub2',
+        name: '_testManageSub2',
+        meta: {
+          title: 'xxxxxxx管理',
+        },
+        component: () => import('@/views/system-manage/student-manage'),
+      }]
     }]
   },
   {
@@ -197,6 +272,7 @@ export const constantRoutes = [
 ]
 
 export const asyncRoutes = [
+
   {
     path: '/permission',
     component: Layout,

@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  name: 'studentManage',
   data() {
     return {
       page: {

@@ -68,7 +68,9 @@ export default {
   display: inline-block;
   font-size: 14px;
   line-height: 50px;
-  margin-left: 8px;
+  padding-left: 8px;
+  width: 100%;
+  background: #ffffff;
 
   .no-redirect {
     color: #97a8be;
