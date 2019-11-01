@@ -36,13 +36,13 @@ export default [
       if (!token) {
         return {
           code: 60204,
-          message: 'Account and password are incorrect.'
+          msg: 'Account and password are incorrect.'
         }
       }
 
       return {
-        code: 20000,
-        data: token
+        code: 0,
+        data: ''
       }
     }
   },

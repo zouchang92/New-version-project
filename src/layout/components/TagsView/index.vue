@@ -1,7 +1,8 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper">
-      <router-link
+    <div class="drag-left"><i class="el-icon-arrow-left" /></div>
+      <scroll-pane ref="scrollPane" class="tags-view-wrapper">
+        <router-link
         v-for="tag in visitedViews"
         ref="tag"
         :key="tag.path"
@@ -12,16 +13,17 @@
         class="tags-view-item"
         @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
         @contextmenu.prevent.native="openMenu(tag,$event)"
-      >
-        {{ tag.title }}
+        >
+          {{ tag.title }}
         <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
+    <div class="drag-right"><i class="el-icon-arrow-right" /></div>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">Close</li>
-      <li @click="closeOthersTags">Close Others</li>
-      <li @click="closeAllTags(selectedTag)">Close All</li>
+      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
+      <li @click="closeOthersTags">关闭其它</li>
+      <li @click="closeAllTags(selectedTag)">关闭全部</li>
     </ul>
   </div>
 </template>
@@ -195,19 +197,37 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 45px;
+  height: 40px;
   width: 100%;
   margin-top: 3px;
   background: #fff;
   border-bottom: 1px solid #000000;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  display: flex;
+  .drag-left {
+    line-height: 40px;
+    width: 70px;
+    text-align: center;
+  }
+  .drag-right {
+    line-height: 40px;
+    width: 70px;
+    text-align: center;
+    border-left: 1px solid #d8dce5;
+  }
+  .context-menu {
+    line-height: 40px;
+    width: 50px;
+    border-right: 1px solid #d8dce5;
+    text-align: center;
+  }
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 44px;
-      line-height: 44px;
+      height: 39px;
+      line-height: 39px;
       border: 1px solid #d8dce5;
       border-right: none;
       color: #495060;
@@ -215,10 +235,10 @@ export default {
       padding: 0 8px;
       font-size: 12px;
       &:first-of-type {
-        margin-left: 15px;
+        
       }
       &:last-of-type {
-        margin-right: 15px;
+        
         border-right: 1px solid #d8dce5;
       }
       &.active {
