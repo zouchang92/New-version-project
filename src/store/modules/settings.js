@@ -1,3 +1,4 @@
+import variables from '@/styles/element-variables.scss'
 import defaultSettings from '@/settings'
 
 const { showSettings, fixedHeader, sidebarLogo } = defaultSettings
@@ -6,7 +7,8 @@ const state = {
   showSettings: showSettings,
   fixedHeader: fixedHeader,
   sidebarLogo: sidebarLogo,
-  tagsView: true
+  tagsView: true,
+  theme: variables.theme,
 }
 
 const mutations = {
