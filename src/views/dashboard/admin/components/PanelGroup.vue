@@ -87,7 +87,7 @@ export default {
     return {
       value: new Date(),
       checkAll: false,
-      checkedCities: ["梨花的请假信息1111"],
+      checkedCities: { type: "", content: "梨花的请假信息1111", label: "3分钟前" },
       cities: cityOptions,
       isIndeterminate: true
     };
