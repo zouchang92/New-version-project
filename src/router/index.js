@@ -58,6 +58,10 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
+  {
+    path: '/h',
+    component: () => import('@/components/Calendar/UCalendar')
+  },
 
   {
     path: '/404',

@@ -30,7 +30,6 @@ Vue.use(ElementUI, { locale })
 Vue.use(Calendar)
 Vue.use(Avue)
 
-
 Vue.config.productionTip = false
 
 new Vue({

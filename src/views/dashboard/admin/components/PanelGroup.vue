@@ -7,7 +7,7 @@
       class="card-panel-col"
       style="padding-right:15px;padding-left:30px"
     >
-      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
+      <div class="card-panel">
         <div class="card-panel-description">
           <div class="card-panel-text">
             <p class="u-line"></p>
@@ -17,7 +17,7 @@
       </div>
     </el-col>
     <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col" style="padding:0px;overflow:hidden">
-      <div class="u-examine" @click="handleSetLineChartData('newVisitis')">
+      <div class="u-examine" >
         <div class="u-examine-comtent">
           <div class="u-examine-text">
             <div class="u-examine-title">
@@ -59,12 +59,12 @@
       </div>
     </el-col>
     <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col">
-      <div class="u-timeline" @click="handleSetLineChartData('newVisitis')">
+      <div class="u-timeline">
         <div class="u-timeline-comtent">
           <div class="u-timeline-text">
             <div class="u-timeline-title">
               <!-- <el-calendar v-model="value"></el-calendar> -->
-              <!-- <UCalendar></UCalendar> -->
+              <UCalendar></UCalendar>
             </div>
           </div>
         </div>
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import UCalendar from '@/components/Calendar/UCalendar'
 const cityOptions = [
   { type: "", content: "梨花的请假信息1111", label: "3分钟前" },
   { type: "succes", content: "梨花的请假信息111", label: "30分钟前" },
@@ -87,18 +88,22 @@ export default {
     return {
       value: new Date(),
       checkAll: false,
-      checkedCities: { type: "", content: "梨花的请假信息1111", label: "3分钟前" },
+      checkedCities: {
+        type: "",
+        content: "梨花的请假信息1111",
+        label: "3分钟前"
+      },
       cities: cityOptions,
-      isIndeterminate: true
+      isIndeterminate: true,
     };
   },
   components: {
-    // UCalendar
+    UCalendar
+  },
+  created() {
+    this.initData(null)
   },
   methods: {
-    handleSetLineChartData(type) {
-      this.$emit("handleSetLineChartData", type);
-    },
     handleCheckAllChange(val) {
       this.checkedCities = val ? cityOptions : [];
       this.isIndeterminate = false;
@@ -220,6 +225,10 @@ export default {
   .u-timeline {
     background: #fff;
     height: 354px;
+    .timeline {
+      margin-left: 47px;
+      margin-top: 20px;
+    }
   }
 
   @media (max-width: 550px) {
@@ -256,5 +265,10 @@ export default {
 } */
 .u-examine-title .el-checkbox__input {
   display: none;
+}
+.timeline .el-timeline-item__timestamp.is-bottom {
+  position: absolute;
+  top: -5px;
+  left: -47px;
 }
 </style>

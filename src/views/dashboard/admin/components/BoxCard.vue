@@ -1,118 +1,95 @@
 <template>
-  <el-card class="box-card-component" style="margin-left:8px;">
-    <div slot="header" class="box-card-header">
-      <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
-    </div>
-    <div style="position:relative;">
-      <pan-thumb :image="avatar" class="panThumb" />
-      <mallki class-name="mallki-text" text="vue-element-admin" />
-      <div style="padding-top:35px;" class="progress-item">
-        <span>Vue</span>
-        <el-progress :percentage="70" />
-      </div>
-      <div class="progress-item">
-        <span>JavaScript</span>
-        <el-progress :percentage="18" />
-      </div>
-      <div class="progress-item">
-        <span>Css</span>
-        <el-progress :percentage="12" />
-      </div>
-      <div class="progress-item">
-        <span>ESLint</span>
-        <el-progress :percentage="100" status="success" />
-      </div>
-    </div>
-  </el-card>
+ <canvas id="mount" width="400" height="260"></canvas>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import PanThumb from '@/components/PanThumb'
-import Mallki from '@/components/TextHoverEffect/Mallki'
+import F2 from "@antv/f2";
 
 export default {
-  components: { PanThumb, Mallki },
-
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        success: 'success',
-        pending: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
   data() {
     return {
-      statisticsData: {
-        article_count: 1024,
-        pageviews_count: 1024
-      }
-    }
+      
+    };
   },
-  computed: {
-    ...mapGetters([
-      'name',
-      'avatar',
-      'roles'
-    ])
+  mounted() {
+    this.line();
+  },
+  methods: {
+    line() {
+      const data = [
+        {
+          amount: 84,
+          ratio: 0.1,
+          memo: "请假",
+          const: "const"
+        },
+        {
+          amount: 960,
+          ratio: 0.5,
+          memo: "剩余人数",
+          const: "const"
+        },
+        {
+          amount: 49,
+          ratio: 0.05,
+          memo: "缺勤",
+          const: "const"
+        }
+      ];
+
+      var chart = new F2.Chart({
+        id: "mount",
+        pixelRatio: window.devicePixelRatio
+      });
+
+      chart.source(data);
+      chart.coord("polar", {
+        transposed: true,
+        innerRadius: 0.4,
+        radius: 0.75
+      });
+      chart.axis(false);
+      chart.legend({
+        position: "bottom",
+        align: "center"
+      });
+      chart.tooltip(false);
+      chart.guide().html({
+        position: ["50%", "50%"],
+        html:
+          '<div style="width: 100px;height: 20px;text-align: center;line-height: 20px;" id="Content"></div>'
+      });
+      // 配置文本饼图
+      chart.pieLabel({
+        sidePadding: 75,
+        label1: function label1(data) {
+          return {
+            text: data.memo,
+            fill: "#808080"
+          };
+        },
+        label2: function label2(data) {
+          return {
+            fill: "#000000",
+            text: "$" + data.amount.toFixed(2),
+            fontWeight: 500,
+            fontSize: 10
+          };
+        }
+      });
+      chart
+        .interval()
+        .position("const*ratio")
+        .color("memo", [
+          "red",
+          "#36CBCB",
+          "#F2637B",
+          "#3AA1FF"
+        ])
+        .adjust("stack");
+      chart.render();
+    }
   }
-}
+};
 </script>
 
-<style lang="scss" >
-.box-card-component{
-  .el-card__header {
-    padding: 0px!important;
-  }
-}
-</style>
-<style lang="scss" scoped>
-.box-card-component {
-  .box-card-header {
-    position: relative;
-    height: 220px;
-    img {
-      width: 100%;
-      height: 100%;
-      transition: all 0.2s linear;
-      &:hover {
-        transform: scale(1.1, 1.1);
-        filter: contrast(130%);
-      }
-    }
-  }
-  .mallki-text {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    font-size: 20px;
-    font-weight: bold;
-  }
-  .panThumb {
-    z-index: 100;
-    height: 70px!important;
-    width: 70px!important;
-    position: absolute!important;
-    top: -45px;
-    left: 0px;
-    border: 5px solid #ffffff;
-    background-color: #fff;
-    margin: auto;
-    box-shadow: none!important;
-    /deep/ .pan-info {
-      box-shadow: none!important;
-    }
-  }
-  .progress-item {
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-  @media only screen and (max-width: 1510px){
-    .mallki-text{
-      display: none;
-    }
-  }
-}
-</style>
