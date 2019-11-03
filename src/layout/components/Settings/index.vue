@@ -1,10 +1,10 @@
 <template>
   <div class="drawer-container">
     <div>
-      <h3 class="drawer-title">Page style setting</h3>
+      <h3 class="drawer-title">个性化设置</h3>
 
       <div class="drawer-item">
-        <span>Open Tags-View</span>
+        <span>显示标签页</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
 
@@ -12,14 +12,8 @@
         <span>主题色</span>
         <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
       </div>
-
       <div class="drawer-item">
-        <span>Fixed Header</span>
-        <el-switch v-model="fixedHeader" class="drawer-switch" />
-      </div>
-
-      <div class="drawer-item">
-        <span>Sidebar Logo</span>
+        <span>显示logo</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div>
 
