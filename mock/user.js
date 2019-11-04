@@ -41,8 +41,8 @@ export default [
       }
 
       return {
-        code: 0,
-        data: ''
+        code: 20000,
+        data: token
       }
     }
   },

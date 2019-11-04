@@ -52,7 +52,7 @@ export default {
       chart.source(data);
       chart.coord("polar", {
         transposed: true,
-        innerRadius: 0.4,
+        innerRadius: 0.7,
         radius: 0.75
       });
       chart.axis(false);
@@ -64,7 +64,7 @@ export default {
       chart.guide().html({
         position: ["50%", "50%"],
         html:
-          '<div style="width: 100px;height: 20px;text-align: center;line-height: 20px;" id="textContent"></div>'
+          '<div style="width: 100px;height: 20px;text-align: center;line-height: 20px;" id="textContent"><div style="font-size:37px;font-family:Source Han Sans CN;font-weight:500;margin-top:-13px;">135</div><div style="font-size:16px;font-family:Source Han Sans CN;font-weight:500;padding-top:10px;">教师总人数</div></div>'
       });
       // 配置文本饼图
       chart.pieLabel({
@@ -78,7 +78,7 @@ export default {
         label2: function label2(data) {
           return {
             fill: "#000000",
-            text: "$" + data.amount.toFixed(2),
+            text:data.amount + '人',
             fontWeight: 500,
             fontSize: 10
           };

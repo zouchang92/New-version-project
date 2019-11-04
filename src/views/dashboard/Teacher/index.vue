@@ -66,6 +66,12 @@
             <p class="u-line"></p>
             <p class="title-text">班级作业</p>
           </div>
+          <div class="radar-title">
+            <p style="position: absolute;left: 49px;top: 30px;">作文</p>
+            <p style="position: absolute;left: 186px;top: 30px;">练习册</p>
+            <p style="position: absolute;left: 339px;top: 30px;">抄写</p>
+          </div>
+          <radar-card />
         </div>
       </el-col>
       <el-col
@@ -115,7 +121,7 @@
 import { mapGetters } from "vuex";
 import GithubCorner from "@/components/GithubCorner";
 import UCalendar from "@/components/Calendar/UCalendar";
-import LineChart from "./components/LineChart";
+import RadarCard from "./components/RadarCard";
 
 export default {
   name: "DashboardAdmin",
@@ -123,7 +129,7 @@ export default {
     ...mapGetters(["name", "avatar", "roles"]),
     GithubCorner,
     UCalendar,
-    LineChart
+    RadarCard
   },
   data() {
     return {
@@ -217,6 +223,16 @@ export default {
     background: #fff;
     padding: 10px;
     position: relative;
+    .radar-title {
+      display: flex;
+      p {
+        font-size: 17px;
+        font-family: Source Han Sans CN;
+        font-weight: 400;
+        color: rgba(17, 17, 17, 1);
+        line-height: 37px;
+      }
+    }
   }
   .Teacher-achievement {
     height: 331px;
@@ -248,7 +264,7 @@ export default {
             line-height: 33px;
             padding-left: 10px;
           }
-          .notice-date{
+          .notice-date {
             position: absolute;
             right: 20px;
           }

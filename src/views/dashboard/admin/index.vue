@@ -97,7 +97,7 @@
         <div class="Students-attendance">
           <p class="u-line"></p>
           <span>学生考勤状况</span>
-            <pie-chart />
+            <box-chart />
         </div>
       </el-col>
       <el-col
