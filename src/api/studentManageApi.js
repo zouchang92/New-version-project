@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export const queryTeacher = ({ page, rows }) => {
+export const queryStudent = ({ page, rows }) => {
   return request({
-    url: '/zhxyx/teacher/list',
+    url: '/zhxyx/student/list',
     data: {
       page,
       rows,
@@ -12,9 +12,9 @@ export const queryTeacher = ({ page, rows }) => {
   })
 }
 
-export const addTeacher = ({ id = '', curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles }) => {
+export const addStudent = ({ id = '', curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles }) => {
   return request({
-    url: '/zhxyx/teacher/add',
+    url: '/zhxyx/student/add',
     data: {
       id, curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles
     },
