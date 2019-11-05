@@ -148,7 +148,24 @@ export const constantRoutes = [
       }]
     }]
   },
+  {
+    path: '/teachManage',
+    component: Layout,
+    name: 'teachManage',
+    alwaysShow: true,
+    meta: {
+      title: '教务管理',
+      icon: 'nested'
+    },
+    children: [{
+      path: '/teachManage/classManage',
+      name: 'classManage',
+      meta: {
+        title: '班级管理',
 
+      }
+    }]
+  },
   {
     path: 'external-link',
     component: Layout,

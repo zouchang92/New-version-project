@@ -3,7 +3,7 @@
     <div class="table-container">
       <div class="basic-container">
         <el-card class="box-card">
-          <avue-crud ref="crud" @search-change="searchChange" :page="page" :data="data" :option="option" v-model="obj">
+          <avue-crud @upload-after="uploadBefore" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
@@ -19,78 +19,164 @@
 </template>
 
 <script>
+import tableCommon from '@/mixins/table-common.js'
+import { queryTeacher, addTeacher } from '@/api/teacherManageApi'
 export default {
   name: 'teacherManage',
+  mixins: [tableCommon],
   data() {
     return {
-      page: {
-        currentPage: 1,
-        total: 0,
-        pageSize: 10,
+      searchForm: {
+
       },
-      data: [{
-        name:'张三',
-        sex:'男',
-        date:'1994-02-23 00:00:00'
-      }, {
-        name:'李四',
-        sex:'女',
-        date:'1994-02-23 00:00:00'
-      }, {
-        name:'王五',
-        sex:'女',
-        date:'1994-02-23 00:00:00'
-      }, {
-        name:'赵六',
-        sex:'男',
-        date:'1994-02-23 00:00:00'
-      }],
+      fn: queryTeacher,
+      data: [],
       option: {
-        addBtn: false,
-        title: '',
-        page: true,
-        viewBtn: true,
-        selection: true,
-        stripe: false,
-        height: 700,
-        selectClearBtn: false,
-        searchResetBtn: false,
-        header: false,
-        tip: false,
+        
         column: [
           {
-            label:'姓名',
-            prop:'name',
-            search: true,
+            label:'id',
+            prop:'id',
+            hide: true,
+            addDisplay: false,
+            editDisplay: false
+          },
+          {
+            label:'在校状态',
+            prop:'curStatus',
             rules: {
-              required: true,
-              message: '姓名是必填项'
-            }
+              required: false,
+            },
+            search: true,
+            span: 12,
+            type: 'select'
           },
           {
-            label:'性别',
-            prop:'sex',
-            search: true
+            label:'照片',
+            prop:'facePicFile',
+            type: 'upload',
+            listType: 'picture-card',
+            span: 24,
+            action: "http://192.168.1.125:8999/zhxyx/upload/file",
+            propsHttp: {
+              res: '0'
+            },
+            limit: 1,
           },
           {
-            label: "日期",
-            prop: "date",
-            type: "date",
-            format: "yyyy-MM-dd hh:mm:ss",
-            valueFormat: "yyyy-MM-dd hh:mm:ss",
+            label: "证件类型",
+            prop: "credType",
+            type: 'select',
+          },
+          {
+            label: "证件号码",
+            prop: "credNum",
+          },
+          {
+            label: "证件正面",
+            prop: "credPhotoObve",
+            type: 'upload',
+            listType: 'picture-card',
+            action: "http://192.168.1.125:8999/zhxyx/upload/file",
+            span: 24,
+            limit: 1,
+            propsHttp: {
+              res: '0'
+            },
+          },
+          {
+            label: "证件反面",
+            prop: "credPhotoRever",
+            type: 'upload',
+            listType: 'picture-card',
+            action: "http://192.168.1.125:8999/zhxyx/upload/file",
+            limit: 1,
+            span: 24,
+            propsHttp: {
+              res: '0'
+            },
+          },
+          {
+            label: "籍贯",
+            prop: "nativeLand",
+            type: "select"
+          },
+          {
+            label: "民族",
+            prop: "volk",
+            type: "select"
+          },
+          {
+            label: "政治面貌",
+            prop: "politstatus",
+            type: "select"
+          },
+          {
+            label: "家庭住址",
+            prop: "homeAddr",
+          },
+          {
+            label: "健康状况",
+            prop: "health",
+          },
+          {
+            label: "参加工作时间",
+            prop: "inworkDate",
+            type: 'date'
+          },
+          {
+            label: "进校时间",
+            prop: "entryTime",
+            type: 'date'
+          },
+          {
+            label: "毕业院校",
+            prop: "academy",
+          },
+          {
+            label: '最高学历',
+            prop: 'education'
+          },
+          {
+            label: '最高学历',
+            prop: 'duties'
+          },
+          {
+            label: '职务',
+            prop: 'titles'
           }
         ]
       },
       obj: {}
     }
   },
+  mounted() {
+    console.log(this)
+  },
   methods: {
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
+    uploadBefore(file, done) {
+      alert(1)
+    },
+    rowUpdate(row, done, loading) {
+      console.log(row)
+    },
+    async rowSave(row, done, loading) {
+      loading(true)
+      try {
+        let result = await addTeacher(row)
+        await this.resetList()
+        done()
+      } catch(err) {
+        loading(false)
+      }
+      
+    },
     searchChange(params) {
       console.log(params)
-    }
+    },
   }
 }
 </script>

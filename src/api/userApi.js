@@ -8,6 +8,13 @@ export function login(data) {
   })
 }
 
+export function getSchoolCodeList() {
+  return request({
+    url: '/zhxyx/account/schoolCodeList',
+    method: 'post'
+  })
+}
+
 export function getInfo(token) {
   return request({
     url: '/user/info',
