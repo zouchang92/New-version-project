@@ -3,7 +3,7 @@
     <div class="table-container">
       <div class="basic-container">
         <el-card class="box-card">
-          <avue-crud ref="crud" @search-change="searchChange" :page="page" :data="data" :option="option" v-model="obj">
+          <avue-crud :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="data" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
@@ -19,15 +19,14 @@
 </template>
 
 <script>
+import tableCommon from '@/mixins/table-common.js'
+import { queryTeacher } from '@/api/teacherManageApi'
 export default {
   name: 'teacherManage',
+  mixins: [tableCommon],
   data() {
     return {
-      page: {
-        currentPage: 1,
-        total: 0,
-        pageSize: 10,
-      },
+      fn: queryTeacher,
       data: [{
         name:'张三',
         sex:'男',
@@ -52,7 +51,7 @@ export default {
         viewBtn: true,
         selection: true,
         stripe: false,
-        height: 700,
+        height: 500,
         selectClearBtn: false,
         searchResetBtn: false,
         header: false,
@@ -83,6 +82,9 @@ export default {
       },
       obj: {}
     }
+  },
+  mounted() {
+    console.log(this)
   },
   methods: {
     handleAdd() {

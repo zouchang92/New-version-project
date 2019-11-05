@@ -13,6 +13,10 @@
         <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
       </div>
       <div class="drawer-item">
+        <span>固定头部</span>
+        <el-switch v-model="fixedHeader" class="drawer-switch" />
+      </div>
+      <div class="drawer-item">
         <span>显示logo</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div>

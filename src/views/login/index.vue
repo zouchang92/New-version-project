@@ -54,7 +54,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-
+import { getSchoolCodeList } from '@/api/userApi.js'
 export default {
   name: 'Login',
   data() {
@@ -83,8 +83,14 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      schoolCodeList: []
     }
+  },
+  mounted() {
+    getSchoolCodeList().then(res => {
+      console.log(res)
+    })
   },
   watch: {
     $route: {
