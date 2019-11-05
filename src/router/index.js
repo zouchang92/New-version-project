@@ -103,6 +103,13 @@ export const constantRoutes = [
         title: '老师管理',
       },
       component: () => import('@/views/system-manage/teacher-manage')
+    }, {
+      path: 'userManage',
+      name: 'userManage',
+      meta: {
+        title: '用户管理',
+      },
+      component: () => import('@/views/system-manage/user-manage')
     }]
   },
   {

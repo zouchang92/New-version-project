@@ -3,7 +3,7 @@
     <div class="table-container">
       <div class="basic-container">
         <el-card class="box-card">
-          <avue-crud @upload-after="uploadBefore" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
+          <avue-crud @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
@@ -157,13 +157,14 @@ export default {
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
-    uploadBefore(file, done) {
-      alert(1)
-    },
     rowUpdate(row, done, loading) {
       console.log(row)
     },
     async rowSave(row, done, loading) {
+      row.facePicFile = row.facePicFile.length ? row.facePicFile[0].value : ''
+      row.credPhotoRever = row.credPhotoRever.length ? row.credPhotoRever[0].value : ''
+      row.credPhotoObve = row.credPhotoObve.length ? row.credPhotoObve[0].value : ''
+      console.log(row)
       loading(true)
       try {
         let result = await addTeacher(row)

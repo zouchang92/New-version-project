@@ -23,9 +23,10 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  async login({ commit, dispatch }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
+      dispatch('system/getOrganTree')
       commit('SET_TOKEN', 'admin-token')
       setToken('admin-token')
       resolve()
