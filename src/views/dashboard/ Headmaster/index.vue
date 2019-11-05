@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-teacher-container">
+  <div class="dashboard-master-container">
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8" style="padding-right:4px;">
         <div class="Teacher-application">
@@ -9,49 +9,102 @@
           </div>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="Teacher-timetable">
-          <div class="timetable-title">
+      <el-col :xs="24" :sm="24" :lg="8" style="padding-right:4px;">
+        <div class="Examination-score">
+          <div class="score-title">
             <p class="u-line"></p>
-            <p class="title-text">今日课表</p>
+            <p class="title-text">考评得分</p>
           </div>
-          <div class="timetable-content">
-            <ul v-for="(n,i) in 10" :key="i">
-              <li>
-                <p>08:00-08:40</p>
-              </li>
-              <li>
-                <p>规划经济学</p>
-              </li>
-              <li>
-                <p>王良军</p>
-              </li>
-            </ul>
-          </div>
+          <pie-chard />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8" style="padding-left:4px;">
+      <el-col
+        :xs="24"
+        :sm="24"
+        :lg="8"
+        style="padding-left:4px;position: absolute;top: 0px;right: -14px;"
+      >
         <div class="Teacher-date" style="background:#fff;height:354px;position:relative;">
           <UCalendar></UCalendar>
         </div>
       </el-col>
     </el-row>
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="5" style="padding-right:4px;margin-top:-59px;">
+        <div class="Master-Resources">
+          <div class="Master-title">
+            <p class="u-line"></p>
+            <p class="title-text">教学资源</p>
+          </div>
+          <raddar-chart />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="3" style="padding-right:4px;margin-top:-59px;">
+        <div class="Master-duty">
+          <div class="Master-title">
+            <p class="u-line"></p>
+            <p class="title-text">值日生</p>
+          </div>
+          <div class="duty-content">
+            <ul>
+              <li>
+                <div>
+                  <img
+                    src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572950072901&di=9d23e0395265c7a0427f2c9436d03c52&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201410%2F05%2F20141005103722_uYVM8.jpeg"
+                    alt
+                  />
+                  <P>张家辉</P>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </el-col>
+      <el-col
+        :xs="24"
+        :sm="24"
+        :lg="8"
+        style="padding-left: 12px;padding-right: 5px;margin-top: 20px;margin-left: 3px;"
+      >
+        <div class="Master-table">
+          <div class="Master-title">
+            <p class="u-line"></p>
+            <p class="title-text">今日课表</p>
+          </div>
+          <Timetable />
+        </div>
+      </el-col>
+      <el-col
+        :xs="24"
+        :sm="24"
+        :lg="8"
+        style="padding-left:4px;position: absolute;top: 140px;right: -14px;margin-left: 16px;"
+      >
+        <div class="Teacher-date" style="background:#fff;position:relative;">
+          <div class="Master-mail">
+            <div class="Master-title">
+              <p class="u-line"></p>
+              <p class="title-text">班级通讯录</p>
+            </div>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
 
-    <el-row :gutter="8">
+    <!-- <el-row :gutter="8">
       <el-col
         :xs="{span: 24}"
         :sm="{span: 12}"
         :md="{span: 12}"
         :lg="{span: 8}"
         :xl="{span: 8}"
-        style="padding-right:8px;margin-bottom:30px;margin-top: -428px;"
+        style="padding-right:8px;margin-bottom:30px;margin-top: -503px;"
       >
         <div class="Teacher-resources">
           <div class="resources-title">
             <p class="u-line"></p>
             <p class="title-text">教学资源</p>
           </div>
-          <raddar-chart />
         </div>
       </el-col>
       <el-col
@@ -72,7 +125,6 @@
             <p style="position: absolute;left: 186px;top: 30px;">练习册</p>
             <p style="position: absolute;left: 339px;top: 30px;">抄写</p>
           </div>
-          <pie-chard />
         </div>
       </el-col>
       <el-col
@@ -88,7 +140,6 @@
             <p class="u-line"></p>
             <p class="title-text">考试成绩</p>
           </div>
-          <line-chart />
         </div>
       </el-col>
       <el-col
@@ -114,7 +165,7 @@
           </div>
         </div>
       </el-col>
-    </el-row>
+    </el-row>-->
   </div>
 </template>
 
@@ -122,9 +173,9 @@
 import { mapGetters } from "vuex";
 import GithubCorner from "@/components/GithubCorner";
 import UCalendar from "@/components/Calendar/UCalendar";
+import Timetable from "@/components/Timetable/Timetable";
 import PieChard from "./components/PieChard";
 import RaddarChart from "./components/RaddarChart";
-import LineChart from './components/LineChart'
 
 export default {
   name: "DashboardAdmin",
@@ -132,9 +183,9 @@ export default {
     ...mapGetters(["name", "avatar", "roles"]),
     GithubCorner,
     UCalendar,
+    Timetable,
     PieChard,
-    RaddarChart,
-    LineChart
+    RaddarChart
   },
   data() {
     return {
@@ -150,15 +201,68 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dashboard-teacher-container {
+@mixin ds() {
+  padding: 10px;
+  position: relative;
+  background: #fff;
+}
+.dashboard-master-container {
   padding: 32px;
   background-color: rgb(240, 242, 245);
   position: relative;
   .Teacher-application {
-    background: #fff;
+    @include ds;
     height: 154px;
-    padding: 10px;
-    position: relative;
+  }
+  .Examination-score {
+    @include ds;
+    height: 234px;
+  }
+  .Master-Resources {
+    @include ds;
+    height: 428px;
+  }
+  .Master-duty {
+    @include ds;
+    height: 428px;
+    .Master-title {
+      border-bottom: 1px solid #eff0f5;
+    }
+    .duty-content {
+      ul {
+        list-style: none;
+        padding: 0px;
+        li {
+          div {
+            display: flex;
+            img {
+              height: 40px;
+              border: 1px solid #000;
+              border-radius: 50%;
+            }
+            p {
+              font-size: 15px;
+              font-family: Source Han Sans CN;
+              font-weight: 300;
+              color: rgba(0, 0, 0, 1);
+              line-height: 22px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .Master-table {
+    @include ds;
+    height: 322px;
+    overflow: hidden;
+    .Master-title {
+      border-bottom: 1px solid #eff0f5;
+    }
+  }
+  .Master-mail {
+    @include ds;
+    height: 310px;
   }
   .title-text {
     padding-left: 20px;
@@ -178,56 +282,13 @@ export default {
     left: 15px;
     top: 8px;
   }
-  .Teacher-timetable {
-    background: #fff;
-    height: 602px;
-    padding: 10px;
-    position: relative;
-    .timetable-title {
-      border-bottom: 1px solid #eff0f5;
-      .u-line {
-        display: block;
-        width: 5px;
-        height: 16px;
-        background: rgba(1, 142, 237, 1);
-        position: absolute;
-        left: 15px;
-        top: 8px;
-      }
-    }
-    .timetable-content {
-      ul {
-        list-style: none;
-        display: flex;
-        margin: 0px;
-        padding: 0px;
-        justify-content: space-around;
-        background: #f5f6fa;
-        margin-top: 10px;
-        li {
-          padding-left: 20px;
-          padding: 0px;
-          p {
-            font-size: 16px;
-            font-family: Source Han Sans CN;
-            font-weight: 400;
-            color: #000;
-          }
-        }
-      }
-    }
-  }
   .Teacher-resources {
     height: 428px;
-    background: #fff;
-    padding: 10px;
-    position: relative;
+    @include ds;
   }
   .Teacher-assignment {
     height: 306px;
-    background: #fff;
-    padding: 10px;
-    position: relative;
+    @include ds;
     .radar-title {
       display: flex;
       p {
@@ -241,15 +302,11 @@ export default {
   }
   .Teacher-achievement {
     height: 331px;
-    background: #fff;
-    padding: 10px;
-    position: relative;
+    @include ds;
   }
   .Teacher-notice {
     height: 262px;
-    background: #fff;
-    padding: 10px;
-    position: relative;
+    @include ds;
     .notice-title {
       border-bottom: 1px solid #eff0f5;
     }

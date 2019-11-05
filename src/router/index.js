@@ -42,8 +42,12 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard', affix: true }
     },
     {
-      path: '/h',
+      path: '/teacher',
       component: () => import('@/views/dashboard/Teacher/index')
+    },
+    {
+      path: '/h',
+      component: () => import('@/views/dashboard/ Headmaster/index')
     }]
   },
   {
