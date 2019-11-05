@@ -15,7 +15,7 @@
             <p class="u-line"></p>
             <p class="title-text">考评得分</p>
           </div>
-          <pie-chard />
+          <PieChart />
         </div>
       </el-col>
       <el-col
@@ -47,10 +47,10 @@
           </div>
           <div class="duty-content">
             <ul>
-              <li>
+              <li v-for="(n,i) in 6" :key="i">
                 <div>
                   <img
-                    src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572950072901&di=9d23e0395265c7a0427f2c9436d03c52&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201410%2F05%2F20141005103722_uYVM8.jpeg"
+                    src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                     alt
                   />
                   <P>张家辉</P>
@@ -86,60 +86,48 @@
               <p class="u-line"></p>
               <p class="title-text">班级通讯录</p>
             </div>
+            <div class="mail-content">
+              <ul v-for="(n,i) in 4" :key="i">
+                <li>
+                  <img
+                    src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
+                    alt
+                  />
+                  <p>张家辉</p>
+                  <p>
+                    <i class="el-icon-phone" />13333333333
+                  </p>
+                  <p>
+                    <i class="el-icon-location-outline" />某省某市某区某村
+                  </p>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </el-col>
     </el-row>
 
-    <!-- <el-row :gutter="8">
-      <el-col
-        :xs="{span: 24}"
-        :sm="{span: 12}"
-        :md="{span: 12}"
-        :lg="{span: 8}"
-        :xl="{span: 8}"
-        style="padding-right:8px;margin-bottom:30px;margin-top: -503px;"
-      >
-        <div class="Teacher-resources">
-          <div class="resources-title">
-            <p class="u-line"></p>
-            <p class="title-text">教学资源</p>
-          </div>
-        </div>
-      </el-col>
+    <el-row :gutter="8">
       <el-col
         :xs="{span: 24}"
         :sm="{span: 12}"
         :md="{span: 12}"
         :lg="{span: 8}"
         :xl="{span:8}"
-        style="margin-bottom:30px;position:absolute;top:-234px;right:-6px;padding-left:2px;padding-right:9px;"
+        style="margin-top:22px;"
       >
-        <div class="Teacher-assignment">
-          <div class="assignament-title">
+        <div class="Master-tsk">
+          <div class="Master-title">
             <p class="u-line"></p>
             <p class="title-text">班级作业</p>
           </div>
           <div class="radar-title">
-            <p style="position: absolute;left: 49px;top: 30px;">作文</p>
-            <p style="position: absolute;left: 186px;top: 30px;">练习册</p>
-            <p style="position: absolute;left: 339px;top: 30px;">抄写</p>
+            <p style="position: absolute;left: 53px;top: 60px;">作文</p>
+            <p style="position: absolute;left: 191px;top: 60px;">练习册</p>
+            <p style="position: absolute;left: 344px;top: 60px;">抄写</p>
           </div>
-        </div>
-      </el-col>
-      <el-col
-        :xs="{span: 24}"
-        :sm="{span: 24}"
-        :md="{span: 24}"
-        :lg="{span: 16}"
-        :xl="{span: 16}"
-        style="padding-left:4px;padding-right:8px;margin-top:-9px;margin-right:444px;"
-      >
-        <div class="Teacher-achievement">
-          <div class="achievement-title">
-            <p class="u-line"></p>
-            <p class="title-text">考试成绩</p>
-          </div>
+          <pie-chard />
         </div>
       </el-col>
       <el-col
@@ -148,16 +136,32 @@
         :md="{span: 12}"
         :lg="{span: 8}"
         :xl="{span: 8}"
-        style="padding-left: 7px;padding-right: 4px;position: absolute;right: -2px;top: 89px;"
+        style="padding-right:8px;margin-top:-5px;margin-left:8px"
       >
-        <div class="Teacher-notice">
-          <div class="notice-title">
+        <div class="Master-attendance">
+          <div class="Master-title">
+            <p class="u-line"></p>
+            <p class="title-text">班级考勤统计</p>
+          </div>
+          <APieChart />
+        </div>
+      </el-col>
+      <el-col
+        :xs="{span: 24}"
+        :sm="{span: 12}"
+        :md="{span: 12}"
+        :lg="{span: 8}"
+        :xl="{span: 8}"
+        style="padding-left: 7px;padding-right: 4px;position:absolute;top:106px;right:-14px;"
+      >
+        <div class="Master-notice">
+          <div class="Master-title">
             <p class="u-line"></p>
             <p class="title-text">学校通知</p>
           </div>
           <div class="notice-content">
             <ul>
-              <li v-for="(n,i) in 6" :key="i">
+              <li v-for="(n,i) in 2" :key="i">
                 <p class="content-title">此处填写公告信息</p>
                 <p class="notice-date">2018-10-09</p>
               </li>
@@ -165,7 +169,7 @@
           </div>
         </div>
       </el-col>
-    </el-row>-->
+    </el-row>
   </div>
 </template>
 
@@ -174,8 +178,10 @@ import { mapGetters } from "vuex";
 import GithubCorner from "@/components/GithubCorner";
 import UCalendar from "@/components/Calendar/UCalendar";
 import Timetable from "@/components/Timetable/Timetable";
-import PieChard from "./components/PieChard";
+import PieChart from "./components/PieChart";
 import RaddarChart from "./components/RaddarChart";
+import PieChard from "../Teacher/components/PieChard";
+import APieChart from "../admin/components/APieChart";
 
 export default {
   name: "DashboardAdmin",
@@ -185,7 +191,9 @@ export default {
     UCalendar,
     Timetable,
     PieChard,
-    RaddarChart
+    PieChart,
+    RaddarChart,
+    APieChart
   },
   data() {
     return {
@@ -235,17 +243,23 @@ export default {
         li {
           div {
             display: flex;
+            padding-left: 10px;
+            padding-top: 10px;
             img {
-              height: 40px;
+              width: 30px;
+              height: 30px;
               border: 1px solid #000;
               border-radius: 50%;
             }
             p {
               font-size: 15px;
               font-family: Source Han Sans CN;
-              font-weight: 300;
-              color: rgba(0, 0, 0, 1);
+              font-weight: 400;
+              color: #000;
               line-height: 22px;
+              padding-left: 15px;
+              padding-top: 10px;
+              margin: 0px;
             }
           }
         }
@@ -263,6 +277,34 @@ export default {
   .Master-mail {
     @include ds;
     height: 310px;
+    .mail-content {
+      ul {
+        list-style: none;
+        padding: 0px;
+        background: #F5F6FA;
+        li {
+          display: flex;
+          padding-left: 10px;
+          padding-top: 10px;
+          img {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #000;
+            border-radius: 50%;
+          }
+          p {
+            font-size: 14px;
+            font-family: Source Han Sans CN;
+            font-weight: 300;
+            color: rgba(52, 52, 52, 1);
+            line-height: 22px;
+            padding-left: 15px;
+            padding-top:3px;
+            margin: 0px;
+          }
+        }
+      }
+    }
   }
   .title-text {
     padding-left: 20px;
@@ -282,30 +324,16 @@ export default {
     left: 15px;
     top: 8px;
   }
-  .Teacher-resources {
-    height: 428px;
+  .Master-tsk {
     @include ds;
-  }
-  .Teacher-assignment {
-    height: 306px;
-    @include ds;
-    .radar-title {
-      display: flex;
-      p {
-        font-size: 17px;
-        font-family: Source Han Sans CN;
-        font-weight: 400;
-        color: rgba(17, 17, 17, 1);
-        line-height: 37px;
-      }
-    }
-  }
-  .Teacher-achievement {
     height: 331px;
-    @include ds;
   }
-  .Teacher-notice {
-    height: 262px;
+  .Master-attendance {
+    @include ds;
+    height: 355px;
+  }
+  .Master-notice {
+    height: 242px;
     @include ds;
     .notice-title {
       border-bottom: 1px solid #eff0f5;

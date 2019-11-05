@@ -83,7 +83,7 @@
         <div class="Teacher-attendance">
           <p class="u-line"></p>
           <span>教师考勤状况</span>
-         <pie-chart />
+         <APieChart />
         </div>
       </el-col>
       <el-col
@@ -144,7 +144,7 @@
 
 <script>
 import PanelGroup from "./components/PanelGroup";
-import PieChart from './components/PieChart';
+import APieChart from './components/APieChart';
 import BarChart from "./components/BarChart";
 import TodoList from "./components/TodoList";
 import BoxCard from "./components/BoxCard";
@@ -178,7 +178,7 @@ export default {
     BarChart,
     TodoList,
     BoxCard,
-    PieChart,
+    APieChart,
     RaddarChart
   },
   data() {

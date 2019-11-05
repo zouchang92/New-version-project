@@ -68,9 +68,9 @@
             <p class="title-text">班级作业</p>
           </div>
           <div class="radar-title">
-            <p style="position: absolute;left: 49px;top: 30px;">作文</p>
-            <p style="position: absolute;left: 186px;top: 30px;">练习册</p>
-            <p style="position: absolute;left: 339px;top: 30px;">抄写</p>
+            <p style="position: absolute;left: 49px;top: 45px;">作文</p>
+            <p style="position: absolute;left: 186px;top: 45px;">练习册</p>
+            <p style="position: absolute;left: 339px;top: 45px;">抄写</p>
           </div>
           <pie-chard />
         </div>

@@ -65,7 +65,7 @@ export default {
             radius: [50, 60],
             itemStyle: dataStyle,
             hoverAnimation: false,
-            center: ["15%", "40%"],
+            center: ["15%", "50%"],
             data: [
               {
                 value: 25,
@@ -126,7 +126,7 @@ export default {
             radius: [50, 60],
             itemStyle: dataStyle,
             hoverAnimation: false,
-            center: ["50%", "40%"],
+            center: ["50%", "50%"],
             data: [
               {
                 value: 50,
@@ -187,7 +187,7 @@ export default {
             radius: [50, 60],
             itemStyle: dataStyle,
             hoverAnimation: false,
-            center: ["85%", "40%"],
+            center: ["85%", "50%"],
             data: [
               {
                 value: 75,
