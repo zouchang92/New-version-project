@@ -8,7 +8,7 @@
         :md="8"
         :lg="8"
         :xl="8"
-        style="position: absolute;top: -190px;padding-left:26px;"
+        style="margin-top: -189px;padding-left:25px;position:relative;"
       >
         <div class="chart-wrapper">
           <p class="u-line"></p>
@@ -93,11 +93,12 @@
         :lg="{span: 8}"
         :xl="{span: 8}"
         class="f-Students-attendance"
+        style="padding:0px;"
       >
         <div class="Students-attendance">
           <p class="u-line"></p>
           <span>学生考勤状况</span>
-            <box-chart />
+            <box-card />
         </div>
       </el-col>
       <el-col
@@ -257,9 +258,8 @@ export default {
   }
   .f-reported-l {
     padding: 0px;
-    position: absolute;
-    top: -12px;
-    left: 459px;
+    margin-top: -12px;
+    position: relative;
 
     .f-reported {
       background: #fff;
@@ -366,8 +366,7 @@ export default {
     }
   }
   .f-Teacher-attendance {
-    position: absolute;
-    top: -100px;
+    margin-top: -100px;
 
     .Teacher-attendance {
       height: 385px;
@@ -392,10 +391,7 @@ export default {
   }
   }
   .f-Students-attendance {
-    position: absolute;
-    top: -100px;
-    left: 445px;
-    width: 465px;
+    margin-top: -100px;
 
     .Students-attendance {
       height: 385px;

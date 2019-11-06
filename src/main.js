@@ -14,18 +14,17 @@ import '@smallwei/avue/lib/index.css'
 import '@/styles/index.scss' // global css
 
 // 添加自定义组件
-import Calendar from './components/Calendar/UCalendar.vue'
+import UCalendar from './components/Calendar/UCalendar.vue'
 
 import App from './App'
 import store from './store'
 import router from './router'
 
-
 import '@/icons' // icon
 import '@/permission' // permission control
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
-Vue.use(Calendar)
+Vue.use(UCalendar)
 Vue.use(Avue)
 Vue.use(ElTreeSelect)
 

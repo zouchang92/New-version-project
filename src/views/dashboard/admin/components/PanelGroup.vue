@@ -13,6 +13,7 @@
             <p class="u-line"></p>
             <p>我的应用</p>
           </div>
+          <MyApplication />
         </div>
       </div>
     </el-col>
@@ -75,6 +76,7 @@
 
 <script>
 import UCalendar from '@/components/Calendar/UCalendar'
+import MyApplication from '@/components/MyApplication/MyApplication'
 const cityOptions = [
   { type: "", content: "梨花的请假信息1111", label: "3分钟前" },
   { type: "succes", content: "梨花的请假信息111", label: "30分钟前" },
@@ -98,7 +100,8 @@ export default {
     };
   },
   components: {
-    UCalendar
+    UCalendar,
+    MyApplication
   },
   created() {
     this.initData(null)
@@ -207,11 +210,10 @@ export default {
           margin: 0px;
         }
         & li {
-          width: 403px;
           height: 32px;
           background: #f5f6fa;
           margin-top: 10px;
-
+          margin-right: 20px;
           span {
             font-size: 16px;
             font-family: Source Han Sans CN;

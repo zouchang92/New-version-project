@@ -10,31 +10,33 @@
           <i class="el-icon-caret-right" />
         </p>
       </div>
-      <div class="timeline-day">
-        <ul>
-          <li>一</li>
-          <li>二</li>
-          <li>三</li>
-          <li>四</li>
-          <li>五</li>
-          <li>六</li>
-          <li>日</li>
-        </ul>
-        <ul class="days">
-          <li @click="pick(day)" v-for="(day, index) in days" :key="index">
-            <!--本月-->
-            <span v-if="day.getMonth()+1 != currentMonth" class="other-month">{{ day.getDate() }}</span>
-            <span v-else>
-              <!--今天-->
-              <span
-                v-if="day.getFullYear() == new Date().getFullYear() && day.getMonth() == new Date().getMonth() && day.getDate() == new Date().getDate()"
-                class="active"
-              >{{ day.getDate() }}</span>
-              <span v-else>{{ day.getDate() }}</span>
-            </span>
-          </li>
-        </ul>
-      </div>
+      <table class="timeline-day"  align="center" cellspacing="0" cellpadding="3">
+        <tbody>
+          <tr class="day-p" align="center">
+            <td>一</td>
+            <td>二</td>
+            <td>三</td>
+            <td>四</td>
+            <td>五</td>
+            <td>六</td>
+            <td>日</td>
+          </tr>
+          <tr class="days" align="center">
+            <td @click="pick(day)" v-for="(day, index) in days" :key="index">
+              <!--本月-->
+              <span v-if="day.getMonth()+1 != currentMonth" class="other-month">{{ day.getDate() }}</span>
+              <span v-else>
+                <!--今天-->
+                <span
+                  v-if="day.getFullYear() == new Date().getFullYear() && day.getMonth() == new Date().getMonth() && day.getDate() == new Date().getDate()"
+                  class="active"
+                >{{ day.getDate() }}</span>
+                <span v-else>{{ day.getDate() }}</span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="timeline">
       <el-timeline :reverse="reverse">
@@ -174,7 +176,7 @@ export default {
     font-size: 20px;
     position: absolute;
     top: 14px;
-    right: 387px;
+    right: 380px;
   }
   h1 {
     font-size: 30px;
@@ -194,16 +196,13 @@ export default {
     right: 56px;
   }
   .timeline-day {
-    ul {
-      list-style: none;
-      display: flex;
+    tr {
       margin: 0px;
-
-      li {
-        padding-left: 31px;
+      td {
+        width: 50px;
         position: relative;
         top: 80px;
-        right: 27px;
+        left: 4px;
         font-size: 22px;
         font-family: Source Han Sans CN;
         font-weight: 300;
@@ -212,8 +211,7 @@ export default {
       }
     }
     .days {
-      li {
-        padding-left: 20px;
+      td {
         font-size: 24px;
         .active {
           text-align: center;
@@ -232,10 +230,10 @@ export default {
     }
   }
 }
-      .timeline {
-      margin-left: 47px;
-      margin-top: 20px;
-    }
+.timeline {
+  margin-left: 47px;
+  margin-top: 20px;
+}
 </style>
 <style >
 .timeline .el-timeline-item__timestamp.is-bottom {
