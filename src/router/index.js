@@ -35,23 +35,27 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
+    meta: { title: '我的工作台', icon: 'dashboard', affix: true },
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: '我的工作台',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard', affix: true }
+      meta: { title: '校长', icon: 'dashboard' }
     },
     {
       path: '/Teacher',
-      component: () => import('@/views/dashboard/Teacher/index')
+      component: () => import('@/views/dashboard/Teacher/index'),
+      meta: { title: '教师', icon: 'dashboard' }
     },
     {
       path: '/Headmaster',
-      component: () => import('@/views/dashboard/Headmaster/index')
+      component: () => import('@/views/dashboard/Headmaster/index'),
+      meta: { title: '班主任', icon: 'dashboard' }
     },
     {
-      path: '/h',
-      component: () => import('@/views/dashboard/Student/index')
+      path: '/Student',
+      component: () => import('@/views/dashboard/Student/index'),
+      meta: { title: '学生', icon: 'dashboard' }
     }]
   },
   {
@@ -173,9 +177,19 @@ export const constantRoutes = [
       name: 'classManage',
       meta: {
         title: '班级管理',
-
       }
     }]
+  },
+  {
+    path: '/GrowthArchives',
+    component: Layout,
+    redirect: '/GrowthArchives/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/growth-archives/index'),
+        name: '学生成长档案',
+        meta: { title: '学生成长档案', icon: 'guide', noCache: true }}]
   },
   {
     path: 'external-link',

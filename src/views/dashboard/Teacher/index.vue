@@ -7,6 +7,7 @@
             <p class="u-line"></p>
             <p class="title-text">我的应用</p>
           </div>
+          <MyApplication />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
@@ -88,7 +89,7 @@
             <p class="u-line"></p>
             <p class="title-text">考试成绩</p>
           </div>
-          <line-chart />
+          <line-chart :data='data'/>
         </div>
       </el-col>
       <el-col
@@ -125,6 +126,7 @@ import UCalendar from "@/components/Calendar/UCalendar";
 import PieChard from "./components/PieChard";
 import RaddarChart from "./components/RaddarChart";
 import LineChart from './components/LineChart'
+import MyApplication from '@/components/MyApplication/MyApplication'
 
 export default {
   name: "DashboardAdmin",
@@ -134,11 +136,103 @@ export default {
     UCalendar,
     PieChard,
     RaddarChart,
-    LineChart
+    LineChart,
+    MyApplication
   },
   data() {
     return {
       // lineChartData: lineChartData.newVisitis
+       data: {
+        title: {
+          text: "2019年下学期成绩分析图",
+          right: "4%",
+          textStyle: {
+            color: "#000",
+            fontSize: 13,
+            fontWeight: 600
+          }
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c}"
+        },
+        legend: {
+          left: "4%",
+          data: [{ name: "语文平均分" }, { name: "班级平均分" }]
+        },
+        xAxis: {
+          type: "category",
+          axisLine: {
+            lineStyle: {
+              color: "#272729" //x轴的颜色
+            }
+          },
+          splitLine: { show: true },
+          data: [
+            "一单元",
+            "二单元",
+            "月考",
+            "三单元",
+            "四单元",
+            "其中",
+            "一单元",
+            "五单元",
+            "六单元",
+            "月考",
+            "期末"
+          ]
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        yAxis: {
+          type: "value",
+          axisLine: {
+            lineStyle: {
+              color: "#272729" //x轴的颜色
+            }
+          }
+        },
+        series: [
+          {
+            name: "班级平均分",
+            type: "line",
+            smooth: false,
+            symbol: "circle", //折线点设置为实心点
+            
+            symbolSize: 4, //折线点的大小
+            data: [90, 86, 89, 87, 90, 79, 99, 95, 87, 99, 89],
+            lineStyle: {
+              normal: {
+                color: "#3AA1FF",
+                lineStyle: {
+                  color: "#3AA1FF" //折线的颜色
+                }
+              }
+            }
+          },
+          {
+            name: "语文平均分",
+            type: "line",
+            smooth: false,
+            symbol: "circle", //折线点设置为实心点
+            symbolSize: 4, //折线点的大小
+            data: [80, 97, 92, 88, 90, 89, 100, 75, 80, 79, 80],
+            lineStyle: {
+              normal: {
+                color: "#FBD437",
+                lineStyle: {
+                  color: "#FBD437" //折线的颜色
+                }
+              }
+            }
+          }
+        ]
+      },
+      flag:false
     };
   },
   methods: {

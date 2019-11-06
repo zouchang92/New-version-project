@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
     };
   },
   mounted() {
@@ -56,8 +56,7 @@ export default {
           shadowColor: "#203665"
         }
       };
-      this.chart.setOption({
-        series: [
+      let options = { series: [
           {
             name: "第一个圆环",
             type: "pie",
@@ -240,8 +239,8 @@ export default {
               }
             ]
           }
-        ]
-      });
+        ]}
+      this.chart.setOption(options);
     }
   }
 };

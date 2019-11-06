@@ -7,6 +7,7 @@
             <p class="u-line"></p>
             <p class="title-text">我的应用</p>
           </div>
+          <MyApplication />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8" style="padding-right:4px;">
@@ -15,7 +16,33 @@
             <p class="u-line"></p>
             <p class="title-text">课堂表现</p>
           </div>
-          <PieChart />
+          <div class="score-content">
+            <div class="score-cicle">
+              <div class="cicle-content">
+                <p style="font-size:30px;">86</p>
+                <p style="font-size:14px;padding-top:6px;">总均分</p>
+              </div>
+            </div>
+            <div class="score-right">
+              <ul>
+                <li>
+                  <p class="right-cicle">1</p>
+                  <p>课堂纪律</p>
+                  <p>100分</p>
+                </li>
+                <li>
+                  <p class="right-cicle">2</p>
+                  <p>上课专注度</p>
+                  <p>90分</p>
+                </li>
+                <li>
+                  <p class="right-cicle">3</p>
+                  <p>问答活跃度</p>
+                  <p>70分</p>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </el-col>
       <el-col
@@ -39,7 +66,12 @@
           <raddar-chart />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="3" style="padding-right:0px;margin-top:-59px;padding-left:10px;">
+      <el-col
+        :xs="24"
+        :sm="24"
+        :lg="3"
+        style="padding-right:0px;margin-top:-59px;padding-left:10px;"
+      >
         <div class="Master-duty">
           <div class="Master-title">
             <p class="u-line"></p>
@@ -179,6 +211,7 @@ import UCalendar from "@/components/Calendar/UCalendar";
 import Timetable from "@/components/Timetable/Timetable";
 import RaddarChart from "../Headmaster/components/RaddarChart";
 import LineChart from "../Teacher/components/LineChart";
+import MyApplication from '@/components/MyApplication/MyApplication'
 
 const cityOptions = [
   "篮球",
@@ -205,7 +238,8 @@ export default {
     UCalendar,
     Timetable,
     RaddarChart,
-    LineChart
+    LineChart,
+    MyApplication
   },
   data() {
     return {
@@ -260,6 +294,45 @@ export default {
   .Examination-score {
     @include ds;
     height: 234px;
+    p {
+      margin: 0px;
+    }
+    .score-title {
+      border-bottom: 1px solid #eff0f5;
+    }
+    .score-content {
+      display: flex;
+      .score-cicle {
+        width: 129px;
+        height: 128px;
+        background: rgba(108, 173, 239, 1);
+        border-radius: 50%;
+        margin-top: 23px;
+        margin-left: 37px;
+        .cicle-content {
+          text-align: center;
+          padding-top: 50px;
+          color: #fff;
+        }
+      }
+      .score-right {
+        ul {
+          list-style: none;
+          li {
+            display: flex;
+            margin-top: 10px;
+            .right-cicle {
+              width: 18px;
+              height: 18px;
+              background: rgba(24, 144, 255, 1);
+              border-radius: 50%;
+              text-align: center;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
   }
   .Master-Resources {
     @include ds;
@@ -366,6 +439,7 @@ export default {
   .Master-attendance {
     @include ds;
     height: 355px;
+    overflow: hidden;
     .Master-title {
       border-bottom: 1px solid #eff0f5;
     }
@@ -418,7 +492,7 @@ export default {
 }
 .Master-duty .el-checkbox-group {
   margin-top: -13px;
-    margin-left: -8px;
+  margin-left: -8px;
 }
 .Master-duty .el-checkbox-button {
   margin-left: 10px;

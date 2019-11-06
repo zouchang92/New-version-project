@@ -7,6 +7,7 @@
             <p class="u-line"></p>
             <p class="title-text">我的应用</p>
           </div>
+          <MyApplication />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8" style="padding-right:4px;">
@@ -182,6 +183,7 @@ import PieChart from "./components/PieChart";
 import RaddarChart from "./components/RaddarChart";
 import PieChard from "../Teacher/components/PieChard";
 import APieChart from "../admin/components/APieChart";
+import MyApplication from '@/components/MyApplication/MyApplication'
 
 export default {
   name: "DashboardAdmin",
@@ -193,7 +195,8 @@ export default {
     PieChard,
     PieChart,
     RaddarChart,
-    APieChart
+    APieChart,
+    MyApplication
   },
   data() {
     return {
