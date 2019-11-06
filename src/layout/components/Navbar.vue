@@ -9,7 +9,7 @@
         <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
         <p>哈哈哈</p>
         <p>|</p>
-        <i class="el-icon-upload2" />
+        <i @click="logout" class="el-icon-upload2" />
       </div>
       
     </div>

@@ -35,7 +35,11 @@ export default {
   },
   methods: {
     searchChange(param) {
-      this.searchForm = param
+      this.searchForm = {
+        ...this.searchForm,
+        ...param,
+      }
+      console.log(this.searchForm)
       this.initList()
     }, 
     batchDel() {
@@ -99,8 +103,14 @@ export default {
       let fn = this.fn
       this.tableListLoading = true
       this.tableSelected = []
+      console.log(this.searchForm)
       fn.apply(this, [{ page: currentPage, rows: pageSize, ...this.searchForm }]).then(res => {
         this.tableListLoading = false
+        let isArray = (res.data.constructor === Array)
+        if (isArray) {
+          this.tableList = this.processData(res.data)
+          return
+        }
         const { currPage, list, pageSize, totalCount } = res.data
         this.page.rows = pageSize
         this.page.page = currPage
@@ -115,6 +125,7 @@ export default {
         })
         this.tableList = this.processData(list)
       }).catch(err => {
+        console.log(err)
         this.tableListLoading = false
       }) 
     },

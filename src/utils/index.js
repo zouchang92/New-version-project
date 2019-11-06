@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 /**
  * Created by PanJiaChen on 16/11/18.
  */
@@ -107,4 +109,18 @@ export function param2Obj(url) {
         .replace(/\+/g, ' ') +
       '"}'
   )
+}
+
+export function interArrayTree(array) {
+   let _array = _.cloneDeep(array)
+   const interFunction = (tree) => {
+     _.forEach(tree, n => {
+       if (n.child) {
+         n.children = n.child
+         interFunction(n.child)
+       }
+     })
+   }
+   interFunction(_array)
+   return _array
 }

@@ -18,7 +18,12 @@ const actions = {
   getDictionary({ commit }) {
 
   },
-  getOrganTree({ commit }) {
+  async ['getOrganTree']({ commit }) {
+    try {
+      let treeData = await getOrganTree()
+    } catch(err) {
+
+    }
     return new Promise((resolve, reject) => {
       getOrganTree.then(res => {
         commit('SET_ORGANTREE', res)

@@ -21,6 +21,7 @@
 <script>
 import tableCommon from '@/mixins/table-common.js'
 import { queryUsers, addUser, delUser, batchDel } from '@/api/userManageApi'
+import { phoneReg, credNumReg } from '@/utils/validate.js'
 import _ from 'lodash'
 export default {
   name: 'studentManage',
@@ -42,9 +43,10 @@ export default {
           },
           {
             label:'账号',
-            prop:'account',
+            prop:'loginName',
             rules: {
-              required: false,
+              required: true,
+              message: '账号是必填项'
             },
             width: 200,
             span: 24,
@@ -53,10 +55,14 @@ export default {
           },
           {
             label:'用户名',
-            prop:'name',
+            prop:'userName',
             span: 24,
             search: true,
             searchSpan: 4,
+            rules: {
+              required: true,
+              message: '用户名是必填项'
+            },
           },
           {
             label:'性别',
@@ -91,28 +97,49 @@ export default {
             label:'电话',
             prop:'phone',
             span: 24,
+            width: 150,
+            rules: [{
+              required: true,
+              message: '电话是必填项'
+            }, {
+              pattern: phoneReg,
+              message: '请输入正确的电话号码'
+            }]
           },
           {
             label:'身份证',
             prop:'credNum',
             span: 24,
+            width: 200,
+            rules: [{
+              required: true,
+              message:'身份证是必填项'
+            }, {
+              pattern: credNumReg,
+              message: '请输入正确的身份证'
+            }]
           },
           {
             label:'生日',
             prop:'birthday',
             span: 24,
-            type: 'date'
+            type: 'date',
+            format: 'yyyy-MM-dd',
+            width: 150
           },
           {
             label:'入校时间',
             prop:'entryDay',
             span: 24,
-            type: 'date'
+            type: 'date',
+            format: 'yyyy-MM-dd',
+            width: 150
           },
           {
             label:'描述',
             prop:'description',
             span: 24,
+            width: 100
           },
           {
             label:'密码',
@@ -162,7 +189,6 @@ export default {
         delete row.$gender
         delete row.$organId
         row.photo = row.photo.length ? row.photo[0].value : ''
-        console.log(JSON.stringify(row))
         let result = await addUser(row)
         await this.resetList()
         done()

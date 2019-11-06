@@ -15,12 +15,12 @@ export function queryUsers({ page, rows, account = '', name = '', organId = '', 
   })
 }
 
-export function addUser(account, name, gender, organId, phone, credNum, birthday, entryDay, description, password, photo, orgType) {
+export function addUser({ loginName, userName, gender, organId, phone, credNum, birthday, entryDay, description, password, photo, orgType }) {
   return request({
     url: '/zhxyx/account/registerUser',
     method: 'post',
     data: {
-      account, name, gender, organId, phone, credNum, birthday, entryDay, description, password, photo, orgType
+      loginName, userName, gender, organId, phone, credNum, birthday, entryDay, description, password, photo, orgType
     }
   })
 }

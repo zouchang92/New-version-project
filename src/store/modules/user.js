@@ -3,9 +3,14 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const state = {
-  token: getToken(),
-  name: '',
-  avatar: '',
+  credNum: '', 
+  gender: '',
+  id: '', 
+  loginName: '', 
+  phone: '', 
+  photo: '', 
+  token: getToken(), 
+  userName: '',
   roles: ''
 }
 
@@ -18,27 +23,35 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_USERINFO: (state, userInfo) => {
+    const { credNum, gender, id, loginName, phone, photo, token, userName } = userInfo
+    state.userName = userName
+    state.token = token
+    state.photo = photo
+    state.loginName = loginName
+    state.phone = phone
+    state.credNum = credNum
+    state.gender = gender
+    state.id = id
   }
 }
 
 const actions = {
   // user login
   async login({ commit, dispatch }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
+    const { loginName, password } = userInfo
+    try {
+      let loginInfo = await login({ loginName: loginName.trim(), password: password })
+      const { data } = loginInfo
+      console.log(data)
       dispatch('system/getOrganTree')
-      commit('SET_TOKEN', 'admin-token')
-      setToken('admin-token')
-      resolve()
-      /**login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        //commit('SET_TOKEN', data.token)
-        //setToken(data.token)
-       // resolve()
-      }).catch(error => {
-        reject(error)
-      })*/
-    })
+      commit('SET_USERINFO', data)
+      setToken(data.token)
+      return data
+    } catch(err) {
+
+    }
   },
 
   // get user info

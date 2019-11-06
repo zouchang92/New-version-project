@@ -118,6 +118,27 @@ export const constantRoutes = [
         title: '用户管理',
       },
       component: () => import('@/views/system-manage/user-manage')
+    }, {
+      path: 'roleManage',
+      name: 'roleManage',
+      meta: {
+        title: '角色管理',
+      },
+      component: () => import('@/views/system-manage/role-manage')
+    }, {
+      path: 'dictManage',
+      name: 'dictManage',
+      meta: {
+        title: '字典管理',
+      },
+      component: () => import('@/views/system-manage/dict-manage')
+    }, {
+      path: 'organManage',
+      name: 'organManage',
+      meta: {
+        title: '组织管理',
+      },
+      component: () => import('@/views/system-manage/organ-manage')
     }]
   },
   {
@@ -175,6 +196,22 @@ export const constantRoutes = [
         title: '班级管理',
 
       }
+    }, {
+      path: '/teachManage/courseManage',
+      name: 'courseManage',
+      meta: {
+        title: '科目管理',
+
+      },
+      component: () => import('@/views/teach-manage/course-manage'),
+    }, {
+      path: '/teachManage/semesterManage',
+      name: 'semesterManage',
+      meta: {
+        title: '学期管理',
+
+      },
+      component: () => import('@/views/teach-manage/semester-manage'),
     }]
   },
   {

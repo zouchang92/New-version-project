@@ -16,7 +16,7 @@ export function isExternal(path) {
  */
 export function validUsername(str) {
   const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
+  return true //valid_map.indexOf(str.trim()) >= 0
 }
 
 /**
@@ -85,3 +85,7 @@ export function isArray(arg) {
   }
   return Array.isArray(arg)
 }
+
+export const phoneReg = /^[1][3,4,5,7,8,9][0-9]{9}$/
+
+export const credNumReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
