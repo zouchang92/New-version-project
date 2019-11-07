@@ -480,15 +480,15 @@ export default {
   top: 19px;
   right: 85px;
 }
-.el-tabs__nav-scroll {
+.Information-bulletin .el-tabs__nav-scroll {
   float: right;
 }
-.el-tabs__nav-wrap {
+.Information-bulletin .el-tabs__nav-wrap {
   position: absolute;
   top: -48px;
   right: 10px;
 }
-.el-tabs__nav is-top::before {
+.Information-bulletin .el-tabs__nav is-top::before {
   height: 0px;
 }
 </style>

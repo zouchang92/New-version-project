@@ -47,7 +47,6 @@ export default {
     };
   },
   mounted() {
-    console.log("data:"+JSON.stringify(this.data))
     this.$nextTick(() => {
       this.initChart();
       window.addEventListener(

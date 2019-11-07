@@ -32,10 +32,14 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="课堂表现" name="second">
-          <div style="margin-top:15px;">课堂表现</div>
+          <div style="margin-top:15px;">
+            <Performance />
+          </div>
         </el-tab-pane>
         <el-tab-pane label="奖惩处罚" name="third">
-          <div style="margin-top:15px;">奖惩处罚</div>
+          <div style="margin-top:15px;">
+            <RewardPunishment />
+           </div>
         </el-tab-pane>
         <el-tab-pane label="任职情况" name="fourth">
           <div style="margin-top:15px;">任职情况</div>
@@ -55,10 +59,14 @@
 </template>
 <script>
 import Academic from "./components/Academic";
+import Performance from './components/Performance';
+import RewardPunishment from './components/RewardPunishment'
 
 export default {
   components: {
-    Academic
+    Academic,
+    Performance,
+    RewardPunishment
   },
   data() {
     return {
@@ -70,7 +78,7 @@ export default {
           label: "三年级五班"
         }
       ],
-      value: "",
+      value: "三年级二班",
       input: "",
       activeName: "first"
     };
@@ -84,6 +92,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .growth-achives {
+  height: 1200px;
   .growth-title {
     background: #fff;
     height: 84px;
@@ -126,9 +135,9 @@ export default {
     margin: 15px;
     .growth-academic {
       margin-top: 15px;
-      height: 750px;
       background: rgba(255, 255, 255, 1);
       border-radius: 2px;
+      margin-bottom: 30px;
     }
   }
 }
