@@ -3,11 +3,11 @@
     <div class="table-container">
       <div class="basic-container">
         <el-card class="box-card">
-          <avue-crud @upload-after="uploadBefore" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
+          <avue-crud rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-              <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+              <el-button @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
               <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
@@ -20,7 +20,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryStudent, addStudent } from '@/api/studentManageApi'
+import { queryStudent, addStudent, delStudent, delStudents } from '@/api/studentManageApi'
 export default {
   name: 'studentManage',
   mixins: [tableCommon],
@@ -30,6 +30,8 @@ export default {
 
       },
       fn: queryStudent,
+      delFn: delStudents,
+      singleDelFn: delStudent,
       data: [],
       option: {
         column: [
@@ -201,9 +203,6 @@ export default {
         loading(false)
       }
       
-    },
-    searchChange(params) {
-      console.log(params)
     },
   }
 }

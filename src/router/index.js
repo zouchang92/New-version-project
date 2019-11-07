@@ -146,42 +146,29 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/testManage',
+    path: '/moralEducation',
     component: Layout,
-    name: 'testManage',
+    name: 'moralEducation',
     alwaysShow: true,
+    redirect: '/moralEducation/homePage',
     meta: {
-      title: '三级测试',
+      title: '德育管理',
       icon: 'nested'
     },
     children: [{
-      path: '/testManage/testManageSub',
-      name: 'testManageSub',
-      alwaysShow: true,
-      isNavPage: true,
+      path: '/moralEducation/homePage',
+      name: 'homePage',
+      component: () => import('@/views/moral-education/home-page'),
       meta: {
-        title: 'xx管理',
-        icon: 'nested'
+        title: '德育首页'
+      }
+    }, {
+      path: '/moralEducation/moralEvaluate',
+      name: 'moralEvaluate',
+      component: () => import('@/views/moral-education/moral-evaluate'),
+      meta: {
+        title: '德育考评'
       },
-      component: () => import('@/layout/components/ThirdNav'),
-      children: [{
-        path: '/testManage/testManageSub/testManageSub1',
-        name: 'testManageSub1',
-        meta: {
-          title: 'xxxxx管理',
-          navChild: true,
-        },
-        component: () => import('@/views/system-manage/student-manage'),
-      }, {
-        path: '/testManage/testManageSub/testManageSub2',
-        name: 'testManageSub2',
-        
-        meta: {
-          title: 'xxxxxxx管理',
-          navChild: true,
-        },
-        component: () => import('@/views/system-manage/student-manage'),
-      }]
     }]
   },
   {
@@ -215,6 +202,14 @@ export const constantRoutes = [
 
       },
       component: () => import('@/views/teach-manage/semester-manage'),
+    }, {
+      path: '/teachManage/courseTimeManage',
+      name: 'courseTimeManage',
+      meta: {
+        title: '课表时间',
+
+      },
+      component: () => import('@/views/teach-manage/course-time-manage'),
     }]
   },
   {

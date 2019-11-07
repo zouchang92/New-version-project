@@ -22,6 +22,7 @@
 import tableCommon from '@/mixins/table-common.js'
 import { queryParent, updateParent, addParent, delParent, delParents } from '@/api/parentManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate.js'
+import { getOrgan } from '@/utils'
 import _ from 'lodash'
 export default {
   name: 'parentManage',
@@ -42,26 +43,14 @@ export default {
             editDisplay: false
           },
           {
-            label:'账号',
-            prop:'account',
-            rules: {
-              required: true,
-              message: '账号是必填项'
-            },
-            width: 200,
-            span: 24,
-            search: true,
-            searchSpan: 4,
-          },
-          {
-            label:'用户名',
-            prop:'name',
+            label:'姓名',
+            prop:'userName',
             span: 24,
             search: true,
             searchSpan: 4,
             rules: {
               required: true,
-              message: '用户名是必填项'
+              message: '姓名'
             },
           },
           {
@@ -79,23 +68,8 @@ export default {
             }],
           },
           {
-            label:'组织机构',
-            prop:'organId',
-            span: 24,
-            type: 'tree',
-            searchSpan: 4,
-            dicData: [{
-              value: 'M',
-              label: '男'
-            }, {
-              value: 'F',
-              label: '女'
-            }],
-            search: true,
-          },
-          {
             label:'电话',
-            prop:'phone',
+            prop:'tel',
             span: 24,
             width: 150,
             rules: [{
@@ -120,50 +94,16 @@ export default {
             }]
           },
           {
-            label:'生日',
-            prop:'birthday',
-            span: 24,
-            type: 'date',
-            format: 'yyyy-MM-dd',
-            width: 150
-          },
-          {
-            label:'入校时间',
-            prop:'entryDay',
-            span: 24,
-            type: 'date',
-            format: 'yyyy-MM-dd',
-            width: 150
-          },
-          {
-            label:'描述',
-            prop:'description',
-            span: 24,
-            width: 100
-          },
-          {
-            label:'密码',
-            prop:'password',
-            span: 24,
-            type: 'password'
-          },
-          {
             label:'照片',
-            prop:'photo',
+            prop:'facePicFile',
             type: 'upload',
-            action: "http://192.168.1.125:8999/zhxyx/upload/file",
+            action: "http://192.168.1.125:8998/zhxyx/upload/file",
             limit: 1,
             propsHttp: {
               res: '0'
             },
             listType: 'picture-card',
             span: 24,
-          },
-          {
-            label: "人员类型",
-            prop: "orgType",
-            type: 'select',
-            span: 24
           },
         ]
       },
@@ -180,17 +120,26 @@ export default {
     rowDel(row, index) {
       
     },
-    rowUpdate(row, done, loading) {
-      console.log(row)
+    async rowUpdate(row, done, loading) {
+      loading(true)
+      try {
+        row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
+        let result = await updateParent(row)
+        await this.resetList()
+        done()
+      } catch(err) {
+        loading(false)
+      }
     },
     async rowSave(row, done, loading) {
       loading(true)
       try {
-        row.photo = row.photo.length ? row.photo[0].value : ''
+        row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
         let result = await addParent(row)
         await this.resetList()
         done()
       } catch(err) {
+        console.log(err)
         loading(false)
       }
       

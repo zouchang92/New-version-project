@@ -124,3 +124,7 @@ export function interArrayTree(array) {
    interFunction(_array)
    return _array
 }
+
+export function getOrgan() {
+  return JSON.parse(localStorage.getItem('organ'))
+}
