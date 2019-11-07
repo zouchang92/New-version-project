@@ -1,4 +1,5 @@
 import { getDictionary, getOrganTree } from '@/api/systemApi.js'
+import { interArrayTree } from '@/utils'
 
 const state = {
   dictionary: {},
@@ -11,6 +12,7 @@ const mutations = {
   },
   SET_ORGANTREE: (state, tree) => {
     state.organTree = tree
+    localStorage.setItem('organ', JSON.stringify(tree))
   }
 }
 
@@ -21,17 +23,11 @@ const actions = {
   async ['getOrganTree']({ commit }) {
     try {
       let treeData = await getOrganTree()
+      commit('SET_ORGANTREE', interArrayTree(treeData.data))
+      return treeData
     } catch(err) {
-
+      return new Error()
     }
-    return new Promise((resolve, reject) => {
-      getOrganTree.then(res => {
-        commit('SET_ORGANTREE', res)
-        resolve()
-      }).catch(err => {
-        reject()
-      })
-    })
   }
 }
 

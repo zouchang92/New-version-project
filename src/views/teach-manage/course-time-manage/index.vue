@@ -20,18 +20,18 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryCourses, addCourse, updateCourse, deleteCourse, deleteCourses } from '@/api/courseManageApi'
+import { queryTimeTable, deleteTimeTable, addTimeTable } from '@/api/courseTimeManageApi'
+import { getOrgan } from '@/utils'
 export default {
-  name: 'teacherManage',
+  name: 'courseTimeManage',
   mixins: [tableCommon],
   data() {
     return {
       searchForm: {
 
       },
-      fn: queryCourses,
-      delFn: deleteCourses,
-      singleDelFn: deleteCourse,
+      fn: queryTimeTable,
+      singleDelFn: deleteTimeTable,
       data: [],
       option: {
         
@@ -44,23 +44,64 @@ export default {
             editDisplay: false
           },
           {
-            label:'科目名称',
-            prop:'name',
+            label:'机构名称',
+            prop:'orgId',
             rules: {
               required: true,
-              message: '科目名称是必填项'
+              message: '机构名称是必填项'
             },
+            type: 'tree',
             search: true,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
+            searchSpan: 8,
             span: 24,
           },
           {
-            label:'科目代码',
-            prop:'code',
+            label:'周几',
+            prop:'weekN',
+            type: 'number',
             rules: {
               required: true,
-              message: '科目代码是必填项'
+              message: '周几是必填项'
             },
-            search: true,
+            span: 24,
+          },
+          {
+            label:'第几节',
+            prop:'lessonN',
+            type: 'number',
+            rules: {
+              required: true,
+              message: '第几节是必填项'
+            },
+            span: 24,
+          },
+          {
+            label:'开始时间',
+            prop:'starttime',
+            type: 'time',
+            format: 'HH:mm:ss',
+            valueFormat: 'HH:mm:ss',
+            rules: {
+              required: true,
+              message: '开始时间是必填项'
+            },
+            span: 24,
+          },
+          {
+            label:'结束时间',
+            prop:'endtime',
+            type: 'time',
+            format: 'HH:mm:ss',
+            valueFormat: 'HH:mm:ss',
+            rules: {
+              required: true,
+              message: '结束时间是必填项'
+            },
             span: 24,
           },
         ]
@@ -85,7 +126,7 @@ export default {
     async rowSave(row, done, loading) {
       loading(true)
       try {
-        let result = await addCourse(row)
+        let result = await addTimeTable(row)
         await this.resetList()
         done()
       } catch(err) {

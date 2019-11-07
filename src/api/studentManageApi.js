@@ -21,3 +21,23 @@ export const addStudent = ({ id = '', curStatus, facePicFile, credType, credNum,
     method: 'post'
   })
 }
+
+export const delStudent = (id) => {
+  return request({
+    url: '/zhxyx/Student/delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
+export const delStudents = (ids) => {
+  return request({
+    url: '/zhxyx/Student/deletes',
+    method: 'post',
+    data: {
+      ids
+    }
+  })
+}

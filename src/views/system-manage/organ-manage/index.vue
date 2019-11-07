@@ -102,6 +102,7 @@ export default {
         }
         this.updateLoading = false
         this.getOrganTree()
+        this.$store.dispatch('system/getOrganTree')
       } catch(err) {
         this.updateLoading = false
       }

@@ -26,6 +26,7 @@ const mutations = {
   },
   SET_USERINFO: (state, userInfo) => {
     const { credNum, gender, id, loginName, phone, photo, token, userName } = userInfo
+    localStorage.setItem('userInfo', JSON.stringify(userInfo))
     state.userName = userName
     state.token = token
     state.photo = photo
@@ -44,8 +45,7 @@ const actions = {
     try {
       let loginInfo = await login({ loginName: loginName.trim(), password: password })
       const { data } = loginInfo
-      console.log(data)
-      dispatch('system/getOrganTree')
+      dispatch('system/getOrganTree', {}, {root: true})
       commit('SET_USERINFO', data)
       setToken(data.token)
       return data
@@ -55,35 +55,17 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      commit('SET_NAME', 'Super Admin')
-      commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
-      resolve({
-        code: '20000',
-        data: {
-          avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-          introduction: "I am a super administrator",
-          name: "Super Admin",
-          roles: ['admin']
-        }
-      })
-      /**getInfo(state.token).then(response => {
-        const { data } = response
+  async getInfo({ dispatch, commit, state }) {
+    let userInfo = localStorage.getItem('userInfo')
+    try {
+      if (userInfo) {
+        commit('SET_USERINFO', JSON.parse(userInfo))
+      }
+      await dispatch('system/getOrganTree', {}, { root: true })
+      resolve()
+    } catch(err) {
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })*/
-    })
+    }
   },
 
   // user logout

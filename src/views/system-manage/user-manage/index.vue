@@ -22,6 +22,7 @@
 import tableCommon from '@/mixins/table-common.js'
 import { queryUsers, addUser, delUser, batchDel } from '@/api/userManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate.js'
+import { getOrgan } from '@/utils'
 import _ from 'lodash'
 export default {
   name: 'studentManage',
@@ -59,6 +60,7 @@ export default {
             span: 24,
             search: true,
             searchSpan: 4,
+            width: 150,
             rules: {
               required: true,
               message: '用户名是必填项'
@@ -83,14 +85,12 @@ export default {
             prop:'organId',
             span: 24,
             type: 'tree',
-            searchSpan: 4,
-            dicData: [{
-              value: 'M',
-              label: '男'
-            }, {
-              value: 'F',
-              label: '女'
-            }],
+            searchSpan: 8,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
             search: true,
           },
           {

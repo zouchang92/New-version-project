@@ -345,3 +345,7 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+export function getOrgan() {
+  return JSON.parse(localStorage.getItem('organ'))
+}

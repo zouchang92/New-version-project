@@ -3,11 +3,11 @@
     <div class="table-container">
       <div class="basic-container">
         <el-card class="box-card">
-          <avue-crud @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
+          <avue-crud rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-              <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+              <el-button @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
               <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
@@ -20,7 +20,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryTeacher, addTeacher } from '@/api/teacherManageApi'
+import { queryTeacher, addTeacher, updateTeacher, deleteTeacher, deleteTeachers } from '@/api/teacherManageApi'
 export default {
   name: 'teacherManage',
   mixins: [tableCommon],
@@ -30,6 +30,8 @@ export default {
 
       },
       fn: queryTeacher,
+      delFn: deleteTeachers,
+      singleDelFn: deleteTeacher,
       data: [],
       option: {
         
@@ -57,7 +59,7 @@ export default {
             type: 'upload',
             listType: 'picture-card',
             span: 24,
-            action: "http://192.168.1.125:8999/zhxyx/upload/file",
+            action: "http://192.168.1.125:8998/zhxyx/upload/file",
             propsHttp: {
               res: '0'
             },
@@ -77,7 +79,7 @@ export default {
             prop: "credPhotoObve",
             type: 'upload',
             listType: 'picture-card',
-            action: "http://192.168.1.125:8999/zhxyx/upload/file",
+            action: "http://192.168.1.125:8998/zhxyx/upload/file",
             span: 24,
             limit: 1,
             propsHttp: {
@@ -89,7 +91,7 @@ export default {
             prop: "credPhotoRever",
             type: 'upload',
             listType: 'picture-card',
-            action: "http://192.168.1.125:8999/zhxyx/upload/file",
+            action: "http://192.168.1.125:8998/zhxyx/upload/file",
             limit: 1,
             span: 24,
             propsHttp: {
@@ -122,12 +124,18 @@ export default {
           {
             label: "参加工作时间",
             prop: "inworkDate",
-            type: 'date'
+            type: 'date',
+            format: 'yyyy-MM-dd',
+            valueFormat: 'yyyy-MM-dd',
+            width: 150
           },
           {
             label: "进校时间",
             prop: "entryTime",
-            type: 'date'
+            type: 'date',
+            format: 'yyyy-MM-dd',
+            valueFormat: 'yyyy-MM-dd',
+            width: 150
           },
           {
             label: "毕业院校",
@@ -157,8 +165,18 @@ export default {
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
-    rowUpdate(row, done, loading) {
-      console.log(row)
+    async rowUpdate(row, done, loading) {
+      row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
+      row.credPhotoRever = row.credPhotoRever&&row.credPhotoRever.length ? row.credPhotoRever[0].value : ''
+      row.credPhotoObve = row.credPhotoRever&&row.credPhotoObve.length ? row.credPhotoObve[0].value : ''
+      loading(true)
+      try {
+        let result = await updateTeacher(row)
+        await this.resetList()
+        done()
+      } catch(err) {
+        loading(false)
+      }
     },
     async rowSave(row, done, loading) {
       row.facePicFile = row.facePicFile.length ? row.facePicFile[0].value : ''
@@ -174,9 +192,6 @@ export default {
         loading(false)
       }
       
-    },
-    searchChange(params) {
-      console.log(params)
     },
   }
 }
