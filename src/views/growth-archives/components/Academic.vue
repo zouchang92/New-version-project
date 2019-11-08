@@ -8,16 +8,33 @@
       </el-select>
     </div>
     <div class="Acadmic-Subject">
-      <el-select v-model="value1" placeholder="请选择科目">
-        <el-option
-          v-for="item in subject"
-          :key="item.value"
-          :label="item.label"
-          :value="item.label"
-        >
-          <span style="float: left">{{ item.label }}</span>
-        </el-option>
-      </el-select>
+      <el-button class="Subject-button" type="primary" @click="dialogFormVisible = true">选择考试批次</el-button>
+
+      <el-dialog title="选择考试批次" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+          <el-form-item label="学年:">
+            <el-select v-model="form.region" placeholder="请选择学年">
+              <el-option label="2019年上学期" value="shanghai"></el-option>
+              <el-option label="2019年下学期" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-checkbox
+              :indeterminate="isIndeterminate"
+              v-model="checkAll"
+              @change="handleCheckAllChange"
+            >全选</el-checkbox>
+            <div style="margin: 15px 0;"></div>
+            <el-checkbox-group @change="handleCheckedCitiesChange">
+              <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        </div>
+      </el-dialog>
       <line-chart :style="{height:height}" :data="options1"></line-chart>
     </div>
     <div class="Acadmic-table">
@@ -28,6 +45,7 @@
   </div>
 </template>
 <script>
+const Semester = ["期中", "期末"];
 import LineChart from "../../dashboard/Teacher/components/LineChart";
 import isValidOption from "@/utils/isValidOption.js";
 export default {
@@ -36,6 +54,17 @@ export default {
   },
   data() {
     return {
+      cities: Semester,
+      dialogFormVisible: false,
+      form: {
+        region: "",
+        date1: "",
+        date2: "",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: ""
+      },
       list: [
         { prop: "name", label: "名称" },
         { prop: "Chinese", label: "语文" },
@@ -325,14 +354,24 @@ export default {
       } else {
         this.isOptionAbnormal = true;
       }
+    },
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? cityOptions : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cities.length;
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .Academic {
-  height: 1000px;
-  background: rgba(255, 255, 255, 1);
+  // height: 1000px;
+  // background: rgba(255, 255, 255, 1);
   border-radius: 2px;
   position: relative;
   margin-bottom: 30px;
@@ -362,21 +401,13 @@ export default {
   top: 46px;
   z-index: 100;
 }
-.Acadmic-Subject .el-input__inner {
-  width: 130px;
-  height: 32px;
-  background: rgba(255, 255, 255, 1);
-  border: 1px solid;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
+.Acadmic-Subject .el-dialog__header {
+  border-bottom: 1px solid #dbdbdb;
 }
-.Acadmic-Subject .el-input__suffix {
-  right: 5px;
-  top: 5px;
-}
-.Acadmic-Subject .el-select {
-  margin-left: 1062px;
+.Acadmic-Subject .Subject-button {
+  position: absolute;
   top: 50px;
+  left: 1039px;
   z-index: 100;
 }
 </style>

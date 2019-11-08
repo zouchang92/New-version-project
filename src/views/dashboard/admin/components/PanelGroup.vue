@@ -1,9 +1,7 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col
-      :xs="12"
-      :sm="8"
-      :lg="8"
+:xs="8" :sm="8" :lg="8" :xl="8"
       class="card-panel-col"
       style="padding-right:15px;padding-left:30px"
     >
@@ -17,8 +15,8 @@
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col" style="padding:0px;overflow:hidden">
-      <div class="u-examine" >
+    <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="card-panel-col" style="padding:0px;overflow:hidden">
+      <div class="u-examine">
         <div class="u-examine-comtent">
           <div class="u-examine-text">
             <div class="u-examine-title">
@@ -59,7 +57,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="card-panel-col">
       <div class="u-timeline">
         <div class="u-timeline-comtent">
           <div class="u-timeline-text">
@@ -75,8 +73,8 @@
 </template>
 
 <script>
-import UCalendar from '@/components/Calendar/UCalendar'
-import MyApplication from '@/components/MyApplication/MyApplication'
+import UCalendar from "@/components/Calendar/UCalendar";
+import MyApplication from "@/components/MyApplication/MyApplication";
 const cityOptions = [
   { type: "", content: "梨花的请假信息1111", label: "3分钟前" },
   { type: "succes", content: "梨花的请假信息111", label: "30分钟前" },
@@ -96,7 +94,7 @@ export default {
         label: "3分钟前"
       },
       cities: cityOptions,
-      isIndeterminate: true,
+      isIndeterminate: true
     };
   },
   components: {
@@ -104,7 +102,7 @@ export default {
     MyApplication
   },
   created() {
-    this.initData(null)
+    this.initData(null);
   },
   methods: {
     handleCheckAllChange(val) {
