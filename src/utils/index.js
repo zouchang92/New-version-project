@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 /**
  * Created by PanJiaChen on 16/11/18.
  */
@@ -345,6 +347,21 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+export function interArrayTree(array) {
+  let _array = _.cloneDeep(array)
+   const interFunction = (tree) => {
+     _.forEach(tree, n => {
+       if (n.child && n.child.length) {
+         n.children = n.child
+         interFunction(n.child)
+       }
+     })
+   }
+   interFunction(_array)
+   return _array
+}
+
 
 export function getOrgan() {
   return JSON.parse(localStorage.getItem('organ'))

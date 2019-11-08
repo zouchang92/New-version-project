@@ -3,7 +3,7 @@
     <div class="table-container">
       <div class="basic-container">
         <el-card class="box-card">
-          <avue-crud rowKey="id" @upload-after="uploadBefore" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
+          <avue-crud rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
@@ -20,7 +20,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryRoles, addStudent } from '@/api/roleManageApi'
+import { queryRoles, addRole } from '@/api/roleManageApi'
 export default {
   name: 'roleManage',
   mixins: [tableCommon],
@@ -57,7 +57,9 @@ export default {
             },
             type: 'datetime',
             format: 'yyyy-MM-DD HH:mm:ss',
-            width: 200
+            width: 200,
+            addDisplay: false,
+            editDisplay: false
           },
           {
             label: '备注',
@@ -82,22 +84,27 @@ export default {
     uploadBefore(file, done) {
       alert(1)
     },
-    rowUpdate(row, done, loading) {
-      console.log(row)
-    },
-    async rowSave(row, done, loading) {
+    async rowUpdate(row, done, loading) {
       loading(true)
       try {
-        let result = await addStudent(row)
+        let result = await addrole(row)
         await this.resetList()
         done()
       } catch(err) {
         loading(false)
       }
-      
     },
-    searchChange(params) {
-      console.log(params)
+    async rowSave(row, done, loading) {
+      loading(true)
+      try {
+        let result = await addrole(row)
+        await this.resetList()
+        done()
+      } catch(err) {
+        console.log(err)
+        loading(false)
+      }
+      
     },
   }
 }

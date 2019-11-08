@@ -9,3 +9,13 @@ export function queryRoles({ name = '' }) {
     }
   })
 }
+
+export function addRole({ name, description }) {
+  return request({
+    url: '/zhxyx/role/insertRole',
+    method: 'post',
+    data: {
+      name, description
+    }
+  })
+}

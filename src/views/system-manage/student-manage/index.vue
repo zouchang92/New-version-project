@@ -21,6 +21,7 @@
 <script>
 import tableCommon from '@/mixins/table-common.js'
 import { queryStudent, addStudent, delStudent, delStudents } from '@/api/studentManageApi'
+import { getOrgan } from '@/utils'
 export default {
   name: 'studentManage',
   mixins: [tableCommon],
@@ -41,6 +42,18 @@ export default {
             hide: true,
             addDisplay: false,
             editDisplay: false
+          },
+          {
+            label: '所属机构',
+            prop: 'orgId',
+            type: 'tree',
+            search: true,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
+            searchSpan: 8,
           },
           {
             label:'全国学籍号',

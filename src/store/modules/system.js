@@ -1,9 +1,11 @@
-import { getDictionary, getOrganTree } from '@/api/systemApi.js'
+import { getDictionary, getOrganTree } from '@/api/systemApi'
+import { listMenuTree } from '@/api/menuManageApi'
 import { interArrayTree } from '@/utils'
 
 const state = {
   dictionary: {},
-  organTree: {}
+  organTree: {},
+  menuTree: [],
 }
 
 const mutations = {
@@ -13,6 +15,10 @@ const mutations = {
   SET_ORGANTREE: (state, tree) => {
     state.organTree = tree
     localStorage.setItem('organ', JSON.stringify(tree))
+  },
+  SET_MENUTREE: (state, tree) => {
+    state.menuTree = tree
+    localStorage.setItem('menu', JSON.stringify(tree))
   }
 }
 
@@ -26,7 +32,16 @@ const actions = {
       commit('SET_ORGANTREE', interArrayTree(treeData.data))
       return treeData
     } catch(err) {
-      return new Error()
+      throw new Error()
+    }
+  },
+  async ['getMenuTree']({ commit }) {
+    try {
+      let treeData = await listMenuTree()
+      commit('SET_MENUTREE', interArrayTree(treeData.data))
+      return interArrayTree(treeData.data)
+    } catch(err) {
+      throw new Error()
     }
   }
 }

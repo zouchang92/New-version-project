@@ -8,24 +8,34 @@
               <avue-tree nodeKey="id" ref="organTree" :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
             </el-aside>
             <el-main style="padding-top: 0">
-              <el-form>
+              <el-form :inline="true">
                  <el-form-item>
                    <el-button :icon="mode === 'add' ? 'el-icon-plus' : 'el-icon-edit'" @click="changeMode" style="height: 32px;line-height: 12px" size="medium" type="primary">{{mode === 'add' ? '添加模式' : '编辑模式'}}</el-button>
                  </el-form-item>
+                 <el-form-item>
+                   <el-button icon="el-icon-delete" @click="deleteMenu" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
+                 </el-form-item>
               </el-form>
               <el-form label-width="80px" label-position="right" size="small">
-                <el-form-item label="机构名称">
-                  <el-input v-model="formData.orgName"></el-input>
+                <el-form-item label="菜单名称">
+                  <el-input v-model="formData.name"></el-input>
                 </el-form-item>
-                <el-form-item label="机构编码">
-                  <el-input v-model="formData.orgCode"></el-input>
+                <el-form-item label="菜单编码">
+                  <el-input v-model="formData.menuUrl"></el-input>
                 </el-form-item>
-                <el-form-item label="上级机构">
+                <el-form-item label="上级菜单">
                   <el-tree-select ref="treeSelect" :treeParams="treeParams" :data="treeData" v-model="formData.parentId"/>
+                </el-form-item>
+                <el-form-item label="菜单图标">
+                  <el-input v-model="formData.menuIcon"></el-input>
+                </el-form-item>
+                <el-form-item label="排序">
+                  <el-input v-model="formData.sort"></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
                   <el-input type="textarea" v-model="formData.description"></el-input>
                 </el-form-item>
+                
               </el-form>
               <el-form label-width="80px" label-position="right" size="small">
                 <el-form-item>
@@ -49,10 +59,10 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { getOrganTree, insertOrgan, updateOrgan } from '@/api/organManageApi'
+import { listMenuTree, addMenu, updateMenu, deleteMenu } from '@/api/menuManageApi'
 import { interArrayTree } from '@/utils'
 export default {
-  name: 'organManage',
+  name: 'menuManage',
   data() {
     return {
       mode: 'add',
@@ -61,16 +71,17 @@ export default {
         id: ''
       },
       formData: {
-        orgName: '',
+        name: '',
         parentId: '',
-        orgCode: '',
-        orgType: '',
+        menuUrl: '',
+        menuIcon: '',
         description: '',
-        id: ''
+        id: '',
+        sort: ''
       },
       treeParams: {
         props: {
-          label: 'orgName',
+          label: 'name',
           value: 'id',
         },
         data: []
@@ -82,27 +93,42 @@ export default {
         editBtn: false,
         delBtn: false,
         props: {
-          label: 'orgName',
+          label: 'name',
           value: 'id',
         }
       },
     }
   },
   mounted() {
-    this.getOrganTree()
+    this.getMenuTree()
   },
   methods: {
+    async deleteMenu() {
+      try {
+        await this.$confirm('是否删除该菜单?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        await deleteMenu(this.formData.id)
+        await this.getMenuTree()
+      } catch(err) {
+
+      }
+    },
     async organSubmit() {
       this.updateLoading = true
       try {
         if (this.mode === 'add') {
-          await insertOrgan(this.formData)
+          if (!this.formData.parentId) {
+            this.formData.parentId = 'root'
+          }
+          await addMenu(this.formData)
         } else {
-          await updateOrgan(this.formData)
+          await updateMenu(this.formData)
         }
         this.updateLoading = false
-        this.getOrganTree()
-        this.$store.dispatch('system/getOrganTree')
+        this.getMenuTree()
       } catch(err) {
         this.updateLoading = false
       }
@@ -121,40 +147,20 @@ export default {
         id: e.id
       }
       this.formData = {
-        orgName: e.orgName,
-        orgCode: e.orgCode,
-        description: e.description,
-        orgType: e.orgType,
+        name: e.name,
         parentId: this.mode === 'add' ? e.id : e.parentId,
+        menuUrl: e.menuUrl,
+        menuIcon: e.menuIcon,
+        description: e.description,
         id: e.id
       }
     },
-    getOrganTree() {
-      getOrganTree().then(res => {
+    getMenuTree() {
+      listMenuTree().then(res => {
         let treeData = interArrayTree(res.data)
         this.treeData = treeData
         this.$refs.treeSelect.treeDataUpdateFun(treeData)
       })
-    },
-    handleAdd() {
-      this.$refs.crud.rowAdd()
-    },
-    uploadBefore(file, done) {
-      alert(1)
-    },
-    rowUpdate(row, done, loading) {
-      console.log(row)
-    },
-    async rowSave(row, done, loading) {
-      loading(true)
-      try {
-        let result = await addStudent(row)
-        await this.resetList()
-        done()
-      } catch(err) {
-        loading(false)
-      }
-      
     },
   }
 }

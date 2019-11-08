@@ -45,26 +45,34 @@ const actions = {
     try {
       let loginInfo = await login({ loginName: loginName.trim(), password: password })
       const { data } = loginInfo
-      dispatch('system/getOrganTree', {}, {root: true})
-      commit('SET_USERINFO', data)
-      setToken(data.token)
+      let routes = await dispatch('loginAction', data)
       return data
     } catch(err) {
-
+      console.log(err)
     }
   },
+  async loginAction({ commit, dispatch }, userInfo) {
+    try {
+      let organTree = await dispatch('system/getOrganTree', {}, {root: true})
+      let menuTree = await dispatch('system/getMenuTree', {}, {root: true})
+      commit('SET_USERINFO', userInfo)
+      let routes = await dispatch('permission/generateRoutes', { roles: [], routerMap: menuTree }, {root: true})
+      
+      setToken(userInfo.token)
+      return routes
+    } catch(err) {
+      console.log(err)
+    }
 
+  },
   // get user info
   async getInfo({ dispatch, commit, state }) {
     let userInfo = localStorage.getItem('userInfo')
     try {
-      if (userInfo) {
-        commit('SET_USERINFO', JSON.parse(userInfo))
-      }
-      await dispatch('system/getOrganTree', {}, { root: true })
-      resolve()
+      let routes = await dispatch('loginAction', JSON.parse(userInfo))
+      return routes
     } catch(err) {
-
+      console.log(err)
     }
   },
 

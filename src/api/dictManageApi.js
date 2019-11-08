@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function queryDictLists() {
   return request({
-    url: 'zhxyx/dict/listAllDictItem',
+    url: '/zhxyx/dict/listAllDictItem',
     method: 'post'
   })
 }
