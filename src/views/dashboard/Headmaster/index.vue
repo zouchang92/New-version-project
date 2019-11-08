@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-master-container">
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8" style="padding-right:4px;">
+      <el-col :lg="8" style="padding-right:4px;">
         <div class="Teacher-application">
           <div class="application-title">
             <p class="u-line"></p>
@@ -20,8 +20,6 @@
         </div>
       </el-col>
       <el-col
-        :xs="24"
-        :sm="24"
         :lg="8"
         style="padding-left:4px;position: absolute;top: 0px;right: -14px;"
       >
@@ -76,8 +74,7 @@
         </div>
       </el-col>
       <el-col
-        :xs="24"
-        :sm="24"
+
         :lg="8"
         style="padding-left:4px;position: absolute;top: 140px;right: -14px;margin-left: 16px;"
       >
@@ -111,9 +108,6 @@
 
     <el-row :gutter="8">
       <el-col
-        :xs="{span: 24}"
-        :sm="{span: 12}"
-        :md="{span: 12}"
         :lg="{span: 8}"
         :xl="{span:8}"
         style="margin-top:22px;"
@@ -132,9 +126,6 @@
         </div>
       </el-col>
       <el-col
-        :xs="{span: 24}"
-        :sm="{span: 12}"
-        :md="{span: 12}"
         :lg="{span: 8}"
         :xl="{span: 8}"
         style="padding-right:8px;margin-top:-5px;margin-left:8px"

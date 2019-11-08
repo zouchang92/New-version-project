@@ -1,7 +1,6 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col
-      :xs="12"
       :sm="8"
       :lg="8"
       class="card-panel-col"
@@ -59,7 +58,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="8" :lg="8" class="card-panel-col">
+    <el-col :lg="8" class="card-panel-col">
       <div class="u-timeline">
         <div class="u-timeline-comtent">
           <div class="u-timeline-text">

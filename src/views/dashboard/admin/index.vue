@@ -3,9 +3,6 @@
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
     <el-row :gutter="32" style="height:300px;position:relative">
       <el-col
-        :xs="8"
-        :sm="8"
-        :md="8"
         :lg="8"
         :xl="8"
         style="margin-top: -189px;padding-left:25px;position:relative;"
@@ -72,9 +69,6 @@
 
     <el-row :gutter="8" style="height:310px">
       <el-col
-        :xs="{span: 8}"
-        :sm="{span: 8}"
-        :md="{span: 8}"
         :lg="{span: 8}"
         :xl="{span: 8}"
         class="f-Teacher-attendance"
@@ -87,9 +81,6 @@
         </div>
       </el-col>
       <el-col
-        :xs="{span: 8}"
-        :sm="{span: 8}"
-        :md="{span: 8}"
         :lg="{span: 8}"
         :xl="{span: 8}"
         class="f-Students-attendance"
@@ -102,9 +93,6 @@
         </div>
       </el-col>
       <el-col
-        :xs="{span: 8}"
-        :sm="{span: 8}"
-        :md="{span: 8}"
         :lg="{span: 8}"
         :xl="{span: 8}"
         style="padding-left:19px;"
