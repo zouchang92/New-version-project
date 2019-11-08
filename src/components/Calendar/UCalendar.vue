@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position:relative">
     <div class="timeline-date">
       <div>
         <p class="timeline-left" @click="weekPre ()">
@@ -10,7 +10,7 @@
           <i class="el-icon-caret-right" />
         </p>
       </div>
-      <table class="timeline-day"  align="center" cellspacing="0" cellpadding="3">
+      <table class="timeline-day" align="center" cellspacing="0" cellpadding="3">
         <tbody>
           <tr class="day-p" align="center">
             <td>一</td>
@@ -240,5 +240,55 @@ export default {
   position: absolute;
   top: -5px;
   left: -47px;
+}
+@media (min-width: 1200) {
+  .timeline-left {
+    font-size: 20px;
+    position: absolute;
+    top: 14px;
+    right: 331px;
+  }
+  h1 {
+    font-size: 30px;
+    font-family: Source Han Sans CN;
+    font-weight: 300;
+    color: rgba(17, 17, 17, 1);
+    line-height: 38px;
+    position: absolute;
+    top: 6px;
+    right: 115px;
+  }
+
+  .timeline-right {
+    font-size: 20px;
+    position: absolute;
+    top: 14px;
+    right: 22px;
+  }
+}
+@media (min-width: 1580) {
+  .timeline-left {
+    font-size: 20px;
+    position: absolute;
+    top: 14px;
+    right: 417px;
+  }
+  h1 {
+    font-size: 30px;
+    font-family: Source Han Sans CN;
+    font-weight: 300;
+    color: rgba(17, 17, 17, 1);
+    line-height: 38px;
+    position: absolute;
+    top: 6px;
+    right: 149px;
+  }
+
+  .timeline-right {
+    font-size: 20px;
+    position: absolute;
+    top: 14px;
+    right: 104px;
+  }
 }
 </style>

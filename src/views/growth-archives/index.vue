@@ -101,6 +101,7 @@ export default {
 <style lang="scss" scoped>
 .growth-achives {
   height: 1200px;
+  margin-bottom: 30px;
   .growth-title {
     background: #fff;
     height: 84px;

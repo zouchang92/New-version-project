@@ -3,6 +3,8 @@
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
     <el-row :gutter="32" style="height:300px;position:relative">
       <el-col
+        :xs="8"
+        :sm="8"
         :lg="8"
         :xl="8"
         style="margin-top: -189px;padding-left:25px;position:relative;"
@@ -13,7 +15,7 @@
           <raddar-chart />
         </div>
       </el-col>
-      <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8" class="f-reported-l" style="padding:0px">
+      <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="f-reported-l" style="padding:0px">
         <div class="f-reported">
           <div class="reported-title">
             <p class="u-line"></p>
@@ -46,7 +48,7 @@
           </div>
         </div>
       </el-col>
-      <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8" class="f-association-l">
+      <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="f-association-l">
         <div class="f-association">
           <div class="association-title">
             <p class="u-line"></p>
@@ -69,32 +71,31 @@
 
     <el-row :gutter="8" style="height:310px">
       <el-col
-        :lg="{span: 8}"
-        :xl="{span: 8}"
+        :xs="8"
+        :sm="8"
+        :lg="8"
+        :xl="8"
         class="f-Teacher-attendance"
         style="padding-left:14px;padding-right:19px;"
       >
         <div class="Teacher-attendance">
           <p class="u-line"></p>
           <span>教师考勤状况</span>
-         <APieChart />
+          <APieChart />
         </div>
       </el-col>
-      <el-col
-        :lg="{span: 8}"
-        :xl="{span: 8}"
-        class="f-Students-attendance"
-        style="padding:0px;"
-      >
+      <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="f-Students-attendance" style="padding:0px;">
         <div class="Students-attendance">
           <p class="u-line"></p>
           <span>学生考勤状况</span>
-            <box-card />
+          <box-card />
         </div>
       </el-col>
       <el-col
-        :lg="{span: 8}"
-        :xl="{span: 8}"
+        :xs="8"
+        :sm="8"
+        :lg="8"
+        :xl="8"
         style="padding-left:19px;"
         class="f-Information-bulletin"
       >
@@ -102,28 +103,28 @@
           <div class="Information-title">
             <p class="u-line"></p>
             <span>信息公告</span>
-              <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane name="first" label="活动通知">
-                  <div class="Information-content">
-                    <ul class="bulletin-content">
-                      <li v-for="city in cities" :key="city">
-                        <p class="Information-content-p">{{city.content}}</p>
-                        <p class="Information-content-date">{{city.date}}</p>
-                      </li>
-                    </ul>
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane label="安全预警">
-                  <div class="Information-content">
-                    <ul class="bulletin-content">
-                      <li v-for="city in cities" :key="city">
-                        <p class="Information-content-p">{{city.content}}</p>
-                        <p class="Information-content-date">{{city.date}}</p>
-                      </li>
-                    </ul>
-                  </div>
-                </el-tab-pane>
-              </el-tabs>
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+              <el-tab-pane name="first" label="活动通知">
+                <div class="Information-content">
+                  <ul class="bulletin-content">
+                    <li v-for="city in cities" :key="city">
+                      <p class="Information-content-p">{{city.content}}</p>
+                      <p class="Information-content-date">{{city.date}}</p>
+                    </li>
+                  </ul>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="安全预警">
+                <div class="Information-content">
+                  <ul class="bulletin-content">
+                    <li v-for="city in cities" :key="city">
+                      <p class="Information-content-p">{{city.content}}</p>
+                      <p class="Information-content-date">{{city.date}}</p>
+                    </li>
+                  </ul>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
           </div>
         </div>
       </el-col>
@@ -133,11 +134,11 @@
 
 <script>
 import PanelGroup from "./components/PanelGroup";
-import APieChart from './components/APieChart';
+import APieChart from "./components/APieChart";
 import BarChart from "./components/BarChart";
 import TodoList from "./components/TodoList";
 import BoxCard from "./components/BoxCard";
-import RaddarChart from './components/RaddarChart'
+import RaddarChart from "./components/RaddarChart";
 const cityOptions = [
   {
     content:
@@ -340,7 +341,6 @@ export default {
       .assocition-content {
         display: flex;
         height: 30px;
-        width: 391px;
         justify-content: space-between;
         background: #f5f6fa;
         margin-top: 10px;
@@ -371,12 +371,12 @@ export default {
       top: 1px;
     }
     span {
-    padding-left: 14px;
-    line-height: 18px;
-    font-size: 18px;
-    color: #666;
-    font-weight: bold;
-  }
+      padding-left: 14px;
+      line-height: 18px;
+      font-size: 18px;
+      color: #666;
+      font-weight: bold;
+    }
   }
   .f-Students-attendance {
     margin-top: -100px;
@@ -410,7 +410,7 @@ export default {
         border-bottom: 1px solid #eee;
         margin: 0px 7px 0px 1px;
       }
-        .bulletin-content {
+      .bulletin-content {
         list-style: none;
         margin: 0px;
         padding: 0px;
