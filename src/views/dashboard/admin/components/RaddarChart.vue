@@ -51,7 +51,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, "macarons");
       this.chart.setOption({
-        color: ["#3398DB"],
+        color: ["#3AA1FF"],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -81,7 +81,7 @@ export default {
         ],
         series: [
           {
-            name: "直接访问",
+            name: "校本资源",
             type: "bar",
             barWidth: "60%",
             data: [2710, 2052, 2200, 1334, 2390, 3330, 1220]
