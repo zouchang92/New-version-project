@@ -30,7 +30,9 @@ Vue.use(ElTreeSelect)
 
 Vue.config.productionTip = false
 
-new Vue({
+console.log(router)
+
+export default new Vue({
   el: '#app',
   router,
   store,

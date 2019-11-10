@@ -32,8 +32,9 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // get user info
-          await store.dispatch('user/getInfo')
-          next()
+          let routes = await store.dispatch('user/getInfo')
+          router.addRoutes(routes)
+          next({...to, replace: true})
         } catch (error) {
           console.log(error)
           // remove token and go to login page to re-login

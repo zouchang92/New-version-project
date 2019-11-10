@@ -1,7 +1,6 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import routerMap from '@/router/router-map'
 import _ from 'lodash'
-import router from '@/router'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -50,7 +49,6 @@ const mutations = {
     state.addRoutes = routes
     let allRoutes = routes.concat(constantRoutes)
     state.routes = allRoutes
-    router.addRoutes(allRoutes)
   }
 }
 
