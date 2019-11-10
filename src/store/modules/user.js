@@ -24,6 +24,17 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
+  LOGOUT: (state) => {
+    state.credNum = ''
+    state.gender = ''
+    state.id = ''
+    state.loginName = ''
+    state.phone = ''
+    state.photo = ''
+    state.token = ''
+    state.userName = '',
+    state.roles = ''
+  },
   SET_USERINFO: (state, userInfo) => {
     const { credNum, gender, id, loginName, phone, photo, token, userName } = userInfo
     localStorage.setItem('userInfo', JSON.stringify(userInfo))
@@ -46,7 +57,7 @@ const actions = {
       let loginInfo = await login({ loginName: loginName.trim(), password: password })
       const { data } = loginInfo
       let routes = await dispatch('loginAction', data)
-      return data
+      return routes
     } catch(err) {
       console.log(err)
     }
@@ -57,7 +68,6 @@ const actions = {
       let menuTree = await dispatch('system/getMenuTree', {}, {root: true})
       commit('SET_USERINFO', userInfo)
       let routes = await dispatch('permission/generateRoutes', { roles: [], routerMap: menuTree }, {root: true})
-      
       setToken(userInfo.token)
       return routes
     } catch(err) {
@@ -81,6 +91,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
+        commit('LOGOUT')
         removeToken()
         resetRouter()
         resolve()
