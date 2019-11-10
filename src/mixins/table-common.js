@@ -16,7 +16,7 @@ export default {
         pageSize: 10
       },
       option: {
-        addBtn: false,
+        addBtn: true,
         title: '',
         page: true,
         viewBtn: true,

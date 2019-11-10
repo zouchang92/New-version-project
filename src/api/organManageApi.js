@@ -26,3 +26,13 @@ export function updateOrgan({ id, orgName, parentId, orgCode, orgType, descripti
     }
   })
 }
+
+export function deleteOrgan(id) {
+  return request({
+    url: '/zhxyx/organ/deleteOrgan ',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

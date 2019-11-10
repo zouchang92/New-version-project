@@ -20,6 +20,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
+import { getOrgan } from '@/utils'
 import { queryTeacher, addTeacher, updateTeacher, deleteTeacher, deleteTeachers } from '@/api/teacherManageApi'
 export default {
   name: 'teacherManage',
@@ -42,6 +43,30 @@ export default {
             hide: true,
             addDisplay: false,
             editDisplay: false
+          },
+          {
+            label:'姓名',
+            prop:'userName',
+            rules: {
+              required: true,
+            },
+            search: true,
+            span: 12,
+          },
+          {
+            label:'所属机构',
+            prop:'organId',
+            rules: {
+              required: true,
+            },
+            type: 'tree',
+            search: true,
+            span: 12,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
           },
           {
             label:'在校状态',

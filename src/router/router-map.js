@@ -115,7 +115,7 @@ export default {
     }
   },
   moralManageHome: {
-    path: '/moralEducation/homePage',
+    path: 'moralHomePage',
     name: 'homePage',
     component: () => import('@/views/moral-education/home-page'),
     meta: {
@@ -123,7 +123,7 @@ export default {
     }
   },
   moralEvaluateManage: {
-    path: '/moralEducation/moralEvaluate',
+    path: 'moralEvaluate',
     name: 'moralEvaluate',
     component: () => import('@/views/moral-education/moral-evaluate'),
     meta: {
@@ -142,7 +142,7 @@ export default {
     },
   },
   courseTimeManage: {
-    path: '/teachManage/courseTimeManage',
+    path: 'courseTimeManage',
     name: 'courseTimeManage',
     meta: {
       title: '课表时间',
@@ -150,7 +150,7 @@ export default {
     component: () => import('@/views/teach-manage/course-time-manage'),
   },
   courseManage: {
-    path: '/teachManage/courseManage',
+    path: 'courseManage',
     name: 'courseManage',
     meta: {
       title: '科目管理',
@@ -158,14 +158,15 @@ export default {
     component: () => import('@/views/teach-manage/course-manage'),
   },
   classManage: {
-    path: '/teachManage/classManage',
+    path: 'classManage',
     name: 'classManage',
     meta: {
       title: '班级管理',
-    }
+    },
+    component: () => import('@/views/teach-manage/class-manage')
   },
   teacherCourseTable: {
-    path: '/teachManage/teacherCourseTable',
+    path: 'teacherCourseTable',
     name: 'teacherCourseTable',
     meta: {
       title: '老师课表',
@@ -173,7 +174,7 @@ export default {
     component: () => import('@/views/teach-manage/teacher-course-table'),
   },
   semesterManage: {
-    path: '/teachManage/semesterManage',
+    path: 'semesterManage',
     name: 'semesterManage',
     meta: {
       title: '学期管理',
@@ -181,11 +182,19 @@ export default {
     component: () => import('@/views/teach-manage/semester-manage'),
   },
   classCourseTable: {
-    path: '/teachManage/classCourseTable',
+    path: 'classCourseTable',
     name: 'classCourseTable',
     meta: {
       title: '班级课表',
     },
     component: () => import('@/views/teach-manage/class-course-table'),
+  },
+  vacationManage: {
+    path: 'vacationManage',
+    name: 'vacationManage',
+    meta: {
+      title: '节假日管理'
+    },
+    component: () => import('@/views/teach-manage/vacation-manage')
   }
 }

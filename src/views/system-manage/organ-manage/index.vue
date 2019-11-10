@@ -11,6 +11,8 @@
               <el-form>
                  <el-form-item>
                    <el-button :icon="mode === 'add' ? 'el-icon-plus' : 'el-icon-edit'" @click="changeMode" style="height: 32px;line-height: 12px" size="medium" type="primary">{{mode === 'add' ? '添加模式' : '编辑模式'}}</el-button>
+                   <el-button icon="el-icon-delete" @click="deleteOrgan" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
+                   <el-button icon="el-icon-top" style="height: 32px;line-height: 12px" size="medium" type="warning">一键升级</el-button>
                  </el-form-item>
               </el-form>
               <el-form label-width="80px" label-position="right" size="small">
@@ -29,10 +31,10 @@
               </el-form>
               <el-form label-width="80px" label-position="right" size="small">
                 <el-form-item>
-                   <el-col :span="2">
+                   <el-col :span="4">
                      <el-button :loading="updateLoading" @click="organSubmit" size="mini" type="primary">确定</el-button>
                    </el-col>
-                   <el-col :span="2">
+                   <el-col :span="4">
                      <el-button size="mini" type="primary">取消</el-button>
                    </el-col>
                  </el-form-item>
@@ -49,7 +51,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { getOrganTree, insertOrgan, updateOrgan } from '@/api/organManageApi'
+import { getOrganTree, insertOrgan, updateOrgan, deleteOrgan } from '@/api/organManageApi'
 import { interArrayTree } from '@/utils'
 export default {
   name: 'organManage',
@@ -92,6 +94,19 @@ export default {
     this.getOrganTree()
   },
   methods: {
+    async deleteOrgan() {
+      try {
+        await this.$confirm('是否删除该机构?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        await deleteOrgan(this.formData.id)
+        this.getOrganTree()
+      } catch(err) {
+
+      }
+    },
     async organSubmit() {
       this.updateLoading = true
       try {

@@ -44,7 +44,7 @@ export default {
             editDisplay: false
           },
           {
-            label: '所属机构',
+            label: '所在班级',
             prop: 'orgId',
             type: 'tree',
             search: true,
@@ -61,7 +61,8 @@ export default {
             rules: {
               required: false,
             },
-            width: 200
+            width: 200,
+            hide: true
           },
           {
             label:'入学时间',
