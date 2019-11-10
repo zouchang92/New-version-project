@@ -43,11 +43,15 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-  // {
-  //   path: '/calendar',
-  //   component: () => import('../components/Calendar/Calendar.vue')
+  {
+    path: '/h',
+    component: () => import('../components/Calendar/calendar.vue')
 
-  // },
+  }, {
+    path: '/n',
+    component: () => import('../components/Calendar/UCalendar.vue')
+
+  },
 
 ]
 

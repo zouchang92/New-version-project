@@ -55,6 +55,7 @@ export default {
 
   data() {
     return {
+      isShow: false,
       currentYear: 1970, // 年份
       currentMonth: 1, // 月份
       currentDay: 1, // 日期
