@@ -1,10 +1,11 @@
 <template>
   <div class="Comment">
     <el-row :gutter="20">
-      <el-col :span="8" style="height:375px;background:#fff">
+      <el-col :span="8" style="height:575px;background:#fff">
         <div class="Comment-left" style="padding:15px;">
           <div class="left-title">
-            <p>选择学年学期</p>
+            <p class="line"></p>
+            <span style="margin:0px;">选择学年学期</span>
           </div>
           <el-tree :data="data" :props="defaultProps" default-expand-all>
             <span slot-scope="{ node, data }">
@@ -14,9 +15,15 @@
           </el-tree>
         </div>
       </el-col>
-      <el-col :span="15" style="margin-left:30px;height:375px;background:#fff">
-        <div class="Comment-right">
-          <h4>评价老师</h4>
+      <el-col :span="15" style="margin-left:20px;height:575px;background:#fff">
+        <div class="Comment-right" style="margin-top:39px;">
+          <avue-form ref="form" v-model="obj0" :option="option0">
+            <template slot="menuForm">
+              <el-button type="primary" @click="handleSubmit">提 交</el-button>
+              <el-button @click="handleSubmit">保 存</el-button>
+              <el-button @click="handleEmpty">清 空</el-button>
+            </template>
+          </avue-form>
         </div>
       </el-col>
     </el-row>
@@ -79,6 +86,44 @@ const menus = [
 export default {
   data() {
     return {
+      obj0: {},
+      option0: {
+        emptyBtn: false,
+        submitBtn: false,
+        column: [
+          {
+            label: "评价老师",
+            prop: "username",
+            rules: [
+              {
+                
+                message: "请输入老师姓名",
+                trigger: "blur"
+              }
+            ]
+          },
+          {
+            label: "评价等级",
+            prop: "Grade",
+            rules: [
+              {
+                
+                message: "请输入评价等级",
+                trigger: "blur"
+              }
+            ]
+          },
+          {
+            label: "教师寄语",
+            prop: "textarea",
+            type: "textarea",
+            minRows: 10,
+            maxlength: 200,
+            span: 24,
+            showWordLimit: true
+          }
+        ]
+      },
       data: menus,
       defaultProps: {
         children: "children",
@@ -89,14 +134,49 @@ export default {
   methods: {
     handleNodeClick(data) {
       console.log(data);
+    },
+    handleEmpty() {
+      this.$refs.form.resetForm();
+    },
+    handleSubmit() {
+      this.$refs.form.validate(vaild => {
+        if (vaild) {
+          this.$message.success(JSON.stringify(this.obj0));
+        }
+      });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.comment-left{
-  .left-title{
-        border-bottom: 1px solid #EFF0F5;
+.Comment-left {
+  .left-title {
+    border-bottom: 1px solid hsl(230, 23%, 95%);
+    margin-top: -4px;
+    padding-bottom: 10px;
+    padding-left: 11px;
+    span {
+      font-size: 16px;
+      font-family: Source Han Sans CN;
+      font-weight: 400;
+      color: rgba(17, 17, 17, 1);
+      line-height: 26px;
+    }
+    .line {
+      display: block;
+      width: 5px;
+      height: 16px;
+      background: #018eed;
+      position: absolute;
+      left: 22px;
+      top: 1px;
+    }
   }
+}
+</style>
+<style >
+ .Comment-right .avue-form__menu--center {
+    text-align: left;
+    padding-left: 30px;
 }
 </style>

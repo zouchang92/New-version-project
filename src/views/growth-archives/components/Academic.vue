@@ -37,6 +37,7 @@
       </el-dialog>
       <line-chart :style="{height:height}" :data="options1"></line-chart>
     </div>
+    <div style="height:30px;background:rgb(235,236,243)"></div>
     <div class="Acadmic-table">
       <el-table :data="tableData" style="width: 100%">
         <el-table-column v-for="(item,i) in list" :key="i" :prop="item.prop" :label="item.label"></el-table-column>
@@ -196,12 +197,15 @@ export default {
           left: "35%",
           bottom: "9%",
           data: [
-            { name: "一月考" },
-            { name: "二月考" },
-            { name: "期中" },
-            { name: "三月考" },
-            { name: "四月考" },
-            { name: "期末" }
+            { name: "语文" },
+            { name: "数学" },
+            { name: "英语" },
+            { name: "物理" },
+            { name: "化学" },
+            { name: "历史" },
+            { name: "地理" },
+            { name: "生物" },
+            { name: "道德与法" }
           ]
         },
         xAxis: {
@@ -212,17 +216,7 @@ export default {
             }
           },
           splitLine: { show: true },
-          data: [
-            "语文",
-            "数学",
-            "英语",
-            "物理",
-            "化学",
-            "历史",
-            "地理",
-            "生物",
-            "道德与法"
-          ]
+          data: ["一月考", "二月考", "期中", "三月考", "四月考", "期末"]
         },
         grid: {
           left: "3%",
@@ -241,12 +235,12 @@ export default {
         },
         series: [
           {
-            name: "一月考",
+            name: "语文",
             type: "line",
             smooth: false,
             symbol: "circle", //折线点设置为实心点
             symbolSize: 4, //折线点的大小
-            data: [55, 66, 39, 57, 60, 90, 99, 70, 77],
+            data: [55, 66, 39, 57, 60, 90],
             itemStyle: {
               normal: {
                 color: "#1890FF",
@@ -257,12 +251,12 @@ export default {
             }
           },
           {
-            name: "二月考",
+            name: "数学",
             type: "line",
             smooth: false,
             symbol: "circle", //折线点设置为实心点
             symbolSize: 4, //折线点的大小
-            data: [73, 57, 62, 46, 89, 69, 100, 30, 50],
+            data: [73, 57, 62, 46, 89, 69],
             itemStyle: {
               normal: {
                 color: "#8E9CF0",
@@ -273,12 +267,12 @@ export default {
             }
           },
           {
-            name: "期中",
+            name: "英语",
             type: "line",
             smooth: false,
             symbol: "circle", //折线点设置为实心点
             symbolSize: 4, //折线点的大小
-            data: [80, 97, 92, 88, 90, 89, 100, 75, 80],
+            data: [80, 97, 92, 88, 90, 89],
             itemStyle: {
               normal: {
                 color: "#F09718",
@@ -289,12 +283,12 @@ export default {
             }
           },
           {
-            name: "三月考",
+            name: "物理",
             type: "line",
             smooth: false,
             symbol: "circle", //折线点设置为实心点
             symbolSize: 4, //折线点的大小
-            data: [20, 57, 62, 78, 90, 89, 89, 78, 92],
+            data: [20, 57, 62, 78, 90, 89],
             itemStyle: {
               normal: {
                 color: "#51B26F",
@@ -305,12 +299,12 @@ export default {
             }
           },
           {
-            name: "四月考",
+            name: "化学",
             type: "line",
             smooth: false,
             symbol: "circle", //折线点设置为实心点
             symbolSize: 4, //折线点的大小
-            data: [50, 37, 52, 68, 80, 99, 60, 75, 80],
+            data: [50, 37, 52, 68, 80, 99],
             itemStyle: {
               normal: {
                 color: "#8FC31F",
@@ -321,12 +315,12 @@ export default {
             }
           },
           {
-            name: "期末",
+            name: "历史",
             type: "line",
             smooth: false,
             symbol: "circle", //折线点设置为实心点
             symbolSize: 4, //折线点的大小
-            data: [70, 91, 99, 92, 98, 100, 100, 85, 95],
+            data: [70, 91, 99, 92, 98, 100],
             itemStyle: {
               normal: {
                 color: "#FF3761",

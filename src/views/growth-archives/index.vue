@@ -27,33 +27,33 @@
     <div class="growth-content">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="学习成绩" name="first">
-          <div class="growth-academic" style="margin-top:15px;">
+          <div class="growth-academic">
             <Academic />
           </div>
         </el-tab-pane>
         <el-tab-pane label="课堂表现" name="second">
-          <div style="margin-top:15px;">
+          <div>
             <Performance />
           </div>
         </el-tab-pane>
         <el-tab-pane label="奖惩处罚" name="third">
-          <div style="margin-top:15px;">
+          <div>
             <RewardPunishment />
            </div>
         </el-tab-pane>
         <el-tab-pane label="任职情况" name="fourth">
-          <div style="margin-top:15px;">
+          <div>
              <Serving />
           </div>
         </el-tab-pane>
         <el-tab-pane label="社团活动情况">
-          <div style="margin-top:15px;"><ClubActivities /></div>
+          <div><ClubActivities /></div>
         </el-tab-pane>
         <el-tab-pane label="身心健康登记">
-          <div style="margin-top:15px;"><Health /></div>
+          <div><Health /></div>
         </el-tab-pane>
         <el-tab-pane label="期末评语">
-          <div style="margin-top:15px;"><Comment/></div>
+          <div><Comment/></div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -103,6 +103,7 @@ export default {
 <style lang="scss" scoped>
 .growth-achives {
   height: 1200px;
+  background: rgb(235,236,243);
   margin-bottom: 30px;
   .growth-title {
     background: #fff;
@@ -145,7 +146,6 @@ export default {
     padding-top: 13px;
     margin: 15px;
     .growth-academic {
-      margin-top: 15px;
       background: rgba(255, 255, 255, 1);
       border-radius: 2px;
       margin-bottom: 30px;
