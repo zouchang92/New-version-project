@@ -2,7 +2,6 @@
   <div>
     <div class="table-container">
       <div class="basic-container">
-        <el-card class="box-card">
           <avue-crud rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
@@ -11,7 +10,6 @@
               <el-button type="info" @click="initList()" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
-         </el-card>
       </div>
      
     </div>

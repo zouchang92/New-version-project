@@ -92,3 +92,20 @@ div:focus {
   line-height: 128px!important;
   text-align: center;
 }
+
+.avue-crud {
+  width: 100%;
+  .avue-crud__pagination {
+    background: #ffffff;
+    height: 50px;
+    border-radius: 4px;
+  }
+}
+
+
+.avue-crud-search {
+  background: #ffffff;
+  padding: 18px 0px 9px 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
