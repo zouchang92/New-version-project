@@ -2,7 +2,7 @@
   <div class="Comment">
     <el-row :gutter="20">
       <el-col :span="8" style="height:375px;background:#fff">
-        <div class="Comment-left">
+        <div class="Comment-left" style="padding:15px;">
           <div class="left-title">
             <p>选择学年学期</p>
           </div>
@@ -94,4 +94,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.comment-left{
+  .left-title{
+        border-bottom: 1px solid #EFF0F5;
+  }
+}
 </style>
