@@ -130,6 +130,22 @@ export default {
       title: '德育考评'
     }
   },
+  moralReport: {
+    path: 'moralReport',
+    name: 'moralReport',
+    component: () => import('@/views/moral-education/moral-report'),
+    meta: {
+      title: '德育报表'
+    }
+  },
+  moralPoint: {
+    path: 'moralPoint',
+    name: 'moralPoint',
+    component: () => import('@/views/moral-education/moral-point'),
+    meta: {
+      title: '德育指标'
+    }
+  },
   //
   teachManage: {
     path: '/teachManage',
