@@ -53,19 +53,20 @@
           <div style="margin-top:15px;"><Health /></div>
         </el-tab-pane>
         <el-tab-pane label="期末评语">
-          <div style="margin-top:15px;">期末评语</div>
+          <div style="margin-top:15px;"><Comment/></div>
         </el-tab-pane>
       </el-tabs>
     </div>
   </div>
 </template>
 <script>
-import Academic from "./components/Academic";
-import Performance from './components/Performance';
-import RewardPunishment from './components/RewardPunishment';
-import Serving from './components/Serving';
-import ClubActivities from './components/ClubActivities';
+import Academic from "./components/Academic"
+import Performance from './components/Performance'
+import RewardPunishment from './components/RewardPunishment'
+import Serving from './components/Serving'
+import ClubActivities from './components/ClubActivities'
 import Health from './components/Healthy'
+import Comment from './components/Comment'
 
 export default {
   components: {
@@ -74,7 +75,8 @@ export default {
     RewardPunishment,
     Serving,
     ClubActivities,
-    Health
+    Health,
+    Comment
   },
   data() {
     return {
