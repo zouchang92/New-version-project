@@ -66,6 +66,7 @@ const actions = {
     try {
       let organTree = await dispatch('system/getOrganTree', {}, {root: true})
       let menuTree = await dispatch('system/getMenuTree', {}, {root: true})
+      let dictionary = await dispatch('system/getDictionary', {}, {root: true})
       commit('SET_USERINFO', userInfo)
       let routes = await dispatch('permission/generateRoutes', { roles: [], routerMap: menuTree }, {root: true})
       setToken(userInfo.token)

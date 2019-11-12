@@ -234,6 +234,9 @@ export default {
 
       }
     },
+    refreshDictStore() {
+      this.$store.dispatch('system/getDictionary')
+    },
     addNode(node, data) {
       this.rootMode = 'add'
       this.dictData = {}
@@ -272,8 +275,17 @@ export default {
     uploadBefore(file, done) {
       
     },
-    rowUpdate(row, done, loading) {
-      console.log(row)
+    async rowUpdate(row, done, loading) {
+      loading()
+      row.dictId = this.dictId
+      try {
+        let result = await updateDict(row)
+        await this.resetList()
+        this.refreshDictStore()
+        done()
+      } catch(err) {
+        done()
+      }
     },
     async removeNode(node, data) {
       try {
@@ -284,16 +296,18 @@ export default {
         })
         await deleteDict(data.id)
         await this.getDictTree()
+        this.refreshDictStore()
       } catch(err) {
 
       }
     },
     async rowSave(row, done, loading) {
       loading(true)
-      row.parentId = this.dictParentId
+      row.dictId = this.dictId
       try {
         let result = await addDict(row)
         await this.resetList()
+        this.refreshDictStore()
         done()
       } catch(err) {
         loading(false)

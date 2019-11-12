@@ -11,17 +11,10 @@
             v-model="treeConfig.filterText">
             <el-button @click="addMoralRootNode" slot="append" icon="el-icon-plus"></el-button>
           </el-input>
-          <el-tree ref="tree" :filter-node-method="filterNode" node-key="id" v-loading='treeConfig.loading' :props="treeConfig.props" :data="treeConfig.data">
+          <el-tree ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" node-key="id" v-loading='treeConfig.loading' :props="treeConfig.props" :data="treeConfig.data">
             <span class="custom-tree-node" slot-scope="{ node, data }">
               <span>{{ node.label }}</span>
               <span>
-                <el-button
-                  type="text"
-                  size="mini"
-                  icon="el-icon-plus"
-                  v-if="data.hasOwnProperty('isClassroom')"
-                  @click="() => addMoralNode(node, data)">
-                </el-button>
                 <el-button
                   type="text"
                   size="mini"
@@ -41,9 +34,14 @@
       </el-col>
       <el-col :span="18">
         <el-card>
-          <el-table>
-         
-          </el-table>
+          <avue-crud rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
+            <template slot="searchMenu">
+              <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
+              <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
+              <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+            </template>
+           </avue-crud>
         </el-card>
       </el-col>
     </el-row>
@@ -54,12 +52,64 @@
 </template>
 
 <script>
-import { queryMoralTree, addMoralNode, updateMoralNode, deleteMoralNode } from '@/api/moralPointManageApi'
-import { interArrayTree } from '@/utils'
+import { queryMoralTree, addMoralNode, updateMoralNode, deleteMoralNode, queryChildMoralPoint } from '@/api/moralPointManageApi'
+import { interArrayTree, getDictById } from '@/utils'
+import _ from 'lodash'
+import tableCommon from '@/mixins/table-common.js'
+
+const ioFlagDict = getDictById('FYZZDNPUJNHLEWPUGWGMONJLMTBCRXPO')
+const booleanDict = getDictById('WHMUNAUDDJGAMQYVPLGSQXMPBSWPMFMM')
 export default {
+  mixins: [tableCommon],
   name: 'moralPoint',
   data() {
     return {
+      option: {
+        header: true,
+        column: [{
+          prop: 'pTitle',
+          label: '一级指标',
+          editDisabled: true
+        }, {
+          prop: 'pScore',
+          label: '一级分值',
+          editDisabled: true
+        }, {
+          prop: 'title',
+          label: '二级指标'
+        }, {
+          prop: 'score',
+          label: '二级分值'
+        }, {
+          prop: 'type',
+          label: '类型',
+          type: 'select',
+          editDisabled: true,
+          dicData: ioFlagDict,
+          hide:true
+        }, {
+          prop: 'ioflag',
+          label: '类型',
+          type: 'select',
+          dicData: ioFlagDict
+        }, {
+          prop: 'isClassroom',
+          label: '班级指标',
+          type: 'select',
+          editDisabled: true,
+          dicData: booleanDict
+        }, {
+          prop: 'isStudent',
+          label: '学生指标',
+          type: 'select',
+          editDisabled: true,
+          dicData: booleanDict
+        }]
+      },
+      obj: {
+
+      },
+      fn: queryChildMoralPoint,
       dialogShow: false,
       treeConfig: {
         filterText: '',
@@ -70,6 +120,7 @@ export default {
         },
       },
       moralNodeConfig: {
+        mode: 'add',
         moralParams: {
           id: '',
           type: '',
@@ -96,57 +147,27 @@ export default {
               required: true,
               message: '指标类型为必填项'
             },
-            dictData: [{
-              value: '1',
-              label: '指标类型1'
-            }, {
-              value: '1',
-              label: '指标类型2'
-            }]
+            dicData: ioFlagDict
           }, {
             label: '是否应用于教室',
             prop: 'isClassroom',
             type: 'radio',
-            dicData: [{
-              value: '0',
-              label: '否'
-            }, {
-              value: '1',
-              label: '是'
-            }]
+            dicData: booleanDict
           }, {
             label: '是否应用于学生',
             prop: 'isStudent',
             type: 'radio',
-            dicData: [{
-              value: '0',
-              label: '否'
-            }, {
-              value: '1',
-              label: '是'
-            }]
+            dicData: booleanDict
           }, {
             label: '是否应用于教师',
             prop: 'isTeacher',
             type: 'radio',
-            dicData: [{
-              value: '0',
-              label: '否'
-            }, {
-              value: '1',
-              label: '是'
-            }]
+            dicData: booleanDict
           }, {
             label: '是否应用于班主任',
             prop: 'isMaster',
             type: 'radio',
-            dicData: [{
-              value: '0',
-              label: '否'
-            }, {
-              value: '1',
-              label: '是'
-            }]
+            dicData: booleanDict
           }]
         }
       }
@@ -154,6 +175,7 @@ export default {
   },
   mounted() {
     this.getMoralNodeTree()
+    this.tableListLoading = false
   },
   watch: {
     ['treeConfig.filterText'](val) {
@@ -161,24 +183,82 @@ export default {
     }
   },
   methods: {
+    nodeClick(data) {
+      this.searchForm.projId = data.id
+      this.initList()
+    },
+    async rowUpdate() {
+
+    },
+    async rowSave() {
+
+    },
     addMoralRootNode() {
+      this.moralNodeConfig.mode = 'add'
+      this.resetMoralData()
       this.showDialog()
     },
-    addMoralNode(node, data) {
-
-      this.showDialog()
+    resetMoralData() {
+      
+      this.moralNodeConfig.moralParams = {
+        id: '',
+        type: '',
+        title: '',
+        isClassroom: '',
+        isStudent: '',
+        isTeacher: '',
+        isMaster: ''
+      }
     },
     editMoralNode(node, data) {
-      console.log(data)
+      this.moralNodeConfig.mode = 'edit'
+      this.moralNodeConfig.moralParams = data
+      this.showDialog()
     },
-    removeMoralNode(node, data) {
+    async removeMoralNode(node, data) {
+      const that = this
+      try {
+        await this.$confirm('是否删除该德育指标?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          beforeClose: async (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              try {
+                await deleteMoralNode(data.id)
+                await that.getMoralNodeTree()
+                done()
+              } catch(err) {
+                done()
+              }
+            } else {
+              done()
+            }
+          }
+        })
+      } catch(err) {
 
+      }
     },
     showDialog() {
       this.dialogShow = true
     },
-    submitNode() {
+    async submitNode(data, done) {
+      const { mode } = this.moralNodeConfig
+      try {
+        if (mode === 'add') {
+          await addMoralNode(data)
+        } else if (mode === 'edit') {
+          await updateMoralNode(data)
+        }
+        done()
+        this.getMoralNodeTree()
+        this.dialogShow = false
+      } catch(err) {
 
+      }
     },
     filterNode(value, data) {
       if (!value) return true;
@@ -188,7 +268,7 @@ export default {
       this.treeConfig.loading = true
       try {
         let treeData = await queryMoralTree({})
-        this.treeConfig.data = interArrayTree(treeData.data.list)
+        this.treeConfig.data = _.map(treeData.data.list, n => ({...n}))
         this.treeConfig.loading = false
       } catch(err) {
         this.treeConfig.loading = false

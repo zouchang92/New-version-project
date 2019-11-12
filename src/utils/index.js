@@ -366,3 +366,13 @@ export function interArrayTree(array) {
 export function getOrgan() {
   return JSON.parse(localStorage.getItem('organ'))
 }
+
+export function getDictById(id) {
+  let dictionary = localStorage.getItem('dictionary')
+  if (!dictionary) {
+    return []
+  }
+  let parsedDic = JSON.parse(dictionary)
+  let result = parsedDic[id]
+  return result || []
+}

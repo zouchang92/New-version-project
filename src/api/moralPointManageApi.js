@@ -50,3 +50,13 @@ export function deleteMoralNode(id) {
     }
   })
 }
+
+export function queryChildMoralPoint({ page, rows, projId='' }) {
+  return request({
+    url: '/zhxyx/projectItem/list',
+    method: 'post',
+    data: {
+      page, rows, projId
+    }
+  })
+}

@@ -2,7 +2,6 @@
   <div>
     <div class="table-container">
       <div class="basic-container">
-        <el-card class="box-card">
           <avue-crud @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
@@ -11,7 +10,6 @@
               <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
-         </el-card>
       </div>
      
     </div>
@@ -22,8 +20,11 @@
 import tableCommon from '@/mixins/table-common.js'
 import { queryUsers, addUser, delUser, batchDel } from '@/api/userManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate.js'
-import { getOrgan } from '@/utils'
+import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'
+
+const genderDict = getDictById('DXAWXGKHTCZMPNOZRPRHLPHSUZWLUCSD')
+
 export default {
   name: 'studentManage',
   mixins: [tableCommon],
@@ -72,13 +73,7 @@ export default {
             span: 24,
             type: 'radio',
             searchSpan: 3,
-            dicData: [{
-              value: 'M',
-              label: '男'
-            }, {
-              value: 'F',
-              label: '女'
-            }],
+            dicData: genderDict,
           },
           {
             label:'组织机构',

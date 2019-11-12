@@ -27,7 +27,8 @@ export default {
         column: [{
           prop: 'userName',
           label: '姓名',
-          search: true
+          search: true,
+          
         }, {
           prop: 'score',
           label: '分值',
@@ -49,6 +50,9 @@ export default {
             children: 'child',
             value: 'id'
           }
+        }, {
+          prop: 'content',
+          label: '备注',
         }]
       }
     }

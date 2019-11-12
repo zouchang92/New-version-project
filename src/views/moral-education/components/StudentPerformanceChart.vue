@@ -29,11 +29,12 @@ export default {
   },
   mounted() {
     this.initChart()
-    //this.setChartData(this.chartData)
   },
   methods: {
     initChart() {
-
+      let option = {
+        
+      }
     },
   },
   watch: {

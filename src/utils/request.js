@@ -2,8 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-console.log(process.env)
-export const api = process.env.NODE_ENV === 'development' ? 'http://192.168.1.125:8998/' : '/'
+export const api = process.env.VUE_APP_BASE_API
 
 // create an axios instance
 const service = axios.create({
