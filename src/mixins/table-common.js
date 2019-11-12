@@ -103,7 +103,6 @@ export default {
       let fn = this.fn
       this.tableListLoading = true
       this.tableSelected = []
-      console.log(this.searchForm)
       fn.apply(this, [{ page: currentPage, rows: pageSize, ...this.searchForm }]).then(res => {
         this.tableListLoading = false
         let isArray = (res.data.constructor === Array)

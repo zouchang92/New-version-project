@@ -1,15 +1,91 @@
+
 <template>
-  <div>
-    ss
-  </div>
+  <div class="table-container">
+      <div class="basic-container">
+          <avue-crud rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
+            <template slot="searchMenu">
+              <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
+              <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
+              <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+            </template>
+           </avue-crud>
+      </div>
+    </div>
 </template>
 
 <script>
+import tableCommon from '@/mixins/table-common.js'
+import { queryMoralEvaluateList } from '@/api/moralEvaluateManageApi'
 export default {
-
+  name: 'moralEvalute',
+  mixins: [tableCommon],
+  data() {
+    return {
+      fn: queryMoralEvaluateList,
+      option: {
+        column: [{
+          prop: 'userName',
+          label: '姓名',
+          search: true
+        }, {
+          prop: 'score',
+          label: '分值',
+          search: true
+        }, {
+          prop: 'projId',
+          label: '指标',
+          search: true,
+          type: 'cascader',
+          dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/project/list',
+          dicMethod: 'post',
+          dicQuery:{
+            page: 1,
+            rows: 100000,
+          },
+          props: {
+            res: 'data.list',
+            label: 'title',
+            children: 'child',
+            value: 'id'
+          }
+        }]
+      }
+    }
+  },
+  methods: {
+    handleAdd() {
+      this.$refs.crud.rowAdd()
+    },
+    async rowUpdate(row, done, loading) {
+      loading(true)
+      try {
+        let result = await updateCourse(row)
+        await this.resetList()
+        done()
+      } catch(err) {
+        loading(false)
+      }
+    },
+    async rowSave(row, done, loading) {
+      loading(true)
+      try {
+        let result = await addTimeTable(row)
+        await this.resetList()
+        done()
+      } catch(err) {
+        loading(false)
+      }
+      
+    },
+  }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.student-report {
+  .el-card__body {
+    padding: 0;
+  }
+}
 </style>

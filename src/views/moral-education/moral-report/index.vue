@@ -2,13 +2,13 @@
   <div class="moral-report">
       <el-tabs style="padding: 10px 0" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="学生德育报表" name="first">
-          <div class="growth-academic" style="margin-top:15px;">
-            <StudentReport />
+          <div class="mortal-content" style="margin:15px;">
+            <student-report />
           </div>
         </el-tab-pane>
         <el-tab-pane label="班级德育报表" name="second">
-          <div style="margin-top:15px;">
-            <ClassReport />
+          <div class="mortal-content" style="margin:15px;">
+            <class-report />
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -22,7 +22,7 @@ export default {
   name: 'moralReport',
   data() {
     return {
-    
+      activeName: 'first'
     } 
   },
   methods: {
