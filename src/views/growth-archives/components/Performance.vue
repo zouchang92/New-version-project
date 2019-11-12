@@ -28,11 +28,7 @@
             </div>
             <div class="top-right">
               <div style="position: absolute;top: 34px;left: -227px;">
-                <el-rate value='5' disabled text-color="#ff9900"></el-rate>
-                <el-rate value='4' disabled text-color="#ff9900" style="margin-top:31px;"></el-rate>
-                <el-rate value='3' disabled text-color="#ff9900" style="margin-top:31px;"></el-rate>
-                <el-rate value='2' disabled text-color="#ff9900" style="margin-top:31px;"></el-rate>
-                <el-rate value='1' disabled text-color="#ff9900" style="margin-top:31px;"></el-rate>
+                  <star-rating star-size=20 show-rating=false rtl=true value='5'></star-rating>
               </div>
               <span>语文、数学</span>
               <el-progress
@@ -85,7 +81,11 @@
   </div>
 </template>
 <script>
+import StarRating from 'vue-star-rating'
 export default {
+    components:{
+        StarRating
+    },
   data() {
     return {
       value: 5,
@@ -161,7 +161,8 @@ export default {
 }
 </style>
 <style >
-.el-progress__text {
+.el-progress__text ,.vue-star-rating-rating-text{
   display: none;
 }
+
 </style>
