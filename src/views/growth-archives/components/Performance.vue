@@ -28,7 +28,50 @@
             </div>
             <div class="top-right">
               <div style="position: absolute;top: 34px;left: -227px;">
-                  <star-rating star-size=20 show-rating=false rtl=true value='5'></star-rating>
+                <star-rating
+                  star-size="20"
+                  show-rating="false"
+                  rtl="true"
+                  read-only
+                  v-model="rating"
+                  v-bind:max-rating="rating"
+                ></star-rating>
+                <star-rating
+                  style="margin-top:30px"
+                  star-size="20"
+                  read-only
+                  show-rating="false"
+                  rtl="true"
+                  v-model="rating1"
+                  v-bind:max-rating="rating1"
+                ></star-rating>
+                <star-rating
+                  style="margin-top:27px"
+                  star-size="20"
+                  read-only
+                  show-rating="false"
+                  rtl="true"
+                  v-model="rating2"
+                  v-bind:max-rating="rating2"
+                ></star-rating>
+                <star-rating
+                  style="margin-top:26px"
+                  star-size="20"
+                  read-only
+                  show-rating="false"
+                  rtl="true"
+                  v-model="rating3"
+                  v-bind:max-rating="rating3"
+                ></star-rating>
+                <star-rating
+                  style="margin-top:25px"
+                  star-size="20"
+                  show-rating="false"
+                  rtl="true"
+                  read-only
+                  v-model="rating4"
+                  v-bind:max-rating="rating4"
+                ></star-rating>
               </div>
               <span>语文、数学</span>
               <el-progress
@@ -75,19 +118,93 @@
         :md="24"
         :lg="24"
         :xl="24"
-        style="height:295px;background:#fff;margin-top:20px;border-radius:1px;"
-      >123</el-col>
+        style="height:590px;background:#fff;margin-top:20px;border-radius:1px;"
+      >
+        <div class="Performance-bottom">
+          <div class="bottom-title">
+            <span>三年级二班蔡启超课堂表现</span>
+          </div>
+          <div class="bottom-content">
+            <ul>
+              <li>
+                <div class="content-l">
+                  <img
+                    style="height:48px;width:48px;border-radius:50%;"
+                    src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
+                    alt
+                  />
+                  <p class="name">唐国强</p>
+                  <p class="subject">语文老师</p>
+                  <p class="data">点评时间</p>
+                  <p class="stardata">2019-09-11 16:00</p>
+                  <p class="Average">平均分</p>
+                  <p class="branch">100分</p>
+                  <p class="discipline">课堂纪律</p>
+                  <star-rating
+                    class="discipline-l"
+                    star-size=20
+                    show-rating=false
+                    v-model="rating"
+                    v-bind:max-rating="rating"
+                  ></star-rating>
+                  <p class="Absorbed">上课专注</p>
+                  <star-rating
+                    class="Absorbed-l"
+                    star-size=20
+                    read-only
+                    show-rating=false
+                    v-model="rating"
+                    v-bind:max-rating="rating"
+                  ></star-rating>
+                  <p class="active">问答活跃</p>
+                  <star-rating
+                    class="active-l"
+                    star-size=20
+                    read-only
+                    show-rating=false
+                    v-model="rating"
+                    v-bind:max-rating="rating"
+                  ></star-rating>
+                  <p class="note">随堂笔记情况</p>
+                  <star-rating
+                    class="note-l"
+                    star-size=20
+                    read-only
+                    show-rating=false
+                    v-model="rating"
+                    v-bind:max-rating="rating"
+                  ></star-rating>
+                  <p class="work">作业情况</p>
+                  <star-rating
+                    class="work-l"
+                    star-size=20
+                    read-only
+                    show-rating=false
+                    v-model="rating"
+                    v-bind:max-rating="rating"
+                  ></star-rating>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import StarRating from 'vue-star-rating'
+import StarRating from "vue-star-rating";
 export default {
-    components:{
-        StarRating
-    },
+  components: {
+    StarRating
+  },
   data() {
     return {
+      rating: 5,
+      rating1: 4,
+      rating2: 3,
+      rating3: 2,
+      rating4: 1,
       value: 5,
       customColor: "#F2BB46"
     };
@@ -158,11 +275,103 @@ export default {
       }
     }
   }
+  .Performance-bottom {
+    position: relative;
+    .bottom-title {
+      border-bottom: 1px solid hsl(230, 23%, 95%);
+      padding: 16px;
+    }
+    .bottom-content {
+      ul {
+        list-style: none;
+        li {
+          padding: 15px;
+          border-bottom: 1px solid hsl(230, 23%, 95%);
+          margin-right: 22px;
+          .content-l {
+            display: flex;
+            .name {
+              padding-left: 20px;
+              margin: 0px;
+            }
+            .subject {
+              position: absolute;
+              top: 100px;
+              left: 122px;
+            }
+            .data {
+              margin: 0px;
+              padding-left: 82px;
+            }
+            .stardata {
+              position: absolute;
+              top: 100px;
+              left: 254px;
+            }
+            .Average {
+              margin: 0px;
+              padding-left: 140px;
+            }
+            .branch {
+              position: absolute;
+              top: 100px;
+              left: 458px;
+            }
+            .discipline {
+              margin: 0px;
+              padding-left: 99px;
+            }
+            .discipline-l {
+              position: absolute;
+              top: 113px;
+              left: 605px;
+            }
+            .Absorbed {
+              margin: 0px;
+              padding-left: 69px;
+            }
+            .Absorbed-l {
+              position: absolute;
+              top: 113px;
+              left: 738px;
+            }
+            .active {
+              margin: 0px;
+              padding-left: 69px;
+            }
+            .active-l {
+              position: absolute;
+              top: 113px;
+              left: 871px;
+            }
+            .note {
+              margin: 0px;
+              padding-left: 69px;
+            }
+            .note-l {
+              position: absolute;
+              top: 113px;
+              left: 1004px;
+            }
+            .work {
+              margin: 0px;
+              padding-left: 69px;
+            }
+            .work-l {
+              position: absolute;
+              top: 113px;
+              left: 1137px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>
 <style >
-.el-progress__text ,.vue-star-rating-rating-text{
+.el-progress__text,
+.vue-star-rating-rating-text {
   display: none;
 }
-
 </style>
