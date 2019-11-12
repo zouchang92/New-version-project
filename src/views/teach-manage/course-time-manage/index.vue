@@ -11,7 +11,6 @@
             </template>
            </avue-crud>
       </div>
-     
     </div>
   </div>
 </template>

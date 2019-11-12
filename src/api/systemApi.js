@@ -9,6 +9,7 @@ export function getOrganTree() {
 
 export function getDictionary() {
   return request({
-    url: '/zhxyx/dict/listDict'
+    url: '/zhxyx/dict/listAllDictItem',
+    method: 'post'
   })
 }

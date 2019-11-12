@@ -1,6 +1,7 @@
 import { getDictionary, getOrganTree } from '@/api/systemApi'
 import { listMenuTree } from '@/api/menuManageApi'
 import { interArrayTree } from '@/utils'
+import _ from 'lodash'
 
 const state = {
   dictionary: {},
@@ -11,6 +12,7 @@ const state = {
 const mutations = {
   SET_DICTIONARY: (state, dictionary) => {
     state.data = dictionary
+    localStorage.setItem('dictionary', JSON.stringify(dictionary))
   },
   SET_ORGANTREE: (state, tree) => {
     state.organTree = tree
@@ -23,8 +25,15 @@ const mutations = {
 }
 
 const actions = { 
-  getDictionary({ commit }) {
-
+  async ['getDictionary']({ commit }) {
+    try {
+      let dictonary = await getDictionary()
+      let groupDictionary = _.chain(dictonary.data).map(n => ({...n, label: n.name, value: n.code})).groupBy(n => (n.dictId)).value()
+      commit('SET_DICTIONARY', groupDictionary)
+      return dictonary
+    } catch(err) {
+      throw new Error()
+    }
   },
   async ['getOrganTree']({ commit }) {
     try {

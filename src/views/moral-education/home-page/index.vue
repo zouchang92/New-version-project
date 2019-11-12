@@ -7,6 +7,9 @@
               <span>德育指标</span>
               <el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
             </div>
+            <el-tree :props="treeData.props" :data="treeData.data" v-loading="treeData.loading">
+            
+            </el-tree>
           </el-card>
         </div>
       </el-col>
@@ -52,10 +55,20 @@
 
 <script>
 import { queryStudentStatus } from '@/api/moralHomeApi'
+import { queryMoralTree } from '@/api/moralPointManageApi'
 import StudentPerformanceChart from '../components/StudentPerformanceChart'
 export default {
   data() {
     return {
+      treeData: {
+        loading: true,
+        data: [],
+        props: {
+          label: 'title',
+          value: 'id',
+          children: 'child'
+        }
+      },
       performanceData: {
         loading: true,
         settings: {
@@ -151,14 +164,24 @@ export default {
   },
   mounted() {
     this.getStudentData()
+    this.getPointTree()
   },
   methods: {
+    async getPointTree() {
+      this.treeData.loading = true
+      try {
+        let tree = await queryMoralTree({})
+        this.treeData.data = tree.data.list
+        this.treeData.loading = false
+      } catch(err) {
+        this.treeData.loading = false
+      }
+    },
     async getStudentData() {
       this.performanceData.loading = true
       try {
         let res = await queryStudentStatus()
         const { data } = res
-        console.log(data[1])
         this.performanceData.rows[0]['人数'] = data[1]
         this.performanceData.rows[1]['人数'] = data[false]
         this.performanceData.settings.graphic[0].style.text = data[1] + data[false]
@@ -173,7 +196,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 .el-row {
     margin-bottom: 20px;
     &:last-child {
