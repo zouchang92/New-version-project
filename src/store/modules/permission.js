@@ -1,6 +1,7 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import routerMap from '@/router/router-map'
 import _ from 'lodash'
+import { rejects } from 'assert'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -20,23 +21,24 @@ function hasPermission(roles, route) {
  * @param routes asyncRoutes
  * @param roles
  */
-export function filterAsyncRoutes(routes, roles) {
-  const res = []
-  _.forEach(routes, route => {
-    let tmp = { ...route }
-      let targetComponent = routerMap[route.menuUrl]
-      tmp = targetComponent
-      if (route.children && route.children.length) {
-        tmp.meta.name = route.name
-        tmp.children = route.children
+function filterAsyncRoutes(asyncRouterMap) { //遍历后台传来的路由字符串，转换为组件对象
+  const accessedRouters = asyncRouterMap.filter(route => {
+    let targetComponent = routerMap[route.menuUrl]
+    if (targetComponent) {
+      route.name = targetComponent.name
+      route.meta = targetComponent.meta
+      route.path = targetComponent.path
+      route.component = targetComponent.component
+      if (route.child && route.child.length) {
+        route.children = filterAsyncRoutes(route.children)
       }
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
-      }
-      res.push(tmp)
+    } else {
+      route.path = `/${route.name}`
+    }
+    return true
   })
 
-  return res
+  return accessedRouters
 }
 
 const state = {
@@ -54,11 +56,18 @@ const mutations = {
 
 const actions = {
   generateRoutes({ commit }, {roles, routerMap}) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       let accessedRoutes
-      accessedRoutes = filterAsyncRoutes(routerMap, roles)
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
+      try {
+        accessedRoutes = filterAsyncRoutes(routerMap, roles)
+        console.log(accessedRoutes)
+        commit('SET_ROUTES', accessedRoutes)
+        resolve(accessedRoutes)
+      } catch(err) {
+        alert(err)
+        reject(err)
+      }
+
     })
   }
 }

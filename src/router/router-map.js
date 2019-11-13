@@ -15,17 +15,20 @@ export default {
     meta: { title: '校长', icon: 'dashboard' }
   },
   teacherDashboard: {
-    path: '/Teacher',
+    path: 'Teacher',
+    name: 'teacherDashboard',
     component: () => import('@/views/dashboard/Teacher/index'),
     meta: { title: '教师', icon: 'dashboard' }
   },
   headMasterDashboard: {
-    path: '/Headmaster',
+    path: 'Headmaster',
+    name: 'headMasterDashboard',
     component: () => import('@/views/dashboard/Headmaster/index'),
     meta: { title: '班主任', icon: 'dashboard' }
   },
   studentDashboard: {
-    path: '/Student',
+    name: 'studentDashboard',
+    path: 'Student',
     component: () => import('@/views/dashboard/Student/index'),
     meta: { title: '学生', icon: 'dashboard' }
   },

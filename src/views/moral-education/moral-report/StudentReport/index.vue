@@ -22,11 +22,11 @@
     <el-card style="margin-top: 15px;">
       <el-table :data="tableList">
         <el-table-column
-          prop="objId"
+          prop="orgName"
           label="所在班级">
         </el-table-column>
         <el-table-column
-          prop="user_name"
+          prop="userName"
           label="姓名">
         </el-table-column>
         <el-table-column

@@ -89,6 +89,15 @@ export default {
             message: '排序是必填项'
           }
         }, {
+          label:'特殊编码',
+          prop:'uniqueName',
+          span: 24,
+          rules: {
+            required: true,
+            message: '特殊编码是必填项'
+          },
+          editDisable: true
+        }, {
           label:'id',
           prop:'id',
           display: false
@@ -203,6 +212,8 @@ export default {
       try {
         if (this.rootMode === 'add') {
           await addDict(data)
+        } else if (this.rootMode === 'edit') {
+          await updateDict(data)
         }
         await this.getDictTree()
         done()
@@ -231,7 +242,7 @@ export default {
         await updateDict({ id, name, sort, dict_id: parentId })
         done()
       } catch(err) {
-
+        
       }
     },
     refreshDictStore() {
@@ -253,9 +264,9 @@ export default {
       this.dialogVisible = true
     },
     async addRootDict(data, node, done) {
-      const { id, parentId, name, sort } = data
+      const { id, parentId, name, sort, uniqueName } = data
       try {
-        await addDict({ id, name, sort, dict_id: parentId })
+        await addDict({ id, name, sort, dict_id: parentId, uniqueName })
         done()
       } catch(err) {
 

@@ -24,7 +24,7 @@ export function searchDictById({ id }) {
   })
 }
 
-export function addDict({ name, sort, dictId, parentId = '', code = '', description = '' }) {
+export function addDict({ name, sort, dictId, parentId = '', code = '', description = '', uniqueName }) {
   return request({
     url: '/zhxyx/dict/insertDict',
     method: 'post',
@@ -34,7 +34,8 @@ export function addDict({ name, sort, dictId, parentId = '', code = '', descript
       dictId,
       parentId,
       code, 
-      description
+      description,
+      uniqueName
     }
   })
 }

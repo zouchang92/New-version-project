@@ -109,3 +109,16 @@ div:focus {
   margin-bottom: 15px;
   border-radius: 4px;
 }
+
+.tree .el-tree-node__expand-icon.expanded {
+   -webkit-transform: rotate(0deg);
+   transform: rotate(0deg);
+}
+.tree .el-icon-caret-right:before {
+   content: "\E602";
+   font-size: 18px;
+}
+.tree .el-tree-node__expand-icon.expanded.el-icon-caret-right:before {
+   content: "\E63c";
+   font-size: 18px;
+}

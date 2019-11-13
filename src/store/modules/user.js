@@ -59,7 +59,7 @@ const actions = {
       let routes = await dispatch('loginAction', data)
       return routes
     } catch(err) {
-      console.log(err)
+      throw new Error(err)
     }
   },
   async loginAction({ commit, dispatch }, userInfo) {
@@ -72,7 +72,7 @@ const actions = {
       setToken(userInfo.token)
       return routes
     } catch(err) {
-      console.log(err)
+      throw new Error(err)
     }
 
   },
@@ -83,7 +83,7 @@ const actions = {
       let routes = await dispatch('loginAction', JSON.parse(userInfo))
       return routes
     } catch(err) {
-      console.log(err)
+      throw new Error(err)
     }
   },
 
