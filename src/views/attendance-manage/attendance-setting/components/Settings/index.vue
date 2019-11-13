@@ -23,7 +23,7 @@
               <el-option label="固定考勤日期" value="1"></el-option>
               <el-option label="每月灵活时间" value="0"></el-option>
             </el-select>
-            <div style="width: 60%;margin-top: 10px">
+            <div style="width: 90%;margin: 10px auto">
               <attendance-table v-if="model.type === '0'" :tableData="tableData" />
             </div>
           </el-form-item>
@@ -45,18 +45,25 @@ export default {
       },
       tableData: [{
         date: '星期一',
+        rules: [{in: '7:00', out: '12:00'}, {in: '12:00', out: '14:00'}, {in: '14:00', out: '15:00'}],
       }, {
         date: '星期二',
+        rules: [],
       },{
         date: '星期三',
+        rules: [],
       },{
         date: '星期四',
+        rules: [],
       },{
         date: '星期五',
+        rules: [],
       },{
         date: '星期六',
+        rules: [],
       },{
         date: '星期天',
+        rules: [],
       }]
     }
   },
