@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import ClassReport from './ClassReport'
-import StudentReport from './StudentReport'
+import ClassReport from './components/ClassReport'
+import StudentReport from './components/StudentReport'
 export default {
   name: 'moralReport',
   data() {

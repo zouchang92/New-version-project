@@ -215,5 +215,30 @@ export default {
       title: '节假日管理'
     },
     component: () => import('@/views/teach-manage/vacation-manage')
+  },
+  attendanceManage: {
+    path: '/attendanceManage',
+    name: 'attendanceManage',
+    alwaysShow: true,
+    meta: {
+      title: '考勤管理'
+    },
+    component: Layout
+  },
+  attendanceSetting: {
+    path: 'attendanceSetting',
+    name: 'attendanceSetting',
+    meta: {
+      title: '考勤设置'
+    },
+    component: () => import('@/views/attendance-manage/attendance-setting')
+  },
+  attendanceReoprt: {
+    path: 'attendanceReoprt',
+    name: 'attendanceReoprt',
+    meta: {
+      title: '考勤报表'
+    },
+    component: () => import('@/views/attendance-manage/attendance-setting')
   }
 }
