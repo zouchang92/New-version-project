@@ -60,3 +60,16 @@ export function queryChildMoralPoint({ page, rows, projId='' }) {
     }
   })
 }
+
+export function addChildMoralPoint({projId, ioflag, title, score}) {
+  return request({
+    url: '/zhxyx/projectItem/insert',
+    method: 'post',
+    data: {
+      projId,
+      ioflag,
+      title,
+      score
+    }
+  })
+}

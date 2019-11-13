@@ -16,19 +16,26 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryMoralEvaluateList } from '@/api/moralEvaluateManageApi'
+import { queryMoralEvaluateList, addMoralEvaluateRecord, updateMoralEvaluateRecord, deleteMoralEvaluateRecord } from '@/api/moralEvaluateManageApi'
 export default {
   name: 'moralEvalute',
   mixins: [tableCommon],
   data() {
     return {
       fn: queryMoralEvaluateList,
+      singleDelFn: deleteMoralEvaluateRecord,
       option: {
         column: [{
-          prop: 'userName',
+          prop: 'id',
+          label: 'id',
+          hide: true,
+          addDisplay: false,
+          editDisplay: false
+        }, {
+          prop: 'objId',
           label: '姓名',
           search: true,
-          
+          editDisabled: true
         }, {
           prop: 'score',
           label: '分值',
@@ -38,6 +45,7 @@ export default {
           label: '指标',
           search: true,
           type: 'cascader',
+          editDisabled: true,
           dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/project/list',
           dicMethod: 'post',
           dicQuery:{
@@ -64,7 +72,7 @@ export default {
     async rowUpdate(row, done, loading) {
       loading(true)
       try {
-        let result = await updateCourse(row)
+        let result = await updateMoralEvaluateRecord(row)
         await this.resetList()
         done()
       } catch(err) {
@@ -74,7 +82,7 @@ export default {
     async rowSave(row, done, loading) {
       loading(true)
       try {
-        let result = await addTimeTable(row)
+        let result = await addMoralEvaluateRecord(row)
         await this.resetList()
         done()
       } catch(err) {

@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { queryMoralTree, addMoralNode, updateMoralNode, deleteMoralNode, queryChildMoralPoint } from '@/api/moralPointManageApi'
+import { queryMoralTree, addMoralNode, updateMoralNode, deleteMoralNode, queryChildMoralPoint, addChildMoralPoint } from '@/api/moralPointManageApi'
 import { interArrayTree, getDictById } from '@/utils'
 import _ from 'lodash'
 import tableCommon from '@/mixins/table-common.js'
@@ -69,22 +69,31 @@ export default {
         column: [{
           prop: 'pTitle',
           label: '一级指标',
-          editDisabled: true
-        }, {
-          prop: 'pScore',
-          label: '一级分值',
-          editDisabled: true
+          editDisabled: true,
+          addDisabled: true
         }, {
           prop: 'title',
           label: '二级指标'
         }, {
-          prop: 'score',
-          label: '二级分值'
+          prop: 'mutScore',
+          label: '固定分值',
+          rules: {
+            required: true,
+            message: '固定分值为必填项'
+          }
+        }, {
+          prop: 'variaScore',
+          label: '酌情分值',
+          rules: {
+            required: true,
+            message: '酌情分值为必填项'
+          }
         }, {
           prop: 'type',
           label: '类型',
           type: 'select',
           editDisabled: true,
+          addDisabled: true,
           dicData: ioFlagDict,
           hide:true
         }, {
@@ -97,12 +106,14 @@ export default {
           label: '班级指标',
           type: 'select',
           editDisabled: true,
+          addDisabled: true,
           dicData: booleanDict
         }, {
           prop: 'isStudent',
           label: '学生指标',
           type: 'select',
           editDisabled: true,
+          addDisabled: true,
           dicData: booleanDict
         }]
       },
@@ -185,13 +196,21 @@ export default {
   methods: {
     nodeClick(data) {
       this.searchForm.projId = data.id
-      this.initList()
+      this.resetList()
     },
     async rowUpdate() {
 
     },
-    async rowSave() {
-
+    async rowSave(row, done, loading) {
+      loading(true)
+      try {
+        row.projId = this.searchForm.projId
+        await addChildMoralPoint(row)
+        await this.initList()
+        done()
+      } catch(err) {
+        loading(false)
+      }
     },
     addMoralRootNode() {
       this.moralNodeConfig.mode = 'add'

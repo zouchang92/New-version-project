@@ -10,6 +10,11 @@
             <el-tree :props="treeData.props" :data="treeData.data" v-loading="treeData.loading">
             
             </el-tree>
+            <Container :loading="false" :error="true">
+              <div slot="child-slot">
+                1212
+              </div>
+            </Container>
           </el-card>
         </div>
       </el-col>
@@ -57,6 +62,7 @@
 import { queryStudentStatus } from '@/api/moralHomeApi'
 import { queryMoralTree } from '@/api/moralPointManageApi'
 import StudentPerformanceChart from '../components/StudentPerformanceChart'
+import Container from '@/components/Container' 
 export default {
   data() {
     return {
@@ -192,7 +198,8 @@ export default {
     }
   },
   components: {
-    StudentPerformanceChart
+    StudentPerformanceChart,
+    Container
   }
 }
 </script>

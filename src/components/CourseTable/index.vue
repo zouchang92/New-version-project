@@ -7,13 +7,13 @@
         </div>
       </div>
       <div class="course-lefthand">
-        <div class="left-hand-TextDom" style="height: 29px; box-sizing: border-box;"></div>
+        <div class="left-hand-TextDom" style="height: 49px; box-sizing: border-box;"></div>
         <div :class="`left-hand-${i} left-hand-item`" v-for="(item, i) in sortCourseTime" :key="i">
           <p class="left-hand-index">
             第{{item.lessonN}}节
           </p>
           <p class="left-hand-name">
-            {{item.starttime}}
+            ({{item.starttime}}-{{item.endtime}})
           </p>
         </div>
       </div>
@@ -43,25 +43,25 @@ export default {
      palette: ["#f05261", "#48a8e4", "#ffd061", "#52db9a", "#70d3e6", "#52db9a", "#3f51b5", "#f3d147", "#4adbc3", "#673ab7", "#f3db49", "#76bfcd", "#b495e1", "#ff9800", "#8bc34a"],
      weekData: [{
        value: '',
-       label: '周一'
+       label: '星期一'
      }, {
        value: '',
-       label: '周二'
+       label: '星期二'
      }, {
        value: '',
-       label: '周三'
+       label: '星期三'
      }, {
        value: '',
-       label: '周四'
+       label: '星期四'
      }, {
        value: '',
-       label: '周五'
+       label: '星期五'
      }, {
        value: '',
-       label: '周六'
+       label: '星期六'
      }, {
        value: '',
-       label: '周日'
+       label: '星期日'
      }],
      paletteIndex: 0
    }
@@ -70,7 +70,8 @@ export default {
     sortCourseTime() {
       return _.chain(this.courseTime).sortBy(n => n.lessonN).map(n => ({
         ...n,
-        starttime: moment(n.starttime).format('HH:mm')
+        starttime: moment(n.starttime).format('HH:mm'),
+        endtime: moment(n.endtime).format('HH:mm')
       })).value()
     },
     courseWithPalette() {
@@ -121,10 +122,9 @@ export default {
 .course-table {
   .course-wrapper {
     position: relative;
-    padding-left: 40px;
-    border: 1px solid rgb(219, 219, 219);
+    padding-left: 100px;
+    border: 1px solid #E7E7E7;
     .course-head {
-      background-color: #f2f6f7;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
       .course-item {
         float: left;
@@ -134,25 +134,25 @@ export default {
         width: 14.285%;
         text-align: center;
         font-size: 14px;
-        line-height: 28px;
+        line-height: 48px;
       }
     }
     .course-lefthand {
       position: absolute;
       left: 0px;
       top: 0px;
-      width: 40px;
+      width: 100px;
       font-size: 12px;
       > div {
         padding-top: 25px;
-        border-bottom: 1px dashed rgb(219, 219, 219);
+        border-bottom: 1px solid #E7E7E7;
+        border-right: 1px solid #E7E7E7;
         &:last-child {
           border-bottom: none !important;
         }
       }
       .left-hand-TextDom {
         border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
-        background-color: #f2f6f7;
       }
       .left-hand-item {
         width: 100%;
@@ -164,10 +164,12 @@ export default {
           font-weight: 900;
         }
         .left-hand-name {
-          color: #666;
+          margin-top: 8px;
+          color: #6D7479;
+          font-weight: 600;
         }
         .left-hand-index {
-          color: #9c9c9c;
+          color: #2B3236;
           margin-bottom: 4px !important;
         }
       }
@@ -184,14 +186,20 @@ export default {
         padding: 0px;
         margin: 0px;
         min-height: 75px;
-        border-bottom: 1px dashed rgb(219, 219, 219);
+        border-bottom: 1px solid #E7E7E7;
         box-sizing: border-box;
         .stage-sub-item {
+          &:first-child {
+            border-left: none;
+          }
           float: left;
           width: 14.285%;
           height: 75px;
           box-sizing: border-box;
           position: relative;
+          background-color: #FAFAFA!important;
+          border-bottom: 1px solid #E6E6E6;
+          border-left: 1px solid #E6E6E6;
           p {
             margin: 0;
           }
@@ -199,14 +207,14 @@ export default {
             position: absolute;
             z-index: 9;
             width: 100%;
-            height: 75px;
+            height: 74px;
             left: 0px;
             top: 0px;
-            color: rgb(255, 255, 255);
+            color: #000000;
             padding: 6px 2px;
             box-sizing: border-box;
             line-height: 18px;
-            border-radius: 4px;
+            background-color: #FAFAFA!important;
             white-space: normal;
             word-break: break-all;
             cursor: pointer;
@@ -214,6 +222,9 @@ export default {
         }
         &:last-child {
           border-bottom: none !important;
+          .stage-sub-item {
+            border-bottom: none !important;
+          }
         }
       }
 
