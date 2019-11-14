@@ -9,11 +9,11 @@
           </el-form-item>
           <el-form-item label="考勤角色" prop="roleType">
             <el-radio-group v-model="model.roleType">
-              <el-radio label="指定学生"></el-radio>
-              <el-radio label="指定教师"></el-radio>
-              <el-radio label="全校学生"></el-radio>
-              <el-radio label="全校教师"></el-radio>
-              <el-radio label="全校师生"></el-radio>
+              <el-radio label="0">指定学生</el-radio>
+              <el-radio label="1">指定教师</el-radio>
+              <el-radio label="2">全校学生</el-radio>
+              <el-radio label="3">全校教师</el-radio>
+              <el-radio label="4">全校师生</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="考勤类型">
@@ -67,7 +67,12 @@
             <div @click="addNoTime">
               <el-button @click="addNoTime" icon="el-icon-circle-plus-outline" type="primary">新增</el-button>
             </div>
-            
+          </el-form-item>
+          <el-form-item label="打卡设置">
+            <el-radio-group v-model="model.isSingle">
+              <el-radio label="0" key="0">签到签退两次打卡</el-radio>
+              <el-radio label="1" key="1">签到签退两次打卡</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-form>
       </div>
@@ -128,6 +133,12 @@ export default {
     }
   },
   methods: {
+    getData() {
+      return {
+        staticCombineData: this.staticCombineData,
+        data: this.model
+      }
+    },
     deleteNoTime(index) {
       this.model.skipDate.splice(index, 1)
     },
@@ -184,11 +195,19 @@ export default {
   },
   computed: {
     staticCombineData() {
-      return _.map(attenDay, n => {
-        return {
-          date: n,
-          rules: this.timeTable
-        }
+      return _.map(this.model.ruleDate, n => {
+        let rule = _.find(this.model.attenDay, v => v === n.date)
+        if (!rule) {
+          return {
+            date: n.date,
+            rules: []
+          }
+        } else {
+          return {
+            date: n.date,
+            rules: this.model.timeTable
+          }
+        } 
       })
     }
   },

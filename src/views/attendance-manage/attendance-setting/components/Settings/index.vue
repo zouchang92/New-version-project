@@ -4,30 +4,34 @@
       <div slot="header" class="clearfix">
         <span>新增考勤规则</span>
       </div>
-      <rule-detail :ruleData="model" />
+      <rule-detail ref="rule" :ruleData="model" />
+      <div class="btn-row" style="text-align: center">
+        <el-button @click="addRules" :loading="loading" type="primary">添加</el-button>
+        <el-button type="default">清空</el-button>
+      </div>
     </el-card>
   </div>
 </template>
 
 <script>
 import RuleDetail from '../RuleDetail'
+import { addAttendanceRule } from '@/api/attendanceManageApi'
 export default {
   data() {
     return {
       model: {
+        id: '',
         title: '',
         roleType: '',
         type: '1',
         attenDay: [],
-        timeTable: [{
-          in: '8:00',
-          out: '12:00'
-        }],
+        timeTable: [],
+        isSingle: '1',
         specDate: [],
         skipDate: [],
         ruleDate: [{
           date: '星期一',
-          rules: [{in: '7:00', out: '12:00'}, {in: '12:00', out: '14:00'}, {in: '14:00', out: '15:00'}],
+          rules: [],
         }, {
           date: '星期二',
           rules: [],
@@ -49,11 +53,24 @@ export default {
         }]
       },
       timeModel: [],
-      operation: ''
+      operation: '',
+      loading: false
     }
   },
   methods: {
-
+    async addRules() {
+      this.loading = true
+      const {data, staticCombineData} = this.$refs.rule.getData()
+      if (data.type === '0') {
+        data.ruleDate = staticCombineData
+      }
+      try {
+        let res = await addAttendanceRule(data)
+        this.loading = false
+      } catch(err) {
+        this.loading = false
+      }
+    },
   },
   components: {
     RuleDetail

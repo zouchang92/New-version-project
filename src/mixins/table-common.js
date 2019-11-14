@@ -82,10 +82,7 @@ export default {
               message: '删除成功!'
             })
           }).catch(err => {
-            that.$message({
-              type: 'danger',
-              message: err
-            })
+
           }) 
           
         }).catch(() => {

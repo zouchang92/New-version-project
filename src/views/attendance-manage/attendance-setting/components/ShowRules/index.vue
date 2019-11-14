@@ -2,10 +2,11 @@
   <div>
       <Container :loading="tableListLoading" :empty="tableList.length === 0">
         <div slot="child-slot">
-          <el-card v-for="(item, i) in tableList" :key="i">
+          <el-card style="margin-top: 20px;" v-for="(item, i) in tableList" :key="i">
             <div slot="header" class="clearfix">
               <span>{{item.title}}</span>
-              <el-button @click="editRules(item)" style="float: right; padding: 3px 0" type="text">修改</el-button>
+              <el-button @click="singleDel(item)" style="float: right; padding: 3px 6px" icon="el-icon-delete" type="danger">删除</el-button>
+              <el-button @click="editRules(item)" style="float: right; padding: 3px 6px;margin-right: 3px" icon="el-icon-edit" type="primary">修改</el-button>
             </div>
             <div class="rule-list-wrapper">
               <div class="rule-list-item">
@@ -29,13 +30,17 @@
         </div>
       </Container>
       <el-dialog :modal-append-to-body='false' width="80%" title="编辑" :visible.sync="dialogVisible">
-        <rule-detail :ruleData="ruleData" />
+        <rule-detail ref="ruleDetail" :ruleData="ruleData" />
+        <span slot="footer" class="dialog-footer">
+          <el-button :loading="saveLoading" type="primary" @click="saveSetting">保存</el-button>
+          <el-button @click="dialogVisible = false">取消</el-button>
+        </span>
       </el-dialog>
   </div>
 </template>
 
 <script>
-import { getAttendanceRules } from '@/api/attendanceManageApi'
+import { getAttendanceRules, updateAttendanceRule, deleteAttendanceRule } from '@/api/attendanceManageApi'
 import tableCommon from '@/mixins/table-common'
 import Container from '@/components/Container'
 import RuleDetail from '../RuleDetail'
@@ -49,22 +54,22 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      saveLoading: false,
       fn: getAttendanceRules,
+      singleDelFn: deleteAttendanceRule,
       ruleData: {
+        id: '',
         title: '',
-        isSingle: '',
+        isSingle: '1',
         roleType: '',
         type: '1',
         attenDay: [],
-        timeTable: [{
-          in: '8:00',
-          out: '12:00'
-        }],
+        timeTable: [],
         specDate: [],
         skipDate: [],
         ruleDate: [{
           date: '星期一',
-          rules: [{in: '7:00', out: '12:00'}, {in: '12:00', out: '14:00'}, {in: '14:00', out: '15:00'}],
+          rules: [],
         }, {
           date: '星期二',
           rules: [],
@@ -88,6 +93,21 @@ export default {
     }
   },
   methods: {
+    async saveSetting() {
+      this.loading = true
+      const {data, staticCombineData} = this.$refs.ruleDetail.getData()
+      if (data.type === '0') {
+        data.ruleDate = staticCombineData
+      }
+      try {
+        let res = await updateAttendanceRule(data)
+        this.loading = false
+        await this.initList()
+        this.dialogVisible = false
+      } catch(err) {
+        this.loading = false
+      }
+    },
     processData(data) {
       let proData = _.map(data, n => {
         if (n.type === '0') {
@@ -104,11 +124,20 @@ export default {
           }
         }
       })
-      console.log(proData)
       return proData
     },
     editRules(item) {
       this.dialogVisible = true
+      if(item.type === '0') {
+        item.ruleDate.forEach(n => {
+          alert(1)
+          if (n.rules.length) {
+            item.attenDay.push(n.date)
+            item.timeTable = n.rules
+          }
+        })
+      }
+      alert(1)
       this.ruleData = item
     }
   },
