@@ -8,7 +8,7 @@
       </el-tab-pane>
       <el-tab-pane label="展示规则" name="second">
         <div class="attendance-content" style="margin:15px;">
-          <class-report />
+          <show-rules />
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -17,14 +17,16 @@
 
 <script>
 import Settings from './components/Settings'
+import ShowRules from './components/ShowRules'
 export default {
   data() {
     return {
-      activeName: 'first'
+      activeName: 'second'
     }
   },
   components: {
-    Settings
+    Settings,
+    ShowRules
   }
 }
 </script>

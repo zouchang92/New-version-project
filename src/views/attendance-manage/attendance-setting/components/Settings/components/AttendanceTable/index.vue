@@ -1,8 +1,8 @@
 <template>
   <div>
-  <el-table class="table" style="width: 100%" :border="true" :data="tableData">
+  <el-table size="mini" class="table" style="width: 100%" :border="true" :data="tData">
     <el-table-column
-      prop="date"
+      prop="date1"
       label="日期"
       width="180">
     </el-table-column>
@@ -39,15 +39,15 @@
             <el-button
               size="mini"
               type="text"
-              @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </div>
         </span>
       </template>
     </el-table-column>
   </el-table>
-  <el-dialog title="时间设置" :visible.sync="dialogVisible">
+  <el-dialog :modal-append-to-body='false' title="时间设置" :visible.sync="dialogVisible">
      <div>
-       <time-setting v-model="timeData"  />
+       <time-setting :date="date" :needDate="needDate" ref="timeSetting" :timeData="timeData"  />
      </div>
      <span slot="footer" class="dialog-footer">
       <el-button type="primary" @click="saveSetting">保存</el-button>
@@ -60,19 +60,19 @@
 <script>
 import TimeSetting from '../TimeSetting'
 import _ from 'lodash'
+import moment from 'moment'
 export default {
   data() {
     return {
       dialogVisible: false,
       index: 0,
-      timeData: {
-
-      },
-      tData: this.tableData
+      date: '',
+      timeData: [],
+      tData: this.processTableData(this.value)
     }
   },
   props: {
-    tableData: {
+    value: {
       type: Array,
       default: []
     },
@@ -80,20 +80,44 @@ export default {
       type: Boolean,
       default: true
     },
+    needDate: {
+      type: Boolean,
+      default: false
+    },
   },
   watch: {
-    tableData(value) {
-      this.tData = value
+    value(value) {
+      this.tData = this.processTableData(value)
     }
   },
   methods: {
+    processTableData(d) {
+      return _.map(d, n => {
+        return {
+          ...n,
+          date1: this.needDate ? moment(n.date).format('YYYY-MM-DD') : n.date
+        }
+      })
+    },
     handleEdit(index, row) {
       this.index = index
       this.dialogVisible = true
-      this.timeData = _.cloneDeep(row.rules)
+      if (this.needDate) {
+        this.date = row.date
+      }
+      this.timeData = row.rules
+    },
+    handleDelete(index) {
+      this.tData.splice(index, 1)
+      this.$emit('input', this.tData)
     },
     saveSetting() {
-      this.tData[this.index].rules = _.cloneDeep(this.timeData)
+      const { date, data } = this.$refs.timeSetting.getData()
+      this.tData[this.index].rules = data
+      if (this.needDate) {
+        this.tData[this.index].date = date
+        this.tData[this.index].date1 = moment(date).format('YYYY-MM-DD')
+      }
       this.dialogVisible = false
       this.$emit('input', this.tData)
     }

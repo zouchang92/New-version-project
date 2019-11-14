@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div style="margin-bottom: 20px;" v-if="needDate">
+      日期
+      <el-date-picker
+        v-model="date1"
+        type="date"
+        size="small"
+        placeholder="选择日期">
+      </el-date-picker>
+    </div>
     <el-button style="margin-bottom: 10px;" @click="addList" v-if="currentValue.length < 3" icon="el-icon-plus" type="primary" size="small">
       新建
     </el-button>
@@ -48,20 +57,33 @@
 </template>
 
 <script>
+
+import _ from 'lodash'
 export default {
   data() {
     return {
-      currentValue: this.value
+      date1: this.date,
+      currentValue: _.cloneDeep(this.timeData)
     }
   },
   props: {
-    value: {
+    timeData: {
       type: Array
+    },
+    needDate: {
+      type: Boolean,
+      default: false
+    },
+    date: {
+      
     }
   },
   watch: {
-    value(value) {
-      this.currentValue = value
+    timeData(value) {
+      this.currentValue = _.cloneDeep(value)
+    },
+    date(value) {
+      this.date1 = value
     }
   },
   methods: {
@@ -71,9 +93,11 @@ export default {
         out: ''
       })
     },
+    getData() {
+      return {date: this.date1, data: this.currentValue}
+    },
     handleDelete(index) {
       this.currentValue.splice(index, 1)
-      this.$emit('input', this.currentValue)
     }
   }
 }
