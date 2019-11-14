@@ -44,7 +44,19 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/Classroom',
+    component: Layout,
+    redirect: '/Classroom-assessment/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/Classroom-assessment/index'),
+        name: '/Growth',
+        meta: { title: '课堂评分', icon: 'guide', noCache: true }
+      }
+    ]
+  },
   {
     path: '/login',
     component: () => import('@/views/login/index'),

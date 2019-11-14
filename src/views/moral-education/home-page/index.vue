@@ -10,7 +10,7 @@
             <el-tree :props="treeData.props" :data="treeData.data" v-loading="treeData.loading">
             
             </el-tree>
-            <Container :loading="false" :error="true">
+            <Container :loading="false" :empty="true">
               <div slot="child-slot">
                 1212
               </div>
