@@ -33,7 +33,7 @@
         <el-button type="warning" icon="el-icon-printer" size="small">打印</el-button>
       </div>
     </div>
-    <cl-row>
+    <el-row>
       <el-col :span="11" style="height:826px;padding-left: 16px;">
         <div class="classroom">
           <p style="margin:0px;padding:15px;">班级课程表</p>
@@ -55,8 +55,11 @@
             @select="handleSelect"
           ></el-autocomplete>
         </div>
+        <ul>
+            <li></li>
+        </ul>
       </el-col>
-    </cl-row>
+    </el-row>
   </div>
 </template>
 <script>
