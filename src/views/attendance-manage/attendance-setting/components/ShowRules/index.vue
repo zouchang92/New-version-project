@@ -29,6 +29,7 @@
           </el-card>
         </div>
       </Container>
+      <member-select v-model="memberSelect.visible" :memberSelected="memberSelect.memberSelected" />
       <el-dialog :modal-append-to-body='false' width="80%" title="编辑" :visible.sync="dialogVisible">
         <rule-detail ref="ruleDetail" :ruleData="ruleData" />
         <span slot="footer" class="dialog-footer">
@@ -46,6 +47,7 @@ import Container from '@/components/Container'
 import RuleDetail from '../RuleDetail'
 import AttendanceTable from '../Settings/components/AttendanceTable'
 import { getDictById } from '@/utils'
+import MemberSelect from '@/components/MemberSelect'
 import _ from 'lodash'
 
 const attenRoles = getDictById('YPTGDVWMMAZSUKDFHBWZYFIQFXALNDOX')
@@ -53,6 +55,13 @@ const attenRoles = getDictById('YPTGDVWMMAZSUKDFHBWZYFIQFXALNDOX')
 export default {
   data() {
     return {
+      memberSelect: {
+        visible: true,
+        memberSelected: [{
+          value: 'HSYRZWJEKDJAHIDGDTOKMWKWQAHKZVRX',
+          label: '老师1'
+        }]
+      },
       dialogVisible: false,
       saveLoading: false,
       fn: getAttendanceRules,
@@ -111,9 +120,10 @@ export default {
     processData(data) {
       let proData = _.map(data, n => {
         if (n.type === '0') {
+          let attenRoleName = _.find(attenRoles, c => c.value === n.roleType)
           return {
             ...n,
-            realName: _.find(attenRoles, c => c.value === n.roleType).label,
+            realName: attenRoleName ? attenRoleName.label : '无',
             attenDay: _.reduce(n.ruleDate, (result, value, key) => {
               if (value.rules.length) {
                 result.push(value.date)
@@ -130,21 +140,20 @@ export default {
       this.dialogVisible = true
       if(item.type === '0') {
         item.ruleDate.forEach(n => {
-          alert(1)
           if (n.rules.length) {
             item.attenDay.push(n.date)
             item.timeTable = n.rules
           }
         })
       }
-      alert(1)
       this.ruleData = item
     }
   },
   components: {
     Container,
     RuleDetail,
-    AttendanceTable
+    AttendanceTable,
+    MemberSelect
   },
   mixins: [tableCommon],
 }

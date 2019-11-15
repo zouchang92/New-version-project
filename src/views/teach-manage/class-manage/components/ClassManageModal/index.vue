@@ -41,13 +41,13 @@
       <el-button size="medium" @click="handleClose">取消</el-button>
     </span>
   </el-dialog>
-  <teacher-select v-model="teacherSelect" />
+  <member-select v-model="teacherSelect" />
 </div>
 </template>
 
 <script>
 import { getOrgan } from '@/utils'
-import TeacherSelect from '@/components/TeacherSelect'
+import MemberSelect from '@/components/MemberSelect'
 export default {
   props: ['value'],
   data() {
@@ -63,7 +63,7 @@ export default {
     }
   },
   components: {
-    TeacherSelect
+    MemberSelect
   },
   methods: {
     showTeacherModal() {

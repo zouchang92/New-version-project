@@ -44,6 +44,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.container {
+  min-height: 200px;
+}
 </style>
