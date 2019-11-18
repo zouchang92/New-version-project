@@ -11,7 +11,6 @@
             </template>
            </avue-crud>
       </div>
-     
     </div>
   </div>
 </template>
@@ -175,7 +174,7 @@ export default {
     rowDel(row, index) {
       
     },
-    rowUpdate(row, done, loading) {
+    rowUpdate(row, index, done, loading) {
       console.log(row)
     },
     async rowSave(row, done, loading) {

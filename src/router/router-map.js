@@ -239,6 +239,6 @@ export default {
     meta: {
       title: '考勤报表'
     },
-    component: () => import('@/views/attendance-manage/attendance-setting')
+    component: () => import('@/views/attendance-manage/attendance-record')
   }
 }

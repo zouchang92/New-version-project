@@ -157,7 +157,7 @@ export default {
     uploadBefore(file, done) {
       alert(1)
     },
-    rowUpdate(row, done, loading) {
+    rowUpdate(row, index, done, loading) {
       console.log(row)
     },
     async rowSave(row, done, loading) {

@@ -12,6 +12,16 @@ export const queryStudent = ({ page, rows }) => {
   })
 }
 
+export const updateStudent = ({ id = '', orgId, curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles }) => {
+  return request({
+    url: '/zhxyx/student/update',
+    method: 'post',
+    data: {
+      id, orgId, curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles 
+    }
+  })
+}
+
 export const addStudent = ({ id = '', curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles }) => {
   return request({
     url: '/zhxyx/student/add',

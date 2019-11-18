@@ -18,7 +18,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryStudent, addStudent, delStudent, delStudents } from '@/api/studentManageApi'
+import { queryStudent, addStudent, delStudent, delStudents, updateStudent } from '@/api/studentManageApi'
 import { getOrgan } from '@/utils'
 export default {
   name: 'studentManage',
@@ -44,7 +44,7 @@ export default {
           {
             label: '所在班级',
             prop: 'orgId',
-            type: 'tree',
+            type: 'cascader',
             search: true,
             dicData: getOrgan(),
             props: {
@@ -199,13 +199,18 @@ export default {
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
-    uploadBefore(file, done) {
-      alert(1)
-    },
-    rowUpdate(row, done, loading) {
-      console.log(row)
+    async rowUpdate(row, index, done, loading) {
+      loading(true)
+      try {
+        let result = await updateStudent(row)
+        await this.resetList()
+        done()
+      } catch(err) {
+        loading(false)
+      }
     },
     async rowSave(row, done, loading) {
+      console.log(row)
       loading(true)
       try {
         let result = await addStudent(row)

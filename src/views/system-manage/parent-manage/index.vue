@@ -115,14 +115,16 @@ export default {
     rowDel(row, index) {
       
     },
-    async rowUpdate(row, done, loading) {
+    async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
         row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
         let result = await updateParent(row)
+        console.log(result)
         await this.resetList()
         done()
       } catch(err) {
+        console.log(err)
         loading(false)
       }
     },

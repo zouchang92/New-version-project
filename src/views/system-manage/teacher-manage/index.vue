@@ -188,7 +188,7 @@ export default {
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
-    async rowUpdate(row, done, loading) {
+    async rowUpdate(row, index, done, loading) {
       row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
       row.credPhotoRever = row.credPhotoRever&&row.credPhotoRever.length ? row.credPhotoRever[0].value : ''
       row.credPhotoObve = row.credPhotoRever&&row.credPhotoObve.length ? row.credPhotoObve[0].value : ''

@@ -198,7 +198,7 @@ export default {
       this.searchForm.projId = data.id
       this.resetList()
     },
-    async rowUpdate() {
+    async rowUpdate(row, index, done, loading) {
 
     },
     async rowSave(row, done, loading) {

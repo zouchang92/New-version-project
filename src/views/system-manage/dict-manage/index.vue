@@ -286,7 +286,7 @@ export default {
     uploadBefore(file, done) {
       
     },
-    async rowUpdate(row, done, loading) {
+    async rowUpdate(row, index, done, loading) {
       loading()
       row.dictId = this.dictId
       try {
