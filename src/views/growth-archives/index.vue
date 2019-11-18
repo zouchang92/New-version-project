@@ -6,11 +6,11 @@
         <el-select v-model="value" placeholder="请选择班级">
           <el-option
             v-for="item in cities"
-            :key="item.value"
-            :label="item.label"
-            :value="item.label"
+            :key="item.id"
+            :label="item.orgName"
+            :value="item.value"
           >
-            <span style="float: left">{{ item.label }}</span>
+            <span style="float: left">{{ item.orgName }}</span>
           </el-option>
         </el-select>
       </div>
@@ -19,7 +19,7 @@
         <el-input placeholder="请输入姓名或学号" v-model="input" clearable></el-input>
       </div>
       <div style="height:32px;margin-left:23px;margin-top:26px;">
-        <el-button type="primary" icon="el-icon-search" size="small">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="search" size="small">搜索</el-button>
         <el-button type="success" icon="el-icon-upload" size="small">导出</el-button>
         <el-button type="warning" icon="el-icon-printer" size="small">打印</el-button>
       </div>
@@ -60,13 +60,15 @@
   </div>
 </template>
 <script>
-import Academic from "./components/Academic"
+import { listStu } from '@/api/growthArchivesApi'
+import Academic from './components/Academic'
 import Performance from './components/Performance'
 import RewardPunishment from './components/RewardPunishment'
 import Serving from './components/Serving'
 import ClubActivities from './components/ClubActivities'
 import Health from './components/Healthy'
 import Comment from './components/Comment'
+import { async } from 'q'
 
 export default {
   components: {
@@ -80,23 +82,33 @@ export default {
   },
   data() {
     return {
-      cities: [
-        {
-          label: "三年级二班"
-        },
-        {
-          label: "三年级五班"
-        }
-      ],
-      value: "三年级二班",
+      fn : listStu,
+      cities: [],
+      value: "",
       input: "",
       activeName: "first"
     };
   },
+  mounted(){
+    this.search();
+    this.get();
+  },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
-    }
+    },
+    search(){
+      let semesterName = this.value;
+      let studentName = this.input;
+      console.log(semesterName,studentName)
+    },
+    async get() {
+      try {
+        let list = await listStu({})
+        console.log(list)   
+      } catch(err) {
+      }
+    },
   }
 };
 </script>

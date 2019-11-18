@@ -2,12 +2,13 @@
   <div>
     <el-card class="box-card">
       <avue-crud
-        :data="data"
+        :data="tableList"
         :option="option"
         :page="page"
         @on-load="onLoad"
         @selection-change="selectionChange"
         :cell-style="cellStyle" 
+        v-model="obj"
       >
         <template  slot="menu">
           <el-button class="el-button--text" size="small"><span>审核</span> </el-button>
@@ -17,13 +18,16 @@
   </div>
 </template>
 <script>
+import {duty} from '@/api/growthArchivesApi'
 export default {
   data() {
     return {
+      fn:duty,
       page: {
         pageSize: 20
       },
-      data: [{ name: "蔡启超", post: "班长" , work: "负责班级全面工作", performance: "优秀", stardata: "2017-04-12", enddata: "2018-09-16", remarks: "此处备注信息"},{ name: "蔡启超", post: "团支部书记" , work: "负责团部工作", performance: "良好", stardata: "2017-10-30", enddata: "2018-09-16", remarks: "此处备注信息"},{ name: "蔡启超", post: "纪律、组织委员" , work: "负责班级纪律以及各项活动", performance: "一般", stardata: "2017-04-12", enddata: "2018-09-16", remarks: "此处备注信息"},{ name: "蔡启超", post: "学习委员" , work: "负责班级学习工作", performance: "不合格", stardata: "2017-04-12", enddata: "2018-09-16", remarks: "此处备注信息"}],
+      obj:[],
+      tableList: [],
       option: {
         selection: true,
         align: "center",
@@ -31,37 +35,52 @@ export default {
         column: [
           {
             label: "姓名",
-            prop: "name"
+            prop: "studentName"
           },
           {
             label: "所在职务",
-            prop: "post"
+            prop: "duty"
           },
           {
             label: "工作内容",
-            prop: "work"
+            prop: "dutyContext"
           },
           {
             label: "工作表现",
-            prop: "performance"
+            prop: "dutyComment"
           },
           {
             label: "开始时间",
-            prop: "stardata"
+            prop: "startTime",
+            type: 'date',
+            format: 'yyyy-MM-dd'
           },
           {
             label: "结束时间",
-            prop: "enddata"
+            prop: "endTime",
+            type: 'date',
+            format: 'yyyy-MM-dd'
           },
           {
             label: "备注",
-            prop: "remarks"
+            prop: "description"
           }
         ]
       }
     };
   },
+  mounted(){
+    this.get();
+  },
   methods: {
+    async get() {
+      try {
+        let List = await duty({})
+        this.tableList = List.data
+      } catch(err) {
+        console.log(120)
+      }
+    },
     onLoad(page) {
         this.$message.success('分页信息:' + JSON.stringify(page))
         this.page.total = 20
@@ -71,15 +90,15 @@ export default {
       },
       cellStyle({row,column,rowIndex,columnIndex}){
         if(columnIndex==4){
-          if(row.performance == '优秀'){
+          if(row.dutyComment == '优秀'){
             return {
               color:'red',
             }
-          }else if(row.performance == '良好'){
+          }else if(row.dutyComment == '良好'){
             return {
               color:'#1890FF',
             }
-          }else if(row.performance == '一般'){
+          }else if(row.dutyComment == '一般'){
               return{
                   color:'#000'
               }

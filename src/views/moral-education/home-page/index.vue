@@ -178,6 +178,7 @@ export default {
       try {
         let tree = await queryMoralTree({})
         this.treeData.data = tree.data.list
+        console.log(this.treeData.data)
         this.treeData.loading = false
       } catch(err) {
         this.treeData.loading = false
