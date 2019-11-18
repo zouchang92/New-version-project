@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="table-container">
-      <div class="basic-container">
-        <el-card class="box-card">
-          <el-container>
-            <el-aside width="200px">
-              <el-input size="small"
+    <div class="dict-container">
+      <el-row :gutter="15">
+        <el-col :span="6">
+          <el-card>
+            <el-input size="small"
                 placeholder="输入关键字进行过滤"
                 v-model="filterText">
                 <el-button @click="addRootNode" slot="append" icon="el-icon-plus"></el-button>
@@ -37,8 +36,10 @@
                   </span>
                 </span>
               </el-tree>
-            </el-aside>
-            <el-main>
+          </el-card>
+        </el-col>
+        <el-col :span="18">
+          <el-card>
             <avue-crud rowKey="id" @upload-after="uploadBefore" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
               <template slot="searchMenu">
                 <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
@@ -46,13 +47,10 @@
                 <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
                 <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
               </template>
-             </avue-crud>
-           </el-main>
-          </el-container>
-          
-         </el-card>
-      </div>
-     
+            </avue-crud>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
    <el-dialog :title="rootMode === 'add' ? '新增' : '编辑'" :visible.sync="dialogVisible">
      <avue-form ref="form" v-model="dictData" :option="dictEditOption" @reset-change="emptytChange" @submit="submit" />
@@ -338,4 +336,7 @@ export default {
     font-size: 14px;
     padding-right: 8px;
   }
+.dict-container {
+  margin: 15px;
+}
 </style>

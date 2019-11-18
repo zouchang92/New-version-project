@@ -84,7 +84,6 @@ export default {
               required: false,
             },
             type: 'date',
-            width: 200,
             search: true,
             searchSpan: 5,
             span: 24,

@@ -1,6 +1,6 @@
 <template>
   <div class="moral-point">
-    <el-row :gutter="20">
+    <el-row :gutter="15">
       <el-col :span="6">
         <el-card>
           <div slot="header" class="clearfix">

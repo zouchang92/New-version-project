@@ -2,12 +2,12 @@
   <div class="moral-report">
       <el-tabs style="padding: 10px 0" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="学生德育报表" name="first">
-          <div class="mortal-content" style="margin:15px;">
+          <div class="mortal-content" style="margin: 0 15px;">
             <student-report />
           </div>
         </el-tab-pane>
         <el-tab-pane label="班级德育报表" name="second">
-          <div class="mortal-content" style="margin:15px;">
+          <div class="mortal-content" style="margin: 0 15px;">
             <class-report />
           </div>
         </el-tab-pane>

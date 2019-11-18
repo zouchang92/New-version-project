@@ -240,5 +240,22 @@ export default {
       title: '考勤报表'
     },
     component: () => import('@/views/attendance-manage/attendance-record')
+  },
+  //
+  growth: {
+    path: '/Growth',
+    component: Layout,
+    redirect: '/Growth/index',
+    alwaysShow: true,
+    meta: {
+      title: '成长档案',
+      icon: 'nested'
+    }
+  },
+  growthArchives: {
+    path: 'growthArchives',
+    component: () => import('@/views/growth-archives'),
+    name: 'growthArchives',
+    meta: { title: '成长档案', icon: 'guide', noCache: true }
   }
 }

@@ -6,8 +6,8 @@
     </div>
     <div class="right-menu">
       <div class="user-info">
-        <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-        <p>哈哈哈</p>
+        <el-avatar class="user-avatar" size="medium" :src="avatar"></el-avatar>
+        <p>{{name}}</p>
         <p>|</p>
         <i @click="logout" class="el-icon-upload2" />
       </div>
@@ -27,7 +27,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name'
     ])
   },
   methods: {
@@ -80,14 +81,18 @@ export default {
       line-height: 30px;
       .user-avatar {
         float: left;
-        height: 40px;
         border-radius: 50%;
-        margin-top: 10px;
+        margin-top: 12px;
       }
       p {
         color: #878787;
         float: left;
         margin-left: 5px;
+      }
+      i {
+        vertical-align: bottom;
+        margin-top: 22px;
+        margin-left: 10px;
       }
     }
   }

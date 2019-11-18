@@ -51,6 +51,7 @@ import MemberSelect from '@/components/MemberSelect'
 import _ from 'lodash'
 
 const attenRoles = getDictById('YPTGDVWMMAZSUKDFHBWZYFIQFXALNDOX')
+const attenTypes = []
 
 export default {
   data() {

@@ -1,14 +1,15 @@
 <template>
   <div>
-    <div class="table-container">
-      <div class="basic-container">
-        <el-card class="box-card">
-          <el-container>
-            <el-aside width="200px">
-              <avue-tree nodeKey="id" ref="organTree" :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
-            </el-aside>
-            <el-main style="padding-top: 0">
-              <el-form>
+    <div class="organ-container">
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <el-card>
+               <avue-tree nodeKey="id" ref="organTree" :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
+            </el-card>
+          </el-col>
+          <el-col :span="18">
+            <el-card>
+             <el-form>
                  <el-form-item>
                    <el-button :icon="mode === 'add' ? 'el-icon-plus' : 'el-icon-edit'" @click="changeMode" style="height: 32px;line-height: 12px" size="medium" type="primary">{{mode === 'add' ? '添加模式' : '编辑模式'}}</el-button>
                    <el-button icon="el-icon-delete" @click="deleteOrgan" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
@@ -39,12 +40,9 @@
                    </el-col>
                  </el-form-item>
               </el-form>
-            </el-main>
-          </el-container>
-          
-         </el-card>
-      </div>
-     
+            </el-card>
+          </el-col>
+        </el-row>
     </div>
   </div>
 </template>
@@ -176,5 +174,7 @@ export default {
 </script>
 
 <style scoped>
-
+.organ-container {
+  margin: 15px;
+}
 </style>

@@ -40,7 +40,7 @@ export function addDict({ name, sort, dictId, parentId = '', code = '', descript
   })
 }
 
-export function updateDict({ id, name, sort, dictId, parentId = '', code = '', description = '' }) {
+export function updateDict({ id, name, sort, dictId, parentId = '', code = '', description = '', uniqueName }) {
   return request({
     url: '/zhxyx/dict/updateDict',
     method: 'post',
@@ -51,7 +51,8 @@ export function updateDict({ id, name, sort, dictId, parentId = '', code = '', d
       dictId,
       parentId,
       code, 
-      description
+      description,
+      uniqueName
     }
   })
 }

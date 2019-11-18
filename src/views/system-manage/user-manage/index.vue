@@ -17,7 +17,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryUsers, addUser, delUser, batchDel } from '@/api/userManageApi'
+import { queryUsers, addUser, updateUser, delUser, batchDel } from '@/api/userManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate.js'
 import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'
@@ -43,6 +43,19 @@ export default {
             editDisplay: false
           },
           {
+            label:'组织机构',
+            prop:'organId',
+            span: 24,
+            type: 'tree',
+            searchSpan: 8,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
+            search: true,
+          },
+          {
             label:'账号',
             prop:'loginName',
             rules: {
@@ -55,7 +68,7 @@ export default {
             searchSpan: 4,
           },
           {
-            label:'用户名',
+            label:'姓名',
             prop:'userName',
             span: 24,
             search: true,
@@ -74,21 +87,9 @@ export default {
             searchSpan: 3,
             dicData: genderDict,
           },
+          
           {
-            label:'组织机构',
-            prop:'organId',
-            span: 24,
-            type: 'tree',
-            searchSpan: 8,
-            dicData: getOrgan(),
-            props: {
-              label: 'orgName',
-              value: 'id'
-            },
-            search: true,
-          },
-          {
-            label:'电话',
+            label:'手机电话',
             prop:'phone',
             span: 24,
             width: 150,
@@ -111,7 +112,8 @@ export default {
             }, {
               pattern: credNumReg,
               message: '请输入正确的身份证'
-            }]
+            }],
+            hide: true
           },
           {
             label:'生日',
@@ -119,7 +121,8 @@ export default {
             span: 24,
             type: 'date',
             format: 'yyyy-MM-dd',
-            width: 150
+            width: 150,
+            hide: true
           },
           {
             label:'入校时间',
@@ -127,25 +130,28 @@ export default {
             span: 24,
             type: 'date',
             format: 'yyyy-MM-dd',
-            width: 150
+            width: 150,
+            hide: true
           },
           {
             label:'描述',
             prop:'description',
             span: 24,
-            width: 100
+            width: 100,
+            hide: true
           },
           {
             label:'密码',
             prop:'password',
             span: 24,
-            type: 'password'
+            type: 'password',
+            hide: true
           },
           {
             label:'照片',
             prop:'photo',
             type: 'upload',
-            action: "http://192.168.1.125:8999/zhxyx/upload/file",
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
             limit: 1,
             propsHttp: {
               res: '0'
@@ -157,7 +163,8 @@ export default {
             label: "人员类型",
             prop: "orgType",
             type: 'select',
-            span: 24
+            span: 24,
+            hide: true
           },
         ]
       },
@@ -174,8 +181,19 @@ export default {
     rowDel(row, index) {
       
     },
-    rowUpdate(row, index, done, loading) {
-      console.log(row)
+    async rowUpdate(row, index, done, loading) {
+      loading(true)
+      try {
+        delete row.$gender
+        delete row.$organId
+        row.photo = row.photo && row.photo.length ? row.photo[0].value : ''
+        let result = await updateUser(row)
+        await this.resetList()
+        done()
+      } catch(err) {
+        console.log(err)
+        loading(false)
+      }
     },
     async rowSave(row, done, loading) {
       loading(true)

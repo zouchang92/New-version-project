@@ -31,19 +31,6 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
-  {
-    path: '/Growth',
-    component: Layout,
-    redirect: '/Growth/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/growth-archives/index'),
-        name: '/Growth',
-        meta: { title: '成长档案', icon: 'guide', noCache: true }
-      }
-    ]
-  },
   // {
   //   path: '/Classroom',
   //   component: Layout,

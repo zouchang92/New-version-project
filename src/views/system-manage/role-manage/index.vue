@@ -65,7 +65,6 @@ export default {
             rules: {
               required: false,
             },
-            width: 200
           },
         ]
       },

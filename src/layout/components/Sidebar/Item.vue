@@ -17,7 +17,14 @@ export default {
     const vnodes = []
 
     if (icon) {
-      vnodes.push(<svg-icon icon-class={icon}/>)
+      let img
+      try {
+        img = require(`../../../assets/menu/${icon}_icon.png`)
+        vnodes.push(<img src={img} />)
+      } catch (err) {
+        
+      }
+      
     }
 
     if (title) {
