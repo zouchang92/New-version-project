@@ -6,3 +6,11 @@ export function queryStudentStatus() {
     method: 'post',
   })
 }
+
+export function queryStudentScore() {
+  return request({
+    url: '/zhxyx/project/scoreReport',
+    method: 'post',
+    data: {}
+  })
+}

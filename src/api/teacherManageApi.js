@@ -12,20 +12,20 @@ export const queryTeacher = ({ page, rows }) => {
   })
 }
 
-export const addTeacher = ({ id = '', curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId }) => {
+export const addTeacher = ({ id = '', curStatus, gender, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId }) => {
   return request({
     url: '/zhxyx/teacher/insert',
     data: {
-      id, curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId
+      id, curStatus, facePicFile, credType, gender, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId
     },
     method: 'post'
   })
 }
 
-export const updateTeacher = ({ id = '', curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId }) => {
+export const updateTeacher = ({ id = '', curStatus, gender, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId }) => {
   return request({
     url: '/zhxyx/teacher/update',
-    data: { id, curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId },
+    data: { id, curStatus, facePicFile, gender, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId },
     method: 'post'
   })
 }

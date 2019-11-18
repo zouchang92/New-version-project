@@ -30,6 +30,10 @@
           label="姓名">
         </el-table-column>
         <el-table-column
+          prop="loginName"
+          label="学号">
+        </el-table-column>
+        <el-table-column
           prop="score"
           label="德育得分">
         </el-table-column>

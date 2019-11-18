@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { queryStudentStatus } from '@/api/moralHomeApi'
+import { queryStudentStatus, queryStudentScore } from '@/api/moralHomeApi'
 import { queryMoralTree } from '@/api/moralPointManageApi'
 import StudentPerformanceChart from '../components/StudentPerformanceChart'
 import Container from '@/components/Container' 
@@ -166,6 +166,7 @@ export default {
   mounted() {
     this.getStudentData()
     this.getPointTree()
+    this.getStudentScore()
   },
   methods: {
     async getPointTree() {
@@ -178,14 +179,27 @@ export default {
         this.treeData.loading = false
       }
     },
+    async getStudentScore() {
+      this.studentPointData.loading = true
+      try {
+        let res = await queryStudentScore()
+        this.studentPointData.rows = 
+          [{'类型': '最高分', '分数': res.data[0].max},
+          {'类型': '最低分', '分数': res.data[0].min},
+          {'类型': '平均分', '分数': res.data[0].avg}]
+        this.studentPointData.loading = false
+      } catch(err) {
+        this.studentPointData.loading = false
+      }
+    },
     async getStudentData() {
       this.performanceData.loading = true
       try {
         let res = await queryStudentStatus()
         const { data } = res
-        this.performanceData.rows[0]['人数'] = data[1]
+        this.performanceData.rows[0]['人数'] = data[true]
         this.performanceData.rows[1]['人数'] = data[false]
-        this.performanceData.settings.graphic[0].style.text = data[1] + data[false]
+        this.performanceData.settings.graphic[0].style.text = data[true] + data[false]
         this.performanceData.loading = false
       } catch(err) {
         this.performanceData.loading = false
