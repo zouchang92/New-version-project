@@ -28,6 +28,7 @@ function filterAsyncRoutes(asyncRouterMap) { //遍历后台传来的路由字符
       route.name = targetComponent.name
       route.meta = targetComponent.meta
       route.path = targetComponent.path
+      route.meta.icon = route.menuIcon
       route.component = targetComponent.component
       if (route.child && route.child.length) {
         route.children = filterAsyncRoutes(route.children)

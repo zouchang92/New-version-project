@@ -51,12 +51,13 @@ import MemberSelect from '@/components/MemberSelect'
 import _ from 'lodash'
 
 const attenRoles = getDictById('YPTGDVWMMAZSUKDFHBWZYFIQFXALNDOX')
+const attenTypes = []
 
 export default {
   data() {
     return {
       memberSelect: {
-        visible: true,
+        visible: false,
         memberSelected: [{
           value: 'HSYRZWJEKDJAHIDGDTOKMWKWQAHKZVRX',
           label: '老师1'
@@ -119,8 +120,8 @@ export default {
     },
     processData(data) {
       let proData = _.map(data, n => {
+        let attenRoleName = _.find(attenRoles, c => c.value === n.roleType)
         if (n.type === '0') {
-          let attenRoleName = _.find(attenRoles, c => c.value === n.roleType)
           return {
             ...n,
             realName: attenRoleName ? attenRoleName.label : '无',
@@ -131,6 +132,11 @@ export default {
               return result
             }, []),
             timeTable: []
+          }
+        } else {
+          return {
+            ...n,
+            realName: attenRoleName ? attenRoleName.label : '无',
           }
         }
       })

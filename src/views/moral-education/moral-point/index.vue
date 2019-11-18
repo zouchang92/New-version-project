@@ -1,6 +1,6 @@
 <template>
   <div class="moral-point">
-    <el-row :gutter="20">
+    <el-row :gutter="15">
       <el-col :span="6">
         <el-card>
           <div slot="header" class="clearfix">
@@ -198,7 +198,7 @@ export default {
       this.searchForm.projId = data.id
       this.resetList()
     },
-    async rowUpdate() {
+    async rowUpdate(row, index, done, loading) {
 
     },
     async rowSave(row, done, loading) {

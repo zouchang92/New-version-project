@@ -110,7 +110,7 @@ export default {
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
-    async rowUpdate(row, done, loading) {
+    async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
         let result = await updateCourse(row)

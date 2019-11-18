@@ -55,3 +55,20 @@ export function deleteAttendanceRule(id) {
     }
   })
 }
+
+export function queryAttendanceRecord({ page, rows, beginDate, endDate, orgCode, userName, loginName }) {
+  return request({
+    url: '/zhxyx/kqLog/list',
+    method: 'post',
+    data: {
+      page, 
+      rows,
+      beginDate, 
+      endDate, 
+      orgCode, 
+      userName, 
+      loginName
+
+    }
+  })
+}

@@ -70,7 +70,7 @@ export default {
           data: "2018-09-18",
           ranking: "一等奖",
           company: "省书法协会",
-          phone: "http://192.168.1.125:8999/zhxyx/upload/file",
+          phone: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
           remarks: "此处填写相关备注"
         },
         {

@@ -12,11 +12,21 @@ export const queryStudent = ({ page, rows }) => {
   })
 }
 
-export const addStudent = ({ id = '', curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles }) => {
+export const updateStudent = ({ id = '', userName, organId, curStatus, facePicFile, inClassType, comefromType, inMemo, birthday, credType, schoolType, stuType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles }) => {
   return request({
-    url: '/zhxyx/student/add',
+    url: '/zhxyx/student/update',
+    method: 'post',
     data: {
-      id, curStatus, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles
+      id, curStatus, organId, facePicFile, userName, inClassType, comefromType, inMemo, birthday, credType, schoolType, stuType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles
+    }
+  })
+}
+
+export const addStudent = ({ id = '', organId, userName, curStatus, facePicFile, inClassType, comefromType, inMemo, birthday, credType, schoolType, stuType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles }) => {
+  return request({
+    url: '/zhxyx/student/insert',
+    data: {
+      id, organId, curStatus, facePicFile, userName, credType, credNum, credPhotoObve, inClassType, comefromType, birthday, inMemo, schoolType, stuType, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles
     },
     method: 'post'
   })

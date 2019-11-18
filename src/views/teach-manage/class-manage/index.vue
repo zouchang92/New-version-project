@@ -128,7 +128,7 @@ export default {
     uploadBefore(file, done) {
       alert(1)
     },
-    async rowUpdate(row, done, loading) {
+    async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
         let result = await addrole(row)

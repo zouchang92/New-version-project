@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item label="班级logo">
         <el-upload
-          action="http://192.168.1.125:8998/zhxyx/upload/file"
+          action="`${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`"
           :file-list="value.formValue.classlogo"
           list-type="picture-card"
           :limit="1"
@@ -27,11 +27,11 @@
           ></el-input>
         </el-form-item>
         <el-form-item class="add-duty-person" label="班级负责人">
-          <span>丁玮琦,为其订</span>
+          <span></span>
           <i @click="showTeacherModal" class="el-icon-plus"></i>
         </el-form-item>
         <el-form-item class="add-duty-person" label="班级任课老师">
-          <span>丁玮琦,为其订</span>
+          <span></span>
           <i @click="showTeacherModal" class="el-icon-plus"></i>
         </el-form-item>
       </el-form>
@@ -41,7 +41,7 @@
       <el-button size="medium" @click="handleClose">取消</el-button>
     </span>
   </el-dialog>
-  <member-select v-model="teacherSelect" />
+  <member-select v-model="teacherSelect.visible" />
 </div>
 </template>
 

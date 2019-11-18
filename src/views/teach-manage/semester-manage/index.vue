@@ -84,7 +84,6 @@ export default {
               required: false,
             },
             type: 'date',
-            width: 200,
             search: true,
             searchSpan: 5,
             span: 24,
@@ -103,7 +102,7 @@ export default {
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
-    async rowUpdate(row, done, loading) {
+    async rowUpdate(row, index, done, loading) {
       loading(true)
       try{
         let result = await updateSemester(row)

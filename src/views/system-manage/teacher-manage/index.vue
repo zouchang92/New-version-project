@@ -18,8 +18,9 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { getOrgan } from '@/utils'
+import { getOrgan, getDictById } from '@/utils'
 import { queryTeacher, addTeacher, updateTeacher, deleteTeacher, deleteTeachers } from '@/api/teacherManageApi'
+const genderDict = getDictById('DXAWXGKHTCZMPNOZRPRHLPHSUZWLUCSD')
 export default {
   name: 'teacherManage',
   mixins: [tableCommon],
@@ -52,10 +53,22 @@ export default {
             span: 12,
           },
           {
+            label: '性别',
+            prop: 'gender',
+            span: 12,
+            type: 'radio',
+            rules: {
+              required: true,
+              message: '性别是必填项'
+            },
+            dicData: genderDict
+          },
+          {
             label:'所属机构',
             prop:'organId',
             rules: {
               required: true,
+              message: '所属机构'
             },
             type: 'tree',
             search: true,
@@ -67,14 +80,32 @@ export default {
             },
           },
           {
-            label:'在校状态',
-            prop:'curStatus',
+            label: "进校时间",
+            prop: "entryTime",
+            type: 'date',
+            format: 'yyyy-MM-dd',
+            valueFormat: 'yyyy-MM-dd',
+            width: 150,
             rules: {
-              required: false,
-            },
-            search: true,
-            span: 12,
-            type: 'select'
+              required: true,
+              message: '进校时间为必填项'
+            }
+          },
+          {
+            label: '职务',
+            prop: 'duties',
+            rules: {
+              required: true,
+              message: '职务为必填项'
+            }
+          },
+          {
+            label: '职称',
+            prop: 'titles',
+            rules: {
+              required: true,
+              message: '职称为必填项'
+            }
           },
           {
             label:'照片',
@@ -82,67 +113,88 @@ export default {
             type: 'upload',
             listType: 'picture-card',
             span: 24,
-            action: "http://192.168.1.125:8998/zhxyx/upload/file",
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
             propsHttp: {
               res: '0'
             },
             limit: 1,
           },
           {
+            label:'在校状态',
+            prop:'curStatus',
+            rules: {
+              required: false,
+            },
+            search: true,
+            span: 12,
+            type: 'select',
+            hide: true
+          },
+          
+          {
             label: "证件类型",
             prop: "credType",
             type: 'select',
+            hide: true
           },
           {
             label: "证件号码",
             prop: "credNum",
+            hide: true
           },
           {
             label: "证件正面",
             prop: "credPhotoObve",
             type: 'upload',
             listType: 'picture-card',
-            action: "http://192.168.1.125:8998/zhxyx/upload/file",
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
             span: 24,
             limit: 1,
             propsHttp: {
               res: '0'
             },
+            hide: true
           },
           {
             label: "证件反面",
             prop: "credPhotoRever",
             type: 'upload',
             listType: 'picture-card',
-            action: "http://192.168.1.125:8998/zhxyx/upload/file",
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
             limit: 1,
             span: 24,
             propsHttp: {
               res: '0'
             },
+            hide: true
           },
           {
             label: "籍贯",
             prop: "nativeLand",
-            type: "select"
+            type: "select",
+            hide: true
           },
           {
             label: "民族",
             prop: "volk",
-            type: "select"
+            type: "select",
+            hide: true
           },
           {
             label: "政治面貌",
             prop: "politstatus",
-            type: "select"
+            type: "select",
+            hide: true
           },
           {
             label: "家庭住址",
             prop: "homeAddr",
+            hide: true
           },
           {
             label: "健康状况",
             prop: "health",
+            hide: true
           },
           {
             label: "参加工作时间",
@@ -150,32 +202,19 @@ export default {
             type: 'date',
             format: 'yyyy-MM-dd',
             valueFormat: 'yyyy-MM-dd',
-            width: 150
-          },
-          {
-            label: "进校时间",
-            prop: "entryTime",
-            type: 'date',
-            format: 'yyyy-MM-dd',
-            valueFormat: 'yyyy-MM-dd',
-            width: 150
+            width: 150,
+            hide: true
           },
           {
             label: "毕业院校",
             prop: "academy",
+            hide: true
           },
           {
             label: '最高学历',
-            prop: 'education'
+            prop: 'education',
+            hide: true
           },
-          {
-            label: '最高学历',
-            prop: 'duties'
-          },
-          {
-            label: '职务',
-            prop: 'titles'
-          }
         ]
       },
       obj: {}
@@ -188,7 +227,7 @@ export default {
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
-    async rowUpdate(row, done, loading) {
+    async rowUpdate(row, index, done, loading) {
       row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
       row.credPhotoRever = row.credPhotoRever&&row.credPhotoRever.length ? row.credPhotoRever[0].value : ''
       row.credPhotoObve = row.credPhotoRever&&row.credPhotoObve.length ? row.credPhotoObve[0].value : ''

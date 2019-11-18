@@ -25,6 +25,7 @@ import _ from 'lodash'
 
 const genderDict = getDictById('DXAWXGKHTCZMPNOZRPRHLPHSUZWLUCSD')
 
+
 export default {
   name: 'parentManage',
   mixins: [tableCommon],
@@ -92,7 +93,7 @@ export default {
             label:'照片',
             prop:'facePicFile',
             type: 'upload',
-            action: "http://192.168.1.125:8998/zhxyx/upload/file",
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
             limit: 1,
             propsHttp: {
               res: '0'
@@ -115,14 +116,16 @@ export default {
     rowDel(row, index) {
       
     },
-    async rowUpdate(row, done, loading) {
+    async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
         row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
         let result = await updateParent(row)
+        console.log(result)
         await this.resetList()
         done()
       } catch(err) {
+        console.log(err)
         loading(false)
       }
     },
