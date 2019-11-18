@@ -14,8 +14,8 @@
         <el-form :model="form">
           <el-form-item label="学年:">
             <el-select v-model="form.region" placeholder="请选择学年">
-              <el-option label="2019年上学期" value="shanghai"></el-option>
-              <el-option label="2019年下学期" value="beijing"></el-option>
+              <el-option label="2019年上学期" value="2019年上学期"></el-option>
+              <el-option label="2019年下学期" value="2019年下学期"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -46,15 +46,17 @@
   </div>
 </template>
 <script>
-const Semester = ["期中", "期末"];
-import LineChart from "../../dashboard/Teacher/components/LineChart";
-import isValidOption from "@/utils/isValidOption.js";
+const Semester = ['期中', '期末']
+import {listStu} from '@/api/growthArchivesApi'
+import LineChart from '../../dashboard/Teacher/components/LineChart'
+import isValidOption from '@/utils/isValidOption.js'
 export default {
   components: {
     LineChart
   },
   data() {
     return {
+      fn: listStu,
       cities: Semester,
       dialogFormVisible: false,
       form: {
