@@ -7,10 +7,10 @@
           <el-option
             v-for="item in cities"
             :key="item.id"
-            :label="item.orgName"
+            :label="item.label"
             :value="item.value"
           >
-            <span style="float: left">{{ item.orgName }}</span>
+            <span style="float: left">{{ item.label }}</span>
           </el-option>
         </el-select>
       </div>
@@ -83,7 +83,12 @@ export default {
   data() {
     return {
       fn : listStu,
-      cities: [],
+      cities: [
+        { value: '选项1',
+          label: '2019学年上学期'},
+        { value: '选项2',
+          label: '2019学年下学期'}
+      ],
       value: "",
       input: "",
       activeName: "first"
