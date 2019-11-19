@@ -194,6 +194,7 @@
 </template>
 <script>
 import StarRating from "vue-star-rating";
+import { stuLesson} from '@/api/growthArchivesApi'
 export default {
   components: {
     StarRating
@@ -209,7 +210,21 @@ export default {
       customColor: "#F2BB46"
     };
   },
-  methods: {}
+  mounted(){
+
+  },
+  methods: {
+    a(){
+      console.log(123323)
+    },
+    async getLesson() {
+      try {
+        let list = await stuLesson({studentName})
+        console.log(123)
+      } catch(err) {
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

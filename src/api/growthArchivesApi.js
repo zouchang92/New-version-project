@@ -53,11 +53,13 @@ export function editDuty({ duty, dutyComment, dutyContext, startTime, endTime })
     }
   })
 }
-export function daRap() {
+export function daRap({ orgName, studentNum }) {
   return request({
-    url: '/zhxyx/daRap/listStuDaRa',
+    url: '/zhxyx/daRap/listStuDaRap',
     method: 'post',
-    data: { }
+    data: {
+      orgName, studentNum
+    }
   })
 }
 export function examineDaRap() {
@@ -94,9 +96,30 @@ export function addDaRap({ semesterName, orgName, studentNum, studentName, itemN
     }
   })
 }
-export function stuLesson() {
+export function stuLesson({ studentName }) {
   return request({
     url: '/zhxyx/stuLesson/listStuLesson',
-    method: 'post'
+    method: 'post',
+    data: {
+      studentName
+    }
+  })
+}
+export function clubQueryAll({ id }) {
+  return request({
+    url: '/zhxyx/stuClubActivity/queryAll',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+export function HealthQueryAll({ id }) {
+  return request({
+    url: '/zhxyx/stuHealth/queryAll',
+    method: 'post',
+    data: {
+      id
+    }
   })
 }

@@ -17,13 +17,15 @@
   </div>
 </template>
 <script>
+import { clubQueryAll} from '@/api/growthArchivesApi'
 export default {
   data() {
     return {
+      fn:clubQueryAll,
       page: {
         pageSize: 20
       },
-      data: [{ name: "蔡启超", association: "舞蹈协会" , content: "教会学生正确的掌握舞蹈基本要领，知道基本手位，脚位；要求全体队员", perfor: "文化艺术", stardata: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", association: "书法协会" , content: "教会学生正确的掌握舞蹈基本要领，知道基本手位，脚位；要求全体队员", perfor: "文化艺术", stardata: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", association: "信风文学社" , content: "学会基本文学写作，如诗歌，散文，小说，随笔，摄影等", perfor: "学术交流", stardata: "2017-04-12", remarks: "此处备注信息"}],
+      data: [],
       option: {
         selection: true,
         align: "center",
@@ -31,28 +33,30 @@ export default {
         column: [
           {
             label: "姓名",
-            prop: "name"
+            prop: "studentName"
           },
           {
             label: "社团名称",
-            prop: "association"
+            prop: "clubName"
           },
           {
             label: "活动内容",
-            prop: "content",
+            prop: "activityName",
             width:500
           },
           {
             label: "社团类型",
-            prop: "perfor"
+            prop: "orgName"
           },
           {
             label: "参加日期",
-            prop: "stardata"
+            prop: "createTime",
+            type: 'date',
+            format: 'yyyy-MM-dd'
           },
           {
             label: "备注",
-            prop: "remarks",
+            prop: "description",
             width:100
           }
         ]
@@ -73,6 +77,13 @@ export default {
                 overflow:'hidden'
             }
         }
+    },
+    async getClubQueryAll(id) {
+      try {
+        let List = await clubQueryAll({ id });
+        this.data = List.data.list
+        // console.log(List.data.list)
+      } catch (err) {}
     }
   }
 };

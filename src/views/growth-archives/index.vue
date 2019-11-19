@@ -8,7 +8,7 @@
             v-for="item in cities"
             :key="item.id"
             :label="item.label"
-            :value="item.value"
+            :value="item.label"
           >
             <span style="float: left">{{ item.label }}</span>
           </el-option>
@@ -33,12 +33,12 @@
         </el-tab-pane>
         <el-tab-pane label="课堂表现" name="second">
           <div>
-            <Performance />
+            <Performance ref="performance" />
           </div>
         </el-tab-pane>
         <el-tab-pane label="奖惩处罚" name="third">
           <div>
-            <RewardPunishment />
+            <RewardPunishment ref="child"/>
            </div>
         </el-tab-pane>
         <el-tab-pane label="任职情况" name="fourth">
@@ -47,10 +47,10 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="社团活动情况">
-          <div><ClubActivities /></div>
+          <div><ClubActivities ref="getClubQueryAll" /></div>
         </el-tab-pane>
         <el-tab-pane label="身心健康登记">
-          <div><Health /></div>
+          <div><Health ref="health"/></div>
         </el-tab-pane>
         <el-tab-pane label="期末评语">
           <div><Comment/></div>
@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import { listStu } from '@/api/growthArchivesApi'
+import { listStu} from '@/api/growthArchivesApi'
 import Academic from './components/Academic'
 import Performance from './components/Performance'
 import RewardPunishment from './components/RewardPunishment'
@@ -84,10 +84,10 @@ export default {
     return {
       fn : listStu,
       cities: [
-        { value: '选项1',
-          label: '2019学年上学期'},
-        { value: '选项2',
-          label: '2019学年下学期'}
+        {
+          label: '三年二班'},
+        {
+          label: '三年五班'}
       ],
       value: "",
       input: "",
@@ -103,9 +103,9 @@ export default {
       console.log(tab, event);
     },
     search(){
-      let semesterName = this.value;
-      let studentName = this.input;
-      console.log(semesterName,studentName)
+       this.$refs.child.getdaRap()
+       this.$refs.getClubQueryAll.getClubQueryAll()
+      //  this.$refs.health.getHealth()
     },
     async get() {
       try {
@@ -113,7 +113,7 @@ export default {
         console.log(list)   
       } catch(err) {
       }
-    },
+    }
   }
 };
 </script>

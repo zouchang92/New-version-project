@@ -395,7 +395,7 @@ export default {
 .Acadmic-Semester .el-select {
   margin-left: 800px;
   top: 46px;
-  z-index: 100;
+  z-index: 2;
 }
 .Acadmic-Subject .el-dialog__header {
   border-bottom: 1px solid #dbdbdb;
@@ -404,6 +404,6 @@ export default {
   position: absolute;
   top: 50px;
   left: 1039px;
-  z-index: 100;
+  z-index: 2;
 }
 </style>

@@ -17,12 +17,14 @@
   </div>
 </template>
 <script>
+import { HealthQueryAll } from "@/api/growthArchivesApi";
 export default {
   data() {
     return {
       page: {
         pageSize: 20
       },
+      fn:HealthQueryAll,
       data: [{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.5",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.5",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.5",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.5",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.0",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.0",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},],
       option: {
         selection: true,
@@ -76,7 +78,14 @@ export default {
                 overflow:'hidden'
             }
         }
-    }
+    },
+    async getHealth(id) {
+      try {
+        let a = await HealthQueryAll({ id });
+       
+        console.log(a);
+      } catch (err) {}
+    },
   }
 };
 </script>
