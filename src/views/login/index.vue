@@ -154,6 +154,9 @@ $cursor: #fff;
     display: inline-block;
     width: 80%;
     height: 40px;
+    .el-input__inner {
+      height: 40px;
+    }
     input {
       background: transparent;
       border: 0px;

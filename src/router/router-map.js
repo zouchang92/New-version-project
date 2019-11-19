@@ -256,6 +256,20 @@ export default {
     path: 'growthArchives',
     component: () => import('@/views/growth-archives'),
     name: 'growthArchives',
-    meta: { title: '成长档案', icon: 'guide', noCache: true }
+    meta: { title: '成长档案', icon: 'guide' }
+  },
+  //
+  sourceManage: {
+    path: '/sourceManage',
+    component: Layout,
+    alwaysShow: true,
+    name: 'sourceManage',
+    meta: { title:  '资源管理', icon: 'guide' }
+  },
+  sourceHomePage: {
+    path: 'sourceHomePage',
+    component: () => import('@/views/resource-manage'),
+    name: 'sourceHomePage',
+    meta: { title:  '资源管理', icon: 'guide' }
   }
 }
