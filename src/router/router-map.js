@@ -180,7 +180,7 @@ export default {
     path: 'classManage',
     name: 'classManage',
     meta: {
-      title: '班级管理',
+      title: '班级管理'
     },
     component: () => import('@/views/teach-manage/class-manage')
   },
@@ -206,7 +206,7 @@ export default {
     meta: {
       title: '班级课表'
     },
-    component: () => import('@/views/teach-manage/class-course-table'),
+    component: () => import('@/views/teach-manage/class-course-table')
   },
   vacationManage: {
     path: 'vacationManage',
@@ -259,17 +259,34 @@ export default {
     meta: { title: '成长档案', icon: 'guide' }
   },
   //
+  Community: {
+    path: '/Community',
+    component: Layout,
+    redirect: '/Community/index',
+    alwaysShow: true,
+    meta: {
+      title: '社团管理',
+      icon: 'nested'
+    }
+  },
+  CommunityManagement: {
+    path: 'CommunityManagement',
+    component: () => import('@/views/Community'),
+    name: 'CommunityManagement',
+    meta: { title: '社团管理', icon: 'guide' }
+  },
+  //
   sourceManage: {
     path: '/sourceManage',
     component: Layout,
     alwaysShow: true,
     name: 'sourceManage',
-    meta: { title:  '资源管理', icon: 'guide' }
+    meta: { title: '资源管理', icon: 'guide' }
   },
   sourceHomePage: {
     path: 'sourceHomePage',
     component: () => import('@/views/resource-manage'),
     name: 'sourceHomePage',
-    meta: { title:  '资源管理', icon: 'guide' }
+    meta: { title: '资源管理', icon: 'guide' }
   }
 }

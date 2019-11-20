@@ -214,9 +214,6 @@ export default {
 
   },
   methods: {
-    a(){
-      console.log(123323)
-    },
     async getLesson() {
       try {
         let list = await stuLesson({studentName})
