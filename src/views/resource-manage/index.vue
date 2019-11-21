@@ -3,7 +3,7 @@
       <el-tabs style="padding: 10px 0" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="我的资源" name="first">
           <div class="mortal-content" style="margin: 0 15px;">
-            <student-report />
+            <resource-mine />
           </div>
         </el-tab-pane>
         <el-tab-pane label="分享给我的" name="second">
@@ -11,7 +11,7 @@
             <class-report />
           </div>
         </el-tab-pane>
-        <el-tab-pane label="公共资源" name="second">
+        <el-tab-pane label="公共资源" name="three">
           <div class="mortal-content" style="margin: 0 15px;">
             <class-report />
           </div>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import ResourceMine from './resource-mine'
 export default {
   name: 'moralReport',
   data() {
@@ -34,6 +35,7 @@ export default {
     }
   },
   components: {
+    ResourceMine
   }
 }
 </script>
