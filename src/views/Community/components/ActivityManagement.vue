@@ -31,12 +31,15 @@ export default {
       searchForm: {},
       data: [
         {
-          stardata: "2019下学期",
-          name: "篮球",
+          semesterId: "2019下学期",
+          clubName: "街舞社",
+          name:"日常活动",
+          clubOrgId:"一年级",
           person: "李安",
-          orgIds: "三、四年级",
-          class: "无",
-          namelist: "无"
+          classroomName: "体育馆二楼",
+          honors: "无",
+          description: "无",
+          time:'2019-09-28 09:00'
         }
       ],
       option: {
@@ -46,30 +49,41 @@ export default {
         column: [
           {
             label: "学期",
-            prop: "stardata",
+            prop: "semesterId",
             search: true
           },
           {
-            label: "社团名称",
-            prop: "name",
+            label: "所属社团",
+            prop: "clubName",
             search: true
           },
           {
-            label: "社团负责人",
-            prop: "person"
+            label: "活动名称",
+            prop: "name"
           },
           {
-            label: "适用年级",
-            prop: "orgIds"
+            label: "活动单位",
+            prop: "clubOrgId"
           },
           {
-            label: "社团课表",
-            prop: "class",       
+            label: "负责人",
+            prop: "person",       
           },
           {
-            label: "人员名单",
-            prop: "namelist",
-            type: 'upload'
+            label: "所在场馆",
+            prop: "classroomName",
+          },
+          {
+            label: "活动荣耀",
+            prop: "honors",
+          },
+          {
+            label: "精彩瞬间",
+            prop: "description",
+          },
+          {
+            label: "活动时间",
+            prop: "time",
           }
         ]
       }

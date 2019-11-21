@@ -8,13 +8,13 @@
         <div><Management /></div>
       </el-tab-pane>
       <el-tab-pane label="活动管理" name="third">
-        <div>456</div>
+        <div><ActivityManagement /></div>
       </el-tab-pane>
       <el-tab-pane label="人员管理" name="fourth">
         <div>789</div>
       </el-tab-pane>
       <el-tab-pane label="活动考勤">
-        <div>1211</div>
+        <div><ActivityAttendance /></div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -22,8 +22,12 @@
 <script>
 import CommunityPage from './components/CommunityPage'
 import Management from './components/Management'
+import ActivityManagement from './components/ActivityManagement'
+import ActivityAttendance from './components/ActivityAttendance'
 export default {
   components: {
+    ActivityAttendance,
+    ActivityManagement,
     CommunityPage,
     Management
   },
@@ -43,5 +47,8 @@ export default {
 .Community-content .el-tabs__nav-wrap{
   background: #fff;
   padding-left: 30px;
+}
+.Community-content .el-tabs__item {
+  padding: 0 5px;
 }
 </style>
