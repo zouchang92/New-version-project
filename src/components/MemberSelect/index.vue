@@ -106,7 +106,7 @@ export default {
       this.userLoading = true
       
       try {
-        let data = await queryUsers({organId: '', page: 1, rows: 10000})
+        let data = await queryUsers({organId: id, page: 1, rows: 10000})
         this.members = data.data.list
         this.userLoading = false
       } catch(err) {

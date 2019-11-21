@@ -8,6 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import Avue from '@smallwei/avue'
 import ElTreeSelect from 'el-tree-select'
+import VueFileAgent from 'vue-file-agent'
+import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css'
+
 
 import '@smallwei/avue/lib/index.css'
 
@@ -29,6 +32,8 @@ Vue.use(ElementUI, { locale })
 Vue.use(UCalendar)
 Vue.use(Avue)
 Vue.use(ElTreeSelect)
+
+Vue.use(VueFileAgent)
 
 Vue.use(VCharts)
 

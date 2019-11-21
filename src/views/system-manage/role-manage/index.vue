@@ -48,6 +48,23 @@ export default {
             search: true
           },
           {
+            label: '备注',
+            prop: 'description',
+            rules: {
+              required: false,
+            },
+          },
+          {
+            label:'权限',
+            prop:'permission',
+            rules: {
+              required: false,
+            },
+            width: 200,
+            addDisplay: false,
+            editDisplay: false,
+          },
+          {
             label: '创建时间',
             prop: 'createTime',
             rules: {
@@ -58,13 +75,6 @@ export default {
             width: 200,
             addDisplay: false,
             editDisplay: false
-          },
-          {
-            label: '备注',
-            prop: 'description',
-            rules: {
-              required: false,
-            },
           },
         ]
       },
