@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ActivityAttendance">
     <el-card class="box-card">
       <avue-crud
         :data="data"
@@ -30,12 +30,13 @@ export default {
       searchForm: {},
       data: [
         {
-          stardata: "2019下学期",
-          name: "篮球",
-          person: "李安",
-          orgIds: "三、四年级",
-          class: "无",
-          namelist: "无"
+          semesterId: "街舞社",
+          clubName: "20190377927",
+          name: "王安",
+          clubOrgId: "三年级/5班",
+          person: "男",
+          classroomName: "2019-09-28 09:00",
+          Pay:'已缴'
         }
       ],
       option: {
@@ -44,40 +45,50 @@ export default {
         menuAlign: "center",
         column: [
           {
-            label: "学期",
-            prop: "stardata",
+            label: "社团名称",
+            prop: "semesterId",
+            type: "select",
             search: true
           },
           {
-            label: "社团名称",
+            label: "负责人",
+            prop: "person",
+            type: "select",
+            search: true,
+            hide: true
+          },
+          {
+            label: "学号",
+            prop: "clubName"
+          },
+          {
+            label: "姓名",
             prop: "name",
             search: true
           },
           {
-            label: "社团负责人",
+            label: "所在班级",
+            prop: "clubOrgId",
+            type: "select",
+            search: true
+          },
+          {
+            label: "性别",
             prop: "person"
           },
           {
-            label: "适用年级",
-            prop: "orgIds"
+            label: "报名日期",
+            prop: "classroomName"
           },
-          {
-            label: "社团课表",
-            prop: "class",       
-          },
-          {
-            label: "人员名单",
-            prop: "namelist",
-            type: 'upload'
+                    {
+            label: "缴费情况",
+            prop: "Pay"
           }
         ]
       }
     };
   },
   methods: {
-    handleAdd() {
-      this.$refs.crud.rowAdd();
-    },
     onLoad(page) {
       this.$message.success("分页信息:" + JSON.stringify(page));
       this.page.total = 20;
@@ -95,4 +106,8 @@ export default {
   }
 };
 </script>
-<style lang="">
+<style>
+.ActivityAttendance .el-date-editor .el-range-separator {
+  width: 12%;
+}
+</style>

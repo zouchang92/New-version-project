@@ -263,6 +263,7 @@ export default {
     path: '/Community',
     component: Layout,
     redirect: '/Community/index',
+    name: 'Community',
     alwaysShow: true,
     meta: {
       title: '社团管理',
@@ -274,6 +275,24 @@ export default {
     component: () => import('@/views/Community'),
     name: 'CommunityManagement',
     meta: { title: '社团管理', icon: 'guide' }
+  },
+  //
+  Comprehensive: {
+    path: '/Comprehensive',
+    component: Layout,
+    redirect: '/Comprehensive/index',
+    name: 'Comprehensive',
+    alwaysShow: true,
+    meta: {
+      title: '学生综合素质',
+      icon: 'nested'
+    }
+  },
+  ComprehensiveQuality: {
+    path: 'ComprehensiveQuality',
+    component: () => import('@/views/Comprehensive-quality'),
+    name: 'ComprehensiveQuality',
+    meta: { title: '学生综合素质', icon: 'guide' }
   },
   //
   sourceManage: {

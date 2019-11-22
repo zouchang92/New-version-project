@@ -8,6 +8,25 @@
               <p class="u-line"></p>
               <p class="title-text">精彩瞬间</p>
             </div>
+            <div class="moment-content">
+              <el-row :gutter="30">
+                <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+                  <div class="item">
+                    <img style="width:407px;height:396px;" :src="dataList[currentIndex]" />
+                  </div>
+                </el-col>
+                <el-col :xs="11" :sm="11" :md="11" :lg="11" :xl="11" style="padding-right:0px;">
+                  <ul>
+                    <li v-for="(item,index) in mess" :key="index" @click="gotoPage(index)" :class="{'current':currentIndex == index}">
+                      <img style="width:58px;height:48px;border-radius:4px;" :src="item.img" alt />
+                      <p class="content-r">{{item.content}}</p>
+                      <span class="content-association">{{item.association}}</span>
+                      <span class="association-time">日期:{{item.time}}</span>
+                    </li>
+                  </ul>
+                </el-col>
+              </el-row>
+            </div>
           </div>
         </el-col>
         <el-col
@@ -95,24 +114,117 @@
   </div>
 </template>
 <script>
-import BoxCard from "./BoxCard"
+import BoxCard from "./BoxCard";
 export default {
-  components:{
+  components: {
     BoxCard
   },
   data() {
     return {
+      dataList: [],
+      currentIndex: 0, //默认显示图片
+      timer: null, //定时器
       list: [
         { title: "01 计算机协会", name: "李华", state: "进行中" },
         { title: "02 口语协会", name: "李华", state: "进行中" },
         { title: "03 计算机协会", name: "李华", state: "进行中" },
         { title: "04 电子应用与计算机协会", name: "李华", state: "进行中" }
+      ],
+      mess: [
+        {
+          id: 0,
+          content: "社团与教师打乒乓球",
+          association: "乒乓球社",
+          time: "2019-10-01",
+          img:
+            "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
+        },
+        {
+          id: 1,
+          content: "社团与教师打乒乓球",
+          association: "乒乓球社",
+          time: "2019-10-01",
+          img:
+            "https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=889b5d49c311728b302d8b24f0c7a4f3/eaf81a4c510fd9f98eb187b12b2dd42a2934a440.jpg"
+        },
+        {
+          id: 2,
+          content: "社团与教师打乒乓球",
+          association: "乒乓球社",
+          time: "2019-10-01",
+          img:
+            "https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=a5571170780e0cf3a0f749fd327d9522/cc11728b4710b912fdf94a9cc9fdfc0392452293.jpg"
+        },
+        {
+          id: 3,
+          content: "社团与教师打乒乓球",
+          association: "乒乓球社",
+          time: "2019-10-01",
+          img:
+            "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
+        }
       ]
     };
+  },
+  created() {
+    this.gotoPage();
+  },
+  computed: {
+
+},
+  methods: {
+    gotoPage(index) {
+      this.currentIndex = index;
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
+.Wonderful-moment {
+  .moment-content {
+    ul {
+      list-style: none;
+      li {
+        display: flex;
+        padding-bottom: 10px;
+        padding-top: 3px;
+        border-bottom: 1px solid #eff0f5;
+        position: relative;
+        p {
+          margin: 0px;
+          font-size: 15px;
+          font-family: Source Han Sans CN;
+          font-weight: 400;
+          color: rgba(0, 0, 0, 1);
+          line-height: 21px;
+        }
+        .content-association {
+          position: absolute;
+          top: 32px;
+          left: 64px;
+          font-size: 14px;
+          font-family: Source Han Sans CN;
+          font-weight: 300;
+          color: rgba(78, 78, 78, 1);
+          line-height: 21px;
+        }
+        .association-time {
+          position: absolute;
+          top: 32px;
+          left: 195px;
+          font-size: 14px;
+          font-family: Source Han Sans CN;
+          font-weight: 300;
+          color: rgba(78, 78, 78, 1);
+          line-height: 21px;
+        }
+        // &:hover {
+        //   background: #018eed;
+        // }
+      }
+    }
+  }
+}
 .u-line {
   display: block;
   width: 5px;
@@ -153,7 +265,7 @@ export default {
             position: absolute;
             top: 0px;
           }
-          p {
+          .content-r {
             font-size: 14px;
             font-family: Source Han Sans CN;
             font-weight: 300;
@@ -249,4 +361,20 @@ export default {
   }
 }
 </style>
-  
+<style>
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 150px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}
+</style>

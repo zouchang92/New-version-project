@@ -45,24 +45,6 @@ export const constantRoutes = [
   //   ]
   // },
   {
-    path: '/Community',
-    component: Layout,
-    redirect: '/Community',
-    name: 'Community',
-    meta: {
-      title: '社团管理',
-      icon: 'excel'
-    },
-    children: [
-      {
-        path: '/Community/index',
-        component: () => import('@/views/Community/index'),
-        name: '/Community/index',
-        meta: { title: '社团管理', icon: 'guide', noCache: true }
-      }
-    ]
-  },
-  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -81,8 +63,7 @@ export const constantRoutes = [
     path: '/n',
     component: () => import('../components/Calendar/UCalendar.vue')
 
-  },
-
+  }
 ]
 
 export const asyncRoutes = [
