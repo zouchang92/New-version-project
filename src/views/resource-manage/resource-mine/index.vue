@@ -95,6 +95,7 @@
 import UploadDialog from '../components/UploadDialog'
 import MemberSelect from '@/components/MemberSelect'
 import tableCommon from '@/mixins/table-common'
+import { queryFolderTree } from '@/api/resourceManageApi'
 export default {
   mixins: [tableCommon],
   data() {
@@ -102,6 +103,9 @@ export default {
       memberShow: false,
       uploadDialogVisible: false,
       activeIndex: 0,
+      treeConfig: {
+        loading: false
+      },
       tableList: [{
         type: 'pdf',
         name: 'aaa.pdf',
@@ -147,9 +151,21 @@ export default {
     UploadDialog,
     MemberSelect
   },
+  mounted() {
+    this.getFolderTree()
+  },
   methods: {
     search() {
 
+    },
+    async getFolderTree() {
+      this.treeConfig.loading = true
+      try {
+        let data = await queryFolderTree()
+        console.log(data)
+      } catch(err) {
+
+      }
     },
     getIcon(type) {
       try {
