@@ -28,7 +28,7 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="学习成绩" name="first">
           <div class="growth-academic">
-            <Academic />
+            <Academic ref="academic" :input='input' :value='value' />
           </div>
         </el-tab-pane>
         <el-tab-pane label="课堂表现" name="second">
@@ -38,7 +38,7 @@
         </el-tab-pane>
         <el-tab-pane label="奖惩处罚" name="third">
           <div>
-            <RewardPunishment ref="child"/>
+            <RewardPunishment :input='input' :value='value' ref="child"/>
            </div>
         </el-tab-pane>
         <el-tab-pane label="任职情况" name="fourth">
@@ -91,28 +91,22 @@ export default {
       ],
       value: "",
       input: "",
+      a:'',
       activeName: "first"
     };
   },
   mounted(){
     this.search();
-    this.get();
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
     },
     search(){
+      this.$refs.academic.get()
        this.$refs.child.getdaRap()
        this.$refs.getClubQueryAll.getClubQueryAll()
       //  this.$refs.health.getHealth()
-    },
-    async get() {
-      try {
-        let list = await listStu({})
-        console.log(list)   
-      } catch(err) {
-      }
     }
   }
 };

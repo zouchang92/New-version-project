@@ -56,10 +56,10 @@ export default {
           },
           {
             label: "负责人",
-            prop: "person",
+            prop: "",
             type: "select",
+            hide: true,
             search: true,
-            hide: true
           },
           {
             label: "学号",

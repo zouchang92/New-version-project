@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
-export function listStu({ semesterName, orgName, studentName, studentNum }) {
+export function listStu({ orgName, studentName, studentNum }) {
   return request({
     url: '/zhxyx/stuScore/listStuScoreByName',
     method: 'post',
     data: {
-      semesterName, orgName, studentName, studentNum
+      orgName, studentName, studentNum
     }
   })
 }

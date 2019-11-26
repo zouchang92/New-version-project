@@ -11,7 +11,7 @@
         <div><ActivityManagement /></div>
       </el-tab-pane>
       <el-tab-pane label="人员管理" name="fourth">
-        <div>789</div>
+        <div><PersonnelManagement /></div>
       </el-tab-pane>
       <el-tab-pane label="活动考勤">
         <div><ActivityAttendance /></div>
@@ -24,12 +24,14 @@ import CommunityPage from './components/CommunityPage'
 import Management from './components/Management'
 import ActivityManagement from './components/ActivityManagement'
 import ActivityAttendance from './components/ActivityAttendance'
+import PersonnelManagement from './components/PersonnelManagement'
 export default {
   components: {
     ActivityAttendance,
     ActivityManagement,
     CommunityPage,
-    Management
+    Management,
+    PersonnelManagement
   },
   data() {
     return {

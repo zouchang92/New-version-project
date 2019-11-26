@@ -45,6 +45,14 @@
 <script>
 import { daRap } from "@/api/growthArchivesApi";
 export default {
+  props:{
+    input:{
+      type:String
+    },
+    value:{
+      type:String
+    }
+  },
   data() {
     return {
       input: "",
@@ -98,9 +106,9 @@ export default {
   },
   mounted() {},
   watch: {
-    // option: function(a, b) {
-    //   console.log(a,b)
-    // }
+    option: function(a, b) {
+      console.log(a,b)
+    }
   },
   methods: {
     handleClick(row) {

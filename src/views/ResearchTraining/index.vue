@@ -5,7 +5,7 @@
         <div><MyResearch /></div>
       </el-tab-pane>
       <el-tab-pane label="研修计划" name="second">
-        <div>213</div>
+        <div><img src="../../assets/404_images/404.png" alt=""></div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -14,7 +14,7 @@
 import MyResearch from './components/MyResearch'
 export default {
   components: {
-    MyResearch
+    MyResearch,
   },
   data() {
     return {

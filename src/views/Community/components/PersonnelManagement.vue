@@ -36,7 +36,7 @@ export default {
           clubOrgId: "三年级/5班",
           person: "男",
           classroomName: "2019-09-28 09:00",
-          Pay:'已缴'
+          Pay:'已缴费'
         }
       ],
       option: {
@@ -49,13 +49,6 @@ export default {
             prop: "semesterId",
             type: "select",
             search: true
-          },
-          {
-            label: "负责人",
-            prop: "person",
-            type: "select",
-            search: true,
-            hide: true
           },
           {
             label: "学号",

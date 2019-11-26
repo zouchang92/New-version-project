@@ -54,6 +54,14 @@ export default {
   components: {
     LineChart
   },
+    props:{
+    input:{
+      type:String
+    },
+    value:{
+      type:String
+    }
+  },
   data() {
     return {
       fn: listStu,
@@ -79,8 +87,8 @@ export default {
         { prop: "Geography", label: "地理" },
         { prop: "Biology", label: "生物" },
         { prop: "Morality", label: "道德与法" },
-        { prop: "score", label: "个人总分" },
-        { prop: "class", label: "班级均分" }
+        { prop: "totalScore", label: "个人总分" },
+        { prop: "totalAvgScore", label: "班级均分" }
       ],
       height: "570px",
       cities: [
@@ -106,22 +114,8 @@ export default {
           Geography: 99,
           Biology: 70,
           Morality: 77,
-          score: 600,
-          class: 500
-        },
-        {
-          name: "二月考",
-          Chinese: 55,
-          Mathematics: 66,
-          English: 39,
-          Physics: 57,
-          Chemistry: 60,
-          History: 90,
-          Geography: 99,
-          Biology: 70,
-          Morality: 77,
-          score: 600,
-          class: 500
+          totalScore:'',
+          totalAvgScore:''
         },
         {
           name: "期中考",
@@ -134,36 +128,6 @@ export default {
           Geography: 99,
           Biology: 70,
           Morality: 77,
-          score: 600,
-          class: 500
-        },
-        {
-          name: "三月考",
-          Chinese: 55,
-          Mathematics: 66,
-          English: 39,
-          Physics: 57,
-          Chemistry: 60,
-          History: 90,
-          Geography: 99,
-          Biology: 70,
-          Morality: 77,
-          score: 600,
-          class: 500
-        },
-        {
-          name: "四月考",
-          Chinese: 55,
-          Mathematics: 66,
-          English: 39,
-          Physics: 57,
-          Chemistry: 60,
-          History: 90,
-          Geography: 99,
-          Biology: 70,
-          Morality: 77,
-          score: 600,
-          class: 500
         },
         {
           name: "期末考",
@@ -176,8 +140,6 @@ export default {
           Geography: 99,
           Biology: 70,
           Morality: 77,
-          score: 600,
-          class: 500
         }
       ],
       options1: {
@@ -360,6 +322,17 @@ export default {
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.cities.length;
+    },    
+    async get() {
+      try {
+        let orgName = this.value
+        let studentName = this.input
+        // console.log(orgName,studentName)
+        let list = await listStu({orgName, studentName})
+        this.tableData = list.data
+      } catch(err) {
+        console.log(213)
+      }
     }
   }
 };
@@ -375,6 +348,7 @@ export default {
     margin-top: -36px;
   }
   .Acadmic-table {
+    height:900px;
     margin: 0px 49px;
   }
 }
