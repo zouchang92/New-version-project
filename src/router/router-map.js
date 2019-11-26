@@ -295,6 +295,24 @@ export default {
     meta: { title: '学生综合素质', icon: 'guide' }
   },
   //
+  Research: {
+    path: '/Research',
+    component: Layout,
+    redirect: '/Research/index',
+    name: 'Research',
+    alwaysShow: true,
+    meta: {
+      title: '研训管理',
+      icon: 'nested'
+    }
+  },
+  ResearchTraining: {
+    path: 'ResearchTraining',
+    component: () => import('@/views/ResearchTraining'),
+    name: 'ResearchTraining',
+    meta: { title: '研训管理', icon: 'guide' }
+  },
+  //
   sourceManage: {
     path: '/sourceManage',
     component: Layout,
