@@ -29,45 +29,45 @@
             <div class="top-right">
               <div style="position: absolute;top: 34px;left: -227px;">
                 <star-rating
-                  star-size="20"
+                  star-size=20
                   show-rating="false"
-                  rtl="true"
+                  rtl=true
                   read-only
                   v-model="rating"
                   v-bind:max-rating="rating"
                 ></star-rating>
                 <star-rating
                   style="margin-top:30px"
-                  star-size="20"
+                  star-size=20
                   read-only
                   show-rating="false"
-                  rtl="true"
+                  rtl=true
                   v-model="rating1"
                   v-bind:max-rating="rating1"
                 ></star-rating>
                 <star-rating
                   style="margin-top:27px"
-                  star-size="20"
+                  star-size=20
                   read-only
                   show-rating="false"
-                  rtl="true"
+                  rtl=true
                   v-model="rating2"
                   v-bind:max-rating="rating2"
                 ></star-rating>
                 <star-rating
                   style="margin-top:26px"
-                  star-size="20"
+                  star-size=20
                   read-only
                   show-rating="false"
-                  rtl="true"
+                  rtl=true
                   v-model="rating3"
                   v-bind:max-rating="rating3"
                 ></star-rating>
                 <star-rating
                   style="margin-top:25px"
-                  star-size="20"
+                  star-size=20
                   show-rating="false"
-                  rtl="true"
+                  rtl=true
                   read-only
                   v-model="rating4"
                   v-bind:max-rating="rating4"

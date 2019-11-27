@@ -1,20 +1,36 @@
 <template>
   <div class="Research-training">
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="我的研修" name="first">
-        <div><MyResearch /></div>
+      <el-tab-pane label="研训首页" name="first">
+        <div>
+         <ResearchPage />
+        </div>
       </el-tab-pane>
-      <el-tab-pane label="研修计划" name="second">
-        <div><img src="../../assets/404_images/404.png" alt=""></div>
+      <el-tab-pane label="研训计划" name="second">
+        <div>
+          <img src="../../assets/404_images/404.png" alt />
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="研训成果" name="Three">
+        <div>
+         123
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="我的研训" name="Four">
+        <div>
+          <MyResearch />
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 <script>
-import MyResearch from './components/MyResearch'
+import MyResearch from "./components/MyResearch"
+import ResearchPage from './components/ResearchPage'
 export default {
   components: {
-    MyResearch,
+    ResearchPage,
+    MyResearch
   },
   data() {
     return {
@@ -29,7 +45,7 @@ export default {
 };
 </script>
 <style>
-.Research-training .el-tabs__nav-wrap{
+.Research-training .el-tabs__nav-wrap {
   background: #fff;
   padding-left: 30px;
 }

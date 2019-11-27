@@ -46,20 +46,20 @@
   </div>
 </template>
 <script>
-const Semester = ['期中', '期末']
-import {listStu} from '@/api/growthArchivesApi'
-import LineChart from '../../dashboard/Teacher/components/LineChart'
-import isValidOption from '@/utils/isValidOption.js'
+const Semester = ["期中", "期末"];
+import { listStu } from "@/api/growthArchivesApi";
+import LineChart from "../../dashboard/Teacher/components/LineChart";
+import isValidOption from "@/utils/isValidOption.js";
 export default {
   components: {
     LineChart
   },
-    props:{
-    input:{
-      type:String
+  props: {
+    input: {
+      type: String
     },
-    value:{
-      type:String
+    value: {
+      type: String
     }
   },
   data() {
@@ -90,6 +90,37 @@ export default {
         { prop: "totalScore", label: "个人总分" },
         { prop: "totalAvgScore", label: "班级均分" }
       ],
+      Data: [
+        {
+          course: "语文",
+          score: 89.0
+        },
+        {
+          course: "数学",
+          score: 88.0
+        },
+        {
+          course: "英语",
+          score: 79.0
+        },
+        {
+          course: "化学",
+          score: 87.0
+        },
+        {
+          course: "历史",
+          score: 86.0
+        },
+        {
+          course: "物理",
+          score: 88.0
+        },
+        {
+          course: "生物",
+          score: 99.0
+        }
+      ],
+
       height: "570px",
       cities: [
         {
@@ -102,11 +133,10 @@ export default {
       subject: [{ label: "语文" }, { label: "数学" }],
       value: "2019年下学期",
       value1: "语文",
-      tableData: [
-        {
+      tableData: {
           name: "一月考",
-          Chinese: 55,
-          Mathematics: 66,
+          Chinese:89,
+          Mathematics:90,
           English: 39,
           Physics: 57,
           Chemistry: 60,
@@ -114,34 +144,9 @@ export default {
           Geography: 99,
           Biology: 70,
           Morality: 77,
-          totalScore:'',
-          totalAvgScore:''
-        },
-        {
-          name: "期中考",
-          Chinese: 55,
-          Mathematics: 66,
-          English: 39,
-          Physics: 57,
-          Chemistry: 60,
-          History: 90,
-          Geography: 99,
-          Biology: 70,
-          Morality: 77,
-        },
-        {
-          name: "期末考",
-          Chinese: 55,
-          Mathematics: 66,
-          English: 39,
-          Physics: 57,
-          Chemistry: 60,
-          History: 90,
-          Geography: 99,
-          Biology: 70,
-          Morality: 77,
-        }
-      ],
+          totalScore: "",
+          totalAvgScore: ""
+      },
       options1: {
         title: {
           text: "2019年下学期蔡启超成绩分析图",
@@ -298,6 +303,9 @@ export default {
       }
     };
   },
+  created() {
+
+  },
   watch: {
     options(options) {
       this.checkAndSetOption();
@@ -322,16 +330,16 @@ export default {
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.cities.length;
-    },    
+    },
     async get() {
       try {
-        let orgName = this.value
-        let studentName = this.input
+        let orgName = this.value;
+        let studentName = this.input;
         // console.log(orgName,studentName)
-        let list = await listStu({orgName, studentName})
-        this.tableData = list.data
-      } catch(err) {
-        console.log(213)
+        let list = await listStu({ orgName, studentName });
+        this.tableData = list.data;
+      } catch (err) {
+        console.log(213);
       }
     }
   }
@@ -348,7 +356,7 @@ export default {
     margin-top: -36px;
   }
   .Acadmic-table {
-    height:900px;
+    height: 900px;
     margin: 0px 49px;
   }
 }
