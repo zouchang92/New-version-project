@@ -66,6 +66,9 @@
                 <i class="el-icon-d-arrow-right"></i>
               </p>
             </div>
+            <div class="trainees-content" style="margin-top:-50px;">
+                <Histogram />
+            </div>
           </div>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8" style="padding-right: 17px;">
@@ -88,10 +91,12 @@
 <script>
 import RaddarChart from "./RaddarChart";
 import PieChard from './PieChard'
+import Histogram from './Histogram'
 export default {
   components: {
     RaddarChart,
-    PieChard
+    PieChard,
+    Histogram
   },
   data() {
     return {
