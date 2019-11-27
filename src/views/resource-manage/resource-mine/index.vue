@@ -1,21 +1,7 @@
 <template>
   <div class="resource-mine">
     <el-row :gutter="15">
-      <el-col :span="6">
-        <el-card>
-          <div>
-            <el-tree :props="treeProps" :data="fileLists">
-              <span class="custom-tree-node" slot-scope="{ node, data }">
-                <span>
-                  <i class="tree-icon el-icon-folder-opened"></i>{{ node.label }}
-                </span>              
-              </span>
-            </el-tree>
-            <el-button class="add-folder" icon="el-icon-circle-plus-outline" type="primary" size="medium">新建文件夹</el-button>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="18">
+      <el-col :span="24">
         <el-card>
           <el-col style="margin-bottom: 15px;" :span="24">
             <el-form size="small" style="margin-bottom: 0px;" class="avue-crud-search" :inline="true">
@@ -29,6 +15,9 @@
                 <el-button @click="uploadFile" icon="el-icon-upload" type="success">上传文件</el-button>
               </el-form-item>
               <el-form-item>
+                <el-button @click="addFolder" icon="el-icon-upload" type="success">新建文件夹</el-button>
+              </el-form-item>
+              <el-form-item>
                 <el-button icon="el-icon-download" type="info">批量下载</el-button>
               </el-form-item>
               <el-form-item>
@@ -39,55 +28,21 @@
               </el-form-item>
             </el-form>
           </el-col>
+        </el-card>
+        <el-card style="margin-top: 15px">
           <el-col style="margin-bottom: 15px;" :span="24">
-            <el-table 
-              :data="tableList"
-              :show-header="false"
-            >
-              <el-table-column
-                type="selection"
-                width="55">
-              </el-table-column>
-              <el-table-column
-                label="类型"
-                width="120">
-                <template slot-scope="scope">
-                  <img class="file-icon" :src="getIcon(scope.row.type)" />
-                </template>
-              </el-table-column>
-              <el-table-column
-                label="文件名"
-                >
-                <template slot-scope="scope">{{ scope.row.name }}</template>
-              </el-table-column>
-              <el-table-column
-                label="大小"
-                width="120">
-                <template slot-scope="scope">{{ scope.row.size }}</template>
-              </el-table-column>
-              <el-table-column
-                label="上传日期"
-                width="120">
-                <template slot-scope="scope">{{ scope.row.createTime }}</template>
-              </el-table-column>
-              <el-table-column
-                label="操作"
-                width="180">
-                <template slot-scope="scope">
-                  <div class="cell">
-                    <el-button type="text">查看</el-button>
-                    <el-button @click="singleShare" type="text">分享</el-button>
-                    <el-button type="text">删除</el-button>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
+            <file-list ref="fileList" :fileList="treeData" />
           </el-col>
         </el-card>
       </el-col>
     </el-row>
     <member-select v-model="memberShow" />
     <upload-dialog @uploadSuccess="uploadFiles" :dialogVisible.sync="uploadDialogVisible" />
+    <el-dialog :visible.sync="newFolderModalVisible">
+      <div>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -95,77 +50,56 @@
 import UploadDialog from '../components/UploadDialog'
 import MemberSelect from '@/components/MemberSelect'
 import tableCommon from '@/mixins/table-common'
-import { queryFolderTree } from '@/api/resourceManageApi'
+import { queryFolderTree, uploadFile, querySubList, addFolder } from '@/api/resourceManageApi'
+import FileList from '../components/FileList'
+import _ from 'lodash'
 export default {
   mixins: [tableCommon],
   data() {
     return {
+      newFolderModalVisible: false,
       memberShow: false,
       uploadDialogVisible: false,
+      fn: queryFolderTree,
       activeIndex: 0,
-      treeConfig: {
-        loading: false
-      },
-      tableList: [{
-        type: 'pdf',
-        name: 'aaa.pdf',
-        size: '3.2MB',
-        createTime: '2018-09-10'
-      }, {
-        type: 'pdf',
-        name: 'aaa.pdf',
-        size: '3.2MB',
-        createTime: '2018-09-10'
-      }],
-      treeProps: {
-        label: 'name'
-      },
-      fileLists: [{
-        isFolder: true,
-        name: '文件夹1',
-        children: [{
-          isFolder: true,
-          name: '文件夹3'
-        }, {
-          isFolder: true,
-          name: '文件夹5'
-        }, {
-          isFolder: true,
-          name: '文件夹6'
-        }, {
-          name: '图片6',
-          type: 'image',
-          src: 'http://p0.qhimgs4.com/video/120_77_/t0155d38e4765ffb07f.jpg?size=720x495'
-        }]
-      }, {
-        isFolder: true,
-        name: '文件夹2',
-        children: [{
-          isFolder: true,
-          name: '文件夹4'
-        }]
-      }]
     }
   },
-  components: {
-    UploadDialog,
-    MemberSelect
-  },
-  mounted() {
-    this.getFolderTree()
+  computed: {
+    treeData() {
+      return this.toTree(this.tableList)
+    }
   },
   methods: {
     search() {
 
     },
-    async getFolderTree() {
-      this.treeConfig.loading = true
+    async addFolder() {
+      const { currentPath } = this.$refs['fileList']
       try {
-        let data = await queryFolderTree()
-        console.log(data)
+        let res = await addFolder({parentId: currentPath.id === 'root' ? '' : currentPath.id})
+        this.refreshFolder(currentPath.id)
       } catch(err) {
 
       }
+    },
+    toTree(data) {
+      _.forEach(data, n => {
+        delete n.children
+      })
+      let map = {}
+      _.forEach(data, n => {
+        map[n.id] = n
+      })
+      let val = []
+      _.forEach(data, n => {
+        let parent = map[n.parentId]
+        if (parent) {
+          (parent.children || ( parent.children = [] )).push(n)
+        } else {
+          val.push(n)
+        }
+      })
+      return val
     },
     getIcon(type) {
       try {
@@ -174,9 +108,27 @@ export default {
         return require('../../../assets/other_icon.png')
       }
     },
-    uploadFiles(files) {
-      console.log(files)
-      this.uploadDialogVisible = false
+    async uploadFiles(files) {
+      const { currentPath } = this.$refs['fileList']
+      try {
+        let res = await uploadFile({
+           parentId: currentPath.id === 'root' ? '' : currentPath.id, 
+           filePath: files[0].upload[0].url, 
+           name: files[0].upload[0].name, 
+           createUserId: ''
+        })
+        await this.refreshFolder(currentPath.id)
+        this.uploadDialogVisible = false
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async refreshFolder(id) {
+      try {
+        this.$refs['fileList'].refreshFolder(id)
+      } catch(err) {
+
+      }
     },
     handleMenuClick(item, i) {
       this.activeIndex = i
@@ -193,7 +145,13 @@ export default {
     },
     resourceRemove() {
 
-    }
+    },
+
+  },
+  components: {
+    FileList,
+    UploadDialog,
+    MemberSelect
   }
 }
 </script>

@@ -58,7 +58,7 @@ export default {
   display: block;
   width: 100%;
   height: 0;
-  padding-bottom: 100%;
+  padding-bottom: 50%;
   overflow: hidden;
   .abnor-box {
     position: absolute;
