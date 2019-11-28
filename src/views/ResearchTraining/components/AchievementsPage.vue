@@ -97,10 +97,7 @@
   </div>
 </template>
 <script>
-import tableCommon from "@/mixins/table-common.js";
-
 export default {
-  mixins: [tableCommon],
   data() {
     return {
       options: [
