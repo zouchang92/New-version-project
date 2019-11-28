@@ -82,6 +82,9 @@
                 <i class="el-icon-d-arrow-right"></i>
               </p>
             </div>
+            <div class="statistics-content">
+                <CurrentSituation />
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -92,11 +95,13 @@
 import RaddarChart from "./RaddarChart";
 import PieChard from './PieChard'
 import Histogram from './Histogram'
+import CurrentSituation from './CurrentSituation'
 export default {
   components: {
     RaddarChart,
     PieChard,
-    Histogram
+    Histogram,
+    CurrentSituation
   },
   data() {
     return {

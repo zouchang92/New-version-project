@@ -67,6 +67,12 @@ export default {
         xAxis: [
           {
             type: "category",
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: "#000"
+              }
+            },
             data: ["新教师", "班主任", "管理干部", "老年教师", "骨干教师"],
             axisTick: {
               alignWithLabel: true
@@ -75,7 +81,19 @@ export default {
         ],
         yAxis: [
           {
-            type: "value"
+            type: "value",
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: "#000"
+              }
+            },
+            axisLine: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            }
           }
         ],
         series: [
@@ -83,7 +101,7 @@ export default {
             name: "师资分析",
             type: "bar",
             barWidth: "40%",
-            data: [ 63, 46, 41, 59, 83]
+            data: [63, 46, 41, 59, 83]
           }
         ]
       });

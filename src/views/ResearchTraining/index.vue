@@ -8,12 +8,12 @@
       </el-tab-pane>
       <el-tab-pane label="研训计划" name="second">
         <div>
-          <img src="../../assets/404_images/404.png" alt />
+         <ResearchPlay />
         </div>
       </el-tab-pane>
       <el-tab-pane label="研训成果" name="Three">
         <div>
-         123
+         <AchievementsPage />
         </div>
       </el-tab-pane>
       <el-tab-pane label="我的研训" name="Four">
@@ -27,10 +27,14 @@
 <script>
 import MyResearch from "./components/MyResearch"
 import ResearchPage from './components/ResearchPage'
+import ResearchPlay from './components/ResearchPlay'
+import AchievementsPage from './components/AchievementsPage'
 export default {
   components: {
     ResearchPage,
-    MyResearch
+    MyResearch,
+    ResearchPlay,
+    AchievementsPage
   },
   data() {
     return {

@@ -298,7 +298,6 @@ export default {
   Research: {
     path: '/Research',
     component: Layout,
-    redirect: '/Research/index',
     name: 'Research',
     alwaysShow: true,
     meta: {
@@ -311,6 +310,23 @@ export default {
     component: () => import('@/views/ResearchTraining'),
     name: 'ResearchTraining',
     meta: { title: '研训管理', icon: 'guide' }
+  },
+  //
+  Class: {
+    path: '/Class',
+    component: Layout,
+    name: 'Class',
+    alwaysShow: true,
+    meta: {
+      title: '评课管理',
+      icon: 'nested'
+    }
+  },
+  ClassEvaluation: {
+    path: 'ClassEvaluation',
+    component: () => import('@/views/ClassEvaluation'),
+    name: 'ClassEvaluation',
+    meta: { title: '评课管理', icon: 'guide' }
   },
   //
   sourceManage: {

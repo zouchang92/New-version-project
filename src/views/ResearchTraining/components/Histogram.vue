@@ -33,6 +33,7 @@ export default {
     return {
       chart: null,
       option: {
+        color: ["#1890FF", "#2FC25B", "#FBD437"],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -47,10 +48,33 @@ export default {
           containLabel: true
         },
         xAxis: {
-          type: "value"
+          type: "value",
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: "#000"
+            }
+          },
+          axisLine: {
+            //axisLine决定是否显示坐标刻度
+            show: false
+          },
+          axisLabel: {
+            //决定是否显示数据
+            show: true
+          },
+          splitLine: {
+            show: false
+          }
         },
         yAxis: {
           type: "category",
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: "#000"
+            }
+          },
           data: ["外派", "网上自学", "现场授课"]
         },
         series: [
@@ -58,9 +82,10 @@ export default {
             name: "参训人数",
             type: "bar",
             stack: "总量",
+            barWidth: "20%",
             label: {
               normal: {
-                show: true,
+                show: false,
                 position: "insideRight"
               }
             },
@@ -72,7 +97,7 @@ export default {
             stack: "总量",
             label: {
               normal: {
-                show: true,
+                show: false,
                 position: "insideRight"
               }
             },
@@ -84,7 +109,7 @@ export default {
             stack: "总量",
             label: {
               normal: {
-                show: true,
+                show: false,
                 position: "insideRight"
               }
             },
