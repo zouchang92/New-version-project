@@ -16,12 +16,18 @@
             <class-report />
           </div>
         </el-tab-pane>
+        <el-tab-pane label="回收站" name="four">
+          <div class="mortal-content" style="margin: 0 15px">
+            <recycler />
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
 </template>
 
 <script>
 import ResourceMine from './resource-mine'
+import Recycler from './recycler'
 export default {
   name: 'moralReport',
   data() {
@@ -35,7 +41,8 @@ export default {
     }
   },
   components: {
-    ResourceMine
+    ResourceMine,
+    Recycler
   }
 }
 </script>

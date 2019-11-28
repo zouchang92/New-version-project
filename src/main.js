@@ -11,9 +11,6 @@ import ElTreeSelect from 'el-tree-select'
 import VueFileAgent from 'vue-file-agent'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css'
 
-import contentmenu from 'v-contextmenu'
-import 'v-contextmenu/dist/index.css'
-
 
 
 
@@ -41,8 +38,6 @@ Vue.use(ElTreeSelect)
 Vue.use(VueFileAgent)
 
 Vue.use(VCharts)
-
-Vue.use(contentmenu)
 
 Vue.config.productionTip = false
 

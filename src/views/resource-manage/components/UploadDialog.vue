@@ -25,7 +25,7 @@
 export default {
   data() {
     return {
-      uploadUrl: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+      uploadUrl: `${process.env.VUE_APP_BASE_API}zhxyx/upload/file`,
       filesData: [],
       filesDataForUpload: [],
       loading: false

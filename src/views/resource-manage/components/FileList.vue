@@ -1,42 +1,72 @@
 <template>
   <div>
-  <v-contextmenu ref="folderMenu" >
-            <v-contextmenu-item @click="handleFolderMenuClick(1)">打开</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFolderMenuClick(2)">重命名</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFolderMenuClick(3)">全选</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFolderMenuClick(4)">详情</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFolderMenuClick(0)"><span style="color: red;width: 300px">删除</span>
-            </v-contextmenu-item>
-        </v-contextmenu>
-        <v-contextmenu ref="fileMenu" @contextmenu="handleFileMenu">
-            <v-contextmenu-item @click="handleFileMenuClick(1)">详情</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFileMenuClick(2)">重命名</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFileMenuClick(3)">全选</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFileMenuClick(5)">下载</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFileMenuClick(6)">分享</v-contextmenu-item>
-            <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFileMenuClick(0)"><span style="color: red;width: 300px">删除</span>
-            </v-contextmenu-item>
-        </v-contextmenu>
+  <vue-context ref="folderMenu">
+    <template slot-scope="child" v-if="child.data">
+       <li @click="handleFolderMenuClick(1, child.data)">
+         <a href="#">打开</a>
+       </li>
+       <li @click="handleFolderMenuClick(2, child.data)">
+         <a href="#">重命名</a>
+       </li>
+       <li @click="handleFolderMenuClick(3, child.data)">
+         <a href="#">全选</a>
+       </li>
+       <li @click="handleFolderMenuClick(4, child.data)">
+         <a href="#">详情</a>
+       </li>
+       <li @click="handleFolderMenuClick(0, child.data)">
+         <a href="#"><span style="color: red;width: 300px">删除</span></a>
+       </li>
+    </template>
+        </vue-context>
+        <vue-context ref="fileMenu">
+          <template slot-scope="child" v-if="child.data">
+            <li @click="handleFileMenuClick(1, child.data)">
+              <a href="#">详情</a>
+            </li>
+            <li @click="handleFileMenuClick(2, child.data)">
+              <a href="#">重命名</a>
+            </li>
+            <li @click="handleFileMenuClick(3, child.data)">
+              <a href="#">全选</a>
+            </li>
+            <li @click="handleFileMenuClick(5, child.data)">
+              <a href="#">下载</a>
+            </li>
+            <li @click="handleFileMenuClick(6, child.data)">
+              <a href="#">分享</a>
+            </li>
+            <li @click="handleFileMenuClick(0, child.data)">
+              <a href="#"><span style="color: red;width: 300px">删除</span></a>
+            </li>
+          </template>
+        </vue-context>
+        <vue-context ref="recyclerMenu">
+          <template slot-scope="child" v-if="child.data">
+            <li @click="handleRecyclerMenuClick(1, child.data)">
+              <a href="#">还原</a>
+            </li>
+            <li @click="handleRecyclerMenuClick(0, child.data)">
+              <a href="#"><span style="color: red;width: 300px">删除</span></a>
+            </li>
+          </template>
+        </vue-context>
     <div class="file-list">
-      <el-breadcrumb separator="/">
+      <el-breadcrumb v-if="type==='normal'" separator="/">
         <el-breadcrumb-item :class="{'drill-able': item.drill}" v-for="(item, i) in bread" :key="i">
           <a @click="onBreadcrumbClick(item, i)" href="#" v-if="item.drill">{{item.name}}</a>
           <span v-else>{{item.name}}</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
       <div class="file-finder" v-loading="loading">
-          <div v-contextmenu="item._contextmenu" @click="onClickFile(item)" :class="{directory: item.isFile === '0', selected: selection.indexOf(item.id) > -1}" v-for="(item, i) in currentFolder" :key="i">
-            <img v-if="item.isFile === '0'" src="@/assets/folder_icon.png" />
-            <img v-else :src="getIcon(item.fileType)" />
+          <div class="file-item" @contextmenu.prevent="$refs[item._contextmenu].open($event, item)" :index="currentFolder.indexOf(item)" @click="onClickFile(item)" :class="{directory: item.isFile === '0', selected: selection.indexOf(item.id) > -1}" v-for="(item, i) in currentFolder" :key="i">
+            <div v-if="item.isFile === '0'">
+              <img src="@/assets/folder_icon.png" />
+            </div>
+            <div v-else>
+              <img v-if="item.fileType === 'jpeg' || item.fileType === 'png' || item.fileType === 'jpg' || item.fileType === 'gif' || item.fileType === 'svg'"  :src='process.env.VUE_APP_BASE_API + item.filePath' />
+              <img v-else :src="getIcon(item.fileType)" />
+            </div>
             <label>{{item.name}}</label>
           </div>
       </div>
@@ -55,16 +85,30 @@
 <script>
 import _ from 'lodash'
 import { mapGetters } from 'vuex'
-import { querySubList, downloadFile } from '@/api/resourceManageApi'
+import { querySubList, downloadFile, deleteFile, deleteFolder, queryRecyclerList, truncateFile, truncateDirectory } from '@/api/resourceManageApi'
 import Abnor from '@/components/Abnor'
 import moment from 'moment'
+import VueContext from 'vue-context';
+import 'vue-context/src/sass/vue-context.scss';
 export default {
   data() {
     return {
       currentFolder: [],
+      process: process,
       bread: [],
       selection: [],
       contextFileMenuIndex: -1,
+      contextFolderMenuIndex: -1,
+      contextMenuType: {
+        normal: {
+          file: 'fileMenu',
+          folder: 'folderMenu'
+        },
+        recycler: {
+          file: 'recyclerMenu',
+          folder: 'recyclerMenu'
+        }
+      },
       itemClickTime: 0,
       loading: false,
       warnText: '',
@@ -78,14 +122,17 @@ export default {
   props: {
     fileList: {
       type: Array
+    },
+    type: {
+      type: String,
+      default: 'normal'
     }
   },
   watch: {
     fileList: {
       immediate: true,
       handler: function(val) {
-        this.fileFilter(val)
-        this.bread = this.getInitBread(this.fileList)
+
       }
     }
   },
@@ -95,23 +142,39 @@ export default {
       return this.bread[this.bread.length - 1]
     }
   },
+  mounted() {
+    this.bread = this.getInitBread(this.fileList)
+    this.getFolderFile('root')
+  },
   methods: {
     selectFile(item) {
-      this.selection.push(item.id)
+      if (this.selection.indexOf(item.id) !== -1) {
+        this.selection.splice(this.selection.indexOf(item.id), 1);
+      } else {
+        this.selection.push(item.id);
+      }
     },
-    handleFileMenu(ref) {
-      this.contextFileMenuIndex = ref.data.key
-    },
-    handleFolderMenuClick(index) {
-      
-    },
-    deleteFile() {
-
-    },
-    handleFileMenuClick(action) {
-      let file = this.currentFolder[this.contextFileMenuIndex]
+    handleRecyclerMenuClick(action, data) {
+      let file = data
       switch(action) {
         case 0:
+          this.truncateFile(data.isFile === '0' ? 'folder' : 'file', file.id)
+          break;
+      }
+    },
+    handleFolderMenuClick(action, data) {
+      let file = data
+      switch(action) {
+        case 0:
+          this.deleteFile('folder', file.id)
+          break;
+      }
+    },
+    handleFileMenuClick(action, data) {
+      let file = data
+      switch(action) {
+        case 0:
+          this.deleteFile('file', file.id)
           break;
         case 1:
           this.folderInfoDialog.show = true
@@ -123,10 +186,39 @@ export default {
           break;
       }
     },
+    async truncateFile(type, id) {
+      let fn = type === 'file' ? truncateFile : truncateDirectory
+      try {
+        await fn(id)
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        this.refreshCurrentFolder()
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async deleteFile(type, id) {
+      let fn = type === 'file' ? deleteFile : deleteFolder
+      try {
+        await fn(id)
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        this.refreshCurrentFolder()
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    refreshCurrentFolder() {
+      this.getFolderFile(this.currentPath.id)
+    },
     async downloadFile(id) {
       try {
         let res = await downloadFile(id)
-
+        window.open(`${process.env.VUE_APP_BASE_API}${res.data}`)
       } catch(err) {
         console.log(err)
       }
@@ -144,7 +236,6 @@ export default {
         name: '我的资源',
         drill: true,
         id: 'root',
-        children: this.fileList
       }]
       
     },
@@ -155,8 +246,9 @@ export default {
     },
     async getFolderFile(id) {
       this.loading = true
+      let fn = this.type === 'normal' ? querySubList : queryRecyclerList
       try {
-        let res = await querySubList({parentId: id === 'root' ? '' : id})
+        let res = await fn({parentId: id === 'root' ? '' : id})
         this.fileFilter(res.data)
         if (!res.data.length) {
           this.warnText = '该文件夹下还没有文件哦'
@@ -167,17 +259,17 @@ export default {
         this.loading = false
       }
     },
-    fileterType(files) {
+    filterType(files) {
       return _.map(files, n => {
         if (n.isFile === '0') {
           return {
             ...n,
-            _contextmenu: 'folderMenu'
+            _contextmenu: this.contextMenuType[this.type]['folder']
           }
         } else {
           return {
             ...n,
-            _contextmenu: 'fileMenu' 
+            _contextmenu: this.contextMenuType[this.type]['file']
           }
         }
       })
@@ -188,9 +280,10 @@ export default {
       if ((time - this.itemClickTime) < CLICKTIME) {
         this.itemClickTime = 0
         if (item.isFile === '0') {
-          
-          this.bread.push({...item, drill: true})
-          this.getFolderFile(item.id)
+          if (this.type === 'normal') {
+            this.bread.push({...item, drill: true})
+            this.getFolderFile(item.id)
+          }
         } else {
 
         }
@@ -213,8 +306,8 @@ export default {
 
     },
     fileFilter(file) {
-      console.log(this.fileterType(file))
-      this.currentFolder = this.fileterType(file)
+      console.log(this.filterType(file))
+      this.currentFolder = this.filterType(file)
     },
     getIcon(type) {
       try {
@@ -225,7 +318,8 @@ export default {
     },
   },
   components: {
-    Abnor
+    Abnor,
+    VueContext
   }
 }
 </script>
@@ -238,7 +332,7 @@ export default {
   }
   .file-finder {
     padding: 15px 30px;
-    > div {
+    .file-item {
       width: 120px;
       display: -moz-inline-stack;
       display: inline-block;
