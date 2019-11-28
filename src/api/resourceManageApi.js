@@ -8,6 +8,14 @@ export function queryFolderTree() {
   })
 }
 
+export function queryRecyclerList() {
+  return request({
+    url: '/zhxyx/zyFile/recyclerList',
+    method: 'post',
+    data: {}
+  })
+}
+
 export function uploadFile({ parentId, filePath, name, createUserId }) {
   return request({
     url: '/zhxyx/zyFile/uploadZyFile',
@@ -42,6 +50,59 @@ export function addFolder({parentId}) {
 }
 
 export function downloadFile(id) {
-  window.open(`${process.env.VUE_APP_BASE_API}zhxyx/zyFile/downloadZyFile?id=${id}`)
+  return request({
+    url: '/zhxyx/zyFile/downloadZyFile',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
 
+export function deleteFile(id) {
+  return request({
+    url: '/zhxyx/zyFile/deleteFile',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
+export function truncateRecycler() {
+  return request({
+    url: '/zhxyx/zyFile/truncateRecycler',
+    method: 'post',
+    data: {}
+  })
+}
+
+export function deleteFolder(id) {
+  return request({
+    url: '/zhxyx/zyFile/deleteDirectory',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
+export function truncateFile(id) {
+  return request({
+    url: '/zhxyx/zyFile/truncateFile',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
+export function truncateDirectory(id) {
+  return request({
+    url: '/zhxyx/zyFile/truncateDirectory',
+    method: 'post',
+    data: {
+      id
+    }
+  })
 }

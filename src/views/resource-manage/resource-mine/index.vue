@@ -114,13 +114,12 @@ export default {
         let res = await uploadFile({
            parentId: currentPath.id === 'root' ? '' : currentPath.id, 
            filePath: files[0].upload[0].url, 
-           name: files[0].upload[0].name, 
+           name: files[0].name(), 
            createUserId: ''
         })
         await this.refreshFolder(currentPath.id)
         this.uploadDialogVisible = false
       } catch(err) {
-        console.log(err)
       }
     },
     async refreshFolder(id) {

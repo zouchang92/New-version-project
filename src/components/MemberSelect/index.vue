@@ -50,7 +50,15 @@ export default {
       checkboxHidden: true,
       type: 'org',
       members: [],
-      userLoading: false,
+      userLoading: false,.
+      contextType: {
+        normal: {
+
+        },
+        recyler: {
+          
+        }
+      }
     }
   },
   props: {
