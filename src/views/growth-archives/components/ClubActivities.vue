@@ -5,7 +5,8 @@
         :data="data"
         :option="option"
         :page="page"
-        @on-load="onLoad"
+        :table-loading="tableListLoading"
+        @row-del="del" 
         @selection-change="selectionChange"
         :cell-style="cellStyle"
       >
@@ -17,11 +18,15 @@
   </div>
 </template>
 <script>
-import { clubQueryAll} from '@/api/growthArchivesApi'
+import { clubQueryAll , delclub} from '@/api/growthArchivesApi'
+import tableCommon from '@/mixins/table-common.js'
+
 export default {
+  mixins: [tableCommon],
   data() {
     return {
       fn:clubQueryAll,
+      del:delclub,
       page: {
         pageSize: 20
       },

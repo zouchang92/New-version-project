@@ -16,6 +16,15 @@ export function duty() {
     data: { }
   })
 }
+export function delduty({ id }) {
+  return request({
+    url: 'zhxyx/duty/deleteStuDaDuty',
+    method: 'post',
+    data: { 
+      id
+    }
+  })
+}
 export function dutyStuDuty({ id, result }) {
   return request({
     url: '/zhxyx/duty/checkStuDuty',
@@ -114,7 +123,16 @@ export function clubQueryAll({ id }) {
     }
   })
 }
-export function HealthQueryAll({ id }) {
+export function delclub({ id }) {
+  return request({
+    url: 'zhxyx/stuClubActivity/delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+export function delHealth({ id }) {
   return request({
     url: '/zhxyx/stuHealth/queryAll',
     method: 'post',

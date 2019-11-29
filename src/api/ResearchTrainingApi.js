@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function queryResearch({ page, rows }) {
+export function queryResearch({ page = 1, rows = 10000 }) {
   return request({
     url: '/zhxyx/yxTask/list',
     method: 'post',

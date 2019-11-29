@@ -5,24 +5,25 @@
         :data="tableList"
         :option="option"
         :page="page"
-        @on-load="onLoad"
+        :table-loading="tableListLoading"
+        @row-del="del" 
         @selection-change="selectionChange"
         :cell-style="cellStyle" 
         v-model="obj"
       >
-        <template  slot="menu">
-          <el-button class="el-button--text" size="small"><span>审核</span> </el-button>
-        </template>
       </avue-crud>
     </el-card>
   </div>
 </template>
 <script>
-import {duty} from '@/api/growthArchivesApi'
+import {duty ,delduty} from '@/api/growthArchivesApi'
+import tableCommon from '@/mixins/table-common.js'
 export default {
+  mixins: [tableCommon],
   data() {
     return {
       fn:duty,
+      del:delduty,
       page: {
         pageSize: 20
       },

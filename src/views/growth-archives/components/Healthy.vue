@@ -2,12 +2,13 @@
   <div>
     <el-card class="box-card">
       <avue-crud
-        :data="data"
+        :data="tableList"
         :option="option"
         :page="page"
-        @on-load="onLoad"
+       :table-loading="tableListLoading"
         @selection-change="selectionChange"
         :cell-style="cellStyle"
+        @row-del='del'
       >
         <template  slot="menu">
           <el-button class="el-button--text" size="small"><span>审核</span> </el-button>
@@ -17,15 +18,17 @@
   </div>
 </template>
 <script>
-import { HealthQueryAll } from "@/api/growthArchivesApi";
+import { HealthQueryAll, delHealth} from "@/api/growthArchivesApi";
+import tableCommon from '@/mixins/table-common.js'
 export default {
+  mixins: [tableCommon],
   data() {
     return {
       page: {
         pageSize: 20
       },
       fn:HealthQueryAll,
-      data: [{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.5",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.5",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.5",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.5",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.0",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},{ name: "蔡启超", height: "184cm" , weight: "74kg", vision: "1.0",disease:'无', data: "2017-04-12", remarks: "此处备注信息"},],
+      del:delHealth,
       option: {
         selection: true,
         align: "center",
@@ -33,7 +36,7 @@ export default {
         column: [
           {
             label: "姓名",
-            prop: "name"
+            prop: "studentName"
           },
           {
             label: "身高",
@@ -45,24 +48,27 @@ export default {
           },
           {
             label: "视力",
-            prop: "vision"
+            prop: "sight"
           },
           {
             label: "重大疾病",
-            prop: "disease"
+            prop: "zdjb"
           },
           {
             label: "体检日期",
-            prop: "data"
+            prop: "checkTime"
           },
           {
             label: "备注",
-            prop: "remarks",
+            prop: "createUserId",
             width:100
           }
         ]
       }
     };
+  },
+  created(){
+    this.getHealth()
   },
   methods: {
     onLoad(page) {
@@ -81,8 +87,7 @@ export default {
     },
     async getHealth(id) {
       try {
-        let a = await HealthQueryAll({ id });
-       
+        await HealthQueryAll({ id });
         console.log(a);
       } catch (err) {}
     },

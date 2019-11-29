@@ -102,7 +102,7 @@
         </el-table-column>
         <el-table-column label="研训时间" width="160">
           <template slot-scope="scope">
-            <span>{{ scope.row.data }}</span>
+            <span>{{ scope.row.classTime | formatTS}}</span>
           </template>
         </el-table-column>
         <el-table-column label="研训性质">
@@ -127,7 +127,7 @@
         </el-table-column>
         <el-table-column label="课时">
           <template slot-scope="scope">
-            <span>{{ scope.row.classTime }}</span>
+            <span>{{ scope.row.lession }}</span>
           </template>
         </el-table-column>
         <el-table-column label="参训名单" width="150" style="overflow:hidden">
@@ -162,7 +162,8 @@
   </div>
 </template>
 <script>
-import tableCommon from "@/mixins/table-common.js";
+import tableCommon from "@/mixins/table-common.js"
+import { formatDate } from "@/api/date.js"
 import { queryResearch, addResearch, delResearch } from '@/api/ResearchTrainingApi'
 import { get } from 'http';
 export default {
@@ -216,6 +217,9 @@ export default {
       }
     };
   },
+  mounted(){
+    this.get()
+  },
   methods: {
     handleEdit(index, row) {
       console.log(index, row);
@@ -231,13 +235,22 @@ export default {
     },    
     async get() {
       try {
+        let page = 1
+        let rows = 10000 
         let List = await queryResearch({page,rows})
-        this.tableData = List.data
+        this.tableData = List.data.list
+        console.log(this.tableData)
       } catch(err) {
-        console.log(120)
+        console.log(err)
       }
     }
-  }
+  },
+    filters: {
+    formatTS(timestamp) {
+      let date = new Date(timestamp);
+      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
+    },
+    }
 };
 </script>
 <style lang='scss' scpoed>

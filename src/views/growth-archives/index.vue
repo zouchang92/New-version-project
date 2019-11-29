@@ -20,12 +20,14 @@
       </div>
       <div style="height:32px;margin-left:23px;margin-top:26px;">
         <el-button type="primary" icon="el-icon-search" @click="search" size="small">搜索</el-button>
-        <el-button type="success" icon="el-icon-upload" size="small">导出</el-button>
+        <el-button v-show="isShow" type="primary" icon="el-icon-upload" size="small">新建</el-button>
+         <el-button v-show="isShow" type="warning" icon="el-icon-upload" size="small">导入</el-button>
+        <el-button v-show='show' type="success" icon="el-icon-upload" size="small">导出</el-button>
         <el-button type="warning" icon="el-icon-printer" size="small">打印</el-button>
       </div>
     </div>
     <div class="growth-content">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName"  @tab-click="handleClick">
         <el-tab-pane label="学习成绩" name="first">
           <div class="growth-academic">
             <Academic ref="academic" :input='input' :value='value' />
@@ -92,7 +94,9 @@ export default {
       value: "",
       input: "",
       a:'',
-      activeName: "first"
+      activeName: "first",
+      isShow:false,
+      show:true
     };
   },
   mounted(){
@@ -100,7 +104,13 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      if(tab.index == 3 || tab.index == 4){
+        this.isShow = true
+        this.show = false
+      }else{
+        this.isShow = false
+        this.show = true
+      }
     },
     search(){
       this.$refs.academic.get()
