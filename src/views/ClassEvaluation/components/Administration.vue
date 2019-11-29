@@ -30,6 +30,9 @@
         <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
       </div>
     </div>
+    <div class="content">
+        
+    </div>
   </div>
 </template>
 <script>

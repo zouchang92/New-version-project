@@ -7,6 +7,7 @@
         @search-change="searchChange"
         :page="page"
         @selection-change="selectionChange"
+        ref="curd"
       >
         <template slot="searchMenu">
           <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
@@ -36,7 +37,7 @@ export default {
           clubOrgId: "三年级/5班",
           person: "男",
           classroomName: "2019-09-28 09:00",
-          Pay:'已缴费'
+          Pay: "已缴费"
         }
       ],
       option: {
@@ -48,34 +49,55 @@ export default {
             label: "社团名称",
             prop: "semesterId",
             type: "select",
-            search: true
+            search: true,
+            rules: {
+              required: true
+            }
           },
           {
             label: "学号",
-            prop: "clubName"
+            prop: "clubName",
+            rules: {
+              required: true
+            }
           },
           {
             label: "姓名",
             prop: "name",
-            search: true
+            search: true,
+            rules: {
+              required: true
+            }
           },
           {
             label: "所在班级",
             prop: "clubOrgId",
             type: "select",
-            search: true
+            search: true,
+            rules: {
+              required: true
+            }
           },
           {
             label: "性别",
-            prop: "person"
+            prop: "person",
+            rules: {
+              required: true
+            }
           },
           {
             label: "报名日期",
-            prop: "classroomName"
+            prop: "classroomName",
+            rules: {
+              required: true
+            }
           },
-                    {
+          {
             label: "缴费情况",
-            prop: "Pay"
+            prop: "Pay",
+            rules: {
+              required: true
+            }
           }
         ]
       }

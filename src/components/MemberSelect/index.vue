@@ -1,35 +1,49 @@
 <template>
   <el-dialog @close="handleClose" :visible="value">
-    <div  class="member-select">
+    <div class="member-select">
       <el-select size="mini" style="width: 100%" :value="selectedValue" multiple placeholder="请选择">
         <el-option
           v-for="item in this.memberData"
           :key="item.value"
           :label="item.label"
-          :value="item.value">
-        </el-option>
+          :value="item.value"
+        ></el-option>
       </el-select>
       <el-breadcrumb style="margin-top: 10px;" separator="/">
-        <el-breadcrumb-item @click.native="onBreadcrumbClick(item, i)" v-for="(item, i) in this.breadcrumbData" :key="i">{{item.orgName}}</el-breadcrumb-item>
+        <el-breadcrumb-item
+          @click.native="onBreadcrumbClick(item, i)"
+          v-for="(item, i) in this.breadcrumbData"
+          :key="i"
+        >{{item.orgName}}</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="list">
         <ul v-if="type==='org'">
           <li @click="onItemClick(item)" v-for="(item, i) in children" :key="i">
-            <i class="el-icon-folder"/>{{item.orgName}}
+            <i class="el-icon-folder" />
+            {{item.orgName}}
           </li>
         </ul>
         <ul v-if="type==='user'">
           <Container :loading="userLoading" :empty="members.length === 0">
-            <li slot="child-slot" @click="triggerMember(item, i)" v-for="(item, i) in members" :key="i">
-              <i class="el-icon-user"/>{{item.loginName}}
-              <el-checkbox class="user-checkbox" @click="triggerMember(item, i)" :value="selectedValue.indexOf(item.id) > -1"></el-checkbox>
+            <li
+              slot="child-slot"
+              @click="triggerMember(item, i)"
+              v-for="(item, i) in members"
+              :key="i"
+            >
+              <i class="el-icon-user" />
+              {{item.loginName}}
+              <el-checkbox
+                class="user-checkbox"
+                @click="triggerMember(item, i)"
+                :value="selectedValue.indexOf(item.id) > -1"
+              ></el-checkbox>
             </li>
           </Container>
         </ul>
       </div>
     </div>
   </el-dialog>
-
 </template>
 
 <script>
@@ -50,7 +64,7 @@ export default {
       checkboxHidden: true,
       type: 'org',
       members: [],
-      userLoading: false,.
+      userLoading: false,
       contextType: {
         normal: {
 
@@ -175,7 +189,7 @@ export default {
         }
       }
     }
-    
+
     .user-checkbox {
       float: right;
     }

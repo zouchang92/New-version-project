@@ -7,6 +7,7 @@
         @search-change="searchChange"
         :page="page"
         @selection-change="selectionChange"
+        ref="crud"
       >
         <template slot="searchMenu">
           <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
@@ -46,24 +47,36 @@ export default {
           {
             label: "学期",
             prop: "stardata",
-            search: true
+            search: true,
+            rules: {
+              required: true,
+            }
           },
           {
             label: "社团名称",
             prop: "name",
-            search: true
+            search: true,
+            rules: {
+              required: true,
+            }
           },
           {
             label: "社团负责人",
-            prop: "person"
+            prop: "person",
+            rules: {
+              required: true,
+            }
           },
           {
             label: "适用年级",
-            prop: "orgIds"
+            prop: "orgIds",
+            rules: {
+              required: true,
+            }
           },
           {
             label: "社团课表",
-            prop: "class",       
+            prop: "class",      
           },
           {
             label: "人员名单",
