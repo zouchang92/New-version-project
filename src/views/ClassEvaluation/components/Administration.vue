@@ -31,12 +31,38 @@
       </div>
     </div>
     <div class="content">
-      <div class="content-text" v-for="(item,i) in List" :key="i">
-        <div class="content-top">123</div>
+      <div class="content-text" v-for="(item,i) in List" :key="i" @click="open">
+        <div class="content-top">
+          <video :src="item.review.resources"></video>
+        </div>
         <div class="content-bottom">
           <img :src="item.teacher.photo" alt />
           <p>{{item.teacher.namePinyin}}</p>
-          <p class="number"><i class="el-icon-chat-dot-square"></i>{{item.statistical.watchNum}}</p>
+          <p class="number">
+            <i class="el-icon-chat-dot-square"></i>
+            {{item.statistical.watchNum}}
+          </p>
+          <p class="people">
+            <i class="el-icon-s-custom">{{item.statistical.evaluationNum}}</i>
+          </p>
+          <el-popover placement="top" width="120" trigger="click">
+            <div class="Open" style="display:flex;">
+              <p
+                class="edit"
+                style="margin:0px;padding: 4px 5px 0px 0px;color:#1890FF;border-right: 1px solid #e8e8e8;"
+              >编辑</p>
+              <p
+                style="margin:0px;padding: 4px 5px 0px 5px;color:#1890FF;border-right: 1px solid #e8e8e8;"
+              >删除</p>
+              <el-switch
+                style="margin-top:3px;margin-left: 10px;"
+                v-model="value2"
+                active-color="#1890FF"
+                inactive-color="#ff4949"
+              ></el-switch>
+            </div>
+            <p class="refer" slot="reference">...</p>
+          </el-popover>
         </div>
       </div>
     </div>
@@ -79,7 +105,8 @@ export default {
       ],
       value: "",
       value1: "",
-      List: []
+      List: [],
+      value2: true
     };
   },
   created() {
@@ -102,6 +129,9 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    open(){
+        this.$router.push({ path:''  })
     }
   }
 };
@@ -150,10 +180,25 @@ export default {
           width: 24px;
           height: 24px;
           border-radius: 50%;
-          margin:15px;
+          margin: 15px;
         }
-        .number{
-          margin-left: 20px;
+        .number {
+          margin: 0px;
+          margin-top: 4px;
+          margin-bottom: 4px;
+          padding: 14px 20px 0px 20px;
+          border-right: 1px solid #e8e8e8;
+        }
+        .people {
+          margin: 0px;
+          margin-top: 4px;
+          margin-bottom: 4px;
+          padding: 14px 20px 0px 20px;
+          border-right: 1px solid #e8e8e8;
+        }
+        .refer {
+          margin: 0px;
+          padding: 11px 18px;
         }
       }
     }
