@@ -3,6 +3,9 @@
     <div class="table-container">
       <div class="basic-container">
           <avue-crud rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
+            <template slot="permission" slot-scope="scope" >
+              <el-button @click.native="setAuthorize(scope)">设置菜单权限</el-button>
+            </template>
             <template slot="searchMenu">
               <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
@@ -11,20 +14,49 @@
             </template>
            </avue-crud>
       </div>
-     
+      <el-dialog :visible.sync="roleModal.visible">
+        <div style="height: 450px;overflow: auto;" v-loading="roleModal.loading" class="">
+          <el-tree ref="authTree" :default-checked-keys="roleModal.defaultCheckedKeys" show-checkbox node-key="id" :data="roleModal.data" :props="treeProps">
+            <span class="custom-tree-node" slot-scope="{ node, data }">
+              <i :class="{'el-icon-menu' : data.menuName, 'el-icon-edit-outline': data.buttonUrl}"></i>
+              <span>
+                {{data.buttonUrl ? data.name : data.menuName}}
+              </span>
+            </span>
+          </el-tree>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" :loading="roleModal.submitLoading"  @click="bindAuthorize">确定</el-button>
+          <el-button @click="roleModal.visible = false">取消</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryRoles, addRole } from '@/api/roleManageApi'
+import { queryRoles, addRole, getRoleAuthorize, roleBindMenus } from '@/api/roleManageApi'
+import _ from 'lodash'
 export default {
   name: 'roleManage',
   mixins: [tableCommon],
   data() {
     return {
       searchForm: {
+
+      },
+      roleModal: {
+        visible: false,
+        loading: false,
+        data: [],
+        defaultCheckedKeys: [],
+        submitLoading: false,
+        currentRoleId: ''
+      },
+      treeProps: {
+        children: 'data',
+        label: 'name',
 
       },
       fn: queryRoles,
@@ -61,6 +93,7 @@ export default {
               required: false,
             },
             width: 200,
+            slot: true,
             addDisplay: false,
             editDisplay: false,
           },
@@ -87,6 +120,81 @@ export default {
   methods: {
     handleAdd() {
       this.$refs.crud.rowAdd()
+    },
+    async setAuthorize(row) {
+      this.roleModal.loading = true
+      this.roleModal.visible = true
+      this.roleModal.currentRoleId = row.row.id
+      try {
+        let data = await getRoleAuthorize(row.row.id)
+        let pData = data.data.map(n => ({...n, id: n.menuId}))
+        this.roleModal = {
+          ...this.roleModal,
+          loading: false,
+          visible: true,
+          data: pData
+        }
+        this.roleModal.defaultCheckedKeys = this.getDefaultCheck(pData)
+      } catch(err) {
+        this.roleModal.loading = false
+        this.roleModal.visible = true
+      }
+    },
+    getDefaultCheck(data, checkArray = []) {
+      data.forEach(n => {
+        if (n.menuName) {
+          if (!n.data && n.status === 1) {
+            checkArray.push(n.id)
+          }
+        } else {
+          if (n.status === 1) {
+            checkArray.push(n.id)
+          }
+        }
+        if (n.data && n.data.length) {
+          this.getDefaultCheck(n.data, checkArray)
+        }
+      })
+      return checkArray
+    },
+    async bindAuthorize() {
+      this.roleModal.submitLoading = true
+      let result = this.$refs.authTree.getCheckedNodes(false, true)
+      try {
+       let res = await roleBindMenus({
+         roleId: this.roleModal.currentRoleId,
+         menuIds: this.assembleMenuJson(result)
+       })
+       this.roleModal.submitLoading = false
+       this.roleModal.visible = false
+      } catch(err) {
+        this.roleModal.submitLoading = false
+        this.roleModal.visible = false
+      }
+    },
+    assembleMenuJson(result) {
+      let output = []
+      let data = _.cloneDeep(result)
+      _.forEach(data, function (n) {
+        let tmp = {}
+        if (n.menuName) {
+          tmp.id = n.id
+          tmp.buttons = []
+          if (n.data.length) {
+            n.data.forEach(x => {
+              let exist = data.find(j => j.id === x.id)
+              if (exist) {
+                tmp.buttons.push({
+                  buttonId: exist.buttonId,
+                  buttonUrl: exist.buttonUrl
+                })
+              }
+            })
+          }
+          output.push(tmp)
+        }
+      })
+      return output
     },
     uploadBefore(file, done) {
       alert(1)
@@ -118,5 +226,8 @@ export default {
 </script>
 
 <style scoped>
-
+.custom-tree-node {
+  font-size: 14px;
+  padding-right: 8px;
+}
 </style>

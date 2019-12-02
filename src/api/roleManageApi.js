@@ -19,3 +19,24 @@ export function addRole({ name, description }) {
     }
   })
 }
+
+export function getRoleAuthorize (id) {
+  return request({
+    url: '/zhxyx/role/listRoleMenu',
+    method: 'post',
+    data: {
+      roleId: id
+    }
+  })
+}
+
+export function roleBindMenus({roleId, menuIds}) {
+  return request({
+    url: 'zhxyx/role/roleBindMenus',
+    method: 'post',
+    data: {
+      roleId,
+      menuIds
+    }
+  })
+}
