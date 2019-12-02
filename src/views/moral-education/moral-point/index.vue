@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { queryMoralTree, addMoralNode, updateMoralNode, deleteMoralNode, queryChildMoralPoint, addChildMoralPoint } from '@/api/moralPointManageApi'
+import { queryMoralTree, addMoralNode, updateMoralNode, deleteMoralNode, queryChildMoralPoint, addChildMoralPoint, updateChildMoralPoint, deleteChildMoralPoint } from '@/api/moralPointManageApi'
 import { interArrayTree, getDictById } from '@/utils'
 import _ from 'lodash'
 import tableCommon from '@/mixins/table-common.js'
@@ -67,6 +67,12 @@ export default {
       option: {
         header: true,
         column: [{
+          prop: 'id',
+          label: 'id',
+          editDisplay: false,
+          addDisplay: false,
+          hide: true,
+        }, {
           prop: 'pTitle',
           label: '一级指标',
           editDisabled: true,
@@ -121,6 +127,7 @@ export default {
 
       },
       fn: queryChildMoralPoint,
+      singleDelFn: deleteChildMoralPoint,
       dialogShow: false,
       treeConfig: {
         filterText: '',
@@ -199,7 +206,15 @@ export default {
       this.resetList()
     },
     async rowUpdate(row, index, done, loading) {
-
+      console.log(row)
+      loading(true)
+      try {
+        row.projId = this.searchForm.projId
+        await updateChildMoralPoint(row)
+        await this.initList()
+      } catch(err) {
+        loading(false)
+      }
     },
     async rowSave(row, done, loading) {
       loading(true)

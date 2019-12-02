@@ -1,0 +1,1 @@
+export const ftpUrl = process.env.NODE_ENV === 'development' ? 'ftp://192.168.1.125:2121/' : 'ftp://192.168.1.125:2121/'

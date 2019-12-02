@@ -3,51 +3,51 @@
   <vue-context ref="folderMenu">
     <template slot-scope="child" v-if="child.data">
        <li @click="handleFolderMenuClick(1, child.data)">
-         <a href="#">打开</a>
+         <a  href="javascript:;">打开</a>
        </li>
        <li @click="handleFolderMenuClick(2, child.data)">
-         <a href="#">重命名</a>
+         <a href="javascript:;">重命名</a>
        </li>
        <li @click="handleFolderMenuClick(3, child.data)">
-         <a href="#">全选</a>
+         <a href="javascript:;">全选</a>
        </li>
        <li @click="handleFolderMenuClick(4, child.data)">
-         <a href="#">详情</a>
+         <a href="javascript:;">详情</a>
        </li>
        <li @click="handleFolderMenuClick(0, child.data)">
-         <a href="#"><span style="color: red;width: 300px">删除</span></a>
+         <a href="javascript:;"><span style="color: red;width: 300px">删除</span></a>
        </li>
     </template>
         </vue-context>
         <vue-context ref="fileMenu">
           <template slot-scope="child" v-if="child.data">
             <li @click="handleFileMenuClick(1, child.data)">
-              <a href="#">详情</a>
+              <a href="javascript:;">详情</a>
             </li>
             <li @click="handleFileMenuClick(2, child.data)">
-              <a href="#">重命名</a>
+              <a href="javascript:;">重命名</a>
             </li>
             <li @click="handleFileMenuClick(3, child.data)">
-              <a href="#">全选</a>
+              <a href="javascript:;">全选</a>
             </li>
             <li @click="handleFileMenuClick(5, child.data)">
-              <a href="#">下载</a>
+              <a href="javascript:;">下载</a>
             </li>
             <li @click="handleFileMenuClick(6, child.data)">
-              <a href="#">分享</a>
+              <a href="javascript:;">分享</a>
             </li>
             <li @click="handleFileMenuClick(0, child.data)">
-              <a href="#"><span style="color: red;width: 300px">删除</span></a>
+              <a href="javascript:;"><span style="color: red;width: 300px">删除</span></a>
             </li>
           </template>
         </vue-context>
         <vue-context ref="recyclerMenu">
           <template slot-scope="child" v-if="child.data">
             <li @click="handleRecyclerMenuClick(1, child.data)">
-              <a href="#">还原</a>
+              <a href="javascript:;">还原</a>
             </li>
             <li @click="handleRecyclerMenuClick(0, child.data)">
-              <a href="#"><span style="color: red;width: 300px">删除</span></a>
+              <a href="javascript:;"><span style="color: red;width: 300px">删除</span></a>
             </li>
           </template>
         </vue-context>
@@ -64,7 +64,7 @@
               <img src="@/assets/folder_icon.png" />
             </div>
             <div v-else>
-              <img v-if="item.fileType === 'jpeg' || item.fileType === 'png' || item.fileType === 'jpg' || item.fileType === 'gif' || item.fileType === 'svg'"  :src='process.env.VUE_APP_BASE_API + item.filePath' />
+              <img v-if="item.fileType === 'jpeg' || item.fileType === 'png' || item.fileType === 'jpg' || item.fileType === 'gif' || item.fileType === 'svg'"  :src='baseUrl + item.filePath' />
               <img v-else :src="getIcon(item.fileType)" />
             </div>
             <label>{{item.name}}</label>
@@ -90,13 +90,14 @@ import Abnor from '@/components/Abnor'
 import moment from 'moment'
 import VueContext from 'vue-context';
 import 'vue-context/src/sass/vue-context.scss';
+let baseUrl = process.env.VUE_APP_BASE_API
 export default {
   data() {
     return {
       currentFolder: [],
-      process: process,
       bread: [],
       selection: [],
+      baseUrl,
       contextFileMenuIndex: -1,
       contextFolderMenuIndex: -1,
       contextMenuType: {
@@ -184,6 +185,9 @@ export default {
         case 5:
           this.downloadFile(file.id)
           break;
+        case 6:
+          this.$emit('onShareFile', file.id)
+          break;
       }
     },
     async truncateFile(type, id) {
@@ -218,7 +222,7 @@ export default {
     async downloadFile(id) {
       try {
         let res = await downloadFile(id)
-        window.open(`${process.env.VUE_APP_BASE_API}${res.data}`)
+        window.open(`${res.data}`)
       } catch(err) {
         console.log(err)
       }
@@ -255,8 +259,10 @@ export default {
         }
         this.loading = false
         this.selection = []
+        return res.data
       } catch(err) {
         this.loading = false
+        throw new Error()
       }
     },
     filterType(files) {
@@ -300,7 +306,7 @@ export default {
       }
     },
     refreshFolder(id) {
-      this.getFolderFile(id)
+      return this.getFolderFile(id)
     },
     getFile() {
 
@@ -347,11 +353,18 @@ export default {
       -webkit-border-radius: 5px;
       color: #000;
       background-color: transparent;
+      &.selected {
+        background-color: #d2dae2;
+      }
+      > div {
+        margin-top: 4px;
+      }
       img {
         width: 66px;
         height: 60px;
         margin: 1px auto;
         padding: 0;
+        object-fit: cover;
       }
       label {
         display: block;

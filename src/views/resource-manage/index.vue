@@ -3,7 +3,7 @@
       <el-tabs style="padding: 10px 0" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="我的资源" name="first">
           <div class="mortal-content" style="margin: 0 15px;">
-            <resource-mine />
+            <resource-mine v-if="activeName === 'first'" />
           </div>
         </el-tab-pane>
         <el-tab-pane label="分享给我的" name="second">
@@ -18,7 +18,7 @@
         </el-tab-pane>
         <el-tab-pane label="回收站" name="four">
           <div class="mortal-content" style="margin: 0 15px">
-            <recycler />
+            <recycler v-if="activeName === 'four'" />
           </div>
         </el-tab-pane>
       </el-tabs>

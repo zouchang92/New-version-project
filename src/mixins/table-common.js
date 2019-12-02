@@ -39,7 +39,6 @@ export default {
         ...this.searchForm,
         ...param,
       }
-      console.log(this.searchForm)
       this.initList()
     }, 
     batchDel() {

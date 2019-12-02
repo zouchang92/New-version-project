@@ -106,3 +106,23 @@ export function truncateDirectory(id) {
     }
   })
 }
+
+export function restoreFile(id) {
+  return request({
+    url: '/zhxyx/zyFile/restoreFile',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
+export function restoreFolder(id) {
+  return request({
+    url: '/zhxyx/zyFile/restoreDirectory',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

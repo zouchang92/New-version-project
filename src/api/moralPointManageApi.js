@@ -73,3 +73,23 @@ export function addChildMoralPoint({projId, ioflag, title, score}) {
     }
   })
 }
+
+export function updateChildMoralPoint({ projId, ioflag, title, mutScore, variaScore, id }) {
+  return request({
+    url: '/zhxyx/projectItem/update',
+    method: 'post',
+    data: {
+      projId, ioflag, title, mutScore, variaScore, id
+    }
+  })
+}
+
+export function deleteChildMoralPoint(id) {
+  return request({
+    url: '/zhxyx/projectItem/delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

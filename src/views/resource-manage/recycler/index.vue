@@ -14,6 +14,9 @@
               <el-form-item>
                 <el-button :loading="truncateLoading" @click="truncateRecycler" icon="el-icon-delete" type="danger">清空回收站</el-button>
               </el-form-item>
+              <el-form-item>
+                <el-button :loading="refreshLoading" @click.native="refreshRecycler" icon="el-icon-refresh" type="info">刷新</el-button>
+              </el-form-item>
             </el-form>
           </el-col>
         </el-card>
@@ -33,7 +36,8 @@ import { truncateRecycler } from '@/api/resourceManageApi'
 export default {
   data() {
     return {
-      truncateLoading: false
+      truncateLoading: false,
+      refreshLoading: false
     }
   },
   components: {
@@ -55,6 +59,18 @@ export default {
         console.log(err)
         this.truncateLoading = false
       }
+    },
+    async refreshRecycler() {
+      this.refreshLoading = true
+      try {
+        await this.$refs['fileList'].refreshFolder('root')
+        this.refreshLoading = false
+      } catch(err) {
+        this.refreshLoading = false
+      }
+    },
+    search() {
+      
     }
   }
 }

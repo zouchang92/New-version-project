@@ -341,5 +341,11 @@ export default {
     component: () => import('@/views/resource-manage'),
     name: 'sourceHomePage',
     meta: { title: '资源管理', icon: 'guide' }
+  },
+  buttonManage: {
+    path: 'buttonManage',
+    component: () => import('@/views/system-manage/button-manage'),
+    name: 'buttonManage',
+    meta: { title: '按钮管理', icon: 'button' }
   }
 }

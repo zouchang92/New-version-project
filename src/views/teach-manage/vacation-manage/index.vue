@@ -18,7 +18,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryCourses, addCourse, updateCourse, deleteCourse, deleteCourses } from '@/api/courseManageApi'
+import { queryVacation, addVacation, updateVacation, deleteVacation } from '@/api/vacationManageApi'
 export default {
   name: 'vacationManage',
   mixins: [tableCommon],
@@ -27,9 +27,8 @@ export default {
       searchForm: {
 
       },
-      fn: queryCourses,
-      delFn: deleteCourses,
-      singleDelFn: deleteCourse,
+      fn: queryVacation,
+      singleDelFn: deleteVacation,
       data: [],
       option: {
         
@@ -42,7 +41,7 @@ export default {
             editDisplay: false
           },
           {
-            label:'科目名称',
+            label:'节假日名称',
             prop:'name',
             rules: {
               required: true,
@@ -52,14 +51,30 @@ export default {
             span: 24,
           },
           {
-            label:'科目代码',
-            prop:'code',
+            label: '开始时间',
+            prop:'startTime',
+            type: 'date',
             rules: {
               required: true,
-              message: '科目代码是必填项'
+              message: '开始时间是必填项'
             },
             search: true,
             span: 24,
+            format: "yyyy-MM-dd",
+            valueFormat: "yyyy-MM-dd",
+          },
+          {
+            label:'结束时间',
+            prop:'endTime',
+            type: 'date',
+            rules: {
+              required: true,
+              message: '结束时间是必填项'
+            },
+            search: true,
+            span: 24,
+            format: "yyyy-MM-dd",
+            valueFormat: "yyyy-MM-dd",
           },
         ]
       },
@@ -73,7 +88,7 @@ export default {
     async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
-        let result = await updateCourse(row)
+        let result = await updateVacation(row)
         await this.resetList()
         done()
       } catch(err) {
@@ -83,7 +98,7 @@ export default {
     async rowSave(row, done, loading) {
       loading(true)
       try {
-        let result = await addCourse(row)
+        let result = await addVacation(row)
         await this.resetList()
         done()
       } catch(err) {

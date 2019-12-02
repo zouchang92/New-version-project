@@ -26,12 +26,15 @@
               <el-form-item>
                 <el-button icon="el-icon-delete" type="danger">批量删除</el-button>
               </el-form-item>
+              <el-form-item>
+                <el-button @click="refrshResource" icon="el-icon-delete" type="info">刷新</el-button>
+              </el-form-item>
             </el-form>
           </el-col>
         </el-card>
         <el-card style="margin-top: 15px">
           <el-col style="margin-bottom: 15px;" :span="24">
-            <file-list ref="fileList" :fileList="treeData" />
+            <file-list @onShareFile="shareFile" ref="fileList" :fileList="treeData" />
           </el-col>
         </el-card>
       </el-col>
@@ -48,8 +51,8 @@
 
 <script>
 import UploadDialog from '../components/UploadDialog'
-import MemberSelect from '@/components/MemberSelect'
 import tableCommon from '@/mixins/table-common'
+import MemberSelect from '@/components/MemberSelect'
 import { queryFolderTree, uploadFile, querySubList, addFolder } from '@/api/resourceManageApi'
 import FileList from '../components/FileList'
 import _ from 'lodash'
@@ -72,6 +75,9 @@ export default {
   methods: {
     search() {
 
+    },
+    shareFile(id) {
+      this.memberShow = true
     },
     async addFolder() {
       const { currentPath } = this.$refs['fileList']
@@ -113,13 +119,20 @@ export default {
       try {
         let res = await uploadFile({
            parentId: currentPath.id === 'root' ? '' : currentPath.id, 
-           filePath: files[0].upload[0].url, 
+           filePath: '/' + files[0].upload[0].url, 
            name: files[0].name(), 
            createUserId: ''
         })
         await this.refreshFolder(currentPath.id)
         this.uploadDialogVisible = false
       } catch(err) {
+      }
+    },
+    async refrshResource() {
+      try {
+        await this.$refs['fileList'].refreshCurrentFolder()
+      } catch(err) {
+        
       }
     },
     async refreshFolder(id) {
