@@ -45,6 +45,16 @@ export const constantRoutes = [
   //   ]
   // },
   {
+    path: '/comment',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ClassEvaluation/Comment/index')
+      }
+    ]
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
