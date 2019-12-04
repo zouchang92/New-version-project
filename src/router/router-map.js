@@ -360,5 +360,26 @@ export default {
     name: 'classPlanHome',
     component: () => import('@/views/class-arrangement-manage/arrange-plan-manage'),
     meta: { title: '', icon: '' }
+  },
+  studentPlacement: {
+    path: 'studentPlacement',
+    component: Layout,
+    alwaysShow: true,
+    name: 'studentPlacement',
+    meta: { title: '', icon: '' }
+  },
+  placementHome: {
+    path: '/placementHome',
+    component: () => import('@/views/student-placement/placement'),
+    alwaysShow: true,
+    name: 'placementHome',
+    meta: { title: '', icon: '' }
+  },
+  placementResult: {
+    path: '/placementResult',
+    component: () => import('@/views/student-placement/placement-result'),
+    alwaysShow: true,
+    name: 'placementHome',
+    meta: { title: '', icon: '' }
   }
 }

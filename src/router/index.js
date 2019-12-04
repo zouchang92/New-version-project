@@ -59,7 +59,19 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+     path: '/classPlanDetail',
+     component: Layout,
+     hidden: true,
+     children: [
+      {
+        path: 'index',
+        component: () => import('@/views/class-arrangement-manage/arrange-detail-page'),
+        name: 'arrangeDetailPage',
+        meta: { title: '排课导航', icon: 'guide', noCache: true }
+      }
+    ]
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),

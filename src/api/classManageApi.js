@@ -12,10 +12,33 @@ export function queryClassList({ page, rows, id='' }) {
   })
 }
 
-export function addClass() {
+export function addClass({
+  parentId,
+  orgName,
+  orgCode,
+  orgType,
+  description,
+  logo,
+  motto,
+  teacherId,
+  courseId,
+  dutyId
+}) {
   return request({
     url: '/zhxyx/classes/addClasses',
-    method: 'post'
+    method: 'post',
+    data: {
+      parentId,
+      orgName,
+      orgCode,
+      orgType,
+      description,
+      logo,
+      motto,
+      teacherId,
+      courseId,
+      dutyId
+    }
   })
 }
 

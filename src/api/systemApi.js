@@ -13,3 +13,16 @@ export function getDictionary() {
     method: 'post'
   })
 }
+
+export function uploadFiles(formData) {
+  return request({
+    url: '/zhxyx/upload/file',
+    method: 'post',
+    data: {
+      formData
+    },
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}

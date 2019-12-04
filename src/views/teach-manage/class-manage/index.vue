@@ -106,15 +106,6 @@ export default {
       obj: {}
     }
   },
-  mounted() {
-    this.tableList = [{
-      className: '高中一班',
-      dutyPeople: '丁玮琦',
-      dutyTeacher: 'dwq',
-      belongclassRoom: '思齐楼一楼',
-      classLogo: 'https://a.jpg'
-    }]
-  },
   methods: {
     handleAdd() {
       this.showModal()
