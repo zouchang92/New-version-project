@@ -26,4 +26,12 @@ export function delResearch({ id }) {
     }
   })
 }
-
+export function queryList({ page, rows }) {
+  return request({
+    url: '/zhxyx/yxTask/delete',
+    method: 'post',
+    data: {
+      page, rows
+    }
+  })
+}
