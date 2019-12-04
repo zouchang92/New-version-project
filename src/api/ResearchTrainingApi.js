@@ -28,7 +28,7 @@ export function delResearch({ id }) {
 }
 export function queryList({ page, rows }) {
   return request({
-    url: '/zhxyx/yxTask/delete',
+    url: '/zhxyx/yxTaskLog/list',
     method: 'post',
     data: {
       page, rows

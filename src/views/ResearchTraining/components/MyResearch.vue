@@ -43,9 +43,6 @@
         <el-form-item label="研训名称" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="主讲人" :label-width="formLabelWidth">
-          <el-input v-model="form.presenter" autocomplete="off"></el-input>
-        </el-form-item>
         <el-form-item label="研训时间" :label-width="formLabelWidth">
           <el-col :span="11">
             <el-date-picker
@@ -84,7 +81,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="add">确 定</el-button>
+        <el-button type="primary">确 定</el-button>
       </div>
     </el-dialog>
     <div class="content">
@@ -93,11 +90,6 @@
         <el-table-column label="研训名称" width="160">
           <template slot-scope="scope">
             <span>{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="主讲人">
-          <template slot-scope="scope">
-            <span>{{ scope.row.presenter }}</span>
           </template>
         </el-table-column>
         <el-table-column label="研训时间" width="160">
@@ -130,19 +122,24 @@
             <span>{{ scope.row.lession }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="研训资料" width="150" style="overflow:hidden">
+        <el-table-column label="研训资料" style="overflow:hidden">
           <template slot-scope="scope">
-            <span>{{ scope.row.memberList }}</span>
+            <el-button type="text" @click="dialogTableVisible = true"><span style="color:#1890FF">查看</span> </el-button>
+            <el-dialog title="研训资料" :visible.sync="dialogTableVisible">
+              <el-table :data="tableData">
+                <el-table-column :property="scope.row.memberList" label="日期" width="150"></el-table-column>
+              </el-table>
+            </el-dialog>
           </template>
         </el-table-column>
         <el-table-column label="完成情况">
           <template slot-scope="scope">
-            <span>{{scope.row}}</span>
+            <span></span>
           </template>
         </el-table-column>
         <el-table-column label="学习报告">
           <template slot-scope="scope">
-            <span>{{scope.row}}</span>
+            <span></span>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -151,10 +148,7 @@
               style="color:#1890FF;font-size:13px;font-weight:400;"
               @click="handleEdit(scope.$index, scope.row)"
             >编辑</span>
-            <span
-              style="color:#1890FF;font-size:13px;font-weight:400;"
-              @click="singleDel"
-            >删除</span>
+            <span style="color:#1890FF;font-size:13px;font-weight:400;">删除</span>
           </template>
         </el-table-column>
       </el-table>
@@ -162,17 +156,14 @@
   </div>
 </template>
 <script>
-import tableCommon from "@/mixins/table-common.js"
-import { formatDate } from "@/api/date.js"
-import { queryList } from '@/api/ResearchTrainingApi'
-import { get } from 'http';
+import tableCommon from "@/mixins/table-common.js";
+import { formatDate } from "@/api/date.js";
+import { queryList } from "@/api/ResearchTrainingApi";
 export default {
   mixins: [tableCommon],
   data() {
     return {
-      fn:queryResearch,
-      add:addResearch,
-      singleDelFn: delResearch,
+      fn: queryList,
       options: [
         {
           value: "选项1",
@@ -197,6 +188,7 @@ export default {
       value1: "",
       input: "",
       dialogFormVisible: false,
+       dialogTableVisible: false,
       formLabelWidth: "120px",
       page: {
         pageSize: 20
@@ -204,21 +196,21 @@ export default {
       searchForm: {},
       tableData: [],
       form: {
-          name: "",
-          presenter: "",
-          date1: "",
-          date2:"",
-          classProperty: "",
-          classMethod: "",
-          classType: "",
-          place: "",
-          classTime: "",
-          memberList: "",
+        name: "",
+        presenter: "",
+        date1: "",
+        date2: "",
+        classProperty: "",
+        classMethod: "",
+        classType: "",
+        place: "",
+        classTime: "",
+        memberList: ""
       }
     };
   },
-  mounted(){
-    this.get()
+  mounted() {
+    this.get();
   },
   methods: {
     handleEdit(index, row) {
@@ -230,31 +222,31 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    submit(){
-      console.log(this.form)
-    },    
+    submit() {
+      console.log(this.form);
+    },
     async get() {
       try {
-        let page = 1
-        let rows = 10000 
-        let List = await queryList({page,rows})
-        this.tableData = List.data.list
-        console.log(this.tableData)
-      } catch(err) {
-        console.log(err)
+        let page = 1;
+        let rows = 10000;
+        let List = await queryList({ page, rows });
+        this.tableData = List.data.list;
+        console.log(this.tableData);
+      } catch (err) {
+        console.log(err);
       }
     }
   },
-    filters: {
+  filters: {
     formatTS(timestamp) {
       let date = new Date(timestamp);
       return formatDate(date, "yyyy-MM-dd hh:mm:ss");
-    },
     }
+  }
 };
 </script>
 <style lang='scss' scpoed>
-.ResearchPlay {
+.MyResearch {
   .title {
     margin: 15px;
     margin-top: 0px;

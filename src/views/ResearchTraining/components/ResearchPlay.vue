@@ -84,7 +84,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="add">确 定</el-button>
+        <el-button type="primary" @click="submit(tableData)">确 定</el-button>
       </div>
     </el-dialog>
     <div class="content">
@@ -132,15 +132,15 @@
         </el-table-column>
         <el-table-column label="参训名单" width="150" style="overflow:hidden">
           <template slot-scope="scope">
-            <span>{{ scope.row.memberList }}</span>
+            <span>{{ scope.row.trainUsers.username }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="未完成人员">
+        <el-table-column label="未完成人员" width="120">
           <template slot-scope="scope">
             <el-popover trigger="hover" placement="bottom">
               <p>蓝山中学/数学组/{{ scope.row.undoneList }}</p>
               <div slot="reference" class="name-wrapper">
-                <span>{{ scope.row.undoneList }}</span>
+                <span>{{ }}</span>
               </div>
             </el-popover>
           </template>
@@ -153,7 +153,7 @@
             >编辑</span>
             <span
               style="color:#1890FF;font-size:13px;font-weight:400;"
-              @click="singleDel"
+              @click="handleDelete(scope.row)"
             >删除</span>
           </template>
         </el-table-column>
@@ -162,17 +162,18 @@
   </div>
 </template>
 <script>
-import tableCommon from "@/mixins/table-common.js"
-import { formatDate } from "@/api/date.js"
-import { queryResearch, addResearch, delResearch } from '@/api/ResearchTrainingApi'
-import { get } from 'http';
+import tableCommon from "@/mixins/table-common.js";
+import { formatDate } from "@/api/date.js";
+import {
+  queryResearch,
+  addResearch,
+  delResearch
+} from "@/api/ResearchTrainingApi";
 export default {
   mixins: [tableCommon],
   data() {
     return {
-      fn:queryResearch,
-      add:addResearch,
-      singleDelFn: delResearch,
+      fn: queryResearch,
       options: [
         {
           value: "选项1",
@@ -204,53 +205,66 @@ export default {
       searchForm: {},
       tableData: [],
       form: {
-          name: "",
-          presenter: "",
-          date1: "",
-          date2:"",
-          classProperty: "",
-          classMethod: "",
-          classType: "",
-          place: "",
-          classTime: "",
-          memberList: "",
+        name: "",
+        presenter: "",
+        date1: "",
+        date2: "",
+        classProperty: "",
+        classMethod: "",
+        classType: "",
+        place: "",
+        classTime: "",
+        memberList: ""
       }
     };
   },
-  mounted(){
-    this.get()
+  mounted() {
+    this.get();
   },
   methods: {
     handleEdit(index, row) {
-      console.log(index, row);
+      console.log(index, row.id);
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    async handleDelete(row) {
+      try {
+        let id = row.id;
+        await delResearch({ id });
+        this.get();
+      } catch (err) {
+        console.log(err);
+      }
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    submit(){
-      console.log(this.form)
-    },    
+    async submit() {
+      try {
+        let from = this.from
+        await addResearch({from});
+        this.dialogFormVisible = false;
+        this.get();
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async get() {
       try {
-        let page = 1
-        let rows = 10000 
-        let List = await queryResearch({page,rows})
-        this.tableData = List.data.list
-        console.log(this.tableData)
-      } catch(err) {
-        console.log(err)
+        let page = 1;
+        let rows = 10000;
+        let List = await queryResearch({ page, rows });
+        this.tableData = List.data.list;
+        console.log(this.tableData);
+      } catch (err) {
+        console.log(err);
       }
     }
   },
-    filters: {
+  filters: {
     formatTS(timestamp) {
       let date = new Date(timestamp);
       return formatDate(date, "yyyy-MM-dd hh:mm:ss");
-    },
     }
+  }
 };
 </script>
 <style lang='scss' scpoed>
