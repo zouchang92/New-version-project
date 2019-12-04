@@ -31,8 +31,8 @@
       </div>
     </div>
     <div class="content">
-      <div class="content-text" v-for="(item,i) in List" :key="i" @click="open">
-        <div class="content-top">
+      <div class="content-text" v-for="(item,i) in List" :key="i">
+        <div class="content-top"  @click="open">
           <video :src="item.review.resources"></video>
         </div>
         <div class="content-bottom">
@@ -72,7 +72,7 @@
         layout="prev, pager, next"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :total="1000"
+        :total="100"
       ></el-pagination>
     </footer>
   </div>
@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      console.log(val);
     },
     handleCurrentChange(val) {
       console.log(val);
@@ -125,13 +125,18 @@ export default {
         let rows = 1000;
         let list = await ClassQuery({ page, rows });
         this.List = list.data.list;
-        console.log(list);
+        console.log(this.List);
       } catch (err) {
         console.log(err);
       }
     },
     open(){
-        this.$router.push({ path:''  })
+        this.$router.push({ 
+          path:'/comment/index',
+            query:{
+              list:this.List
+            }
+          })
     }
   }
 };
