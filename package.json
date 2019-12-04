@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@antv/f2": "^3.4.2",
-    "@smallwei/avue": "^2.2.0",
+    "@smallwei/avue": "^2.2.3",
     "axios": "0.18.1",
     "echarts": "^4.4.0",
     "el-tree-select": "^3.1.7",

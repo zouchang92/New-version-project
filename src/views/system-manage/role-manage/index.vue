@@ -18,9 +18,9 @@
         <div style="height: 450px;overflow: auto;" v-loading="roleModal.loading" class="">
           <el-tree ref="authTree" :default-checked-keys="roleModal.defaultCheckedKeys" show-checkbox node-key="id" :data="roleModal.data" :props="treeProps">
             <span class="custom-tree-node" slot-scope="{ node, data }">
-              <i :class="{'el-icon-menu' : data.menuName, 'el-icon-edit-outline': data.buttonUrl}"></i>
+              <i :class="{'el-icon-menu' : data.menuName, 'el-icon-edit-outline': data.buttonId}"></i>
               <span>
-                {{data.buttonUrl ? data.name : data.menuName}}
+                {{data.buttonId ? data.name : data.menuName}}
               </span>
             </span>
           </el-tree>
@@ -143,7 +143,7 @@ export default {
     getDefaultCheck(data, checkArray = []) {
       data.forEach(n => {
         if (n.menuName) {
-          if (!n.data && n.status === 1) {
+          if (!n.data.length && n.status === 1) {
             checkArray.push(n.id)
           }
         } else {

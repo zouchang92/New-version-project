@@ -48,6 +48,7 @@ export default {
               message: '科目名称是必填项'
             },
             search: true,
+            searchSpan: 12,
             span: 24,
           },
           {

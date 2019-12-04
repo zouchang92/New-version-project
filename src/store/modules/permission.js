@@ -25,20 +25,19 @@ function filterAsyncRoutes(asyncRouterMap) { //遍历后台传来的路由字符
   const accessedRouters = asyncRouterMap.filter(route => {
     let targetComponent = routerMap[route.menuUrl]
     if (targetComponent) {
+      route.meta = { title: route.name, icon: route.menuIcon }
       route.name = targetComponent.name
-      route.meta = targetComponent.meta
       route.path = targetComponent.path
-      route.meta.icon = route.menuIcon
       route.component = targetComponent.component
       if (route.child && route.child.length) {
         route.children = filterAsyncRoutes(route.children)
       }
     } else {
+      console.log(route)
       route.path = `/${route.name}`
     }
     return true
   })
-
   return accessedRouters
 }
 

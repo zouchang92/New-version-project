@@ -347,5 +347,18 @@ export default {
     component: () => import('@/views/system-manage/button-manage'),
     name: 'buttonManage',
     meta: { title: '按钮管理', icon: 'button' }
+  },
+  arrangementPlanHome: {
+    path: 'arrangementPlanHome',
+    component: Layout,
+    alwaysShow: true,
+    name: 'arrangementPlanHome',
+    meta: { title: '', icon: '' }
+  },
+  classPlanHome: {
+    path: '/classPlanHome',
+    name: 'classPlanHome',
+    component: () => import('@/views/class-arrangement-manage/arrange-plan-manage'),
+    meta: { title: '', icon: '' }
   }
 }

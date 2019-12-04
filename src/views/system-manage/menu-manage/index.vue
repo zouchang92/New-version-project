@@ -36,14 +36,27 @@
               <el-form-item label="备注">
                 <el-input type="textarea" v-model="formData.description"></el-input>
               </el-form-item>
+              <el-form-item v-if="!formData.hasChildren" label="三级菜单">
+                <el-switch
+                  v-model="formData.threeMenu">
+                </el-switch>
+              </el-form-item>
+              <el-form-item v-if="!formData.hasChildren" label="绑定按钮">
+                <div v-loading="btnManage.buttonLoading" class="button-list">
+                  <el-tag style="margin-right: 10px" @close="handleClose(item.id)" v-for="(item, i) in selectedButtons" :key="i" closable>{{item.name}}</el-tag>
+                  <el-button
+                    class="input-new-tag"
+                    @click="addNewButton"
+                    size="small"
+                    icon="el-icon-plus"
+                  >添加按钮</el-button>
+                </div>
+              </el-form-item>
             </el-form>
             <el-form label-width="80px" label-position="right" size="small">
               <el-form-item>
                 <el-col :span="2">
-                  <el-button :loading="updateLoading" @click="organSubmit" size="mini" type="primary">确定</el-button>
-                </el-col>
-                <el-col :span="2">
-                  <el-button size="mini" type="primary">取消</el-button>
+                  <el-button :loading="updateLoading" @click="organSubmit" size="mini" type="primary">{{this.mode === 'edit' ? '修改' : '添加'}}</el-button>
                 </el-col>
               </el-form-item>
             </el-form>
@@ -51,21 +64,34 @@
         </el-col>
       </el-row>
     </div>
+    <el-dialog title="添加按钮" :visible.sync="btnManage.dialogVisible">
+      <div v-loading="btnManage.allBtnLoading">
+        <el-transfer :titles="['按钮列表', '已选按钮']" v-model="btnManage.buttonIds" :data="btnManage.allBtns"></el-transfer>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { listMenuTree, addMenu, updateMenu, deleteMenu } from '@/api/menuManageApi'
+import { listMenuTree, addMenu, updateMenu, deleteMenu, queryBtnByMenuId, menuBindButtons } from '@/api/menuManageApi'
+import { queryBtns } from '@/api/buttonManageApi'
 import { interArrayTree } from '@/utils'
 export default {
   name: 'menuManage',
   data() {
     return {
-      mode: 'add',
+      mode: 'edit',
       updateLoading: false,
       searchForm: {
         id: ''
+      },
+      btnManage: {
+        buttonLoading: false,
+        allBtnLoading: false,
+        dialogVisible: false,
+        buttonIds: [],
+        allBtns: [],
       },
       formData: {
         name: '',
@@ -73,8 +99,10 @@ export default {
         menuUrl: '',
         menuIcon: '',
         description: '',
+        hasChildren: false,
+        threeMenu: false,
         id: '',
-        sort: ''
+        sort: '',
       },
       treeParams: {
         props: {
@@ -98,6 +126,7 @@ export default {
   },
   mounted() {
     this.getMenuTree()
+    this.queryAllBtns()
   },
   methods: {
     async deleteMenu() {
@@ -113,6 +142,10 @@ export default {
 
       }
     },
+    handleClose(id) {
+      let index = this.btnManage.buttonIds.findIndex(n => n === id)
+      this.btnManage.buttonIds.splice(index, 1)
+    },
     async organSubmit() {
       this.updateLoading = true
       try {
@@ -123,6 +156,10 @@ export default {
           await addMenu(this.formData)
         } else {
           await updateMenu(this.formData)
+          await menuBindButtons({
+            id: this.formData.id,
+            buttons: this.selectedButtons
+          })
         }
         this.updateLoading = false
         this.getMenuTree()
@@ -130,6 +167,37 @@ export default {
         this.updateLoading = false
       }
       
+    },
+    async queryBtns(id) {
+      this.btnManage.buttonLoading = true
+      try {
+        let res = await queryBtnByMenuId(id)
+        this.btnManage.buttons = res.data
+        this.btnManage = {
+          ...this.btnManage,
+          buttons: res.data,
+          buttonIds: res.data.map(n => n.buttonId),
+          buttonLoading: false
+        }
+      } catch(err) {
+        this.btnManage.buttonLoading = false
+      }
+    },
+    async queryAllBtns() {
+      this.btnManage.allBtnLoading = true
+      try {
+        let res = await queryBtns()
+        this.btnManage = {
+          ...this.btnManage,
+          allBtnLoading: false,
+          allBtns: res.data.map(n => ({...n, key: n.id, label: n.name}))
+        }
+      } catch(err) {
+        this.btnManage.allBtnLoading = false
+      }
+    },
+    addNewButton() {
+      this.btnManage.dialogVisible = true
     },
     changeMode() {
       if (this.mode === 'add') {
@@ -144,14 +212,17 @@ export default {
         id: e.id
       }
       this.formData = {
-        name: e.name,
+        name: this.mode === 'add' ? '' : e.name,
         parentId: this.mode === 'add' ? e.id : e.parentId,
-        menuUrl: e.menuUrl,
-        menuIcon: e.menuIcon,
-        description: e.description,
+        menuUrl: this.mode === 'add' ? '' :  e.menuUrl,
+        menuIcon: this.mode === 'add' ? '' : e.menuIcon,
+        description: this.mode === 'add' ? '' : e.description,
         id: e.id,
         sort: e.sort,
+        hasChildren: e.child.length > 0,
+        threeMenu: e.threeMenu ? true : false
       }
+      this.queryBtns(e.id)
     },
     getMenuTree() {
       listMenuTree().then(res => {
@@ -160,6 +231,19 @@ export default {
         this.$refs.treeSelect.treeDataUpdateFun(treeData)
       })
     },
+  },
+  computed: {
+    selectedButtons() {
+      const { allBtns, buttonIds } = this.btnManage
+      let result = []
+      _.forEach(allBtns, (n, i) => {
+        let exist = buttonIds.find(j => j === n.id)
+        if (exist) {
+          result.push({...n, buttonId: n.id})
+        }
+      })
+      return result
+    }
   }
 }
 </script>
