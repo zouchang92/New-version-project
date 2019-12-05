@@ -35,3 +35,10 @@ export function queryList({ page, rows }) {
     }
   })
 }
+export function addMyResearch() {
+  return request({
+    url: '/zhxyx/yxTaskLog/insert',
+    method: 'post',
+    data: {}
+  })
+}

@@ -81,7 +81,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="submit()">确 定</el-button>
       </div>
     </el-dialog>
     <div class="content">
@@ -124,7 +124,9 @@
         </el-table-column>
         <el-table-column label="研训资料" style="overflow:hidden">
           <template slot-scope="scope">
-            <el-button type="text" @click="dialogTableVisible = true"><span style="color:#1890FF">查看</span> </el-button>
+            <el-button type="text" @click="dialogTableVisible = true">
+              <span style="color:#1890FF">查看</span>
+            </el-button>
             <el-dialog title="研训资料" :visible.sync="dialogTableVisible">
               <el-table :data="tableData">
                 <el-table-column :property="scope.row.memberList" label="日期" width="150"></el-table-column>
@@ -158,7 +160,7 @@
 <script>
 import tableCommon from "@/mixins/table-common.js";
 import { formatDate } from "@/api/date.js";
-import { queryList } from "@/api/ResearchTrainingApi";
+import { queryList, addMyResearch } from "@/api/ResearchTrainingApi";
 export default {
   mixins: [tableCommon],
   data() {
@@ -188,7 +190,7 @@ export default {
       value1: "",
       input: "",
       dialogFormVisible: false,
-       dialogTableVisible: false,
+      dialogTableVisible: false,
       formLabelWidth: "120px",
       page: {
         pageSize: 20
@@ -232,6 +234,18 @@ export default {
         let List = await queryList({ page, rows });
         this.tableData = List.data.list;
         console.log(this.tableData);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async submit() {
+      try {
+        let id = "6d28a196-1273-11ea-ae14-14187764606b"
+        let form = JSON.stringify(this.form);
+        await addMyResearch({ id,form });
+        console.log(form);
+        this.dialogFormVisible = false;
+        this.get();
       } catch (err) {
         console.log(err);
       }

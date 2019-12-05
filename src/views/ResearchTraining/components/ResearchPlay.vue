@@ -79,12 +79,12 @@
           <el-input v-model="form.classTime" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="参训名单" :label-width="formLabelWidth">
-          <el-input v-model="form.memberList" autocomplete="off"></el-input>
+          <el-input v-model="form.trainUsers" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit(tableData)">确 定</el-button>
+        <el-button type="primary" @click="submit()">确 定</el-button>
       </div>
     </el-dialog>
     <div class="content">
@@ -214,7 +214,7 @@ export default {
         classType: "",
         place: "",
         classTime: "",
-        memberList: ""
+        trainUsers: ""
       }
     };
   },
@@ -237,16 +237,6 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    async submit() {
-      try {
-        let from = this.from
-        await addResearch({from});
-        this.dialogFormVisible = false;
-        this.get();
-      } catch (err) {
-        console.log(err);
-      }
-    },
     async get() {
       try {
         let page = 1;
@@ -254,6 +244,17 @@ export default {
         let List = await queryResearch({ page, rows });
         this.tableData = List.data.list;
         console.log(this.tableData);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async submit() {
+      try {
+        let form = JSON.stringify(this.form)
+        await addResearch({ form });
+        console.log(form);
+        this.dialogFormVisible = false;
+        this.get();
       } catch (err) {
         console.log(err);
       }
