@@ -22,7 +22,7 @@ import { phoneReg, credNumReg } from '@/utils/validate.js'
 import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'
 
-const genderDict = getDictById('DXAWXGKHTCZMPNOZRPRHLPHSUZWLUCSD')
+const genderDict = getDictById('gender')
 
 export default {
   name: 'studentManage',

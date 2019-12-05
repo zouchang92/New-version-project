@@ -23,6 +23,13 @@ export function getInfo(token) {
   })
 }
 
+export function getUserMenu() {
+  return request({
+    url: '/zhxyx/account/listMenuButtonByUserId',
+    method: 'get'
+  })
+}
+
 export function logout() {
   return request({
     url: '/zhxyx/account/logout',

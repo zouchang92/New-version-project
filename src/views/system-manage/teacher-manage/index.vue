@@ -20,7 +20,7 @@
 import tableCommon from '@/mixins/table-common.js'
 import { getOrgan, getDictById } from '@/utils'
 import { queryTeacher, addTeacher, updateTeacher, deleteTeacher, deleteTeachers } from '@/api/teacherManageApi'
-const genderDict = getDictById('DXAWXGKHTCZMPNOZRPRHLPHSUZWLUCSD')
+const genderDict = getDictById('gender')
 export default {
   name: 'teacherManage',
   mixins: [tableCommon],

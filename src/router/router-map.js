@@ -379,7 +379,7 @@ export default {
     path: '/placementResult',
     component: () => import('@/views/student-placement/placement-result'),
     alwaysShow: true,
-    name: 'placementHome',
+    name: 'placementResult',
     meta: { title: '', icon: '' }
   }
 }

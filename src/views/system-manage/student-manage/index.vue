@@ -20,8 +20,8 @@
 import tableCommon from '@/mixins/table-common.js'
 import { queryStudent, addStudent, delStudent, delStudents, updateStudent } from '@/api/studentManageApi'
 import { getOrgan, getDictById } from '@/utils'
-const genderDict = getDictById('DXAWXGKHTCZMPNOZRPRHLPHSUZWLUCSD')
-const curStatusDict = getDictById('TKUGRHFKTEDNJWIFXOJUEQWMPHWHRSUU')
+const genderDict = getDictById('gender')
+const curStatusDict = getDictById('curStatus')
 export default {
   name: 'studentManage',
   mixins: [tableCommon],

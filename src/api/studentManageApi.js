@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
-export const queryStudent = ({ page, rows }) => {
+export const queryStudent = ({ page, rows, organId }) => {
   return request({
     url: '/zhxyx/student/list',
     data: {
       page,
       rows,
-      
+      organId
     },
     method: 'post'
   })
