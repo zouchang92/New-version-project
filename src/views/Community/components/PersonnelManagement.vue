@@ -1,6 +1,6 @@
 <template>
-  <div class="ActivityAttendance">
-    <el-card class="box-card">
+     <div class="table-container">
+      <div class="basic-container">
       <avue-crud
         :data="data"
         :option="option"
@@ -15,7 +15,7 @@
           <el-button @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
         </template>
       </avue-crud>
-    </el-card>
+      </div>
   </div>
 </template>
 <script>

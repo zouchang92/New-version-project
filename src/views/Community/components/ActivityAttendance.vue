@@ -1,25 +1,27 @@
 <template>
   <div class="ActivityAttendance">
-    <el-card class="box-card">
-      <avue-crud
-        :data="data"
-        :option="option"
-        @search-change="searchChange"
-        :page="page"
-        @selection-change="selectionChange"
-      >
-        <template slot="searchMenu">
-          <el-button type="success" icon="el-icon-folder-checked" size="small">批量记录签到</el-button>
-          <el-button
-            @click="batchDel()"
-            type="danger"
-            icon="el-icon-folder-delete
+    <div class="table-container">
+      <div class="basic-container">
+        <avue-crud
+          :data="data"
+          :option="option"
+          @search-change="searchChange"
+          :page="page"
+          @selection-change="selectionChange"
+        >
+          <template slot="searchMenu">
+            <el-button type="success" icon="el-icon-folder-checked" size="small">批量记录签到</el-button>
+            <el-button
+              @click="batchDel()"
+              type="danger"
+              icon="el-icon-folder-delete
 "
-            size="small"
-          >批量记录缺勤</el-button>
-        </template>
-      </avue-crud>
-    </el-card>
+              size="small"
+            >批量记录缺勤</el-button>
+          </template>
+        </avue-crud>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -59,7 +61,7 @@ export default {
             prop: "",
             type: "select",
             hide: true,
-            search: true,
+            search: true
           },
           {
             label: "学号",

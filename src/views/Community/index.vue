@@ -5,7 +5,7 @@
         <div><CommunityPage /></div>
       </el-tab-pane>
       <el-tab-pane label="社团管理" name="second">
-        <div><Management /></div>
+        <div><Management1 /></div>
       </el-tab-pane>
       <el-tab-pane label="活动管理" name="third">
         <div><ActivityManagement /></div>
@@ -21,7 +21,7 @@
 </template>
 <script>
 import CommunityPage from './components/CommunityPage'
-import Management from './components/Management'
+import Management1 from './components/Management1'
 import ActivityManagement from './components/ActivityManagement'
 import ActivityAttendance from './components/ActivityAttendance'
 import PersonnelManagement from './components/PersonnelManagement'
@@ -30,7 +30,7 @@ export default {
     ActivityAttendance,
     ActivityManagement,
     CommunityPage,
-    Management,
+    Management1,
     PersonnelManagement
   },
   data() {

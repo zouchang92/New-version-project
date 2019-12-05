@@ -34,4 +34,27 @@ export function getIdClub({ id }) {
     }
   })
 }
+export function queryActivity() {
+  return request({
+    url: '/zhxyx/stActivities/list',
+    method: 'post',
+    data: {}
+  })
+}
+export function addActivity() {
+  return request({
+    url: '/zhxyx/stActivities/add',
+    method: 'post',
+    data: {}
+  })
+}
+export function delActivity({ id }) {
+  return request({
+    url: '/zhxyx/stActivities/delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
 

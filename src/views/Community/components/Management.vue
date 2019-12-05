@@ -66,8 +66,7 @@
         </el-table-column>
         <el-table-column label="负责人" width="160">
           <template slot-scope="scope">
-            <span v-if="!showEdit[$index]">{{ scope.row.person }}</span>
-            <input class="edit-cell" v-if="showEdit[$index]" v-model="scope.row.person">
+            <span>{{ scope.row.person }}</span>
           </template>
         </el-table-column>
         <el-table-column label="适用年级">
@@ -92,7 +91,7 @@
             </el-button>
             <span
               style="color:#1890FF;font-size:13px;font-weight:400;"
-              @click.native="handleEdit($index, row)"  v-if="!showBtn[$index]"
+              @click="handleEdit(scope.$index, scope.row)"
             >编辑</span>
             <span
               style="color:#1890FF;font-size:13px;font-weight:400;"
@@ -125,12 +124,10 @@ export default {
       value: "",
       value1: "",
       input: "",
-      data: [],
+      data:[],
       dialogFormVisible: false,
-      handleSee: false,
+      handleSee:false,
       formLabelWidth: "120px",
-      showEdit: [],
-      showBtn:[],
       page: {
         pageSize: 20
       },
@@ -169,12 +166,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    },
-    handleEdit(index, row) {
-      this.showEdit[index] = true;
-      this.showBtn[index] = true;
-      this.$set(this.showEdit, row, true);
-      this.$set(this.showBtn, row, true);
     }
   }
 };

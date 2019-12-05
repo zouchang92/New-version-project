@@ -1,89 +1,143 @@
 <template>
   <div>
-    <el-card class="box-card">
-      <avue-crud
-        :data="data"
-        :option="option"
-        @search-change="searchChange"
-        :page="page"
-        @selection-change="selectionChange"
-      >
-        <template slot="searchMenu">
-          <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-          <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-          <el-button @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-          <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
-        </template>
-      </avue-crud>
-    </el-card>
+    <div class="table-container">
+      <div class="basic-container">
+        <avue-crud
+          rowKey="id"
+          @search-change="searchChange"
+          @selection-change="selectChange"
+          ref="crud"
+          :page="page"
+          :data="tableList"
+          :option="option"
+          @row-save="rowSave"
+          @row-del="singleDel"
+        >
+          <template slot="searchMenu">
+            <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
+            <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
+            <el-button @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+            <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+          </template>
+        </avue-crud>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import tableCommon from "@/mixins/table-common.js";
-
+import { queryActivity, addActivity, delActivity } from "@/api/CommunityApi.js";
 export default {
   mixins: [tableCommon],
   data() {
     return {
+      fn: queryActivity,
+      singleDelFn: delActivity,
       page: {
         pageSize: 20
       },
       searchForm: {},
-      data: [
-        {
-          semesterId: "2019下学期",
-          clubName: "街舞社",
-          name:"日常活动",
-          clubOrgId:"一年级",
-          person: "李安",
-          classroomName: "体育馆二楼",
-          honors: "无",
-          description: "无",
-          time:'2019-09-28 09:00'
-        }
-      ],
+      tableList: [],
       option: {
         selection: true,
         align: "center",
         menuAlign: "center",
         column: [
           {
+            label: "id",
+            prop: "id",
+            hide: true,
+            addDisplay: false,
+            editDisplay: false,
+            viewDisplay: false
+          },
+          {
+            label: "id",
+            prop: "id",
+            hide: true,
+            addDisplay: false,
+            editDisplay: false,
+            viewDisplay: false
+          },
+          {
             label: "学期",
             prop: "semesterId",
-            search: true
+            search: true,
+            rules: {
+              required: true,
+              message: "学期"
+            }
           },
           {
             label: "所属社团",
             prop: "clubName",
-            search: true
+            search: true,
+            rules: {
+              required: true,
+              message: "所属社团"
+            }
           },
           {
             label: "活动名称",
-            prop: "name"
+            prop: "name",
+            rules: {
+              required: true,
+              message: "活动名称"
+            }
           },
           {
             label: "活动单位",
-            prop: "clubOrgId"
+            prop: "clubOrgId",
+            rules: {
+              required: true,
+              message: "活动单位"
+            }
           },
           {
             label: "负责人",
-            prop: "person",       
+            prop: "person",
+            rules: {
+              required: true,
+              message: "负责人"
+            }
           },
           {
             label: "所在场馆",
             prop: "classroomName",
+            rules: {
+              required: true,
+              message: "所在场馆"
+            }
           },
           {
             label: "活动荣耀",
+            type: "upload",
             prop: "honors",
+            // rules: {
+            //   required: true,
+            //   message: "活动荣耀"
+            // }
           },
           {
             label: "精彩瞬间",
+            type: "upload",
             prop: "description",
+            // rules: {
+            //   required: true,
+            //   message: "精彩瞬间"
+            // }
           },
           {
             label: "活动时间",
+            type: "date",
             prop: "time",
+            width: 150,
+            format: "yyyy-MM-dd hh:mm",
+            valueFormat: "yyyy-MM-dd hh:mm",
+            rules: {
+              required: true,
+              message: "活动时间"
+            }
           }
         ]
       }
@@ -105,6 +159,18 @@ export default {
         return {
           overflow: "hidden"
         };
+      }
+    },
+    async rowSave(row, done, loading) {
+      // row.description = row.description.length ? row.description[0].value : "";
+      // row.honors = row.honors.length ? row.honors[0].value : "";
+      loading(true);
+      try {
+        let result = await addActivity(row);
+        await this.resetList();
+        done();
+      } catch (err) {
+        loading(false);
       }
     }
   }
