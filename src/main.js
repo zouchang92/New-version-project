@@ -14,6 +14,7 @@ import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css'
 
 
 
+
 import '@smallwei/avue/lib/index.css'
 
 import '@/styles/index.scss' // global css
@@ -33,6 +34,7 @@ import '@/permission' // permission control
 Vue.use(ElementUI, { locale })
 Vue.use(UCalendar)
 Vue.use(Avue)
+
 Vue.use(ElTreeSelect)
 
 Vue.use(VueFileAgent)
@@ -40,8 +42,6 @@ Vue.use(VueFileAgent)
 Vue.use(VCharts)
 
 Vue.config.productionTip = false
-
-console.log(router)
 
 export default new Vue({
   el: '#app',

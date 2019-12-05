@@ -17,7 +17,7 @@
                       type="text"
                       size="mini"
                       icon="el-icon-plus"
-                      v-if="data.parentId === ''"
+                      v-if="data.parentId === '' && permission.addBtn"
                       @click="() => addNode(node, data)">
                       
                     </el-button>
@@ -25,12 +25,14 @@
                       type="text"
                       size="mini"
                       icon="el-icon-edit"
+                      v-if="permission.editBtn"
                       @click="() => editNode(node, data)">
                     </el-button>
                     <el-button
                       type="text"
                       size="mini"
                       icon="el-icon-delete"
+                      v-if="permission.delBtn"
                       @click="() => removeNode(node, data)">
                     </el-button>
                   </span>
@@ -40,11 +42,11 @@
         </el-col>
         <el-col :span="18">
           <el-card>
-            <avue-crud rowKey="id" @upload-after="uploadBefore" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
+            <avue-crud :permission="permission" rowKey="id" @upload-after="uploadBefore" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
               <template slot="searchMenu">
-                <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-                <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+                <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
+                <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
+                <el-button v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
                 <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
               </template>
             </avue-crud>
@@ -59,12 +61,13 @@
 </template>
 
 <script>
-import tableCommon from '@/mixins/table-common.js'
+import tableCommon from '@/mixins/table-common'
+import permission from '@/mixins/permission'
 import { queryDictList, searchDictById, addDict, updateDict, deleteDict } from '@/api/dictManageApi'
 import { interArrayTree } from '@/utils'
 export default {
   name: 'roleManage',
-  mixins: [tableCommon],
+  mixins: [tableCommon, permission],
   
   data() {
     return {

@@ -2,11 +2,11 @@
   <div>
     <div class="table-container">
       <div class="basic-container">
-          <avue-crud rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
+          <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
-              <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-              <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-              <el-button @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+              <el-button type="success" v-if="permission.addBtn" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
+              <el-button type="warning" v-if="permission.import" icon="el-icon-download" size="small">导入</el-button>
+              <el-button @click="batchDel()" v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
               <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
@@ -17,14 +17,15 @@
 </template>
 
 <script>
-import tableCommon from '@/mixins/table-common.js'
+import tableCommon from '@/mixins/table-common'
+import permission from '@/mixins/permission'
 import { queryStudent, addStudent, delStudent, delStudents, updateStudent } from '@/api/studentManageApi'
 import { getOrgan, getDictById } from '@/utils'
 const genderDict = getDictById('gender')
 const curStatusDict = getDictById('curStatus')
 export default {
   name: 'studentManage',
-  mixins: [tableCommon],
+  mixins: [tableCommon, permission],
   data() {
     return {
       searchForm: {

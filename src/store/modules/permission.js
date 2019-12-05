@@ -21,7 +21,7 @@ function hasPermission(roles, route) {
  * @param routes asyncRoutes
  * @param roles
  */
-function filterAsyncRoutes(asyncRouterMap) { //遍历后台传来的路由字符串，转换为组件对象
+function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来的路由字符串，转换为组件对象
   const accessedRouters = asyncRouterMap.filter(route => {
     let targetComponent = routerMap[route.menuUrl]
     if (targetComponent) {
@@ -30,26 +30,35 @@ function filterAsyncRoutes(asyncRouterMap) { //遍历后台传来的路由字符
       route.path = targetComponent.path
       route.component = targetComponent.component
       if (route.children && route.children.length) {
-        route.children = filterAsyncRoutes(route.children)
+        route.children = filterAsyncRoutes(route.children, threeMap).accessedRouters
+      }
+      if (route.threeMenu) {
+        threeMap[route.name] = route
+        return false
+      } else {
+        return true
       }
     } else {
-      console.log(route)
-      route.path = `/${route.name}`
+      route.path = `/${route.menuName}`
+      return true
     }
-    return true
+    
   })
-  return accessedRouters
+  return {accessedRouters, threeMap}
 }
 
 const state = {
   routes: [],
-  addRoutes: []
+  addRoutes: [],
+  thirdMenu: {}
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    let allRoutes = routes.concat(constantRoutes)
+    const { threeMap, accessedRouters } = routes
+    state.addRoutes = accessedRouters
+    state.thirdMenu = threeMap
+    let allRoutes = accessedRouters.concat(constantRoutes)
     state.routes = allRoutes
   }
 }
@@ -59,12 +68,12 @@ const actions = {
     return new Promise((resolve, reject) => {
       let accessedRoutes
       try {
-        accessedRoutes = filterAsyncRoutes(routerMap, roles)
-        console.log(accessedRoutes)
+        console.log(routerMap)
+        accessedRoutes = filterAsyncRoutes(routerMap)
         commit('SET_ROUTES', accessedRoutes)
-        resolve(accessedRoutes)
+        console.log(accessedRoutes.accessedRouters)
+        resolve(accessedRoutes.accessedRouters)
       } catch(err) {
-        alert(err)
         reject(err)
       }
 

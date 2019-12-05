@@ -2,11 +2,11 @@
   <div>
     <div class="table-container">
       <div class="basic-container">
-          <avue-crud @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
+          <avue-crud :permission="permission" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
-              <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-              <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-              <el-button @click="batchDel" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+              <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
+              <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
+              <el-button v-if="permission.batchDelBtn" @click="batchDel" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
               <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import tableCommon from '@/mixins/table-common.js'
+import tableCommon from '@/mixins/table-common'
+import permission from '@/mixins/permission'
 import { queryUsers, addUser, updateUser, delUser, batchDel } from '@/api/userManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate.js'
 import { getOrgan, getDictById } from '@/utils'
@@ -26,7 +27,7 @@ const genderDict = getDictById('gender')
 
 export default {
   name: 'studentManage',
-  mixins: [tableCommon],
+  mixins: [tableCommon, permission],
   data() {
     return {
       fn: queryUsers,

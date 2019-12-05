@@ -13,7 +13,7 @@
           <el-select v-model="searchForm.name" placeholder="请输入姓名"></el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="initList">搜索</el-button>
+          <el-button v-permission="['admin','editor']" type="primary" @click="initList">搜索</el-button>
           <el-button type="primary">导出</el-button>
           <el-button type="primary">打印</el-button>
         </el-form-item>
@@ -53,9 +53,11 @@
 </template>
 
 <script>
-import tableCommon from '@/mixins/table-common.js'
+import tableCommon from '@/mixins/table-common'
 import { queryStudentMoralList } from '@/api/studentMoralReportApi'
+
 export default {
+  name: 'studentMoralReport',
   mixins: [tableCommon],
   data() {
     return {
@@ -64,8 +66,12 @@ export default {
         user: '',
         class: '',
         name: ''
-      }
+      },
+      thirdMenuName: 'studentMoralReport'
     }
+  },
+  mounted() {
+    console.log(this)
   }
 }
 </script>
