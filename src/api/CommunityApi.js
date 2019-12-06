@@ -57,4 +57,34 @@ export function delActivity({ id }) {
     }
   })
 }
+export function updateActivity() {
+  return request({
+    url: '/zhxyx/stActivities/upd',
+    method: 'post',
+    data: {}
+  })
+}
+export function queryPerson() {
+  return request({
+    url: '/zhxyx/stClubStudent/list',
+    method: 'post',
+    data: {}
+  })
+}
+export function delPerson({ id }) {
+  return request({
+    url: '/zhxyx/stClubStudent/delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+export function queryAttendance() {
+  return request({
+    url: '/zhxyx/stActivitiesAttendance/list',
+    method: 'post',
+    data: {}
+  })
+}
 

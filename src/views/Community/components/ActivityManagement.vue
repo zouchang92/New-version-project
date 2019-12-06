@@ -12,6 +12,7 @@
           :option="option"
           @row-save="rowSave"
           @row-del="singleDel"
+          @row-update="rowUpdate"
         >
           <template slot="searchMenu">
             <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
@@ -26,7 +27,12 @@
 </template>
 <script>
 import tableCommon from "@/mixins/table-common.js";
-import { queryActivity, addActivity, delActivity } from "@/api/CommunityApi.js";
+import {
+  queryActivity,
+  addActivity,
+  delActivity,
+  updateActivity
+} from "@/api/CommunityApi.js";
 export default {
   mixins: [tableCommon],
   data() {
@@ -112,7 +118,7 @@ export default {
           {
             label: "活动荣耀",
             type: "upload",
-            prop: "honors",
+            prop: "honors"
             // rules: {
             //   required: true,
             //   message: "活动荣耀"
@@ -121,7 +127,7 @@ export default {
           {
             label: "精彩瞬间",
             type: "upload",
-            prop: "description",
+            prop: "description"
             // rules: {
             //   required: true,
             //   message: "精彩瞬间"
@@ -132,8 +138,8 @@ export default {
             type: "date",
             prop: "time",
             width: 150,
-            format: "yyyy-MM-dd hh:mm",
-            valueFormat: "yyyy-MM-dd hh:mm",
+            format: "yyyy-MM-dd HH:mm",
+            valueFormat: "yyyy-MM-dd HH:mm",
             rules: {
               required: true,
               message: "活动时间"
@@ -159,6 +165,16 @@ export default {
         return {
           overflow: "hidden"
         };
+      }
+    },
+    async rowUpdate(row, index, done, loading) {
+      loading(true);
+      try {
+        let result = await updateActivity(row);
+        await this.resetList();
+        done();
+      } catch (err) {
+        loading(false);
       }
     },
     async rowSave(row, done, loading) {

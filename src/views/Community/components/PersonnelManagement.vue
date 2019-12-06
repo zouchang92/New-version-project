@@ -1,13 +1,17 @@
 <template>
-     <div class="table-container">
-      <div class="basic-container">
+  <div class="table-container">
+    <div class="basic-container">
       <avue-crud
-        :data="data"
+        :data="tableList"
         :option="option"
+        v-model="obj"
         @search-change="searchChange"
         :page="page"
+        :table-loading="tableListLoading"
+        @row-save="rowSave"
+        @row-del="del"
         @selection-change="selectionChange"
-        ref="curd"
+        ref="crud"
       >
         <template slot="searchMenu">
           <el-button type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
@@ -15,31 +19,25 @@
           <el-button @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
         </template>
       </avue-crud>
-      </div>
+    </div>
   </div>
 </template>
 <script>
 import tableCommon from "@/mixins/table-common.js";
+import { queryPerson, delPerson } from "@/api/CommunityApi.js";
 
 export default {
   mixins: [tableCommon],
   data() {
     return {
+      fn:queryPerson,
+      delFn:delPerson,
+      obj:{},
       page: {
         pageSize: 20
       },
       searchForm: {},
-      data: [
-        {
-          semesterId: "街舞社",
-          clubName: "20190377927",
-          name: "王安",
-          clubOrgId: "三年级/5班",
-          person: "男",
-          classroomName: "2019-09-28 09:00",
-          Pay: "已缴费"
-        }
-      ],
+      tableList: [],
       option: {
         selection: true,
         align: "center",
@@ -104,6 +102,9 @@ export default {
     };
   },
   methods: {
+    handleAdd() {
+      this.$refs.crud.rowAdd();
+    },
     onLoad(page) {
       this.$message.success("分页信息:" + JSON.stringify(page));
       this.page.total = 20;

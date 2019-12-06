@@ -34,7 +34,7 @@ export const addStudent = ({ id = '', organId, userName, loginName, gender, curS
 
 export const delStudent = (id) => {
   return request({
-    url: '/zhxyx/Student/delete',
+    url: '/zhxyx/student/delete',
     method: 'post',
     data: {
       id
