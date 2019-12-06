@@ -87,7 +87,7 @@ export default {
       try {
         let List = await clubQueryAll({ id });
         this.data = List.data.list
-        // console.log(List.data.list)
+        console.log(List.data.list)
       } catch (err) {}
     }
   }

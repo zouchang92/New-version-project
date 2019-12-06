@@ -7,7 +7,12 @@
             <p class="line"></p>
             <span style="margin:0px;">选择学年学期</span>
           </div>
-          <el-tree :data="data" :props="defaultProps" default-expand-all>
+          <el-tree
+            :data="data"
+            :props="defaultProps"
+            default-expand-all
+            @node-click="handleNodeClick"
+          >
             <span slot-scope="{ node, data }">
               <i :class="data.icon"></i>
               <span style="padding-left: 4px;">{{node.label}}</span>
@@ -20,8 +25,8 @@
           <avue-form ref="form" v-model="obj0" :option="option0">
             <template slot="menuForm">
               <el-button type="primary" @click="handleSubmit">提 交</el-button>
-              <el-button @click="handleSubmit">保 存</el-button>
-              <el-button @click="handleEmpty">清 空</el-button>
+              <el-button>保 存</el-button>
+              <el-button>清 空</el-button>
             </template>
           </avue-form>
         </div>
@@ -93,10 +98,9 @@ export default {
         column: [
           {
             label: "评价老师",
-            prop: "username",
+            prop: "commentTeacher",
             rules: [
               {
-                
                 message: "请输入老师姓名",
                 trigger: "blur"
               }
@@ -104,10 +108,9 @@ export default {
           },
           {
             label: "评价等级",
-            prop: "Grade",
+            prop: "commentLeval",
             rules: [
               {
-                
                 message: "请输入评价等级",
                 trigger: "blur"
               }
@@ -115,7 +118,7 @@ export default {
           },
           {
             label: "教师寄语",
-            prop: "textarea",
+            prop: "commentOpinion",
             type: "textarea",
             minRows: 10,
             maxlength: 200,
@@ -133,16 +136,17 @@ export default {
   },
   methods: {
     handleNodeClick(data) {
-      console.log(data);
+      // console.log(JSON.stringify(data.menuName));
     },
     handleEmpty() {
       this.$refs.form.resetForm();
     },
-    handleSubmit() {
+    handleSubmit(data) {
       this.$refs.form.validate(vaild => {
         if (vaild) {
           this.$message.success(JSON.stringify(this.obj0));
         }
+        console.log(JSON.stringify(this.obj0));
       });
     }
   }
@@ -175,8 +179,8 @@ export default {
 }
 </style>
 <style >
- .Comment-right .avue-form__menu--center {
-    text-align: left;
-    padding-left: 30px;
+.Comment-right .avue-form__menu--center {
+  text-align: left;
+  padding-left: 30px;
 }
 </style>

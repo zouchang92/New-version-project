@@ -44,7 +44,7 @@ export const delStudent = (id) => {
 
 export const delStudents = (ids) => {
   return request({
-    url: '/zhxyx/Student/deletes',
+    url: '/zhxyx/student/deletes',
     method: 'post',
     data: {
       ids

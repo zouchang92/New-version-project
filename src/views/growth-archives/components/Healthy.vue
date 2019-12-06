@@ -5,20 +5,16 @@
         :data="tableList"
         :option="option"
         :page="page"
-       :table-loading="tableListLoading"
+        @row-del="singleDel"
         @selection-change="selectionChange"
         :cell-style="cellStyle"
-        @row-del='del'
       >
-        <template  slot="menu">
-          <el-button class="el-button--text" size="small"><span>审核</span> </el-button>
-        </template>
       </avue-crud>
     </el-card>
   </div>
 </template>
 <script>
-import { HealthQueryAll, delHealth} from "@/api/growthArchivesApi";
+import { queryHealth, delHealth} from "@/api/growthArchivesApi";
 import tableCommon from '@/mixins/table-common.js'
 export default {
   mixins: [tableCommon],
@@ -27,8 +23,9 @@ export default {
       page: {
         pageSize: 20
       },
-      fn:HealthQueryAll,
-      del:delHealth,
+      fn:queryHealth,
+      singleDelFn:delHealth,
+      tableList:[],
       option: {
         selection: true,
         align: "center",
@@ -56,6 +53,7 @@ export default {
           },
           {
             label: "体检日期",
+            type:"date",
             prop: "checkTime"
           },
           {
@@ -68,7 +66,7 @@ export default {
     };
   },
   created(){
-    this.getHealth()
+  
   },
   methods: {
     onLoad(page) {
@@ -78,19 +76,13 @@ export default {
       selectionChange(list) {
         this.$message.success("选中的数据" + JSON.stringify(list));
       },
-        cellStyle({row,column,rowIndex,columnIndex}){
+      cellStyle({row,column,rowIndex,columnIndex}){
         if(columnIndex==3){
             return{
                 overflow:'hidden'
             }
         }
-    },
-    async getHealth(id) {
-      try {
-        await HealthQueryAll({ id });
-        console.log(a);
-      } catch (err) {}
-    },
+    }
   }
 };
 </script>

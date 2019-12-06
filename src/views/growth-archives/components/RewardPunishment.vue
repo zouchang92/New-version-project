@@ -9,6 +9,8 @@
         :option="option"
         @selection-change="selectionChange"
         v-model="obj"
+        @row-del="del"
+        ref="crud"
         style="margin-top:10px;"
       >
         <template slot="menu">
@@ -43,23 +45,26 @@
   </div>
 </template>
 <script>
-import { daRap } from "@/api/growthArchivesApi";
+import tableCommon from "@/mixins/table-common.js";
+import { daRap, deleteDaRap } from "@/api/growthArchivesApi";
 export default {
-  props:{
-    input:{
-      type:String
+  mixins: [tableCommon],
+  props: {
+    input: {
+      type: String
     },
-    value:{
-      type:String
+    value: {
+      type: String
     }
   },
   data() {
     return {
       input: "",
       fn: daRap,
-      obj:[],
+      delFn: deleteDaRap,
+      obj: [],
       tableList: [],
-      tableData:[],
+      tableData: [],
       dialogVisible: false,
       option: {
         selection: true,
@@ -80,9 +85,9 @@ export default {
           },
           {
             label: "获奖日期",
-            prop: "rapTime",           
-            type: 'date',
-            format: 'yyyy-MM-dd'
+            prop: "rapTime",
+            type: "date",
+            format: "yyyy-MM-dd"
           },
           {
             label: "获奖名次",
@@ -90,11 +95,11 @@ export default {
           },
           {
             label: "颁奖单位",
-            prop: "status",
+            prop: "status"
           },
           {
             label: "奖励照片",
-            prop: "rapPic",
+            prop: "rapPic"
           },
           {
             label: "备注",
@@ -102,15 +107,18 @@ export default {
           }
         ]
       }
-    }
+    };
   },
   mounted() {},
   watch: {
     option: function(a, b) {
-      console.log(a,b)
+      console.log(a, b);
     }
   },
   methods: {
+    handleAdd() {
+      this.$refs.crud.rowAdd();
+    },
     handleClick(row) {
       console.log(row);
     },
@@ -119,19 +127,20 @@ export default {
     },
     async getdaRap(orgName, studentNum) {
       try {
-        let a = await daRap({ orgName, studentNum });
-        this.tableList = a.data
+        await daRap({ orgName, studentNum });
         // console.log(this.tableList);
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
     },
     selectionChange(list) {
-        this.$message.success("选中的数据" + JSON.stringify(list));
-      },
+      this.$message.success("选中的数据" + JSON.stringify(list));
+    }
   }
 };
 </script>
 <style>
-  .Prize .avue-crud__right{
-    display: none;
-  }
+.Prize .avue-crud__right {
+  display: none;
+}
 </style>

@@ -61,7 +61,7 @@ export function queryChildMoralPoint({ page, rows, projId='' }) {
   })
 }
 
-export function addChildMoralPoint({projId, ioflag, title, score}) {
+export function addChildMoralPoint({ projId, ioflag, title, mutScore, variaScore }) {
   return request({
     url: '/zhxyx/projectItem/insert',
     method: 'post',
@@ -69,7 +69,8 @@ export function addChildMoralPoint({projId, ioflag, title, score}) {
       projId,
       ioflag,
       title,
-      score
+      mutScore,
+      variaScore
     }
   })
 }

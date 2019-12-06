@@ -132,9 +132,18 @@ export function delclub({ id }) {
     }
   })
 }
-export function delHealth({ id }) {
+export function queryHealth({ id }) {
   return request({
     url: '/zhxyx/stuHealth/queryAll',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+export function delHealth({ id }) {
+  return request({
+    url: '/zhxyx/stuHealth/deletel',
     method: 'post',
     data: {
       id
