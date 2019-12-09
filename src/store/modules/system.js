@@ -68,7 +68,8 @@ const actions = {
   async ['getMenuTree']({ commit }) {
     try {
       let data = await getUserMenu()
-      let menu = toTree(data.data)[0].children
+      console.log(toTree(data.data))
+      let menu = toTree(data.data).find(n => n.menuId === 'root').children
       commit('SET_MENUTREE', menu)
       return menu
     } catch(err) {

@@ -33,7 +33,7 @@ import '@/permission' // permission control
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 Vue.use(UCalendar)
-Vue.use(Avue)
+Vue.use(window.AVUE)
 
 Vue.use(ElTreeSelect)
 

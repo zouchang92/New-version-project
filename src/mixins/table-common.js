@@ -16,10 +16,12 @@ export default {
         pageSize: 10
       },
       option: {
+        height: 'auto',
         addBtn: true,
         title: '',
         page: true,
         viewBtn: true,
+        searchSubBtn: true,
         selection: true,
         stripe: true,
         selectClearBtn: false,
@@ -39,6 +41,7 @@ export default {
         ...this.searchForm,
         ...param,
       }
+      console.log(param)
       this.initList()
     }, 
     batchDel() {

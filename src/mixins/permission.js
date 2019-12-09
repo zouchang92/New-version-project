@@ -22,7 +22,7 @@ export default {
         editBtn: false, //行内编辑
         addBtn: false, //添加
         delBtn: false, //行内删除
-        searchBtn: false, //搜索
+        searchSubBtn: false, //搜索
         ...permission
       }
     }

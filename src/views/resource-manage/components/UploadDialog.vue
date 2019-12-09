@@ -73,7 +73,7 @@ export default {
       try {
         let res = await this.$refs.vueFileAgent.upload(this.uploadUrl, {}, this.filesDataForUpload)
         this.loading = false
-        this.$emit('uploadSuccess', this.filesData)
+        this.$emit('uploadSuccess', res)
         this.reset()
       } catch(err) {
         this.loading = false

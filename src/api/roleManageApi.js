@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
-export function queryRoles({ name = '' }) {
+export function queryRoles({ roleName = '' }) {
   return request({
     url: '/zhxyx/role/queryAll',
     method: 'post',
     data: {
-      name
+      name: roleName
     }
   })
 }
@@ -16,6 +16,26 @@ export function addRole({ name, description }) {
     method: 'post',
     data: {
       name, description
+    }
+  })
+}
+
+export function updateRole({id, name, description}) {
+  return request({
+    url: '/zhxyx/role/updateRole',
+    method: 'post',
+    data: {
+      id, name, description
+    }
+  })
+}
+
+export function deleteRole(id) {
+  return request({
+    url: '/zhxyx/role/deleteRole',
+    method: 'post',
+    data: {
+      id
     }
   })
 }

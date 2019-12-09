@@ -39,6 +39,10 @@ function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来
         return true
       }
     } else {
+      if (route.threeMenu) { 
+        threeMap[route.name] = route
+        return false
+      }
       route.path = `/${route.menuName}`
       return true
     }
@@ -68,10 +72,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       let accessedRoutes
       try {
-        console.log(routerMap)
         accessedRoutes = filterAsyncRoutes(routerMap)
         commit('SET_ROUTES', accessedRoutes)
-        console.log(accessedRoutes.accessedRouters)
         resolve(accessedRoutes.accessedRouters)
       } catch(err) {
         reject(err)

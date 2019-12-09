@@ -55,11 +55,13 @@ import tableCommon from '@/mixins/table-common'
 import MemberSelect from '@/components/MemberSelect'
 import { queryFolderTree, uploadFile, querySubList, addFolder } from '@/api/resourceManageApi'
 import FileList from '../components/FileList'
+import permission from '@/mixins/permission'
 import _ from 'lodash'
 export default {
-  mixins: [tableCommon],
+  mixins: [tableCommon, permission],
   data() {
     return {
+      thirdMenuName: 'myResource',
       newFolderModalVisible: false,
       memberShow: false,
       uploadDialogVisible: false,
@@ -119,13 +121,14 @@ export default {
       try {
         let res = await uploadFile({
            parentId: currentPath.id === 'root' ? '' : currentPath.id, 
-           filePath: '/' + files[0].upload[0].url, 
-           name: files[0].name(), 
+           filePath: '/' + files[0].data[0].url, 
+           name: files[0].data[0].name, 
            createUserId: ''
         })
         await this.refreshFolder(currentPath.id)
         this.uploadDialogVisible = false
       } catch(err) {
+        console.log(err)
       }
     },
     async refrshResource() {
@@ -159,6 +162,9 @@ export default {
 
     },
 
+  },
+  mounted() {
+    console.log(this)
   },
   components: {
     FileList,

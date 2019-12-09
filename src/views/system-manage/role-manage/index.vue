@@ -8,9 +8,7 @@
             </template>
             <template slot="searchMenu">
               <el-button type="success" v-if="permission.addBtn" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-              <el-button type="warning" v-if="permission.import" icon="el-icon-download" size="small">导入</el-button>
-              <el-button type="danger" v-if="permission.batchDelBtn" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+              <el-button type="info" @click="resetList()" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
       </div>
@@ -37,7 +35,7 @@
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
-import { queryRoles, addRole, getRoleAuthorize, roleBindMenus } from '@/api/roleManageApi'
+import { queryRoles, addRole, deleteRole, updateRole, getRoleAuthorize, roleBindMenus } from '@/api/roleManageApi'
 import _ from 'lodash'
 export default {
   name: 'roleManage',
@@ -60,6 +58,7 @@ export default {
         label: 'name',
 
       },
+      singleDelFn: deleteRole,
       fn: queryRoles,
       data: [],
       option: {
@@ -75,7 +74,7 @@ export default {
             label:'角色名称',
             prop:'roleName',
             rules: {
-              required: false,
+              required: true,
             },
             width: 200,
             search: true
@@ -203,7 +202,8 @@ export default {
     async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
-        let result = await addrole(row)
+        row.name = row.roleName
+        let result = await updateRole(row)
         await this.resetList()
         done()
       } catch(err) {
@@ -213,7 +213,8 @@ export default {
     async rowSave(row, done, loading) {
       loading(true)
       try {
-        let result = await addrole(row)
+        row.name = row.roleName
+        let result = await addRole(row)
         await this.resetList()
         done()
       } catch(err) {
