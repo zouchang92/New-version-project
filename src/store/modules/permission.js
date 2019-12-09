@@ -39,6 +39,7 @@ function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来
         return true
       }
     } else {
+      console.log(route)
       if (route.threeMenu) { 
         threeMap[route.name] = route
         return false

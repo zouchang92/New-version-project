@@ -1,14 +1,16 @@
 import _ from 'lodash'
-
+import qs from 'qs'
 export default {
   data() {
     return {
       searchForm: {
 
       },
+      initLoad: true,
       tableList: [],
       tableSelected: [],
       tableListLoading: false,
+      host: process.env.VUE_APP_BASE_API,
       page: {
         pageSizes: [10, 20, 30, 40],
         currentPage: 1,
@@ -33,6 +35,9 @@ export default {
     }
   },
   mounted() {
+    if (!this.initLoad) {
+      return
+    }
     this.initList()
   },
   methods: {
@@ -41,9 +46,16 @@ export default {
         ...this.searchForm,
         ...param,
       }
-      console.log(param)
       this.initList()
-    }, 
+    },
+    exportExcel(url, params) {
+      let queryObject = {}
+      _.forEach(params, n => {
+        console.log(this.searchForm)
+        queryObject[n] = this.searchForm[n] || ''
+      })
+      window.open(`${url}?${qs.stringify(queryObject)}`)
+    },
     batchDel() {
       let delFn = this.delFn
       let that = this

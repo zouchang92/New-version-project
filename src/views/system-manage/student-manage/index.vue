@@ -6,8 +6,10 @@
             <template slot="searchMenu">
               <el-button type="success" v-if="permission.addBtn" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button type="warning" v-if="permission.import" icon="el-icon-download" size="small">导入</el-button>
+              <el-button type="warning" @click="exportExcel(`${host}zhxyx/student/export
+`, ['organId', 'curStatus'])" v-if="permission.export" icon="el-icon-upload2" size="small">导出</el-button>
               <el-button @click="batchDel()" v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+              <el-button @click="initList()" type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
       </div>
@@ -23,13 +25,17 @@ import { queryStudent, addStudent, delStudent, delStudents, updateStudent } from
 import { getOrgan, getDictById } from '@/utils'
 const genderDict = getDictById('gender')
 const curStatusDict = getDictById('curStatus')
+const relationDict = getDictById('guardianRelation')
+const certTypeDict = getDictById('certificateType')
+const nationDic = getDictById('nation')
+const politicCountenanceDic = getDictById('politicCountenance')
 export default {
   name: 'studentManage',
   mixins: [tableCommon, permission],
   data() {
     return {
       searchForm: {
-
+        
       },
       fn: queryStudent,
       delFn: delStudents,
@@ -134,7 +140,8 @@ export default {
             prop:'guarderRelation',
             type: 'select',
             width: 150,
-            hide: true
+            hide: true,
+            dicData: relationDict,
           },
           {
             label:'监护人电话',
@@ -165,7 +172,8 @@ export default {
             prop: "credType",
             type: 'select',
             width: 150,
-            hide: true
+            hide: true,
+            dicData: certTypeDict
           },
           {
             label: "证件号码",
@@ -201,20 +209,22 @@ export default {
           {
             label: "籍贯",
             prop: "nativeLand",
-            type: "select",
-            hide: true
+            type: "input",
+            hide: true,
           },
           {
             label: "民族",
             prop: "volk",
             type: "select",
-            hide: true
+            hide: true,
+            dicData: nationDic
           },
           {
             label: "政治面貌",
             prop: "politstatus",
             type: "select",
-            hide: true
+            hide: true,
+            dicData: politicCountenanceDic
           },
           {
             label: "家庭住址",

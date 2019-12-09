@@ -222,7 +222,11 @@ export default {
         hasChildren: e.child.length > 0,
         threeMenu: e.threeMenu ? true : false
       }
-      this.queryBtns(e.id)
+      if (this.mode === 'add') {
+        this.btnManage.buttonIds = []
+      } else {
+        this.queryBtns(e.id)
+      }
     },
     getMenuTree() {
       listMenuTree().then(res => {

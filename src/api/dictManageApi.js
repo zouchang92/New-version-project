@@ -14,12 +14,14 @@ export function queryDictList() {
   })
 }
 
-export function searchDictById({ id }) {
+export function searchDictById({ id, page, rows }) {
   return request({
     url: '/zhxyx/dict/listDictItemByPid',
     method: 'post',
     data: {
-      dictId: id
+      dictId: id,
+      page, 
+      rows
     }
   })
 }
@@ -63,6 +65,17 @@ export function deleteDict(id) {
     method: 'post',
     data: {
       id
+    }
+  })
+}
+
+export function deleteChildDict({id, dictId}) {
+  return request({
+    url: '/zhxyx/dict/deleteDict',
+    method: 'post',
+    data: {
+      id,
+      dictId
     }
   })
 }

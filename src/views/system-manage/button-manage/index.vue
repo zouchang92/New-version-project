@@ -6,7 +6,7 @@
             <template slot="searchMenu">
               <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button v-if="permission.batchDelBtn" @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+              <el-button @click="initList()" type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
       </div>

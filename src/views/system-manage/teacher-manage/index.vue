@@ -17,11 +17,12 @@
 </template>
 
 <script>
-import tableCommon from '@/mixins/table-common.js'
+import tableCommon from '@/mixins/table-common'
 import { getOrgan, getDictById } from '@/utils'
 import permission from '@/mixins/permission'
 import { queryTeacher, addTeacher, updateTeacher, deleteTeacher, deleteTeachers } from '@/api/teacherManageApi'
 const genderDict = getDictById('gender')
+const curStatusDict = getDictById('curStatus')
 export default {
   name: 'teacherManage',
   mixins: [tableCommon, permission],
@@ -50,7 +51,6 @@ export default {
             rules: {
               required: true,
             },
-            search: true,
             span: 12,
           },
           {
@@ -74,6 +74,7 @@ export default {
             type: 'tree',
             search: true,
             span: 12,
+            searchClearable: true,
             dicData: getOrgan(),
             props: {
               label: 'orgName',
@@ -90,7 +91,7 @@ export default {
             rules: {
               required: true,
               message: '进校时间为必填项'
-            }
+            },
           },
           {
             label: '职务',
@@ -126,10 +127,10 @@ export default {
             rules: {
               required: false,
             },
-            search: true,
             span: 12,
             type: 'select',
-            hide: true
+            hide: true,
+            dicData: curStatusDict
           },
           
           {

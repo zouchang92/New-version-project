@@ -12,8 +12,8 @@
              <el-form>
                  <el-form-item>
                    <el-button :icon="mode === 'add' ? 'el-icon-plus' : 'el-icon-edit'" @click="changeMode" style="height: 32px;line-height: 12px" size="medium" type="primary">{{mode === 'add' ? '添加模式' : '编辑模式'}}</el-button>
-                   <el-button icon="el-icon-delete" @click="deleteOrgan" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
-                   <el-button icon="el-icon-top" style="height: 32px;line-height: 12px" size="medium" type="warning">一键升级</el-button>
+                   <el-button v-if="permission.delBtn" icon="el-icon-delete" @click="deleteOrgan" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
+                   <el-button v-if="permission.oneKeyUpdate" icon="el-icon-top" style="height: 32px;line-height: 12px" size="medium" type="warning">一键升级</el-button>
                  </el-form-item>
               </el-form>
               <el-form label-width="80px" label-position="right" size="small">
@@ -48,11 +48,13 @@
 </template>
 
 <script>
-import tableCommon from '@/mixins/table-common.js'
+import tableCommon from '@/mixins/table-common'
+import permission from '@/mixins/permission'
 import { getOrganTree, insertOrgan, updateOrgan, deleteOrgan } from '@/api/organManageApi'
 import { interArrayTree } from '@/utils'
 export default {
   name: 'organManage',
+  mixins: [permission],
   data() {
     return {
       mode: 'add',

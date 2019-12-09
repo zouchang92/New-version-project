@@ -42,12 +42,12 @@
         </el-col>
         <el-col :span="18">
           <el-card>
-            <avue-crud :permission="permission" rowKey="id" @upload-after="uploadBefore" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
+            <avue-crud :permission="permission" rowKey="id" @row-del="singleDel" @size-change="pageSizeChange" @current-change="currentPageChange" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" @search-change="searchChange" :page="page" :data="tableList" :option="option" v-model="obj">
               <template slot="searchMenu">
                 <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
                 <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
                 <el-button v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-                <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+                <el-button @click="initList()" type="info" icon="el-icon-refresh" size="small" circle></el-button>
               </template>
             </avue-crud>
           </el-card>
@@ -63,7 +63,7 @@
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
-import { queryDictList, searchDictById, addDict, updateDict, deleteDict } from '@/api/dictManageApi'
+import { queryDictList, searchDictById, addDict, updateDict, deleteDict, deleteChildDict } from '@/api/dictManageApi'
 import { interArrayTree } from '@/utils'
 export default {
   name: 'roleManage',
@@ -71,9 +71,11 @@ export default {
   
   data() {
     return {
+      initLoad: false,
       dictData: {
 
       },
+      singleDelFn: deleteChildDict,
       dialogVisible: false,
       rootMode: 'add',
       dictEditOption: {
@@ -85,6 +87,7 @@ export default {
           label:'排序',
           prop:'sort',
           span: 24,
+          type: 'number',
           rules: {
             required: true,
             message: '排序是必填项'
@@ -165,6 +168,7 @@ export default {
               message: '排序是必填项',
               required: true,
             },
+            type: 'number',
             span: 24,
             width: 200
           },
@@ -208,6 +212,28 @@ export default {
       this.rootMode = 'add'
       this.dictData = {}
       this.dialogVisible = true
+    },
+    singleDel(row) {
+      const that = this
+      this.$confirm('此操作将永久删除该条记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let delFn = that.singleDelFn
+          that.singleDelFn({id: row.id, dictId: row.dictId}).then(res => {
+            that.initList()
+            that.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+          }).catch(err => {
+
+          }) 
+          
+        }).catch(() => {
+      
+        });
     },
     async submit(data, done) {
       try {

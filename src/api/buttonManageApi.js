@@ -1,11 +1,15 @@
 import request from '@/utils/request'
 
 
-export function queryBtns() {
+export function queryBtns({name, page, rows}) {
   return request({
     url: '/zhxyx/menu/listButtons',
     method: 'get',
-    data: {}
+    data: {
+      name, 
+      page, 
+      rows
+    }
   })
 }
 
