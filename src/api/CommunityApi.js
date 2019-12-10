@@ -9,11 +9,13 @@ export function queryClub({ page, rows }) {
     }
   })
 }
-export function addClub() {
+export function addClub({ person, name, initTime, orgIds, description }) {
   return request({
-    url: '/zhxyx/stClub/add  ',
+    url: '/zhxyx/stClub/add',
     method: 'post',
-    data: {}
+    data: {
+      person, name, initTime, orgIds, description
+    }
   })
 }
 export function delClub({ ids }) {

@@ -3,6 +3,7 @@
     <div class="table-container">
       <div class="basic-container">
         <avue-crud
+          rowKey="id"
           :data="tableList"
           :option="option"
           @search-change="searchChange"
@@ -144,20 +145,21 @@ export default {
     async handleDelete(row) {
       try {
         let ids = row.id;
+        console.log(ids)
         await delClub({ ids });
         this.get();
       } catch (err) {
         console.log(err);
       }
     },
-    async rowSave(row, done, loading) {
+    async rowSave(form, done, loading) {
       loading(true);
       try {
-        let result = await addClub(row);
+        let result = await addClub(form);
         await this.resetList();
         done();
       } catch (err) {
-        console.log(err);
+        console.log(123);
         loading(false);
       }
     }
