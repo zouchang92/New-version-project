@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export function queryBtns({name, page, rows}) {
   return request({
     url: '/zhxyx/menu/listButtons',
-    method: 'get',
+    method: 'post',
     data: {
       name, 
       page, 
