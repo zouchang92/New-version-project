@@ -69,7 +69,6 @@ const actions = {
       let organTree = await dispatch('system/getOrganTree', {}, {root: true})
       let menuTree = await dispatch('system/getMenuTree', {}, {root: true})
       let dictionary = await dispatch('system/getDictionary', {}, {root: true})
-      console.log(menuTree)
       let routes = await dispatch('permission/generateRoutes', { roles: [], routerMap: menuTree }, {root: true})
       
       return routes

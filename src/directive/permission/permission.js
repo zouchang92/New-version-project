@@ -4,7 +4,7 @@ export default {
   inserted(el, binding, vnode) {
     console.log(vnode, binding, el)
     const { value } = binding
-    const menus = store.getters && store.getters.thirdMenu
+    const menu = store.getters && store.getters.thirdMenu
     if (value && value instanceof Array && value.length > 0) {
       const permissionRoles = value
 

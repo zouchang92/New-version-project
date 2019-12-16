@@ -218,7 +218,6 @@ export default {
         await this.resetList()
         done()
       } catch(err) {
-        console.log(err)
         loading(false)
       }
       

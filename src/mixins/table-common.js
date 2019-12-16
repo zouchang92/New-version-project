@@ -51,7 +51,6 @@ export default {
     exportExcel(url, params) {
       let queryObject = {}
       _.forEach(params, n => {
-        console.log(this.searchForm)
         queryObject[n] = this.searchForm[n] || ''
       })
       window.open(`${url}?${qs.stringify(queryObject)}`)
