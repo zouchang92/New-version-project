@@ -1,8 +1,9 @@
 <template>
     <el-row style="padding: 15px" :gutter="20">
+    <!--
       <el-col :span="8">
         <div class="grid-content">
-          <el-card>
+          <el-card style="height: 90vh;">
             <div slot="header" class="clearfix">
               <span>德育指标</span>
               <el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
@@ -12,15 +13,15 @@
             </el-tree>
           </el-card>
         </div>
-      </el-col>
-      <el-col :span="16">
+      </el-col>-->
+      <el-col :span="24">
         <div class="">
           <el-row :gutter="20">
             <el-col :span="12">
               <el-card>
                 <div slot="header" class="clearfix">
                   <span>学生奖惩</span>
-                  <el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
+                  <!--<el-button style="float: right; padding: 3px 0" type="text">更多</el-button>-->
                 </div>
                 <ve-ring v-if="!performanceData.loading" v-loading="performanceData.loading" height="300px" :graphic="performanceData.settings.graphic" :series="performanceData.series" :colors="performanceData.settings.colors" :settings="performanceData.settings" :data="performanceData"></ve-ring>
               </el-card>
@@ -29,20 +30,20 @@
               <el-card>
                 <div slot="header" class="clearfix">
                   <span>学生德育分数</span>
-                  <el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
+                  <!--<el-button style="float: right; padding: 3px 0" type="text">更多</el-button>-->
                 </div>
                 <ve-histogram :xAxis="studentPointData.settings.xAxis" :yAxis="studentPointData.settings.yAxis" height="300px" :data="studentPointData" :settings="studentPointData.settings"></ve-histogram>
               </el-card>
             </el-col>
           </el-row>
         </div>
-        <div class="grid-content">
+        <div class="grid-content" style="margin-top: 15px;">
         
             <el-card>
                 <div slot="header" class="clearfix">
                   <span>班级德育报表</span>
                   
-                  <el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
+                  <!--<el-button style="float: right; padding: 3px 0" type="text">更多</el-button>-->
                   <el-select size="small" style="float: right; margin: 0 16px; width: 100px"  />
                 </div>
                 <ve-histogram :series="classMoralData.series" height="300px" :colors="classMoralData.settings.colors" :data="classMoralData" :settings="classMoralData.settings"></ve-histogram>

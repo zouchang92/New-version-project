@@ -52,6 +52,30 @@ export default {
       icon: 'nested'
     }
   },
+  achievementManage: {
+    path: '/achievementManage',
+    name: 'achievementManage',
+    component: Layout,
+    meta: {
+      title: '成绩管理'
+    }
+  },
+  achievementImport: {
+    path: 'achievementImport',
+    name: 'achievementImport',
+    component: () => import('@/views/teach-manage/achievement-manage/index'),
+    meta: {
+      title: '成绩导入'
+    }
+  },
+  achievementArchive: {
+    path: 'achievementArchive',
+    name: 'achievementArchive',
+    component: () => import('@/views/teach-manage/achievement-archive/index'),
+    meta: {
+      title: '班级成绩管理'
+    }
+  },
   studentManage: {
     path: 'studentManage',
     name: 'studentManage',

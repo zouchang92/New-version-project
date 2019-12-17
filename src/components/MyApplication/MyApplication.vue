@@ -40,9 +40,12 @@ export default {
     },
     openIn() {
       this.$router.push({ name: "homePage" })
+<<<<<<< HEAD
     },
     addNode(){
       console.log(123)
+=======
+>>>>>>> 035472c3e89bbdca3a2c5990154c34656ebdfb3d
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
