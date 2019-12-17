@@ -1,13 +1,12 @@
 <template>
   <div class="application">
     <ul>
-      <li>
+      <li @click="openIn()">
         <img
           style="margin-top: 18px;"
           src="../../assets/menu/education_icon.png"
           alt
-          @click="openIn()"
-        />
+        >
       </li>
       <li @click="open()">
         <el-button type="text">
@@ -15,10 +14,10 @@
         </el-button>
       </li>
     </ul>
-    <el-dialog title="我的应用" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+    <el-dialog title="全部应用" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
       <div>
         <ul>
-          <li><img style="margin-top: 18px;" src="../../assets/menu/group_icon.png" alt=""></li>
+          <li @click="addNode"><img style="margin-top: 18px;" src="../../assets/menu/group_icon.png" alt=""></li>
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -32,7 +31,7 @@
 export default {
   data() {
     return {
-      dialogVisible: false
+      dialogVisible: false,
     };
   },
   methods: {
@@ -40,7 +39,10 @@ export default {
       this.dialogVisible = true;
     },
     openIn() {
-      this.$router.push({ path: "../../views/moral-education/home-page/index.vue" })
+      this.$router.push({ name: "homePage" })
+    },
+    addNode(){
+      console.log(123)
     },
     handleClose(done) {
       this.$confirm("确认关闭？")

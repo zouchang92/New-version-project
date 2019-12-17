@@ -68,11 +68,11 @@ export default {
           timestamp: "14:00"
         },
         {
-          content: "校干部研讨会",
+          content: "组织学校总结大会",
           timestamp: "16:00"
         },
         {
-          content: "校干部研讨会",
+          content: "奖励大会",
           timestamp: "18:00"
         }
       ]
