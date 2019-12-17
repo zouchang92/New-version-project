@@ -14,7 +14,7 @@
       </div>
     </div>
     <el-dialog :visible.sync="dialogShow">
-      <avue-form @submit="changePassword" ref="resetPassword" v-model="passwordObj" :option="passwordOption">
+      <avue-form ref="resetPassword" v-model="passwordObj" :option="passwordOption">
 
       </avue-form>
     </el-dialog>
@@ -24,7 +24,7 @@
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
-import { queryUsers, addUser, updateUser, delUser, batchDel, batchResetPassword } from '@/api/userManageApi'
+import { queryUsers, addUser, updateUser, delUser, batchDel, batchResetPassword,  } from '@/api/userManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate.js'
 import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'

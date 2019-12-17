@@ -40,7 +40,7 @@ export default {
       this.dialogVisible = true;
     },
     openIn() {
-      this.$router.push({ path: "../../views/moral-education/home-page/index.vue" })
+      this.$router.push({ name: "homePage" })
     },
     handleClose(done) {
       this.$confirm("确认关闭？")

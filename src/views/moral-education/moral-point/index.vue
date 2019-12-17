@@ -3,13 +3,19 @@
     <el-row :gutter="15">
       <el-col :span="6">
         <el-card>
-          <div slot="header" class="clearfix">
+          <div slot="header" class="clearfix" style="
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+">
             <span>德育指标</span>
+            <el-button @click="addMoralRootNode" type="primary" size="small" icon="el-icon-plus">新增</el-button>
           </div>
           <el-input size="small"
             placeholder="输入关键字进行过滤"
             v-model="treeConfig.filterText">
-            <el-button @click="addMoralRootNode" slot="append" icon="el-icon-plus"></el-button>
+            
           </el-input>
           <el-tree ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" node-key="id" v-loading='treeConfig.loading' :props="treeConfig.props" :data="treeConfig.data">
             <span class="custom-tree-node" slot-scope="{ node, data }">
@@ -57,8 +63,8 @@ import { interArrayTree, getDictById } from '@/utils'
 import _ from 'lodash'
 import tableCommon from '@/mixins/table-common.js'
 
-const ioFlagDict = getDictById('FYZZDNPUJNHLEWPUGWGMONJLMTBCRXPO')
-const booleanDict = getDictById('WHMUNAUDDJGAMQYVPLGSQXMPBSWPMFMM')
+const ioFlagDict = getDictById('moralType')
+const booleanDict = getDictById('boolean')
 export default {
   mixins: [tableCommon],
   name: 'moralPoint',
