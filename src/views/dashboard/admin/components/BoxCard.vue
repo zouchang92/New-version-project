@@ -19,19 +19,19 @@ export default {
       const data = [
         {
           amount: 84,
-          ratio: 0.1,
+          ratio: 0.2,
           memo: "请假",
           const: "const"
         },
         {
           amount: 960,
-          ratio: 0.5,
+          ratio: 0.6,
           memo: "剩余人数",
           const: "const"
         },
         {
           amount: 49,
-          ratio: 0.05,
+          ratio: 0.1,
           memo: "缺勤",
           const: "const"
         }

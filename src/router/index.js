@@ -44,6 +44,38 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard',
+  //   meta: { title: '我的工作台', icon: 'dashboard', affix: true, noCache: true },
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       name: '我的工作台',
+  //       component: () => import('@/views/dashboard/index'),
+  //       meta: { title: '校长', icon: 'dashboard' }
+  //     },
+  //     {
+  //       path: 'Teacher',
+  //       name: 'teacherDashboard',
+  //       component: () => import('@/views/dashboard/Teacher/index'),
+  //       meta: { title: '教师', icon: 'dashboard' }
+  //     },
+  //     {
+  //       path: 'Headmaster',
+  //       name: 'headMasterDashboard',
+  //       component: () => import('@/views/dashboard/Headmaster/index'),
+  //       meta: { title: '班主任', icon: 'dashboard' }
+  //     },
+  //     {
+  //       name: 'studentDashboard',
+  //       path: 'Student',
+  //       component: () => import('@/views/dashboard/Student/index'),
+  //       meta: { title: '学生', icon: 'dashboard' }
+  //     }
+  //   ]
+  // },
   {
     path: '/comment',
     component: Layout,
@@ -60,10 +92,10 @@ export const constantRoutes = [
     hidden: true
   },
   {
-     path: '/classPlanDetail',
-     component: Layout,
-     hidden: true,
-     children: [
+    path: '/classPlanDetail',
+    component: Layout,
+    hidden: true,
+    children: [
       {
         path: 'index',
         component: () => import('@/views/class-arrangement-manage/arrange-detail-page'),

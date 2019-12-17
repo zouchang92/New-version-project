@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys */
 import Layout from '@/layout'
 
 export default {
@@ -6,7 +7,7 @@ export default {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    meta: { title: '我的工作台', icon: 'dashboard', affix: true }
+    meta: { title: '我的工作台', icon: 'dashboard', affix: true, noCache: true }
   },
   leaderDashboard: {
     path: 'dashboard',

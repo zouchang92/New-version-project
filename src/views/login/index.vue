@@ -118,6 +118,7 @@ export default {
           this.$store.dispatch('user/login', this.loginForm).then((res) => {
             this.$router.addRoutes(res)
             this.$router.push({ path: this.redirect || '/dashboard' })
+            this.$router.push({ path:'dashboard' })
             this.loading = false
           }).catch((err) => {
             console.log(err)

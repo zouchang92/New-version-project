@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function queryClassPlan({orgId}) {
+export function queryClassPlan({ orgId }) {
   return request({
-    url: '/pkTask/getAll',
+    url: '/zhxyx/pkTask/getAll',
     method: 'post',
     data: {
       orgId

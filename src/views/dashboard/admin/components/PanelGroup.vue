@@ -76,12 +76,12 @@
 import UCalendar from "@/components/Calendar/UCalendar";
 import MyApplication from "@/components/MyApplication/MyApplication";
 const cityOptions = [
-  { type: "", content: "梨花的请假信息1111", label: "3分钟前" },
-  { type: "succes", content: "梨花的请假信息111", label: "30分钟前" },
-  { type: "info", content: "梨花的请假信息11", label: "4小时前" },
-  { type: "danger", content: "梨花的请假信息1", label: "3分钟前" },
-  { type: "warning", content: "梨花的请假信息", label: "3分钟前" },
-  { type: "danger", content: "梨花请假信息", label: "3分钟前" }
+  { type: "", content: "张雪的请假信息", label: "3分钟前" },
+  { type: "succes", content: "李峰的请假信息", label: "30分钟前" },
+  { type: "info", content: "王丽的请假信息", label: "4小时前" },
+  { type: "danger", content: "李儒的请假信息", label: "3分钟前" },
+  { type: "warning", content: "张小雨的请假信息", label: "3分钟前" },
+  { type: "danger", content: "张家良请假信息", label: "3分钟前" }
 ];
 export default {
   data() {
