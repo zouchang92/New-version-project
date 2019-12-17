@@ -43,6 +43,15 @@ export default {
       icon: 'nested'
     }
   },
+  staffManage: {
+    path: '/staffManage',
+    component: Layout,
+    name: 'staffManage',
+    meta: {
+      title: '人员管理',
+      icon: 'nested'
+    }
+  },
   studentManage: {
     path: 'studentManage',
     name: 'studentManage',

@@ -116,6 +116,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then((res) => {
+            console.log(res)
             this.$router.addRoutes(res)
             this.$router.push({ path: this.redirect || '/dashboard' })
             this.loading = false

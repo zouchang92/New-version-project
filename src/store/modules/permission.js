@@ -23,7 +23,11 @@ function hasPermission(roles, route) {
  */
 function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来的路由字符串，转换为组件对象
   const accessedRouters = asyncRouterMap.filter(route => {
+    console.log(routerMap)
     let targetComponent = routerMap[route.menuUrl]
+    if (route.menuUrl === 'staffManage') {
+      console.log(targetComponent)
+    }
     if (targetComponent) {
       route.meta = { title: route.menuName || '', icon: route.menuIcon || '', button: route.buttonDTOS || [] }
       route.name = targetComponent.name
@@ -31,6 +35,7 @@ function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来
       route.component = targetComponent.component
       route.redirect = targetComponent.redirect
       if (route.children && route.children.length) {
+        
         route.children = filterAsyncRoutes(route.children, threeMap).accessedRouters
       }
       if (route.threeMenu) {

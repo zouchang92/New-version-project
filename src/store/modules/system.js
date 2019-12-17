@@ -68,11 +68,13 @@ const actions = {
   async ['getMenuTree']({ commit }) {
     try {
       let data = await getUserMenu()
-      let menu = JSON.parse(data.data).find(n => n.menuId === 'root').children
+      let res = JSON.parse(data.data).find(n => n.menuId === 'root')
+      let menu = res ? res.children : []
       commit('SET_MENUTREE', menu)
       return menu
     } catch(err) {
-      throw new Error()
+      alert('error')
+      throw new Error(err)
     }
   }
 }
