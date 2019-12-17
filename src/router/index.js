@@ -122,10 +122,6 @@ export const constantRoutes = [
         meta: { title: '404', noCache: true }
       }
     ]
-  },
-  {
-    path: '*',
-    redirect: "/error/404"
   }
 ]
 

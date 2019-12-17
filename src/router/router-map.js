@@ -11,7 +11,7 @@ export default {
   },
   leaderDashboard: {
     path: 'dashboard',
-    name: '我的工作台',
+    name: 'dashboard',
     component: () => import('@/views/dashboard/index'),
     meta: { title: '校长', icon: 'dashboard' }
   },

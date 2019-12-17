@@ -29,6 +29,7 @@ function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来
       route.name = targetComponent.name
       route.path = targetComponent.path
       route.component = targetComponent.component
+      route.redirect = targetComponent.redirect
       if (route.children && route.children.length) {
         route.children = filterAsyncRoutes(route.children, threeMap).accessedRouters
       }
@@ -79,9 +80,11 @@ const actions = {
       let accessedRoutes
       try {
         accessedRoutes = filterAsyncRoutes(routerMap)
-        console.log(accessedRoutes)
         commit('SET_ROUTES', accessedRoutes)
-        resolve(accessedRoutes.accessedRouters)
+        resolve(accessedRoutes.accessedRouters.concat([{
+          path: '*',
+          redirect: "/error/404"
+        }]))
       } catch(err) {
         reject(err)
       }
