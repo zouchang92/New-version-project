@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'has-logo': showLogo}">
+  <div :class="{'has-logo':showLogo}">
     <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
@@ -23,12 +23,12 @@ import { mapGetters } from 'vuex'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
-
 export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'sidebar', 'routes'
+      'routes',
+      'sidebar'
     ]),
     activeMenu() {
       const route = this.$route

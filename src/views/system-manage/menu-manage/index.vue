@@ -210,6 +210,13 @@ export default {
         this.mode = 'edit'
       } else {
         this.mode = 'add'
+        this.formData = {
+          ...this.formData,
+          menuUrl: '',
+          menuIcon: '',
+          description: '',
+          name: '',
+        }
       }
     },
     nodeClick(e) {

@@ -39,12 +39,17 @@ function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来
         return true
       }
     } else {
-      console.log(route)
+      
       if (route.threeMenu) { 
         threeMap[route.name] = route
         return false
       }
       route.path = `/${route.menuName}`
+      route.meta = {
+        icon: route.menuIcon,
+        title: route.menuName,
+        button: []
+      }
       return true
     }
     
@@ -74,6 +79,7 @@ const actions = {
       let accessedRoutes
       try {
         accessedRoutes = filterAsyncRoutes(routerMap)
+        console.log(accessedRoutes)
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes.accessedRouters)
       } catch(err) {

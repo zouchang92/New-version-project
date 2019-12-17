@@ -333,7 +333,7 @@ export default {
   sourceManage: {
     path: '/sourceManage',
     component: Layout,
-    alwaysShow: true,
+    alwaysShow: false,
     name: 'sourceManage',
     meta: { title: '资源管理', icon: 'guide' }
   },

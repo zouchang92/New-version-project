@@ -105,18 +105,27 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
+    path: '/error',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'ErrorPages',
+    hidden: true,
+    meta: {
+      title: 'Error Pages',
+      icon: '404'
+    },
+    children: [
+      {
+        path: '404',
+        component: () => import('@/views/error-page/404'),
+        name: 'Page404',
+        meta: { title: '404', noCache: true }
+      }
+    ]
   },
   {
-    path: '/h',
-    component: () => import('../components/Calendar/calendar.vue')
-
-  }, {
-    path: '/n',
-    component: () => import('../components/Calendar/UCalendar.vue')
-
+    path: '*',
+    redirect: "/error/404"
   }
 ]
 
