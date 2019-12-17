@@ -6,19 +6,25 @@
             <template slot="searchMenu">
               <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
+              <el-button v-if="permission.changePassword" @click="batchReset" type="info" icon="el-icon-lock" size="small">批量重置密码</el-button>
               <el-button v-if="permission.batchDelBtn" @click="batchDel" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
               <el-button @click="initList()" type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
       </div>
     </div>
+    <el-dialog :visible.sync="dialogShow">
+      <avue-form @submit="changePassword" ref="resetPassword" v-model="passwordObj" :option="passwordOption">
+
+      </avue-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
-import { queryUsers, addUser, updateUser, delUser, batchDel } from '@/api/userManageApi'
+import { queryUsers, addUser, updateUser, delUser, batchDel, batchResetPassword } from '@/api/userManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate.js'
 import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'
@@ -29,11 +35,50 @@ export default {
   name: 'studentManage',
   mixins: [tableCommon, permission],
   data() {
+    var validatePass2 = (rule, value, callback) =>  {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.passwordObj.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback()
+      }
+    }
     return {
       fn: queryUsers,
       delFn: batchDel,
       singleDelFn: delUser,
       data: [],
+      selectedId: '',
+      dialogShow: false,
+      passwordOption: {
+        labelWidth: 125,
+        column: [{
+          label: '旧密码',
+          prop: 'oldPassword',
+          span: 24,
+          rules: {
+            required: true,
+            message: '旧密码是必填项'
+          }
+        }, {
+          label: '新密码',
+          prop: 'password',
+          span: 24,
+          rules: {
+            required: true,
+            message: '新密码是必填项'
+          }
+        }, {
+          label: '请再次输入密码',
+          prop: 'rePassword',
+          span: 24,
+          rules: [{ validator: validatePass2, trigger: 'blur' }]
+        }]
+      },
+      passwordObj: {
+
+      },
       option: {
         column: [
           {
@@ -48,13 +93,32 @@ export default {
             prop:'organId',
             span: 24,
             type: 'tree',
-            searchSpan: 8,
+            searchSpan: 5,
             dicData: getOrgan(),
             props: {
               label: 'orgName',
               value: 'id'
             },
             search: true,
+          },
+          {
+            label: '角色',
+            prop: 'roleIds',
+            span: 24,
+            type: 'select',
+            multiple: true,
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/role/queryAll',
+            dicMethod: 'post',
+            hide: true,
+            dicQuery:{
+              page: 1,
+              rows: 100000,
+            },
+            props: {
+              res: 'data.list',
+              label: 'roleName',
+              value: 'id'
+            }
           },
           {
             label:'账号',
@@ -176,6 +240,32 @@ export default {
     console.log(this)
   },
   methods: {
+    async batchReset() {
+      if (!this.tableSelected.length) {
+        this.$message({
+          type: 'warning',
+          message: '请选中至少一条记录'
+          })
+        return
+      }
+      try {
+        await this.$confirm('此操作将重置这些用户的密码,是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'danger'
+        })
+        let ids = _.map(this.tableSelected, n => n.id)
+        let res = await batchResetPassword(ids)
+        this.$message.success('密码重置成功')
+        this.$refs.resetPassword.resetForm()
+        this.dialogShow = false
+      } catch(err) {
+      }
+    },
+    openPasswordDialog(row) {
+      this.dialogShow = true
+      this.selectedId = row.id
+    },
     handleAdd() {
       this.$refs.crud.rowAdd()
     },

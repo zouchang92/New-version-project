@@ -28,34 +28,34 @@
     </div>
     <div class="growth-content">
       <el-tabs v-model="activeName"  @tab-click="handleClick">
-        <el-tab-pane label="学习成绩" name="first">
-          <div class="growth-academic">
+        <el-tab-pane label="学习成绩" name="first" >
+          <div class="growth-academic" v-if="activeName==='first'">
             <Academic ref="academic" :input='input' :value='value' />
           </div>
         </el-tab-pane>
-        <el-tab-pane label="课堂表现" name="second">
-          <div>
+        <el-tab-pane label="课堂表现" name="second" >
+          <div v-if="activeName==='second'">
             <Performance ref="performance" />
           </div>
         </el-tab-pane>
-        <el-tab-pane label="奖惩处罚" name="third">
-          <div>
+        <el-tab-pane label="奖惩处罚" name="third" >
+          <div v-if="activeName==='third'">
             <RewardPunishment :input='input' :value='value' ref="child"/>
            </div>
         </el-tab-pane>
-        <el-tab-pane label="任职情况" name="fourth">
-          <div>
+        <el-tab-pane label="任职情况" name="fourth" >
+          <div v-if="activeName==='fourth'">
              <Serving />
           </div>
         </el-tab-pane>
-        <el-tab-pane label="社团活动情况">
-          <div><ClubActivities ref="getClubQueryAll" /></div>
+        <el-tab-pane name="fifth" label="社团活动情况" >
+          <div v-if="activeName==='fifth'"><ClubActivities ref="getClubQueryAll" /></div>
         </el-tab-pane>
-        <el-tab-pane label="身心健康登记">
-          <div><Health ref="health"/></div>
+        <el-tab-pane name="sixth" label="身心健康登记" >
+          <div v-if="activeName==='sixth'"><Health ref="health"/></div>
         </el-tab-pane>
-        <el-tab-pane label="期末评语">
-          <div><Comment/></div>
+        <el-tab-pane name="seventh" label="期末评语" >
+          <div v-if="activeName==='seventh'"><Comment/></div>
         </el-tab-pane>
       </el-tabs>
     </div>

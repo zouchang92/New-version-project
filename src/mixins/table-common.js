@@ -92,7 +92,7 @@ export default {
             that.initList()
             that.$message({
               type: 'success',
-              message: '删除成功!'
+              message: '批量删除成功!'
             })
           }).catch(err => {
 
