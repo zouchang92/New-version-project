@@ -23,16 +23,20 @@
               <span>待上报</span>
             </el-badge>
             <div class="reported-election">
-              <el-checkbox v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-              <p class="repoted-more">
+              <el-tooltip class="item" effect="light" content="批量上报" placement="bottom">
+                <el-checkbox class="Batch-pass" v-model="checkAll" @change="handleCheckAllChange">
+                  <i style="font-size: 20px;" class="el-icon-document-copy"></i>
+                </el-checkbox>
+              </el-tooltip>
+              <el-button type="text" @click="showmore()" class="repoted-more">
                 更多
                 <i class="more-icon">>></i>
-              </p>
+              </el-button>
             </div>
           </div>
           <div class="u-reported-content">
             <ul class="u-content">
-              <li v-for="city in cities" :key="city">
+              <li v-for="(city,inedx) in cities" :key="inedx">
                 <el-checkbox-group
                   v-model="checkedCities"
                   @change="handleCheckedCitiesChange"
@@ -54,7 +58,7 @@
             <p class="u-line"></p>
             <span>学校社团</span>
           </div>
-          <div class="assocition-content" v-for="(item,i) in list" :key="i">
+          <div class="assocition-content" v-for="(item,index) in list" :key="index">
             <div class="content-title">
               <span>{{item.title}}</span>
             </div>
@@ -62,7 +66,7 @@
               <span>{{item.name}}</span>
             </div>
             <div class="content-state">
-              <span>{{item.state}}</span>
+              <span :style="{'color':color(item)}">{{item.state}}</span>
             </div>
           </div>
         </div>
@@ -107,7 +111,7 @@
               <el-tab-pane name="first" label="活动通知">
                 <div class="Information-content">
                   <ul class="bulletin-content">
-                    <li v-for="city in cities" :key="city">
+                    <li v-for="(city,index) in cities" :key="index">
                       <p class="Information-content-p">{{city.content}}</p>
                       <p class="Information-content-date">{{city.date}}</p>
                     </li>
@@ -117,7 +121,7 @@
               <el-tab-pane label="安全预警">
                 <div class="Information-content">
                   <ul class="bulletin-content">
-                    <li v-for="city in cities" :key="city">
+                    <li v-for="(city,index) in cities" :key="index">
                       <p class="Information-content-p">{{city.content}}</p>
                       <p class="Information-content-date">{{city.date}}</p>
                     </li>
@@ -129,6 +133,30 @@
         </div>
       </el-col>
     </el-row>
+    <el-dialog title="待上报"  :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
+      <div>
+        <div class="u-reported-content">
+          <ul class="u-content">
+            <li v-for="(city,inedx) in cities" :key="inedx">
+              <el-checkbox-group
+                v-model="checkedCities"
+                @change="handleCheckedCitiesChange"
+                style="padding-top:5px;padding-left:5px"
+              >
+                <el-checkbox :label="city">
+                  <p class="u-content-p">{{city.content}}</p>
+                  <p class="u-content-date" style="float:right">{{city.date}}</p>
+                </el-checkbox>
+              </el-checkbox-group>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -141,23 +169,19 @@ import BoxCard from "./components/BoxCard";
 import RaddarChart from "./components/RaddarChart";
 const cityOptions = [
   {
-    content:
-      "2019年元旦晚会节目清单",
+    content: "2019年元旦晚会节目清单",
     date: "2019-09-01"
   },
   {
-    content:
-      "2019年教育工作调研报告",
+    content: "2019年教育工作调研报告",
     date: "2019-09-08"
   },
   {
-    content:
-      "谋求大发展,铸就新辉煌",
+    content: "谋求大发展,铸就新辉煌",
     date: "2019-09-14"
   },
   {
-    content:
-      "2019年年度教学总结",
+    content: "2019年年度教学总结",
     date: "2019-09-29"
   }
 ];
@@ -174,6 +198,7 @@ export default {
   data() {
     return {
       checkAll: false,
+      dialogVisible: false,
       cities: cityOptions,
       checkedCities: [],
       isIndeterminate: true,
@@ -181,7 +206,7 @@ export default {
         { title: "01 计算机协会", name: "李华", state: "进行中" },
         { title: "02 口语协会", name: "李华", state: "进行中" },
         { title: "03 计算机协会", name: "李华", state: "进行中" },
-        { title: "04 电子应用与计算机协会", name: "李华", state: "进行中" }
+        { title: "04 电子应用与计算机协会", name: "李华", state: "未开始" }
       ],
       activeName: "first"
     };
@@ -203,6 +228,20 @@ export default {
     },
     handleClick(tab, event) {
       // console.log(tab, event);
+    },
+    showmore(){
+      this.dialogVisible = true
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    color(col) {
+      if (col.state == "进行中") return "#42BC9F";
+      if (col.state == "未开始") return "#000";
     }
   }
 };
@@ -260,7 +299,23 @@ export default {
         border-bottom: 1px solid #eee;
         margin: 0px 7px 0px 1px;
       }
-
+      .Batch-pass {
+        position: absolute;
+        top: 17px;
+        right: 124px;
+        color: red;
+      }
+      .more {
+        position: absolute;
+        top: -2px;
+        right: 2px;
+        /* color: #000; */
+        font-size: 17px;
+        font-family: Source Han Sans CN;
+        font-weight: 300;
+        color: rgba(102, 102, 102, 1);
+        line-height: 38px;
+      }
       .u-line {
         display: block;
         width: 5px;
@@ -272,39 +327,16 @@ export default {
       }
       .repoted-more {
         position: absolute;
-        top: 5px;
+        top: 8px;
         right: 50px;
         font-size: 15px;
         font-family: Source Han Sans CN;
         font-weight: 300;
+        color: #000;
         .more-icon {
           position: absolute;
-          top: -2px;
+          top: 10px;
           right: -22px;
-        }
-      }
-
-      .u-content {
-        list-style: none;
-        margin: 0px;
-        padding: 0px;
-        li {
-          padding-top: 10px;
-          .u-content-p {
-            display: inline-block;
-            width: 250px;
-            height: 20px;
-            margin: 0px;
-            font-size: 14px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-          .u-content-date {
-            position: absolute;
-            top: -20px;
-            left: 315px;
-          }
         }
       }
     }
@@ -445,6 +477,29 @@ export default {
       position: absolute;
       left: 35px;
       top: 2px;
+    }
+  }
+  .u-content {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    li {
+      padding-top: 10px;
+      .u-content-p {
+        display: inline-block;
+        width: 250px;
+        height: 20px;
+        margin: 0px;
+        font-size: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .u-content-date {
+        position: absolute;
+        top: -20px;
+        left: 315px;
+      }
     }
   }
 }

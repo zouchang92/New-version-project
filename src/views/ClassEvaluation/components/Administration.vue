@@ -36,11 +36,11 @@
           <video :src="item.review.resources"></video>
         </div>
         <div class="content-bottom">
-          <img :src="item.teacher.photo" alt />
-          <p>{{item.teacher.namePinyin}}</p>
+          <img src="" alt />
+          <p>123</p>
           <p class="number">
             <i class="el-icon-chat-dot-square"></i>
-            {{item.statistical.watchNum}}
+            123
           </p>
           <p class="people">
             <i class="el-icon-s-custom">{{item.statistical.evaluationNum}}</i>

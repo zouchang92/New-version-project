@@ -9,7 +9,6 @@
     </div>
     <div class="Acadmic-Subject">
       <el-button class="Subject-button" type="primary" @click="dialogFormVisible = true">选择考试批次</el-button>
-
       <el-dialog title="选择考试批次" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="学年:">
@@ -40,7 +39,7 @@
     <div style="height:30px;background:rgb(235,236,243)"></div>
     <div class="Acadmic-table">
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="score" label="courseYW"></el-table-column>
+        <el-table-column v-for="(item,i) in list" :key="i" :prop="item.prop" :label="item.label"></el-table-column>
       </el-table>
     </div>
   </div>
@@ -89,6 +88,7 @@ export default {
         { prop: "courseYW", label: "个人总分" },
         { prop: "courseYW", label: "班级均分" }
       ],
+
 
       height: "570px",
       citie: [
@@ -307,7 +307,7 @@ export default {
         let semesterName = '2019年上学期'
         // console.log(orgName,studentName)
         let list = await listStu({ orgName, studentName, semesterName });
-        this.tableData = list.data
+        this.tableData = list.data;
       } catch (err) {
         console.log(213);
       }

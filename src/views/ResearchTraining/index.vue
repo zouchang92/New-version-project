@@ -54,6 +54,6 @@ export default {
   padding-left: 30px;
 }
 .Research-training .el-tabs__item {
-  padding: 0 5px;
+font-size: 12px;
 }
 </style>

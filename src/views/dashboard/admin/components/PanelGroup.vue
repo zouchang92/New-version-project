@@ -1,7 +1,10 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col
-:xs="8" :sm="8" :lg="8" :xl="8"
+      :xs="8"
+      :sm="8"
+      :lg="8"
+      :xl="8"
       class="card-panel-col"
       style="padding-right:15px;padding-left:30px"
     >
@@ -15,7 +18,14 @@
         </div>
       </div>
     </el-col>
-    <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="card-panel-col" style="padding:0px;overflow:hidden">
+    <el-col
+      :xs="8"
+      :sm="8"
+      :lg="8"
+      :xl="8"
+      class="card-panel-col"
+      style="padding:0px;overflow:hidden"
+    >
       <div class="u-examine">
         <div class="u-examine-comtent">
           <div class="u-examine-text">
@@ -25,16 +35,25 @@
                 <p>待审核</p>
               </el-badge>
               <div style="float:right">
-                <el-checkbox
-                  :indeterminate="isIndeterminate"
-                  v-model="checkAll"
-                  @change="handleCheckAllChange"
-                >全选</el-checkbox>
+                <el-tooltip class="item" effect="light" content="批量通过" placement="bottom">
+                  <el-checkbox
+                    class="Batch-pass"
+                    :indeterminate="isIndeterminate"
+                    v-model="checkAll"
+                    @change="handleCheckAllChange"
+                  >
+                    <i style="font-size: 20px;" class="el-icon-document-copy"></i>
+                  </el-checkbox>
+                </el-tooltip>
+                <el-button class="more" type="text">
+                  更多
+                  <i class="el-icon-d-arrow-right"></i>
+                </el-button>
               </div>
             </div>
             <div class="u-examine-content">
               <ul class="u-content">
-                <li v-for="city in cities" :key="city">
+                <li v-for="(city,index) in cities" :key="index">
                   <el-checkbox-group
                     v-model="checkedCities"
                     @change="handleCheckedCitiesChange"
@@ -102,7 +121,7 @@ export default {
     MyApplication
   },
   created() {
-    this.initData(null);
+   
   },
   methods: {
     handleCheckAllChange(val) {
@@ -186,6 +205,23 @@ export default {
           border-bottom: 1px solid #eee;
           margin: 0px 15px 0px 15px;
           padding: 14px;
+        }
+        .Batch-pass {
+          position: absolute;
+          top: 17px;
+          right: 124px;
+          color: red;
+        }
+        .more {
+          position: absolute;
+          top: -2px;
+          right: 2px;
+          /* color: #000; */
+          font-size: 17px;
+          font-family: Source Han Sans CN;
+          font-weight: 300;
+          color: rgba(102, 102, 102, 1);
+          line-height: 38px;
         }
         p {
           margin: 0px;

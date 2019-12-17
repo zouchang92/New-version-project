@@ -51,6 +51,6 @@ export default {
   padding-left: 30px;
 }
 .Community-content .el-tabs__item {
-  padding: 0 5px;
+ font-size: 12px;
 }
 </style>
