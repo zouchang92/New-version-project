@@ -2,11 +2,12 @@
   <div>
     <el-card class="box-card">
       <avue-crud
-        :data="data"
+        :data="tableList"
         :option="option"
         :page="page"
         :table-loading="tableListLoading"
         @row-del="del" 
+        @row-update="rowUpdate"
         @selection-change="selectionChange"
         :cell-style="cellStyle"
       >
@@ -18,7 +19,7 @@
   </div>
 </template>
 <script>
-import { clubQueryAll , delclub} from '@/api/growthArchivesApi'
+import { clubQueryAll, delclub, updateClub } from '@/api/growthArchivesApi'
 import tableCommon from '@/mixins/table-common.js'
 
 export default {
@@ -30,7 +31,7 @@ export default {
       page: {
         pageSize: 20
       },
-      data: [],
+      tableList: [],
       option: {
         selection: true,
         align: "center",
@@ -89,7 +90,19 @@ export default {
         this.data = List.data.list
         console.log(List.data.list)
       } catch (err) {}
-    }
+    },
+    async rowUpdate(row, index, done, loading) {
+      loading(true)
+      try {
+        let result = await updateClub(row)
+        console.log(result)
+        await this.resetList()
+        done()
+      } catch(err) {
+        console.log(err)
+        loading(false)
+      }
+    },
   }
 };
 </script>

@@ -336,6 +336,7 @@ export default {
           line-height: 45px;
         }
         .personal-name {
+          width: 100px;
           position: absolute;
           top: 114px;
           left: -60px;
@@ -347,11 +348,13 @@ export default {
           left: 91px;
         }
         .personal-id {
+          width: 160px;
           position: absolute;
           top: 154px;
           left: -60px;
         }
         .personal-class {
+          width: 160px;
           position: absolute;
           top: 193px;
           left: -60px;

@@ -6,6 +6,8 @@
         :option="option"
         :page="page"
         @row-del="singleDel"
+        @row-update="rowUpdate"
+        :table-loading="tableListLoading"
         @selection-change="selectionChange"
         :cell-style="cellStyle"
       >
@@ -14,7 +16,7 @@
   </div>
 </template>
 <script>
-import { queryHealth, delHealth} from "@/api/growthArchivesApi";
+import { queryHealth, delHealth, upadateHealth} from "@/api/growthArchivesApi";
 import tableCommon from '@/mixins/table-common.js'
 export default {
   mixins: [tableCommon],
@@ -82,6 +84,18 @@ export default {
                 overflow:'hidden'
             }
         }
+    },
+    async rowUpdate(row, index, done, loading) {
+      loading(true)
+      try {
+        let result = await upadateHealth(row)
+        console.log(result)
+        await this.resetList()
+        done()
+      } catch(err) {
+        console.log(err)
+        loading(false)
+      }
     }
   }
 };

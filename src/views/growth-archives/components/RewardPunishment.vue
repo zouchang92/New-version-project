@@ -8,8 +8,10 @@
         :data="tableList"
         :option="option"
         @selection-change="selectionChange"
+        :table-loading="tableListLoading"
         v-model="obj"
         @row-del="del"
+        @row-update="rowUpdate"
         ref="crud"
         style="margin-top:10px;"
       >
@@ -46,7 +48,7 @@
 </template>
 <script>
 import tableCommon from "@/mixins/table-common.js";
-import { daRap, deleteDaRap } from "@/api/growthArchivesApi";
+import { daRap, deleteDaRap, editDaRap } from "@/api/growthArchivesApi";
 export default {
   mixins: [tableCommon],
   props: {
@@ -131,6 +133,18 @@ export default {
         // console.log(this.tableList);
       } catch (err) {
         console.log(err);
+      }
+    },
+    async rowUpdate(row, index, done, loading) {
+      loading(true)
+      try {
+        let result = await editDaRap(row)
+        console.log(result)
+        await this.resetList()
+        done()
+      } catch(err) {
+        console.log(err)
+        loading(false)
       }
     },
     selectionChange(list) {

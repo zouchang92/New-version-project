@@ -7,6 +7,7 @@
         :page="page"
         :table-loading="tableListLoading"
         @row-del="del" 
+        @row-update="rowUpdate"
         @selection-change="selectionChange"
         :cell-style="cellStyle" 
         v-model="obj"
@@ -16,7 +17,7 @@
   </div>
 </template>
 <script>
-import {duty ,delduty} from '@/api/growthArchivesApi'
+import { duty, delduty, editDuty } from '@/api/growthArchivesApi'
 import tableCommon from '@/mixins/table-common.js'
 export default {
   mixins: [tableCommon],
@@ -80,6 +81,18 @@ export default {
         this.tableList = List.data
       } catch(err) {
         console.log(120)
+      }
+    },
+    async rowUpdate(row, index, done, loading) {
+      loading(true)
+      try {
+        let result = await editDuty(row)
+        console.log(result)
+        await this.resetList()
+        done()
+      } catch(err) {
+        console.log(err)
+        loading(false)
       }
     },
     onLoad(page) {

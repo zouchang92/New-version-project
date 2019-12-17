@@ -52,13 +52,12 @@ export function daleteDuty() {
     data: { }
   })
 }
-export function editDuty({ duty, dutyComment, dutyContext, startTime, endTime }) {
+export function editDuty({ id, duty, dutyComment, dutyContext, startTime, endTime }) {
   return request({
     url: '/zhxyx/duty/updateStuDaDuty',
     method: 'post',
     data: {
-      // eslint-disable-next-line no-sequences
-      duty, dutyComment, dutyContext, startTime, endTime
+      id, duty, dutyComment, dutyContext, startTime, endTime
     }
   })
 }
@@ -144,6 +143,24 @@ export function queryHealth({ id }) {
 export function delHealth({ id }) {
   return request({
     url: '/zhxyx/stuHealth/deletel',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+export function upadateHealth({ id }) {
+  return request({
+    url: '/zhxyx/stuHealth/updateHealth',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+export function updateClub({ id }) {
+  return request({
+    url: '/zhxyx/stuClubActivity/updateActivity',
     method: 'post',
     data: {
       id
