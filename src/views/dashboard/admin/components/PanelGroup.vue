@@ -38,14 +38,13 @@
                 <el-tooltip class="item" effect="light" content="批量通过" placement="bottom">
                   <el-checkbox
                     class="Batch-pass"
-                    :indeterminate="isIndeterminate"
                     v-model="checkAll"
                     @change="handleCheckAllChange"
                   >
                     <i style="font-size: 20px;" class="el-icon-document-copy"></i>
                   </el-checkbox>
                 </el-tooltip>
-                <el-button class="more" type="text">
+                <el-button class="more" type="text" @click="showmore()">
                   更多
                   <i class="el-icon-d-arrow-right"></i>
                 </el-button>
@@ -88,6 +87,35 @@
         </div>
       </div>
     </el-col>
+    <el-dialog title="待审核" :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
+      <div>
+        <div class="u-examine-content">
+          <ul class="u-content">
+            <li v-for="(city,index) in cities" :key="index">
+              <el-checkbox-group
+                v-model="checkedCities"
+                @change="handleCheckedCitiesChange"
+                style="padding-top:5px;padding-left:5px"
+              >
+                <el-checkbox :label="city">
+                  <span>{{city.content}}</span>
+                  <el-tag
+                    style="margin-left:10px;width: 56px;height: 20px;font-size: 12px;"
+                    size="mini"
+                    effect="dark"
+                    :type="city.type"
+                  >{{ city.label }}</el-tag>
+                </el-checkbox>
+              </el-checkbox-group>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </el-row>
 </template>
 
@@ -107,6 +135,7 @@ export default {
     return {
       value: new Date(),
       checkAll: false,
+      dialogVisible: false,
       checkedCities: {
         type: "",
         content: "梨花的请假信息1111",
@@ -114,25 +143,33 @@ export default {
       },
       cities: cityOptions,
       isIndeterminate: true
-    };
+    }
   },
   components: {
     UCalendar,
     MyApplication
   },
-  created() {
-   
-  },
+  created() {},
   methods: {
     handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
-      this.isIndeterminate = false;
+      this.checkedCities = val ? cityOptions : []
+      this.isIndeterminate = false
     },
     handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
+      const checkedCount = value.length
+      this.checkAll = checkedCount === this.cities.length
       this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
+        checkedCount > 0 && checkedCount < this.cities.length
+    },
+    showmore() {
+      this.dialogVisible = true
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
   }
 };
@@ -236,25 +273,25 @@ export default {
           top: 17px;
         }
       }
-      .u-examine-content {
-        .u-content {
-          list-style: none;
-          padding-left: 21px;
-          padding-top: 7px;
-          margin: 0px;
-        }
-        & li {
-          height: 32px;
-          background: #f5f6fa;
-          margin-top: 10px;
-          margin-right: 20px;
-          span {
-            font-size: 16px;
-            font-family: Source Han Sans CN;
-            font-weight: 400;
-            color: #111111;
-          }
-        }
+    }
+  }
+  .u-examine-content {
+    .u-content {
+      list-style: none;
+      padding-left: 21px;
+      padding-top: 7px;
+      margin: 0px;
+    }
+    & li {
+      height: 32px;
+      background: #f5f6fa;
+      margin-top: 10px;
+      margin-right: 20px;
+      span {
+        font-size: 16px;
+        font-family: Source Han Sans CN;
+        font-weight: 400;
+        color: #111111;
       }
     }
   }

@@ -11,7 +11,9 @@
             </template>
            </avue-crud>
       </div>
-     <div v-loading="tableListLoading" class="basic-container" style="background: white">
+     <div v-loading="tableListLoading" class="basic-container" style="background: white;padding: 8px 0px;border-radius: 0">
+       <h4 style="margin-left: 20px;">成绩报表统计</h4>
+       <ve-histogram :series="classStoreData.series" height="400px" :colors="classStoreData.settings.colors" :data="classStoreData" :settings="classStoreData.settings"></ve-histogram>
        <ul class="info-list">
          <li>
            <div class="title">最高分</div>
@@ -30,8 +32,6 @@
            <div class="score">{{scoreInfo.avgScore || ''}}</div>
          </li>
        </ul>
-       <ve-histogram :series="classStoreData.series" height="300px" :colors="classStoreData.settings.colors" :data="classStoreData" :settings="classStoreData.settings"></ve-histogram>
-       
        
      </div>
     </div>
@@ -91,7 +91,7 @@ export default {
         fail: '不及格'
       },
       option: {
-        height: 200,
+        height: '120px',
         column: [
           {
             label:'id',
@@ -271,6 +271,8 @@ export default {
   margin: 10px;
   padding: 0;
   display: flex;
+  background: #f3f4f6;
+  padding: 10px;
   li {
     flex: 1;
     text-align: center;

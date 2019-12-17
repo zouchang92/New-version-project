@@ -10,7 +10,7 @@
             <img
               src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
               alt
-            />
+            >
             <span class="top-name">姓名：张三</span>
             <span class="top-numb">学号：20170828291</span>
           </div>
@@ -21,13 +21,13 @@
           <div class="top-right">
             <div style="position: absolute;top: 34px;left: -227px;">
               <star-rating
+                v-model="rating"
                 :star-size="20"
                 show-rating
                 rtl
                 read-only
-                v-model="rating"
-                v-bind:max-rating="rating"
-              ></star-rating>
+                :max-rating="rating"
+              />
               <star-rating
                 style="margin-top:30px"
                 :star-size="20"
@@ -36,7 +36,7 @@
                 rtl
                 v-model="rating1"
                 v-bind:max-rating="rating1"
-              ></star-rating>
+              />
               <star-rating
                 style="margin-top:27px"
                 :star-size="20"
@@ -45,7 +45,7 @@
                 rtl
                 v-model="rating2"
                 v-bind:max-rating="rating2"
-              ></star-rating>
+              />
               <star-rating
                 style="margin-top:26px"
                 :star-size="20"
@@ -69,7 +69,7 @@
             <el-progress
               style="padding-top:16px;"
               :percentage="100"
-              stroke-width=13
+              stroke-width="13"
               :format="format"
               color="#F2BB46"
             ></el-progress>
@@ -78,7 +78,7 @@
               style="padding-top:16px;"
               :percentage="80"
               :format="format"
-              stroke-width=13
+              stroke-width="13"
               color="#F2BB46"
             ></el-progress>
             <span>英语</span>
@@ -86,14 +86,14 @@
               style="padding-top:16px;"
               :percentage="60"
               :format="format"
-              stroke-width=13
+              stroke-width="13"
               color="#F2BB46"
             ></el-progress>
             <span>化学</span>
             <el-progress
               style="padding-top:16px;"
               :percentage="40"
-              stroke-width=13
+              stroke-width="13"
               :format="format"
               color="#F2BB46"
             ></el-progress>
@@ -102,7 +102,7 @@
               style="padding-top:16px;"
               :percentage="20"
               :format="format"
-              stroke-width=13
+              stroke-width="13"
               color="#F2BB46"
             ></el-progress>
           </div>
@@ -183,9 +183,9 @@
   </div>
 </template>
 <script>
-import StarRating from "vue-star-rating"
+import StarRating from "vue-star-rating";
 import { formatDate } from "@/api/date.js";
-import { stuLesson, listStucompre } from "@/api/growthArchivesApi"
+import { stuLesson, listStucompre } from "@/api/growthArchivesApi";
 export default {
   components: {
     StarRating
@@ -200,12 +200,12 @@ export default {
       value: 5,
       customColor: "#F2BB46",
       List: {},
-      obj:{}
+      obj: {}
     };
   },
   mounted() {
-    this.getLesson()
-    this.get()
+    this.getLesson();
+    this.get();
   },
   methods: {
     async getLesson() {
@@ -219,10 +219,10 @@ export default {
     },
     async get() {
       try {
-        let semesterName = '2019年上学期'
-        let orgName = '三年二班'
-        let studentName = '张三'
-        let list = await listStucompre({semesterName,orgName,studentName});
+        let semesterName = "2019年上学期";
+        let orgName = "三年二班";
+        let studentName = "张三";
+        let list = await listStucompre({ semesterName, orgName, studentName });
         this.obj = list.data.list;
         console.log(list);
       } catch (err) {

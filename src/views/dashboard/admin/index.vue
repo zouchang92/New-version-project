@@ -55,18 +55,18 @@
       <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="f-association-l">
         <div class="f-association">
           <div class="association-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <span>学校社团</span>
           </div>
-          <div class="assocition-content" v-for="(item,index) in list" :key="index">
+          <div v-for="(item,index) in list" :key="index" class="assocition-content">
             <div class="content-title">
-              <span>{{item.title}}</span>
+              <span>{{ item.title }}</span>
             </div>
             <div class="content-name">
-              <span>{{item.name}}</span>
+              <span>{{ item.name }}</span>
             </div>
             <div class="content-state">
-              <span :style="{'color':color(item)}">{{item.state}}</span>
+              <span :style="{'color':color(item)}">{{ item.state }}</span>
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@
         style="padding-left:14px;padding-right:19px;"
       >
         <div class="Teacher-attendance">
-          <p class="u-line"></p>
+          <p class="u-line" />
           <span>教师考勤状况</span>
           <APieChart />
         </div>
@@ -105,15 +105,15 @@
       >
         <div class="Information-bulletin">
           <div class="Information-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <span>信息公告</span>
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane name="first" label="活动通知">
                 <div class="Information-content">
                   <ul class="bulletin-content">
                     <li v-for="(city,index) in cities" :key="index">
-                      <p class="Information-content-p">{{city.content}}</p>
-                      <p class="Information-content-date">{{city.date}}</p>
+                      <p class="Information-content-p">{{ city.content }}</p>
+                      <p class="Information-content-date">{{ city.date }}</p>
                     </li>
                   </ul>
                 </div>
@@ -122,8 +122,8 @@
                 <div class="Information-content">
                   <ul class="bulletin-content">
                     <li v-for="(city,index) in cities" :key="index">
-                      <p class="Information-content-p">{{city.content}}</p>
-                      <p class="Information-content-date">{{city.date}}</p>
+                      <p class="Information-content-p">{{ city.content }}</p>
+                      <p class="Information-content-date">{{ city.date }}</p>
                     </li>
                   </ul>
                 </div>
@@ -140,12 +140,12 @@
             <li v-for="(city,inedx) in cities" :key="inedx">
               <el-checkbox-group
                 v-model="checkedCities"
-                @change="handleCheckedCitiesChange"
                 style="padding-top:5px;padding-left:5px"
+                @change="handleCheckedCitiesChange"
               >
                 <el-checkbox :label="city">
-                  <p class="u-content-p">{{city.content}}</p>
-                  <p class="u-content-date" style="float:right">{{city.date}}</p>
+                  <p class="u-content-p">{{ city.content }}</p>
+                  <p class="u-content-date" style="float:right">{{ city.date }}</p>
                 </el-checkbox>
               </el-checkbox-group>
             </li>
@@ -161,16 +161,16 @@
 </template>
 
 <script>
-import PanelGroup from "./components/PanelGroup";
-import APieChart from "./components/APieChart";
-import BarChart from "./components/BarChart";
-import TodoList from "./components/TodoList";
-import BoxCard from "./components/BoxCard";
-import RaddarChart from "./components/RaddarChart";
+import PanelGroup from './components/PanelGroup'
+import APieChart from './components/APieChart'
+import BarChart from './components/BarChart'
+import TodoList from './components/TodoList'
+import BoxCard from './components/BoxCard'
+import RaddarChart from './components/RaddarChart'
 const cityOptions = [
   {
-    content: "2019年元旦晚会节目清单",
-    date: "2019-09-01"
+    content: '2019年元旦晚会节目清单',
+    date: '2019-09-01'
   },
   {
     content: "2019年教育工作调研报告",
@@ -213,18 +213,18 @@ export default {
   },
   methods: {
     handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type];
+      this.lineChartData = lineChartData[type]
     },
     handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
-      this.isIndeterminate = false;
+      this.checkedCities = val ? cityOptions : []
+      this.isIndeterminate = false
     },
     handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      console.log(checkedCount);
-      this.checkAll = checkedCount === this.cities.length;
+      let checkedCount = value.length
+      console.log(checkedCount)
+      this.checkAll = checkedCount === this.cities.length
       this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
+        checkedCount > 0 && checkedCount < this.cities.length
     },
     handleClick(tab, event) {
       // console.log(tab, event);
