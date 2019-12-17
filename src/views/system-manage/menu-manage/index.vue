@@ -81,7 +81,7 @@ export default {
   name: 'menuManage',
   data() {
     return {
-      mode: 'edit',
+      mode: 'add',
       updateLoading: false,
       searchForm: {
         id: ''
@@ -156,10 +156,13 @@ export default {
           await addMenu(this.formData)
         } else {
           await updateMenu(this.formData)
-          await menuBindButtons({
-            id: this.formData.id,
-            buttons: this.selectedButtons
-          })
+          if (this.selectedButtons.length) {
+            await menuBindButtons({
+              id: this.formData.id,
+              buttons: this.selectedButtons
+            })
+          } 
+          
         }
         this.updateLoading = false
         this.getMenuTree()
@@ -210,6 +213,7 @@ export default {
       }
     },
     nodeClick(e) {
+      this.mode = 'edit'
       this.searchForm = {
         ...this.searchForm,
         id: e.id
