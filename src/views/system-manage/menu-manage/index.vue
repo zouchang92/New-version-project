@@ -186,11 +186,14 @@ export default {
     async queryAllBtns() {
       this.btnManage.allBtnLoading = true
       try {
-        let res = await queryBtns()
+        let res = await queryBtns({
+          page: 1,
+          rows: 2000
+        })
         this.btnManage = {
           ...this.btnManage,
           allBtnLoading: false,
-          allBtns: res.data.map(n => ({...n, key: n.id, label: n.name}))
+          allBtns: res.data.list.map(n => ({...n, key: n.id, label: n.name}))
         }
       } catch(err) {
         this.btnManage.allBtnLoading = false
