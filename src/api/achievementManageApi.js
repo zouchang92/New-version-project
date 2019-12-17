@@ -43,18 +43,18 @@ export function importAchievement({
 
 export function queryClassScore({
   semesterName, 
-  orgName, 
+  orgName = [], 
   course, 
-  examType
+  examType = ''
 }) {
   return request({
     url: '/zhxyx/stuScore/classStuScore',
     method: 'post',
     data: {
       semesterName, 
-      orgName, 
+      orgName: orgName[orgName.length - 1], 
       course, 
-      examType
+      examType: examType ? [examType] : []
     }
   })
 }

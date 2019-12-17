@@ -11,7 +11,7 @@
            </avue-crud>
       </div>
       <el-dialog title="成绩导入" :visible.sync="importDialog">
-        <avue-form @submit="importScore" v-model="importObj" :option="importConfig">
+        <avue-form ref="form" @submit="importScore" v-model="importObj" :option="importConfig">
           <template slot-scope="scope" slot="downloadTemplate">
             <div>
               <a style="color: blue" :href="`${baseUrl}/template/stuScore_module.xlsx`" >下载模板</a>
@@ -235,6 +235,9 @@ export default {
         data.orgId = data.orgId[data.orgId.length - 1]
         data.excelPath = process.env.VUE_APP_FTP_BASE_URL + data.excelPath[0].value
         let res = await importAchievement(data)
+        this.$message.success('导入成功')
+        this.importDialog = false
+        this.$refs.form.resetForm()
         await this.resetList()
         done()
       } catch(err) {

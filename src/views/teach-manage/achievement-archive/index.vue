@@ -11,7 +11,29 @@
             </template>
            </avue-crud>
       </div>
-     
+     <div v-loading="tableListLoading" class="basic-container" style="background: white">
+       <ul class="info-list">
+         <li>
+           <div class="title">最高分</div>
+           <div class="score">{{scoreInfo.maxScore || ''}}</div>
+         </li>
+         <li>
+           <div class="title">最低分</div>
+           <div class="score">{{scoreInfo.minScore || ''}}</div>
+         </li>
+         <li>
+           <div class="title">总分</div>
+           <div class="score">{{scoreInfo.totalScore || ''}}</div>
+         </li>
+         <li>
+           <div class="title">平均分</div>
+           <div class="score">{{scoreInfo.avgScore || ''}}</div>
+         </li>
+       </ul>
+       <ve-histogram :series="classStoreData.series" height="300px" :colors="classStoreData.settings.colors" :data="classStoreData" :settings="classStoreData.settings"></ve-histogram>
+       
+       
+     </div>
     </div>
   </div>
 </template>
@@ -34,6 +56,32 @@ export default {
     return {
       fn: queryClassScore,
       data: [],
+      classStoreData: {
+        settings: {
+          itemStyle: {
+            barBorderRadius: [20, 20, 20, 20]
+          },
+          colors: [{
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [{
+              offset: 0, color: '#61A6FF' 
+            }, {
+              offset: 1, color: '#1B7BFE'
+            }],
+            global: false // 缺省为 false
+          }]
+        },
+        columns: ['分段', '人数'],
+        rows: [
+        ]
+      },
+      scoreInfo: {
+
+      },
       scoreMap: {
         fullMarks: '100',
         ninetyPoints: '90-99',
@@ -82,7 +130,7 @@ export default {
           },
           {
             label: '所属班级',
-            prop: 'orgId',
+            prop: 'orgName',
             hide: true,
             type: 'cascader',
             span: 24,
@@ -90,7 +138,7 @@ export default {
             dicData: getOrgan(),
             props: {
               label: 'orgName',
-              value: 'id'
+              value: 'orgName'
             },
             rules: {
               required: true,
@@ -112,7 +160,7 @@ export default {
             props: {
               res: 'data.list',
               label: 'name',
-              value: 'id'
+              value: 'name'
             },
             rules: {
               required: true,
@@ -134,7 +182,7 @@ export default {
             props: {
               res: 'data.list',
               label: 'name',
-              value: 'id'
+              value: 'name'
             },
             rules: {
               required: true,
@@ -148,6 +196,9 @@ export default {
             hide: true,
             search: true,
             dicData: examType,
+            props: {
+              value: 'label'
+            },
             rules: {
               required: true,
               message: '考试批次是必填项'
@@ -175,7 +226,15 @@ export default {
       
     },
     processData(data) {
-      
+      let score = data[0]
+      let barData = _.map(this.scoreMap, (n, i) => {
+        return {
+          '分段': n,
+          '人数': score[i] || ''
+        }
+      })
+      this.classStoreData.rows = barData
+      this.scoreInfo = score
       return data
     },
     async rowUpdate(row, index, done, loading) {
@@ -206,6 +265,23 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.info-list {
+  list-style: none;
+  margin: 10px;
+  padding: 0;
+  display: flex;
+  li {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #dcdcdc;
+    .title {
+      font-size: 14px;
+    }
+    .score {
+      font-size: 18px;
+      margin-top: 12px;
+    }
+  }
+}
 </style>
