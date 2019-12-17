@@ -24,7 +24,7 @@
         <div class="Comment-right" style="margin-top:39px;">
           <avue-form ref="form" v-model="obj0" :option="option0">
             <template slot="menuForm">
-              <el-button type="primary" @click="handleSubmit">提 交</el-button>
+              <el-button type="primary" @click="submitBtn">提 交</el-button>
               <el-button>保 存</el-button>
               <el-button>清 空</el-button>
             </template>
@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+import { addStuComment } from '@/api/growthArchivesApi'
 const menus = [
   {
     menuId: 100,
@@ -136,7 +137,7 @@ export default {
   },
   methods: {
     handleNodeClick(data) {
-      // console.log(JSON.stringify(data.menuName));
+      console.log(JSON.stringify(data.menuName));
     },
     handleEmpty() {
       this.$refs.form.resetForm();
@@ -148,7 +149,16 @@ export default {
         }
         console.log(JSON.stringify(this.obj0));
       });
-    }
+    },
+    async submitBtn() {
+      try {
+        let list =this.obj0
+        console.log(a)
+        await addStuComment(list)
+      } catch(err) {
+        console.log(err)
+      }
+    },
   }
 };
 </script>

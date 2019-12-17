@@ -1,14 +1,25 @@
 import request from '@/utils/request'
 
-export function listStu({ orgName, studentName, studentNum }) {
+export function listStu({ orgName, studentName, studentNum, semesterName }) {
   return request({
     url: '/zhxyx/stuScore/listStuScoreByName',
     method: 'post',
     data: {
-      orgName, studentName, studentNum
+      orgName, studentName, studentNum, semesterName
     }
   })
 }
+
+export function listStucompre({ semesterName, orgName, studentName }) {
+  return request({
+    url: '/zhxyx/stuLesson/comprehensiveScore',
+    method: 'post',
+    data: {
+      semesterName, orgName, studentName
+    }
+  })
+}
+
 export function duty() {
   return request({
     url: '/zhxyx/duty/listStuDaDuty',
@@ -167,3 +178,13 @@ export function updateClub({ id }) {
     }
   })
 }
+export function addStuComment({ id }) {
+  return request({
+    url: '/zhxyx/stuComment/addStuComment',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+

@@ -1,8 +1,8 @@
 <template>
   <div class="Academic">
     <div class="Acadmic-Semester">
-      <el-select v-model="value" placeholder="请选择学期">
-        <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.label">
+      <el-select v-model="value2" placeholder="请选择学期">
+        <el-option v-for="item in citie" :key="item.value" :label="item.label" :value="item.label">
           <span style="float: left">{{ item.label }}</span>
         </el-option>
       </el-select>
@@ -78,51 +78,19 @@ export default {
       },
       list: [
         { prop: "name", label: "名称" },
-        { prop: "Chinese", label: "语文" },
-        { prop: "Mathematics", label: "数学" },
-        { prop: "English", label: "英语" },
-        { prop: "Physics", label: "物理" },
-        { prop: "Chemistry", label: "化学" },
-        { prop: "History", label: "历史" },
-        { prop: "Geography", label: "地理" },
-        { prop: "Biology", label: "生物" },
-        { prop: "Morality", label: "道德与法" },
-        { prop: "totalScore", label: "个人总分" },
-        { prop: "totalAvgScore", label: "班级均分" }
+        { prop: "courseYW", label: "语文" },
+        { prop: "courseSX", label: "数学" },
+        { prop: "courseYY", label: "英语" },
+        { prop: "courseHX", label: "物理" },
+        { prop: "courseLS", label: "化学" },
+        { prop: "courseWL", label: "历史" },
+        { prop: "courseSW", label: "生物" },
+        { prop: "courseYW", label: "道德与法" },
+        { prop: "courseYW", label: "个人总分" },
+        { prop: "courseYW", label: "班级均分" }
       ],
-      Data: [
-        {
-          course: "语文",
-          score: 89.0
-        },
-        {
-          course: "数学",
-          score: 88.0
-        },
-        {
-          course: "英语",
-          score: 79.0
-        },
-        {
-          course: "化学",
-          score: 87.0
-        },
-        {
-          course: "历史",
-          score: 86.0
-        },
-        {
-          course: "物理",
-          score: 88.0
-        },
-        {
-          course: "生物",
-          score: 99.0
-        }
-      ],
-
       height: "570px",
-      cities: [
+      citie: [
         {
           label: "2019年下学期"
         },
@@ -131,7 +99,7 @@ export default {
         }
       ],
       subject: [{ label: "语文" }, { label: "数学" }],
-      value: "2019年下学期",
+      value2: "2019年下学期",
       value1: "语文",
       tableData: {
           name: "一月考",
@@ -335,8 +303,9 @@ export default {
       try {
         let orgName = this.value;
         let studentName = this.input;
+        let semesterName = '2019年上学期'
         // console.log(orgName,studentName)
-        let list = await listStu({ orgName, studentName });
+        let list = await listStu({ orgName, studentName, semesterName });
         this.tableData = list.data;
       } catch (err) {
         console.log(213);

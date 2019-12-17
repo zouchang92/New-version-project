@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-import { queryHealth, delHealth, upadateHealth} from "@/api/growthArchivesApi";
+import { queryHealth, delHealth, upadateHealth } from "@/api/growthArchivesApi";
 import tableCommon from '@/mixins/table-common.js'
 export default {
   mixins: [tableCommon],

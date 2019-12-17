@@ -11,7 +11,7 @@
               src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
               alt
             />
-            <span class="top-name">姓名：张家辉</span>
+            <span class="top-name">姓名：张三</span>
             <span class="top-numb">学号：20170828291</span>
           </div>
           <div class="top-Average">
@@ -123,10 +123,10 @@
                   src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                   alt
                 />
-                <p class="name">唐国强</p>
-                <p class="subject">语文老师</p>
+                <p class="name">{{item.studentName}}</p>
+                <p class="subject">{{item.course}}</p>
                 <p class="data">点评时间</p>
-                <p class="stardata">2019-09-11 16:00</p>
+                <p class="stardata">{{item.createTime | formatTS}}</p>
                 <p class="Average">平均分</p>
                 <p class="branch">100分</p>
                 <p class="discipline">课堂纪律</p>
@@ -183,8 +183,9 @@
   </div>
 </template>
 <script>
-import StarRating from "vue-star-rating";
-import { stuLesson } from "@/api/growthArchivesApi";
+import StarRating from "vue-star-rating"
+import { formatDate } from "@/api/date.js";
+import { stuLesson, listStucompre } from "@/api/growthArchivesApi"
 export default {
   components: {
     StarRating
@@ -198,11 +199,13 @@ export default {
       rating4: 1,
       value: 5,
       customColor: "#F2BB46",
-      List: {}
+      List: {},
+      obj:{}
     };
   },
   mounted() {
-    this.getLesson();
+    this.getLesson()
+    this.get()
   },
   methods: {
     async getLesson() {
@@ -214,8 +217,26 @@ export default {
         console.log(err);
       }
     },
+    async get() {
+      try {
+        let semesterName = '2019年上学期'
+        let orgName = '三年二班'
+        let studentName = '张三'
+        let list = await listStucompre({semesterName,orgName,studentName});
+        this.obj = list.data.list;
+        console.log(list);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     format(percentage) {
       return percentage === 100 ? "满" : `${percentage}%`;
+    }
+  },
+  filters: {
+    formatTS(timestamp) {
+      let date = new Date(timestamp);
+      return formatDate(date, "yyyy-MM-dd hh:mm");
     }
   }
 };
@@ -316,7 +337,7 @@ export default {
             .stardata {
               position: absolute;
               top: 34px;
-              left: 215px;
+              left: 198px;
             }
             .Average {
               margin: 0px;
@@ -325,7 +346,7 @@ export default {
             .branch {
               position: absolute;
               top: 30px;
-              left: 420px;
+              left: 400px;
             }
             .discipline {
               margin: 0px;
@@ -334,7 +355,7 @@ export default {
             .discipline-l {
               position: absolute;
               top: 42px;
-              left: 565px;
+              left: 545px;
             }
             .Absorbed {
               margin: 0px;
@@ -343,7 +364,7 @@ export default {
             .Absorbed-l {
               position: absolute;
               top: 43px;
-              left: 697px;
+              left: 677px;
             }
             .active {
               margin: 0px;
@@ -352,7 +373,7 @@ export default {
             .active-l {
               position: absolute;
               top: 43px;
-              left: 830px;
+              left: 810px;
             }
             .note {
               margin: 0px;
@@ -361,7 +382,7 @@ export default {
             .note-l {
               position: absolute;
               top: 43px;
-              left: 964px;
+              left: 944px;
             }
             .work {
               margin: 0px;
@@ -370,7 +391,7 @@ export default {
             .work-l {
               position: absolute;
               top: 43px;
-              left: 1133px;
+              left: 1113px;
             }
           }
         }

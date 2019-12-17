@@ -35,7 +35,7 @@ export default {
           {
             x: "30%",
             y: "79%",
-            text: "综合素质极高",
+            text: "综合素质高",
             textStyle: {
               fontWeight: "normal",
               fontSize: 20,

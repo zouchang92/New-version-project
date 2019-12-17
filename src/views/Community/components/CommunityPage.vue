@@ -121,7 +121,7 @@ export default {
   },
   data() {
     return {
-      dataList: [],
+      dataList: ["https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp,","https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=889b5d49c311728b302d8b24f0c7a4f3/eaf81a4c510fd9f98eb187b12b2dd42a2934a440.jpg", "https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=a5571170780e0cf3a0f749fd327d9522/cc11728b4710b912fdf94a9cc9fdfc0392452293.jpg","https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"],
       currentIndex: 0, //默认显示图片
       timer: null, //定时器
       list: [
@@ -141,8 +141,8 @@ export default {
         },
         {
           id: 1,
-          content: "社团与教师打乒乓球",
-          association: "乒乓球社",
+          content: "社团与教师打篮球",
+          association: "篮球社",
           time: "2019-10-01",
           img:
             "https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=889b5d49c311728b302d8b24f0c7a4f3/eaf81a4c510fd9f98eb187b12b2dd42a2934a440.jpg"
@@ -151,7 +151,7 @@ export default {
           id: 2,
           content: "社团与教师打乒乓球",
           association: "乒乓球社",
-          time: "2019-10-01",
+          time: "2019-10-03",
           img:
             "https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=a5571170780e0cf3a0f749fd327d9522/cc11728b4710b912fdf94a9cc9fdfc0392452293.jpg"
         },

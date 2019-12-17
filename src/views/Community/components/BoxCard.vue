@@ -39,7 +39,7 @@ export default {
       chart.source(data);
       chart.coord("polar", {
         transposed: true,
-        innerRadius: 0.7,
+        innerRadius: 0.8,
         radius: 0.75
       });
       chart.axis(false);
