@@ -91,8 +91,8 @@ export default {
         {
           label: '三年五班'}
       ],
-      value: "",
-      input: "",
+      value: "三年二班",
+      input: "张三",
       a:'',
       activeName: "first",
       isShow:false,
