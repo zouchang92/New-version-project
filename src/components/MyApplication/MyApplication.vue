@@ -6,7 +6,7 @@
           style="margin-top: 18px;"
           src="../../assets/menu/education_icon.png"
           alt
-        />
+        >
       </li>
       <li @click="open()">
         <el-button type="text">
@@ -27,15 +27,16 @@
               style="margin-top: 18px;"
               src="../../assets/menu/group_icon.png"
               alt
-            />
+            >
           </li>
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button
+          type="primary"
+          @click="dialogVisible = false"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -45,34 +46,27 @@ export default {
   data() {
     return {
       dialogVisible: false
-    };
+    }
   },
   methods: {
     open() {
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     openIn() {
-<<<<<<< HEAD
-      this.$router.push({ name: "homePage" });
+      this.$router.push({ name: 'homePage' })
     },
     addNode() {
-      console.log(123);
-=======
-      this.$router.push({ name: "homePage" })
-    },
-    addNode(){
       console.log(123)
->>>>>>> 90596433690e4426f6696ca023af612320c2a736
     },
     handleClose(done) {
-      this.$confirm("确认关闭？")
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .application {

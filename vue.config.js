@@ -31,10 +31,10 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     port: port,
-    open: true,
+    open: false,
     overlay: {
       warnings: false,
-      errors: true
+      errors: false
     },
     proxy: {
       // change xxx-api/login => mock/login

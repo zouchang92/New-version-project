@@ -100,7 +100,7 @@
         :page-sizes="[10, 20, 30, 40]"
         :page-size="100"
         layout="sizes, prev, pager, next"
-        :total="100"
+        :total="page"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -138,6 +138,7 @@ export default {
       value1: '',
       List: [],
       List1: [],
+      page: '',
       value2: true,
       currentPage2: 5
     }
@@ -155,6 +156,7 @@ export default {
     async get() {
       try {
         const page = 1
+        this.page = page
         const rows = 1000
         const list = await ClassQuery({ page, rows })
         this.List = list.data.list
