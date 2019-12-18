@@ -235,7 +235,7 @@ export default {
           position: absolute;
           top: 70px;
           left: 132px;
-          opacity: 0.3;
+          opacity: 0.1;
         }
       }
       .content-bottom {

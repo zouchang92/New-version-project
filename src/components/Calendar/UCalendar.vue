@@ -1,11 +1,6 @@
 <template>
   <div>
     <div class="timeline-date">
-      <div class="edit">
-        <el-tooltip content="点击添加代办事项" placement="top">
-          <el-button type="text"><i class="el-icon-edit" /></el-button>
-        </el-tooltip>
-      </div>
       <div>
         <p class="timeline-left" @click="weekPre()">
           <i class="el-icon-caret-left" />
@@ -64,6 +59,26 @@
         >{{ activity.content }}</el-timeline-item>
       </el-timeline>
     </div>
+    <el-dialog title="添加代办事项" :visible.sync="dialogFormVisible" :before-close="handleClose">
+      <el-form :model="form">
+        <el-form-item label="代办事件:" label-width="120px">
+          <el-input v-model="form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="代办时间:">
+          <el-col :span="10">
+            <el-date-picker v-model="form.date1" type="date" placeholder="选择日期" style="width: 100%;" />
+          </el-col>
+          <el-col class="line" :span="2">-</el-col>
+          <el-col :span="10">
+            <el-time-picker v-model="form.date2" placeholder="选择时间" style="width: 100%;" />
+          </el-col>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -79,6 +94,12 @@ export default {
       currentWeek: 1, // 星期
       days: [],
       reverse: true,
+      form: {
+        name: '',
+        date1: '',
+        date2: ''
+      },
+      dialogFormVisible: false,
       activities: [
         {
           content: '校干部研讨会',
@@ -177,9 +198,17 @@ export default {
 
     // 当前选择日期
     pick(date) {
-      alert(
-        this.formatDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
-      )
+      this.dialogFormVisible = true
+      // alert(
+      //   this.formatDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
+      // )
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {})
     }
   }
 }
@@ -190,15 +219,6 @@ export default {
 .timeline-date {
   height: 217px;
   border-bottom: 1px solid #ccc;
-  .edit {
-    position: absolute;
-    top: 0px;
-    right: 36px;
-    opacity: 0;
-    &:hover{
-      opacity: 1;
-    }
-  }
   .timeline-left {
     font-size: 20px;
     position: absolute;
