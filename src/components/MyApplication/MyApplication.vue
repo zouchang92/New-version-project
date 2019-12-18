@@ -53,9 +53,19 @@ export default {
       this.dialogVisible = true
     },
     openIn() {
+<<<<<<< HEAD
       this.$router.push({ name: 'homePage' })
     },
     addNode() {
+=======
+      this.$router.push({ name: "homePage" });
+    },
+    addNode() {
+      console.log(123);
+      this.$router.push({ name: "homePage" })
+    },
+    addNode(){
+>>>>>>> 263d58ca921f92e962174ab512a57b7c5f78f0a9
       console.log(123)
     },
     handleClose(done) {

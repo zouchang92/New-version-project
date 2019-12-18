@@ -86,6 +86,15 @@ export default {
             span: 12,
           },
           {
+            label:'工号',
+            prop:'loginName',
+            rules: {
+              required: true,
+            },
+            search: true,
+            span: 12,
+          },
+          {
             label: '性别',
             prop: 'gender',
             span: 12,

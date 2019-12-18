@@ -17,17 +17,17 @@
                    <el-button v-if="permission.oneKeyUpdate" icon="el-icon-top" style="height: 32px;line-height: 12px" size="medium" type="warning">一键升级</el-button>
                  </el-form-item>
               </el-form>
-              <el-form label-width="80px" label-position="right" size="small">
-                <el-form-item label="机构名称">
+              <el-form ref="form" :model="formData" :rules="rules" label-width="80px" label-position="right" size="small">
+                <el-form-item label="机构名称" prop="orgName">
                   <el-input v-model="formData.orgName"></el-input>
                 </el-form-item>
-                <el-form-item label="机构编码">
+                <el-form-item label="机构编码" prop="orgCode">
                   <el-input v-model="formData.orgCode"></el-input>
                 </el-form-item>
-                <el-form-item label="上级机构">
+                <el-form-item label="上级机构" prop="parentId">
                   <el-tree-select ref="treeSelect" :treeParams="treeParams" :data="treeData" v-model="formData.parentId"/>
                 </el-form-item>
-                <el-form-item label="备注">
+                <el-form-item label="备注" prop="description">
                   <el-input type="textarea" v-model="formData.description"></el-input>
                 </el-form-item>
               </el-form>
@@ -62,6 +62,14 @@ export default {
       updateLoading: false,
       searchForm: {
         id: ''
+      },
+      rules: {
+        orgName: [
+            { required: true, message: '请输入机构名称', trigger: 'blur' },
+          ],
+        orgCode: [
+          { required: true, message: '请输入机构编码', trigger: 'blur' }
+        ],
       },
       formData: {
         orgName: '',
@@ -111,21 +119,26 @@ export default {
     },
     async organSubmit() {
       this.updateLoading = true
-      try {
-        if (this.mode === 'add') {
-          await insertOrgan(this.formData)
-          this.$message.success('添加成功')
+       this.$refs['form'].validate(async (valid) => {
+        if (valid) {
+          try {
+            if (this.mode === 'add') {
+              await insertOrgan(this.formData)
+              this.$message.success('添加成功')
+            } else {
+              await updateOrgan(this.formData)
+              this.$message.success('更新成功')
+            }
+            this.updateLoading = false
+            this.getOrganTree()
+            this.$store.dispatch('system/getOrganTree')
+          } catch(err) {
+            this.updateLoading = false
+          }
         } else {
-          await updateOrgan(this.formData)
-          this.$message.success('更新成功')
+          this.updateLoading = false
         }
-        this.updateLoading = false
-        this.getOrganTree()
-        this.$store.dispatch('system/getOrganTree')
-      } catch(err) {
-        this.updateLoading = false
-      }
-      
+      }); 
     },
     changeMode(mode) {
       this.mode = mode

@@ -13,20 +13,20 @@ export const queryTeacher = ({ page, rows, organId, userName }) => {
   })
 }
 
-export const addTeacher = ({ id = '', curStatus, gender, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId }) => {
+export const addTeacher = ({ id = '', curStatus, gender, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId, loginName }) => {
   return request({
     url: '/zhxyx/teacher/insert',
     data: {
-      id, curStatus, facePicFile, credType, gender, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId
+      id, curStatus, facePicFile, credType, gender, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId, loginName
     },
     method: 'post'
   })
 }
 
-export const updateTeacher = ({ id = '', curStatus, gender, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId }) => {
+export const updateTeacher = ({ id = '', curStatus, gender, facePicFile, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId, loginName }) => {
   return request({
     url: '/zhxyx/teacher/update',
-    data: { id, curStatus, facePicFile, gender, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId },
+    data: { id, curStatus, facePicFile, gender, credType, credNum, credPhotoObve, credPhotoRever, nativeLand, volk, politstatus, homeAddr, health, inworkDate, entryTime, academy, education, duties, titles, userName, organId, loginName },
     method: 'post'
   })
 }
