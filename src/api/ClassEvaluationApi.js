@@ -9,3 +9,12 @@ export function ClassQuery({ page, rows }) {
     }
   })
 }
+export function getDetail({ reviewId }) {
+  return request({
+    url: '/zhxyx/evaluation/getDetailEvaReview',
+    method: 'post',
+    data: {
+      reviewId
+    }
+  })
+}

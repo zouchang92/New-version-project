@@ -4,7 +4,7 @@
       <el-col :xs="24" :sm="24" :lg="8" style="padding-right:4px;">
         <div class="Teacher-application">
           <div class="application-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">我的应用</p>
           </div>
           <MyApplication />
@@ -13,7 +13,7 @@
       <el-col :xs="24" :sm="24" :lg="8" style="padding-right:4px;">
         <div class="Examination-score">
           <div class="score-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">课堂表现</p>
           </div>
           <div class="score-content">
@@ -52,7 +52,7 @@
         style="padding-left:4px;position: absolute;top: 0px;right: -14px;"
       >
         <div class="Teacher-date" style="background:#fff;height:354px;position:relative;">
-          <UCalendar></UCalendar>
+          <UCalendar />
         </div>
       </el-col>
     </el-row>
@@ -60,7 +60,7 @@
       <el-col :xs="24" :sm="24" :lg="5" style="padding-right:4px;margin-top:-59px;">
         <div class="Master-Resources">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">学习资源</p>
           </div>
           <raddar-chart />
@@ -74,12 +74,12 @@
       >
         <div class="Master-duty">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">兴趣爱好</p>
           </div>
           <div class="duty-content" style="margin-top: 20px">
             <el-checkbox-group v-model="checkboxGroup2" size="small">
-              <el-checkbox-button v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox-button>
+              <el-checkbox-button v-for="city in cities" :key="city" :label="city">{{ city }}</el-checkbox-button>
             </el-checkbox-group>
           </div>
         </div>
@@ -92,7 +92,7 @@
       >
         <div class="Master-table">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">我的课表</p>
           </div>
           <Timetable />
@@ -107,7 +107,7 @@
         <div class="Teacher-date" style="background:#fff;position:relative;">
           <div class="Master-mail">
             <div class="Master-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p class="title-text">教师通讯录</p>
             </div>
             <div class="mail-content">
@@ -116,7 +116,7 @@
                   <img
                     src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                     alt
-                  />
+                  >
                   <p>张家辉</p>
                   <p>
                     <i class="el-icon-phone" />13333333333
@@ -143,7 +143,7 @@
       >
         <div class="Master-tsk">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">考试成绩</p>
           </div>
           <line-chart :data="data" />
@@ -159,7 +159,7 @@
       >
         <div class="Master-attendance">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">我的作业</p>
           </div>
           <div class="timeline" style="margin-left:20px;margin-top:20px;">
@@ -172,7 +172,7 @@
                 :color="activity.color"
                 :size="activity.size"
                 :timestamp="activity.timestamp"
-              >{{activity.content}}</el-timeline-item>
+              >{{ activity.content }}</el-timeline-item>
             </el-timeline>
           </div>
         </div>
@@ -187,7 +187,7 @@
       >
         <div class="Master-notice">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">班级通知</p>
           </div>
           <div class="notice-content">
@@ -205,35 +205,36 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import GithubCorner from "@/components/GithubCorner";
-import UCalendar from "@/components/Calendar/UCalendar";
-import Timetable from "@/components/Timetable/Timetable";
-import RaddarChart from "../Headmaster/components/RaddarChart";
-import LineChart from "../Teacher/components/LineChart";
-import MyApplication from "@/components/MyApplication/MyApplication";
+import { mapGetters } from 'vuex'
+import GithubCorner from '@/components/GithubCorner'
+import UCalendar from '@/components/Calendar/UCalendar'
+import Timetable from '@/components/Timetable/Timetable'
+import RaddarChart from '../Headmaster/components/RaddarChart'
+import LineChart from '../Teacher/components/LineChart'
+import MyApplication from '@/components/MyApplication/MyApplication'
 
 const cityOptions = [
-  "篮球",
-  "足球",
-  "听音也",
-  "羽毛球",
-  "跑步",
-  "兵乓球",
-  "游戏",
-  "看电影",
-  "绘画",
-  "看书",
-  "拼图",
-  "弹吉他",
-  "钢琴",
-  "折纸",
-  "剪纸"
-];
+  '篮球',
+  '足球',
+  '听音也',
+  '羽毛球',
+  '跑步',
+  '兵乓球',
+  '游戏',
+  '看电影',
+  '绘画',
+  '看书',
+  '拼图',
+  '弹吉他',
+  '钢琴',
+  '折纸',
+  '剪纸'
+]
 export default {
-  name: "DashboardAdmin",
+  name: 'DashboardAdmin',
   components: {
-    ...mapGetters(["name", "avatar", "roles"]),
+    ...mapGetters(['name', 'avatar', 'roles']),
+    // eslint-disable-next-line vue/no-unused-components
     GithubCorner,
     UCalendar,
     Timetable,
@@ -245,126 +246,126 @@ export default {
     return {
       activities: [
         {
-          content: "把《司马光砸缸》抄写一篇 背诵《窗前明月光》",
-          timestamp: "语文",
-          color: "#018EED"
+          content: '把《司马光砸缸》抄写一篇 背诵《窗前明月光》',
+          timestamp: '语文',
+          color: '#018EED'
         },
         {
-          content: "背诵乘法口诀 修改其中试卷",
-          timestamp: "数学",
-          color: "#018EED"
+          content: '背诵乘法口诀 修改其中试卷',
+          timestamp: '数学',
+          color: '#018EED'
         },
         {
-          content: "抄写p22单词，每个5遍",
-          timestamp: "英语",
-          color: "#018EED"
+          content: '抄写p22单词，每个5遍',
+          timestamp: '英语',
+          color: '#018EED'
         },
         {
-          content: "预习下一章节",
-          timestamp: "生物",
-          color: "#018EED"
+          content: '预习下一章节',
+          timestamp: '生物',
+          color: '#018EED'
         }
       ],
-      checkboxGroup2: ["篮球", "听音也", "弹吉他"],
+      checkboxGroup2: ['篮球', '听音也', '弹吉他'],
       cities: cityOptions,
       data: {
         title: {
-          text: "2019年下学期成绩分析图",
-          right: "4%",
+          text: '2019年下学期成绩分析图',
+          right: '4%',
           textStyle: {
-            color: "#000",
+            color: '#000',
             fontSize: 13,
             fontWeight: 600
           }
         },
         tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c}"
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c}'
         },
         legend: {
-          left: "4%",
-          data: [{ name: "语文平均分" }, { name: "班级平均分" }]
+          left: '4%',
+          data: [{ name: '语文平均分' }, { name: '班级平均分' }]
         },
         xAxis: {
-          type: "category",
+          type: 'category',
           axisLine: {
             lineStyle: {
-              color: "#272729" //x轴的颜色
+              color: '#272729' // x轴的颜色
             }
           },
           splitLine: { show: true },
           data: [
-            "一单元",
-            "二单元",
-            "月考",
-            "三单元",
-            "四单元",
-            "其中",
-            "一单元",
-            "五单元",
-            "六单元",
-            "月考",
-            "期末"
+            '一单元',
+            '二单元',
+            '月考',
+            '三单元',
+            '四单元',
+            '其中',
+            '一单元',
+            '五单元',
+            '六单元',
+            '月考',
+            '期末'
           ]
         },
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
           containLabel: true
         },
         yAxis: {
-          type: "value",
+          type: 'value',
           axisLine: {
             lineStyle: {
-              color: "#272729" //x轴的颜色
+              color: '#272729' // x轴的颜色
             }
           }
         },
         series: [
           {
-            name: "班级平均分",
-            type: "line",
+            name: '班级平均分',
+            type: 'line',
             smooth: false,
-            symbol: "circle", //折线点设置为实心点
+            symbol: 'circle', // 折线点设置为实心点
 
-            symbolSize: 4, //折线点的大小
+            symbolSize: 4, // 折线点的大小
             data: [90, 86, 89, 87, 90, 79, 99, 95, 87, 99, 89],
             lineStyle: {
               normal: {
-                color: "#3AA1FF",
+                color: '#3AA1FF',
                 lineStyle: {
-                  color: "#3AA1FF" //折线的颜色
+                  color: '#3AA1FF' // 折线的颜色
                 }
               }
             }
           },
           {
-            name: "语文平均分",
-            type: "line",
+            name: '语文平均分',
+            type: 'line',
             smooth: false,
-            symbol: "circle", //折线点设置为实心点
-            symbolSize: 4, //折线点的大小
+            symbol: 'circle', // 折线点设置为实心点
+            symbolSize: 4, // 折线点的大小
             data: [80, 97, 92, 88, 90, 89, 100, 75, 80, 79, 80],
             lineStyle: {
               normal: {
-                color: "#FBD437",
+                color: '#FBD437',
                 lineStyle: {
-                  color: "#FBD437" //折线的颜色
+                  color: '#FBD437' // 折线的颜色
                 }
               }
             }
           }
         ]
       }
-    };
+    }
   },
   methods: {
     // handleSetLineChartData(type) {
     //   this.lineChartData = lineChartData[type]
     // }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

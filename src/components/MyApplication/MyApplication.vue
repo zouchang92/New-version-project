@@ -6,7 +6,7 @@
           style="margin-top: 18px;"
           src="../../assets/menu/education_icon.png"
           alt
-        >
+        />
       </li>
       <li @click="open()">
         <el-button type="text">
@@ -14,15 +14,28 @@
         </el-button>
       </li>
     </ul>
-    <el-dialog title="全部应用" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+    <el-dialog
+      title="全部应用"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose"
+    >
       <div>
         <ul>
-          <li @click="addNode"><img style="margin-top: 18px;" src="../../assets/menu/group_icon.png" alt=""></li>
+          <li @click="addNode">
+            <img
+              style="margin-top: 18px;"
+              src="../../assets/menu/group_icon.png"
+              alt
+            />
+          </li>
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -31,7 +44,7 @@
 export default {
   data() {
     return {
-      dialogVisible: false,
+      dialogVisible: false
     };
   },
   methods: {
@@ -39,13 +52,10 @@ export default {
       this.dialogVisible = true;
     },
     openIn() {
-      this.$router.push({ name: "homePage" })
-<<<<<<< HEAD
+      this.$router.push({ name: "homePage" });
     },
-    addNode(){
-      console.log(123)
-=======
->>>>>>> 035472c3e89bbdca3a2c5990154c34656ebdfb3d
+    addNode() {
+      console.log(123);
     },
     handleClose(done) {
       this.$confirm("确认关闭？")

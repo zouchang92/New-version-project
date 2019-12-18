@@ -14,19 +14,19 @@
 import Administration from './components/Administration'
 export default {
   components: {
-      Administration
+    Administration
   },
   data() {
     return {
-      activeName: "first"
-    };
+      activeName: 'first'
+    }
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(tab, event)
     }
   }
-};
+}
 </script>
 <style>
 .ClassEvaluation .el-tabs__nav-wrap {

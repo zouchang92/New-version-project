@@ -11,7 +11,7 @@
       <div class="card-panel">
         <div class="card-panel-description">
           <div class="card-panel-text">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p>我的应用</p>
           </div>
           <MyApplication />
@@ -30,36 +30,44 @@
         <div class="u-examine-comtent">
           <div class="u-examine-text">
             <div class="u-examine-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <el-badge :value="5">
                 <p>待审核</p>
               </el-badge>
               <div style="float:right">
-                <el-tooltip class="item" effect="light" content="批量通过" placement="bottom">
+                <el-tooltip
+                  class="item"
+                  effect="light"
+                  content="批量通过"
+                  placement="bottom"
+                >
                   <el-checkbox
-                    class="Batch-pass"
                     v-model="checkAll"
+                    class="Batch-pass"
                     @change="handleCheckAllChange"
                   >
-                    <i style="font-size: 20px;" class="el-icon-document-copy"></i>
+                    <i
+                      style="font-size: 20px;"
+                      class="el-icon-document-copy"
+                    />
                   </el-checkbox>
                 </el-tooltip>
                 <el-button class="more" type="text" @click="showmore()">
                   更多
-                  <i class="el-icon-d-arrow-right"></i>
+                  <i class="el-icon-d-arrow-right" />
                 </el-button>
               </div>
             </div>
             <div class="u-examine-content">
               <ul class="u-content">
-                <li v-for="(city,index) in cities" :key="index">
+                <li v-for="(city, index) in cities" :key="index">
                   <el-checkbox-group
                     v-model="checkedCities"
-                    @change="handleCheckedCitiesChange"
                     style="padding-top:5px;padding-left:5px"
+                    @change="handleCheckedCitiesChange"
                   >
                     <el-checkbox :label="city">
-                      <span>{{city.content}}</span>
+                      <span>{{ city.content }}</span>
                       <el-tag
                         style="margin-left:10px;width: 56px;height: 20px;font-size: 12px;"
                         size="mini"
@@ -75,30 +83,41 @@
         </div>
       </div>
     </el-col>
-    <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="card-panel-col">
+    <el-col
+      :xs="8"
+      :sm="8"
+      :lg="8"
+      :xl="8"
+      class="card-panel-col"
+      style="position:relative"
+    >
       <div class="u-timeline">
         <div class="u-timeline-comtent">
           <div class="u-timeline-text">
             <div class="u-timeline-title">
-              <!-- <el-calendar v-model="value"></el-calendar> -->
-              <UCalendar></UCalendar>
+              <UCalendar />
             </div>
           </div>
         </div>
       </div>
     </el-col>
-    <el-dialog title="待审核" :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
+    <el-dialog
+      title="待审核"
+      :visible.sync="dialogVisible"
+      width="70%"
+      :before-close="handleClose"
+    >
       <div>
         <div class="u-examine-content">
           <ul class="u-content">
-            <li v-for="(city,index) in cities" :key="index">
+            <li v-for="(city, index) in cities" :key="index">
               <el-checkbox-group
                 v-model="checkedCities"
-                @change="handleCheckedCitiesChange"
                 style="padding-top:5px;padding-left:5px"
+                @change="handleCheckedCitiesChange"
               >
                 <el-checkbox :label="city">
-                  <span>{{city.content}}</span>
+                  <span>{{ city.content }}</span>
                   <el-tag
                     style="margin-left:10px;width: 56px;height: 20px;font-size: 12px;"
                     size="mini"
@@ -113,41 +132,44 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="dialogVisible = false"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </el-row>
 </template>
 
 <script>
-import UCalendar from "@/components/Calendar/UCalendar";
-import MyApplication from "@/components/MyApplication/MyApplication";
+import UCalendar from '@/components/Calendar/UCalendar'
+import MyApplication from '@/components/MyApplication/MyApplication'
 const cityOptions = [
-  { type: "", content: "张雪的请假信息", label: "3分钟前" },
-  { type: "succes", content: "李峰的请假信息", label: "30分钟前" },
-  { type: "info", content: "王丽的请假信息", label: "4小时前" },
-  { type: "danger", content: "李儒的请假信息", label: "3分钟前" },
-  { type: "warning", content: "张小雨的请假信息", label: "3分钟前" },
-  { type: "danger", content: "张家良请假信息", label: "3分钟前" }
-];
+  { type: '', content: '张雪的请假信息', label: '3分钟前' },
+  { type: 'succes', content: '李峰的请假信息', label: '30分钟前' },
+  { type: 'info', content: '王丽的请假信息', label: '4小时前' },
+  { type: 'danger', content: '李儒的请假信息', label: '3分钟前' },
+  { type: 'warning', content: '张小雨的请假信息', label: '3分钟前' },
+  { type: 'danger', content: '张家良请假信息', label: '3分钟前' }
+]
 export default {
+  components: {
+    UCalendar,
+    MyApplication
+  },
   data() {
     return {
       value: new Date(),
       checkAll: false,
       dialogVisible: false,
       checkedCities: {
-        type: "",
-        content: "梨花的请假信息1111",
-        label: "3分钟前"
+        type: '',
+        content: '梨花的请假信息1111',
+        label: '3分钟前'
       },
       cities: cityOptions,
       isIndeterminate: true
     }
-  },
-  components: {
-    UCalendar,
-    MyApplication
   },
   created() {},
   methods: {
@@ -165,14 +187,14 @@ export default {
       this.dialogVisible = true
     },
     handleClose(done) {
-      this.$confirm("确认关闭？")
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

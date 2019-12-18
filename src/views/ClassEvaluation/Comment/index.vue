@@ -3,7 +3,7 @@
     <div class="title">
       <div class="title-text" @click="esc">
         <p class="title-left">
-          <i class="el-icon-arrow-left"></i>
+          <i class="el-icon-arrow-left" />
         </p>
         <p class="esc">返回至上一页</p>
       </div>
@@ -26,17 +26,23 @@
                     controls="controls"
                     style="width:100%; height:740px;object-fit:fill"
                     src="https://media.w3.org/2010/05/sintel/trailer.mp4"
-                  ></video>
+                  />
                   <div class="brief">
                     <p class="brief-title">二年级口算</p>
                     <div class="category">
                       <p class="category-text">
-                        <i style="margin-right:8px;" class="el-icon-menu"></i>数学类
+                        <i
+                          style="margin-right:8px;"
+                          class="el-icon-menu"
+                        />数学类
                       </p>
                     </div>
                     <div class="data">
                       <p class="data-text">
-                        <i style="margin-right:16px;" class="el-icon-date"></i>2019-10-25
+                        <i
+                          style="margin-right:16px;"
+                          class="el-icon-date"
+                        />2019-10-25
                       </p>
                     </div>
                   </div>
@@ -52,62 +58,79 @@
                       <div class="evaluate-rate" style="display:flex;">
                         <div class="thinking">
                           <span class="thinking-title">教学思路清晰:</span>
-                          <el-rate v-model="value1"></el-rate>
+                          <el-rate v-model="value1" />
                         </div>
                         <div class="Standard">
                           <span class="Standard-title">教学程序规范完善:</span>
-                          <el-rate v-model="value2"></el-rate>
+                          <el-rate v-model="value2" />
                         </div>
                         <div class="structure">
                           <span class="structure-title">课堂结构内容:</span>
-                          <el-rate v-model="value3"></el-rate>
+                          <el-rate v-model="value3" />
                         </div>
                         <div class="prominent">
                           <span class="prominent-title">教学重点突出:</span>
-                          <el-rate v-model="value4"></el-rate>
+                          <el-rate v-model="value4" />
                         </div>
                         <div class="vivid">
                           <span class="vivid-title">教学内容生动:</span>
-                          <el-rate v-model="value5"></el-rate>
+                          <el-rate v-model="value5" />
                         </div>
                       </div>
                       <el-input
+                        v-model="textarea"
                         type="textarea"
                         placeholder="请留下你的评语"
-                        v-model="textarea"
                         clearable
                         maxlength="240"
                         resize="none"
                         show-word-limit
-                      ></el-input>
+                      />
 
-                      <el-button class="evaluate-content-button" type="primary">提交</el-button>
+                      <el-button
+                        class="evaluate-content-button"
+                        type="primary"
+                      >提交</el-button>
                     </div>
                   </div>
                 </div>
               </el-col>
-              <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" style="position:relative">
+              <el-col
+                :xs="24"
+                :sm="24"
+                :md="24"
+                :lg="24"
+                :xl="24"
+                style="position:relative"
+              >
                 <div style="background:#fff;height:684px;margin-top:15px;">
                   <div class="All-comments">
                     <p class="All-title">全部评论 (1111)</p>
                     <el-pagination
                       style="position: absolute;top: 31px;right: 23px;"
-                      @size-change="handleSizeChange"
-                      @current-change="handleCurrentChange"
                       :current-page="currentPage"
                       :page-sizes="[50, 100, 150, 200]"
                       :page-size="100"
                       layout="total, sizes, prev, pager, next, jumper"
                       :total="200"
-                    ></el-pagination>
+                      @size-change="handleSizeChange"
+                      @current-change="handleCurrentChange"
+                    />
                   </div>
-                  <div class="All-content"></div>
+                  <div class="All-content" />
                 </div>
               </el-col>
             </el-row>
           </div>
         </el-col>
-        <el-col :xs="7" :sm="7" :md="7" :lg="7" :xl="7" style="padding-right: 20px;">
+        <el-col
+          :xs="7"
+          :sm="7"
+          :md="7"
+          :lg="7"
+          :xl="7"
+          style="padding-right: 20px;"
+        >
           <div class="content-right" style="background:#fff; height: 1979px;">
             <div class="Course-introduction">
               <div class="Course-title">
@@ -116,7 +139,9 @@
               <div class="Course-content">
                 <span
                   class="content-text"
-                >经济是一个很抽象的词语，因为抽象，所以怎么解释都行。你可以说发展经济是休养生息，也可以说大兴土木，也可以说自给自足，也可以说互通有无，也可以说烧杀抢掠，也可以说坑蒙拐骗。反正这些方式都是古往今来各个国家民族获取财富时经常用到的手段，所以说，经济学不是一门学科，而是所有学科的总和。或者说根本就不是学科，如果非要以如今人们对于经济的理解去研究什么经济学，还不如去研究上帝要来的靠谱一些。 老子说：“名可名也，非恒名也”，如果看待一样事物仅仅局限于名称，那么你远得不出任何有价值的结论。但想要描述一件事物，又不得不利用名称，所以名称的准确性对于任一门学科都显得极为重要。故孔子才说：“名不正则言不 顺，言不顺则事不成”。</span>
+                >经济是一个很抽象的词语，因为抽象，所以怎么解释都行。你可以说发展经济是休养生息，也可以说大兴土木，也可以说自给自足，也可以说互通有无，也可以说烧杀抢掠，也可以说坑蒙拐骗。反正这些方式都是古往今来各个国家民族获取财富时经常用到的手段，所以说，经济学不是一门学科，而是所有学科的总和。或者说根本就不是学科，如果非要以如今人们对于经济的理解去研究什么经济学，还不如去研究上帝要来的靠谱一些。
+                  老子说：“名可名也，非恒名也”，如果看待一样事物仅仅局限于名称，那么你远得不出任何有价值的结论。但想要描述一件事物，又不得不利用名称，所以名称的准确性对于任一门学科都显得极为重要。故孔子才说：“名不正则言不
+                  顺，言不顺则事不成”。</span>
               </div>
             </div>
             <div class="Compere-introduction">
@@ -128,7 +153,7 @@
                   class="Compere-img"
                   src="https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike60%2C5%2C5%2C60%2C20/sign=dd99e97fd62a6059461de948495d5ffe/a686c9177f3e670945ab40493ac79f3df9dc55d8.jpg"
                   alt
-                />
+                >
                 <p class="Compere-name">李连杰</p>
                 <p class="Compere-data">(1983年6月1日生)</p>
                 <span
@@ -184,23 +209,28 @@ export default {
       value3: null,
       value4: null,
       value5: null,
-      textarea: "",
-      currentPage: 4
-    };
+      textarea: '',
+      currentPage: 4,
+      data: []
+    }
+  },
+  created() {
+    this.data = this.$route.query.list
+    console.log(this.data)
   },
   methods: {
     esc() {
-      this.$router.go(-1);
-      console.log(this.$route.query.list);
+      this.$router.go(-1)
+      // console.log(this.$route.query.list)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      console.log(`每页 ${val} 条`)
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      console.log(`当前页: ${val}`)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .Comment {
@@ -352,17 +382,21 @@ export default {
           }
         }
         .Course-content {
-          padding: 25px;
+          padding: 40px;
           padding-top: 0px;
-          height: 512px;
+          height: 501px;
           overflow: hidden;
           text-overflow: ellipsis;
           .content-text {
-            font-size: 18px;
+            font-size: 15px;
             font-family: Source Han Sans CN;
             font-weight: bold;
             color: rgba(125, 125, 127, 1);
             line-height: 38px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 13;
+            text-overflow: ellipsis;
           }
         }
       }
@@ -416,7 +450,7 @@ export default {
           }
           .Compere-text {
             height: 161px;
-            font-size: 18px;
+            font-size: 15px;
             padding-right: 20px;
             overflow: hidden;
             font-family: Source Han Sans CN;
@@ -469,7 +503,7 @@ export default {
           }
         }
         .download {
-            margin:15px;
+          margin: 15px;
           .download-name {
             color: #7d7d7f;
             font-size: 18px;

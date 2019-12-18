@@ -4,7 +4,7 @@
       <el-col :lg="8" style="padding-right:4px;">
         <div class="Teacher-application">
           <div class="application-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">我的应用</p>
           </div>
           <MyApplication />
@@ -13,7 +13,7 @@
       <el-col :xs="24" :sm="24" :lg="8" style="padding-right:4px;">
         <div class="Examination-score">
           <div class="score-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">考评得分</p>
           </div>
           <PieChart />
@@ -24,7 +24,7 @@
         style="padding-left:4px;position: absolute;top: 0px;right: -14px;"
       >
         <div class="Teacher-date" style="background:#fff;height:354px;position:relative;">
-          <UCalendar></UCalendar>
+          <UCalendar />
         </div>
       </el-col>
     </el-row>
@@ -32,7 +32,7 @@
       <el-col :xs="24" :sm="24" :lg="5" style="padding-right:4px;margin-top:-59px;">
         <div class="Master-Resources">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">教学资源</p>
           </div>
           <raddar-chart />
@@ -41,7 +41,7 @@
       <el-col :xs="24" :sm="24" :lg="3" style="padding-right:4px;margin-top:-59px;">
         <div class="Master-duty">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">值日生</p>
           </div>
           <div class="duty-content">
@@ -51,7 +51,7 @@
                   <img
                     src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                     alt
-                  />
+                  >
                   <P>张家辉</P>
                 </div>
               </li>
@@ -67,7 +67,7 @@
       >
         <div class="Master-table">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">今日课表</p>
           </div>
           <Timetable />
@@ -81,7 +81,7 @@
         <div class="Teacher-date" style="background:#fff;position:relative;">
           <div class="Master-mail">
             <div class="Master-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p class="title-text">班级通讯录</p>
             </div>
             <div class="mail-content">
@@ -90,7 +90,7 @@
                   <img
                     src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                     alt
-                  />
+                  >
                   <p>张家辉</p>
                   <p>
                     <i class="el-icon-phone" />13333333333
@@ -114,7 +114,7 @@
       >
         <div class="Master-tsk">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">班级作业</p>
           </div>
           <div class="radar-title">
@@ -132,7 +132,7 @@
       >
         <div class="Master-attendance">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">班级考勤统计</p>
           </div>
           <APieChart />
@@ -148,7 +148,7 @@
       >
         <div class="Master-notice">
           <div class="Master-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <p class="title-text">学校通知</p>
           </div>
           <div class="notice-content">
@@ -166,20 +166,21 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import GithubCorner from "@/components/GithubCorner";
-import UCalendar from "@/components/Calendar/UCalendar";
-import Timetable from "@/components/Timetable/Timetable";
-import PieChart from "./components/PieChart";
-import RaddarChart from "./components/RaddarChart";
-import PieChard from "../Teacher/components/PieChard";
-import APieChart from "../admin/components/APieChart";
+import { mapGetters } from 'vuex'
+import GithubCorner from '@/components/GithubCorner'
+import UCalendar from '@/components/Calendar/UCalendar'
+import Timetable from '@/components/Timetable/Timetable'
+import PieChart from './components/PieChart'
+import RaddarChart from './components/RaddarChart'
+import PieChard from '../Teacher/components/PieChard'
+import APieChart from '../admin/components/APieChart'
 import MyApplication from '@/components/MyApplication/MyApplication'
 
 export default {
-  name: "DashboardAdmin",
+  name: 'DashboardAdmin',
   components: {
-    ...mapGetters(["name", "avatar", "roles"]),
+    ...mapGetters(['name', 'avatar', 'roles']),
+    // eslint-disable-next-line vue/no-unused-components
     GithubCorner,
     UCalendar,
     Timetable,
@@ -192,14 +193,14 @@ export default {
   data() {
     return {
       // lineChartData: lineChartData.newVisitis
-    };
+    }
   },
   methods: {
     // handleSetLineChartData(type) {
     //   this.lineChartData = lineChartData[type]
     // }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

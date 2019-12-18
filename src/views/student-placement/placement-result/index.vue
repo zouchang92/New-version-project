@@ -1,45 +1,59 @@
 <template>
   <div class="table-container">
     <div class="basic-container">
-      <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
-        <template slot="sexRatio" slot-scope="scope" >
-          {{scope.row.boyQty}}/{{scope.row.girlQty}}
+      <avue-crud
+        ref="crud"
+        v-model="obj"
+        :permission="permission"
+        row-key="id"
+        :table-loading="tableListLoading"
+        :page="page"
+        :data="tableList"
+        :option="option"
+        @search-change="searchChange"
+        @selection-change="selectChange"
+        @size-change="pageSizeChange"
+        @current-change="currentPageChange"
+        @row-del="singleDel"
+      >
+        <template slot="sexRatio" slot-scope="scope">
+          {{ scope.row.boyQty }}/{{ scope.row.girlQty }}
         </template>
-            <template slot="searchMenu">
-              <el-button @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
-            </template>
-            <template slot-scope="scope" slot="menu">
-              <el-button @click="showResult(scope.row.orgId)" type="text" size="small">查看结果</el-button>
-              <el-button type="text" size="small">导出结果</el-button>
-            </template>
-           </avue-crud>
+        <template slot="searchMenu">
+          <el-button type="danger" icon="el-icon-delete" size="small" @click="batchDel()">批量删除</el-button>
+          <el-button type="info" icon="el-icon-refresh" size="small" circle />
+        </template>
+        <template slot="menu" slot-scope="scope">
+          <el-button type="text" size="small" @click="showResult(scope.row.orgId)">查看结果</el-button>
+          <el-button type="text" size="small">导出结果</el-button>
+        </template>
+      </avue-crud>
     </div>
     <el-dialog :visible.sync="resultDialog.visible" title="分班结果">
-       <div>
-         <el-table :data="resultDialog.data">
-           <el-table-column
-             prop="organId"
-             label="班级"
-             width="180">
-           </el-table-column>
-           <el-table-column
-             prop="userName"
-             label="学生姓名"
-             width="180">
-           </el-table-column>
-           <el-table-column
-             prop="gender"
-             label="性别"
-             width="180">
-           </el-table-column>
-           <el-table-column
-             prop="credNum"
-             label="身份证号"
-             width="180">
-           </el-table-column>
-         </el-table>
-       </div>
+      <div>
+        <el-table :data="resultDialog.data">
+          <el-table-column
+            prop="organId"
+            label="班级"
+            width="180"
+          />
+          <el-table-column
+            prop="userName"
+            label="学生姓名"
+            width="180"
+          />
+          <el-table-column
+            prop="gender"
+            label="性别"
+            width="180"
+          />
+          <el-table-column
+            prop="credNum"
+            label="身份证号"
+            width="180"
+          />
+        </el-table>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -49,6 +63,8 @@ import { queryOrgClass } from '@/api/studentPlaceMentApi'
 import { queryStudent } from '@/api/studentManageApi'
 import { getOrgan } from '@/utils'
 export default {
+  name: 'PlacementResult',
+  mixins: [tableCommon],
   data() {
     return {
       fn: queryOrgClass,
@@ -66,7 +82,7 @@ export default {
         data: [],
         loading: false,
         obj: {
-          
+
         },
         page: {
           page: 1,
@@ -89,10 +105,10 @@ export default {
             value: 'id'
           },
           searchSpan: 8,
-          span: 24,
-        },  {
+          span: 24
+        }, {
           label: '班级人数',
-          prop: 'studentQty',
+          prop: 'studentQty'
         }, {
           label: '男女比例',
           prop: 'sexRatio',
@@ -104,15 +120,15 @@ export default {
       }
     }
   },
-  mixins: [tableCommon],
-  name: 'placementResult',
   methods: {
     async showResult(orgId) {
       this.resultDialog.visible = true
       this.resultDialog.organId = orgId
       try {
-        let result = await this.getResult()
-      } catch(err) {
+        // eslint-disable-next-line no-unused-vars
+        const result = await this.getResult()
+      // eslint-disable-next-line no-empty
+      } catch (err) {
 
       }
     },
@@ -120,7 +136,7 @@ export default {
       this.resultDialog.loading = true
       const { organId, page } = this.resultDialog
       try {
-        let res = await queryStudent({organId, page: page.page, rows: page.rows})
+        const res = await queryStudent({ organId, page: page.page, rows: page.rows })
         this.resultDialog = {
           ...this.resultDialog,
           data: res.data.list,
@@ -132,14 +148,14 @@ export default {
           loading: false
         }
         return res
-      } catch(err) {
+      } catch (err) {
         console.log(err)
         this.resultDialog.loading = false
       }
-    },
+    }
   }
 }
 </script>
 <style lang="">
-  
+
 </style>

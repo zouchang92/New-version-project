@@ -10,7 +10,7 @@
         style="margin-top: -189px;padding-left:25px;position:relative;"
       >
         <div class="chart-wrapper">
-          <p class="u-line"></p>
+          <p class="u-line" />
           <span>校本资源</span>
           <raddar-chart />
         </div>
@@ -18,17 +18,17 @@
       <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="f-reported-l" style="padding:0px">
         <div class="f-reported">
           <div class="reported-title">
-            <p class="u-line"></p>
+            <p class="u-line" />
             <el-badge :value="4">
               <span>待上报</span>
             </el-badge>
             <div class="reported-election">
               <el-tooltip class="item" effect="light" content="批量上报" placement="bottom">
-                <el-checkbox class="Batch-pass" v-model="checkAll" @change="handleCheckAllChange">
-                  <i style="font-size: 20px;" class="el-icon-document-copy"></i>
+                <el-checkbox v-model="checkAll" class="Batch-pass" @change="handleCheckAllChange">
+                  <i style="font-size: 20px;" class="el-icon-document-copy" />
                 </el-checkbox>
               </el-tooltip>
-              <el-button type="text" @click="showmore()" class="repoted-more">
+              <el-button type="text" class="repoted-more" @click="showmore()">
                 更多
                 <i class="more-icon">>></i>
               </el-button>
@@ -39,12 +39,12 @@
               <li v-for="(city,inedx) in cities" :key="inedx">
                 <el-checkbox-group
                   v-model="checkedCities"
-                  @change="handleCheckedCitiesChange"
                   style="padding-top:5px;padding-left:5px"
+                  @change="handleCheckedCitiesChange"
                 >
                   <el-checkbox :label="city">
-                    <p class="u-content-p">{{city.content}}</p>
-                    <p class="u-content-date" style="float:right">{{city.date}}</p>
+                    <p class="u-content-p">{{ city.content }}</p>
+                    <p class="u-content-date" style="float:right">{{ city.date }}</p>
                   </el-checkbox>
                 </el-checkbox-group>
               </li>
@@ -90,7 +90,7 @@
       </el-col>
       <el-col :xs="8" :sm="8" :lg="8" :xl="8" class="f-Students-attendance" style="padding:0px;">
         <div class="Students-attendance">
-          <p class="u-line"></p>
+          <p class="u-line" />
           <span>学生考勤状况</span>
           <box-card />
         </div>
@@ -121,7 +121,7 @@
               <el-tab-pane label="安全预警">
                 <div class="Information-content">
                   <ul class="bulletin-content">
-                    <li v-for="(city,index) in cities" :key="index">
+                    <li v-for="(city,index) in data" :key="index">
                       <p class="Information-content-p">{{ city.content }}</p>
                       <p class="Information-content-date">{{ city.date }}</p>
                     </li>
@@ -133,7 +133,7 @@
         </div>
       </el-col>
     </el-row>
-    <el-dialog title="待上报"  :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
+    <el-dialog title="待上报" :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
       <div>
         <div class="u-reported-content">
           <ul class="u-content">
@@ -173,23 +173,25 @@ const cityOptions = [
     date: '2019-09-01'
   },
   {
-    content: "2019年教育工作调研报告",
-    date: "2019-09-08"
+    content: '2019年教育工作调研报告',
+    date: '2019-09-08'
   },
   {
-    content: "谋求大发展,铸就新辉煌",
-    date: "2019-09-14"
+    content: '谋求大发展,铸就新辉煌',
+    date: '2019-09-14'
   },
   {
-    content: "2019年年度教学总结",
-    date: "2019-09-29"
+    content: '2019年年度教学总结',
+    date: '2019-09-29'
   }
-];
+]
 export default {
-  name: "DashboardAdmin",
+  name: 'DashboardAdmin',
   components: {
     PanelGroup,
+    // eslint-disable-next-line vue/no-unused-components
     BarChart,
+    // eslint-disable-next-line vue/no-unused-components
     TodoList,
     BoxCard,
     APieChart,
@@ -200,19 +202,21 @@ export default {
       checkAll: false,
       dialogVisible: false,
       cities: cityOptions,
+      data: [{ content: '火灾预警', date: '2019-12-11' }],
       checkedCities: [],
       isIndeterminate: true,
       list: [
-        { title: "01 计算机协会", name: "李华", state: "进行中" },
-        { title: "02 口语协会", name: "李华", state: "进行中" },
-        { title: "03 计算机协会", name: "李华", state: "进行中" },
-        { title: "04 电子应用与计算机协会", name: "李华", state: "未开始" }
+        { title: '01 计算机协会', name: '李华', state: '进行中' },
+        { title: '02 口语协会', name: '李华', state: '进行中' },
+        { title: '03 计算机协会', name: '李华', state: '进行中' },
+        { title: '04 电子应用与计算机协会', name: '李华', state: '未开始' }
       ],
-      activeName: "first"
-    };
+      activeName: 'first'
+    }
   },
   methods: {
     handleSetLineChartData(type) {
+      // eslint-disable-next-line no-undef
       this.lineChartData = lineChartData[type]
     },
     handleCheckAllChange(val) {
@@ -220,7 +224,7 @@ export default {
       this.isIndeterminate = false
     },
     handleCheckedCitiesChange(value) {
-      let checkedCount = value.length
+      const checkedCount = value.length
       console.log(checkedCount)
       this.checkAll = checkedCount === this.cities.length
       this.isIndeterminate =
@@ -229,22 +233,24 @@ export default {
     handleClick(tab, event) {
       // console.log(tab, event);
     },
-    showmore(){
+    showmore() {
       this.dialogVisible = true
     },
     handleClose(done) {
-      this.$confirm("确认关闭？")
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     color(col) {
-      if (col.state == "进行中") return "#42BC9F";
-      if (col.state == "未开始") return "#000";
+      // eslint-disable-next-line eqeqeq
+      if (col.state == '进行中') return '#42BC9F'
+      // eslint-disable-next-line eqeqeq
+      if (col.state == '未开始') return '#000'
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

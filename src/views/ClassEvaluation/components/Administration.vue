@@ -5,141 +5,186 @@
         性质:
         <el-select v-model="value" placeholder="请选择年级">
           <el-option
-            v-for="item in options"
-            :key="item.value"
+            v-for="(item,index) in options"
+            :key="index.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </div>
       <div class="type">
         类型:
         <el-select v-model="value1" placeholder="请选择科目">
           <el-option
-            v-for="item in options1"
-            :key="item.value"
+            v-for="(item,index) in options1"
+            :key="index.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </div>
       <div style="height:32px;margin-left:23px;margin-top:24px;">
-        <el-button type="primary" icon="el-icon-search" size="small">搜索</el-button>
-        <el-button type="success" icon="el-icon-plus" size="small">新建</el-button>
-        <el-button type="warning" icon="el-icon-printer" size="small">导入</el-button>
-        <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="small"
+        >搜索</el-button>
+        <el-button
+          type="success"
+          icon="el-icon-plus"
+          size="small"
+        >新建</el-button>
+        <el-button
+          type="warning"
+          icon="el-icon-printer"
+          size="small"
+        >导入</el-button>
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          size="small"
+        >批量删除</el-button>
       </div>
     </div>
     <div class="content">
-      <div class="content-text" v-for="(item,i) in List" :key="i">
-        <div class="content-top"  @click="open">
-          <video :src="item.review.resources"></video>
+      <div v-for="(item, index) in List" :key="index" class="content-text">
+        <div
+          :id="item.statistical.reviewId"
+          class="content-top"
+          @click="open(item.statistical.reviewId)"
+        >
+          <img
+            class="content-img"
+            src="http://www.cisau.com.cn/UploadFiles/2014/310/2014052810113425765.jpg"
+          >
+          <img class="play-img" src="../../../assets/bf_icon_slices/bf_icon@2x.png" alt="">
         </div>
         <div class="content-bottom">
-          <img src="" alt />
+          <img src="" alt>
           <p>123</p>
           <p class="number">
-            <i class="el-icon-chat-dot-square"></i>
+            <i class="el-icon-chat-dot-square" />
             123
           </p>
           <p class="people">
-            <i class="el-icon-s-custom">{{item.statistical.evaluationNum}}</i>
+            <i class="el-icon-s-custom">{{ item.statistical.evaluationNum }}</i>
           </p>
           <el-popover placement="top" width="120" trigger="click">
             <div class="Open" style="display:flex;">
               <p
                 class="edit"
                 style="margin:0px;padding: 4px 5px 0px 0px;color:#1890FF;border-right: 1px solid #e8e8e8;"
-              >编辑</p>
+              >
+                编辑
+              </p>
               <p
                 style="margin:0px;padding: 4px 5px 0px 5px;color:#1890FF;border-right: 1px solid #e8e8e8;"
-              >删除</p>
+              >
+                删除
+              </p>
               <el-switch
-                style="margin-top:3px;margin-left: 10px;"
                 v-model="value2"
+                style="margin-top:3px;margin-left: 10px;"
                 active-color="#1890FF"
                 inactive-color="#ff4949"
-              ></el-switch>
+              />
             </div>
-            <p class="refer" slot="reference">...</p>
+            <p slot="reference" class="refer">...</p>
           </el-popover>
         </div>
       </div>
     </div>
     <footer class="content-footer">
       <el-pagination
-        background
-        layout="prev, pager, next"
+        :current-page.sync="currentPage2"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="100"
+        layout="sizes, prev, pager, next"
+        :total="100"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :total="100"
-      ></el-pagination>
+      />
     </footer>
   </div>
 </template>
 <script>
-import { ClassQuery } from "@/api/ClassEvaluationApi";
+// eslint-disable-next-line no-unused-vars
+import { ClassQuery, getDetail } from '@/api/ClassEvaluationApi'
 
 export default {
   data() {
     return {
       options: [
         {
-          value: "",
-          label: ""
+          value: '',
+          label: ''
         },
         {
-          value: "",
-          label: ""
+          value: '',
+          label: ''
         }
       ],
       options1: [
         {
-          value: "",
-          label: ""
+          value: '',
+          label: ''
         },
         {
-          value: "",
-          label: ""
+          value: '',
+          label: ''
         }
       ],
-      value: "",
-      value1: "",
+      value: '',
+      value1: '',
       List: [],
-      value2: true
-    };
+      List1: [],
+      value2: true,
+      currentPage2: 5
+    }
   },
   created() {
-    this.get();
+    this.get()
   },
   methods: {
     handleSizeChange(val) {
-      console.log(val);
+      console.log(val)
     },
     handleCurrentChange(val) {
-      console.log(val);
+      console.log(val)
     },
     async get() {
       try {
-        let page = 1;
-        let rows = 1000;
-        let list = await ClassQuery({ page, rows });
-        this.List = list.data.list;
-        console.log(this.List);
+        const page = 1
+        const rows = 1000
+        const list = await ClassQuery({ page, rows })
+        this.List = list.data.list
+        console.log(this.List)
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     },
-    open(){
-        this.$router.push({ 
-          path:'/comment/index',
-            query:{
-              list:this.List
-            }
-          })
+    async open(e) {
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const reviewId = e
+        console.log(reviewId)
+        // eslint-disable-next-line no-unused-vars
+        const a = await getDetail({ reviewId })
+        this.List1 = a.data
+        console.log(this.List1)
+        this.$router.push({
+          path: '/comment/index',
+          query: {
+            list: this.List1
+          }
+        })
+        console.log(this.List1)
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .Administration {
@@ -174,6 +219,22 @@ export default {
         height: 174px;
         opacity: 0.4;
         border-radius: 2px;
+        opacity: 1;
+        &:hover{
+          .play-img{
+            opacity: 1;
+          }
+          }
+        .content-img {
+          height: 173px;
+          width: 316px;
+        }
+        .play-img{
+          position: absolute;
+          top: 70px;
+          left: 132px;
+          opacity: 0.3;
+        }
       }
       .content-bottom {
         width: 316px;
