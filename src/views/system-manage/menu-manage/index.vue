@@ -20,11 +20,11 @@
                 <el-button icon="el-icon-delete" @click="deleteMenu" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
               </el-form-item>
             </el-form>
-            <el-form label-width="80px" label-position="right" size="small">
-              <el-form-item label="菜单名称">
+            <el-form ref="form" :model="formData" :rules="rules" label-width="80px" label-position="right" size="small">
+              <el-form-item label="菜单名称" prop="name">
                 <el-input v-model="formData.name"></el-input>
               </el-form-item>
-              <el-form-item label="菜单编码">
+              <el-form-item label="菜单编码" prop="menuUrl">
                 <el-input v-model="formData.menuUrl"></el-input>
               </el-form-item>
               <el-form-item label="上级菜单">
@@ -115,6 +115,16 @@ export default {
         data: []
       },
       treeData: [],
+      rules: {
+        name: {
+          required: true,
+          message: '菜单名称是必填项'
+        },
+        menuUrl: {
+          required: true,
+          message: '菜单编码是必填项'
+        }
+      },
       treeOption: {
         expandAll: false,
         addBtn: false,
@@ -152,15 +162,17 @@ export default {
     },
     async organSubmit() {
       this.updateLoading = true
-      try {
-        if (this.mode === 'add') {
-          if (!this.formData.parentId) {
-            this.formData.parentId = 'root'
-          }
-          await addMenu(this.formData)
-          this.$message.success('添加成功')
-        } else {
-          await updateMenu(this.formData)
+      this.$refs['form'].validate(async (valid) => {
+        if (valid) {
+          try {
+            if (this.mode === 'add') {
+              if (!this.formData.parentId) {
+                this.formData.parentId = 'root'
+              }
+              await addMenu(this.formData)
+              this.$message.success('添加成功')
+            } else {
+              await updateMenu(this.formData)
           if (this.selectedButtons.length) {
             await menuBindButtons({
               id: this.formData.id,
@@ -171,9 +183,15 @@ export default {
         }
         this.updateLoading = false
         this.getMenuTree()
-      } catch(err) {
-        this.updateLoading = false
-      }
+        } catch(err) {
+          this.updateLoading = false
+        }
+        } else {
+          this.updateLoading = false
+        }
+      })
+      
+      
       
     },
     async queryBtns(id) {
@@ -223,7 +241,6 @@ export default {
       }
     },
     nodeClick(e) {
-      this.mode = 'edit'
       this.searchForm = {
         ...this.searchForm,
         id: e.id
@@ -235,7 +252,7 @@ export default {
         menuIcon: this.mode === 'add' ? '' : e.menuIcon,
         description: this.mode === 'add' ? '' : e.description,
         id: e.id,
-        sort: e.sort,
+        sort: this.mode === 'add' ? '' : e.sort,
         hasChildren: e.child.length > 0,
         threeMenu: e.threeMenu ? true : false
       }

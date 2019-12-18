@@ -1,21 +1,22 @@
 import request from '@/utils/request'
 
 
-export function queryBtns({name, page, rows}) {
+export function queryBtns({name, buttonCode, page, rows}) {
   return request({
     url: '/zhxyx/menu/listButtons',
     method: 'post',
     data: {
       name, 
       page, 
-      rows
+      rows,
+      buttonCode
     }
   })
 }
 
 export function addBtn({name, icon, description, buttonCode}) {
   return request({
-    url: 'zhxyx/menu/insertButton',
+    url: '/zhxyx/menu/insertButton',
     method: 'post',
     data: {
       name, 

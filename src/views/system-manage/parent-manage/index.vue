@@ -84,7 +84,18 @@ export default {
             searchSpan: 4,
             rules: {
               required: true,
-              message: '姓名'
+              message: '姓名是必填项'
+            },
+          },
+          {
+            label:'账号',
+            prop:'loginName',
+            span: 24,
+            search: true,
+            searchSpan: 4,
+            rules: {
+              required: true,
+              message: '账号是必填项'
             },
           },
           {

@@ -1,18 +1,19 @@
 import request from '@/utils/request'
 
-export function queryParent({ page, rows, userName }) {
+export function queryParent({ page, rows, userName, loginName }) {
   return request({
     url: '/zhxyx/parent/list',
     method: 'post',
     data: {
       page, 
       rows,
-      userName
+      userName,
+      loginName
     }
   })
 }
 
-export function updateParent({ id, userName, gender, tel, facePicFile, credNum }) {
+export function updateParent({ id, userName, gender, tel, facePicFile, credNum, loginName }) {
   return request({
     url: '/zhxyx/parent/update',
     method: 'post',
@@ -22,12 +23,13 @@ export function updateParent({ id, userName, gender, tel, facePicFile, credNum }
       gender, 
       tel, 
       facePicFile, 
-      credNum
+      credNum,
+      loginName
     }
   })
 }
 
-export function addParent({ id = '', userName, gender, tel, facePicFile, credNum }) {
+export function addParent({ id = '', userName, gender, tel, facePicFile, credNum, loginName }) {
   return request({
     url: '/zhxyx/parent/insert',
     method: 'post',
@@ -37,7 +39,8 @@ export function addParent({ id = '', userName, gender, tel, facePicFile, credNum
       gender, 
       tel, 
       facePicFile, 
-      credNum
+      credNum,
+      loginName
     }
   })
 }
