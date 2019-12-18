@@ -5,13 +5,37 @@
           <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-              <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
+              <el-button v-if="permission.import" @click="importClick" type="warning" icon="el-icon-download" size="small">导入</el-button>
+              <el-button v-if="permission.export" @click="exportExcel(`${baseUrl}zhxyx/teacher/export
+`, ['organId', 'userName'])" type="warning" icon="el-icon-download" size="small">导出</el-button>
               <el-button v-if="permission.batchDelBtn" @click="batchDel()" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+              <el-button @click="initList()" type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
       </div>
-     
+     <el-dialog title="老师导入" :visible.sync="importDialog">
+        <el-form>
+          <el-form-item label="下载模板">
+            <a style="color: blue" :href="`${baseUrl}/zhxyx/res/mod/教师档案.xlsx`">下载模板</a>
+          </el-form-item>
+          <el-form-item label="上传">
+            <el-upload
+              :on-change="handleChange"
+              :file-list="fileList"
+              :auto-upload="false"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              :limit="1"
+              ref="upload"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button :loading="importObj.importLoading" type="primary" @click="importTeacher">导入</el-button>
+          <el-button @click="importDialog = false">取消</el-button>
+        </span>
+      </el-dialog>  
     </div>
   </div>
 </template>
@@ -20,7 +44,7 @@
 import tableCommon from '@/mixins/table-common'
 import { getOrgan, getDictById } from '@/utils'
 import permission from '@/mixins/permission'
-import { queryTeacher, addTeacher, updateTeacher, deleteTeacher, deleteTeachers } from '@/api/teacherManageApi'
+import { queryTeacher, addTeacher, updateTeacher, deleteTeacher, deleteTeachers, importTeacher } from '@/api/teacherManageApi'
 const genderDict = getDictById('gender')
 const curStatusDict = getDictById('curStatus')
 export default {
@@ -35,6 +59,13 @@ export default {
       delFn: deleteTeachers,
       singleDelFn: deleteTeacher,
       data: [],
+      importDialog: false,
+      baseUrl: process.env.VUE_APP_BASE_API,
+      fileObj: '',
+      fileList: [],
+      importObj: {
+        importLoading: false
+      },
       option: {
         
         column: [
@@ -51,6 +82,7 @@ export default {
             rules: {
               required: true,
             },
+            search: true,
             span: 12,
           },
           {
@@ -226,6 +258,37 @@ export default {
     console.log(this)
   },
   methods: {
+    handleChange(e) {
+      this.fileObj = e.raw
+    },
+    importClick() {
+      this.importDialog = true
+    },
+    async importTeacher() {
+      this.importObj.importLoading = true
+      if (!this.fileObj) {
+        this.$confirm('请选择文件', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        this.importObj.importLoading = false
+        this.$refs.upload.clearFiles()
+        return
+      }
+      try {
+        let formData = new FormData()
+        formData.append('file', this.fileObj)
+        let res = await importTeacher(formData)
+        await this.resetList()
+        this.$refs.upload.clearFiles()
+        this.$message.success('导入成功')
+        this.fileObj = ''
+        this.importObj.importLoading = false
+      } catch(err) {
+        this.importObj.importLoading = false
+      }
+    },
     handleAdd() {
       this.$refs.crud.rowAdd()
     },

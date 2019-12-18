@@ -239,8 +239,10 @@ export default {
       try {
         if (this.rootMode === 'add') {
           await addDict(data)
+          this.$message.success('添加成功')
         } else if (this.rootMode === 'edit') {
           await updateDict(data)
+          this.$message.success('更新成功')
         }
         await this.getDictTree()
         done()
@@ -294,6 +296,7 @@ export default {
       const { id, parentId, name, sort, uniqueName } = data
       try {
         await addDict({ id, name, sort, dict_id: parentId, uniqueName })
+        this.$message.success('添加成功')
         done()
       } catch(err) {
 
@@ -319,6 +322,7 @@ export default {
       try {
         let result = await updateDict(row)
         await this.resetList()
+        this.$message.success('更新成功')
         this.refreshDictStore()
         done()
       } catch(err) {
@@ -333,7 +337,9 @@ export default {
           type: 'warning'
         })
         await deleteDict(data.id)
+        this.$message.success('删除成功')
         await this.getDictTree()
+        
         this.refreshDictStore()
       } catch(err) {
 

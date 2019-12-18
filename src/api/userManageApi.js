@@ -1,13 +1,13 @@
 import request from '@/utils/request'
 
-export function queryUsers({ page, rows, account = '', name = '', organId = '', status = '' }) {
+export function queryUsers({ page, rows, account = '', userName = '', organId = '', status = '' }) {
   return request({
     url: '/zhxyx/account/queryAll',
     data: {
       page,
       rows,
       account,
-      name,
+      userName,
       organId,
       status
     },

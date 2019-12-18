@@ -1,12 +1,13 @@
 import request from '@/utils/request'
 
-export function queryParent({ page, rows }) {
+export function queryParent({ page, rows, userName }) {
   return request({
     url: '/zhxyx/parent/list',
     method: 'post',
     data: {
       page, 
-      rows
+      rows,
+      userName
     }
   })
 }
@@ -58,5 +59,13 @@ export function delParents(id) {
     data: {
       id
     }
+  })
+}
+
+export function importParent(formData) {
+  return request({
+    url: '/zhxyx/parent/import',
+    method: 'post',
+    data: formData
   })
 }

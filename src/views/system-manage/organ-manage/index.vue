@@ -11,7 +11,8 @@
             <el-card>
              <el-form>
                  <el-form-item>
-                   <el-button :icon="mode === 'add' ? 'el-icon-plus' : 'el-icon-edit'" @click="changeMode" style="height: 32px;line-height: 12px" size="medium" type="primary">{{mode === 'add' ? '添加模式' : '编辑模式'}}</el-button>
+                   <el-button icon="el-icon-plus" @click="changeMode('add')" style="height: 32px;line-height: 12px" size="medium" type="primary">添加</el-button>
+                   <el-button icon="el-icon-edit" @click="changeMode('edit')" style="height: 32px;line-height: 12px" size="medium" type="primary">编辑</el-button>
                    <el-button v-if="permission.delBtn" icon="el-icon-delete" @click="deleteOrgan" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
                    <el-button v-if="permission.oneKeyUpdate" icon="el-icon-top" style="height: 32px;line-height: 12px" size="medium" type="warning">一键升级</el-button>
                  </el-form-item>
@@ -102,6 +103,7 @@ export default {
           type: 'warning'
         })
         await deleteOrgan(this.formData.id)
+        this.$message.success('删除成功')
         this.getOrganTree()
       } catch(err) {
 
@@ -112,8 +114,10 @@ export default {
       try {
         if (this.mode === 'add') {
           await insertOrgan(this.formData)
+          this.$message.success('添加成功')
         } else {
           await updateOrgan(this.formData)
+          this.$message.success('更新成功')
         }
         this.updateLoading = false
         this.getOrganTree()
@@ -123,11 +127,16 @@ export default {
       }
       
     },
-    changeMode() {
-      if (this.mode === 'add') {
-        this.mode = 'edit'
-      } else {
-        this.mode = 'add'
+    changeMode(mode) {
+      this.mode = mode
+      if (mode === 'add') {
+        this.formData = {
+          ...this.formData,
+          orgName: '',
+          orgCode: '',
+          description: '',
+          orgType: ''
+        }
       }
     },
     nodeClick(e) {
@@ -136,10 +145,10 @@ export default {
         id: e.id
       }
       this.formData = {
-        orgName: e.orgName,
-        orgCode: e.orgCode,
-        description: e.description,
-        orgType: e.orgType,
+        orgName: this.mode === 'add' ? '' : e.orgName,
+        orgCode: this.mode === 'add' ? '' : e.orgCode,
+        description: this.mode === 'add' ? '' : e.description,
+        orgType: this.mode === 'add' ? '' : e.orgType,
         parentId: this.mode === 'add' ? e.id : e.parentId,
         id: e.id
       }
