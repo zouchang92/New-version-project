@@ -52,10 +52,17 @@ export default {
       this.dialogVisible = true;
     },
     openIn() {
+<<<<<<< HEAD
       this.$router.push({ name: "homePage" });
     },
     addNode() {
       console.log(123);
+=======
+      this.$router.push({ name: "homePage" })
+    },
+    addNode(){
+      console.log(123)
+>>>>>>> 90596433690e4426f6696ca023af612320c2a736
     },
     handleClose(done) {
       this.$confirm("确认关闭？")

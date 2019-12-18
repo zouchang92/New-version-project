@@ -11,7 +11,10 @@
           <el-card>
             <el-form :inline="true">
               <el-form-item>
-                <el-button :icon="mode === 'add' ? 'el-icon-plus' : 'el-icon-edit'" @click="changeMode" style="height: 32px;line-height: 12px" size="medium" type="primary">{{mode === 'add' ? '添加模式' : '编辑模式'}}</el-button>
+                <el-button icon="el-icon-plus" @click="changeMode('add')" style="height: 32px;line-height: 12px" size="medium" type="primary">添加</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button icon="el-icon-edit" @click="changeMode('edit')" style="height: 32px;line-height: 12px" size="medium" type="primary">编辑</el-button>
               </el-form-item>
               <el-form-item>
                 <el-button icon="el-icon-delete" @click="deleteMenu" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
@@ -136,6 +139,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
+        this.$message.success('删除成功')
         await deleteMenu(this.formData.id)
         await this.getMenuTree()
       } catch(err) {
@@ -154,6 +158,7 @@ export default {
             this.formData.parentId = 'root'
           }
           await addMenu(this.formData)
+          this.$message.success('添加成功')
         } else {
           await updateMenu(this.formData)
           if (this.selectedButtons.length) {
@@ -162,7 +167,7 @@ export default {
               buttons: this.selectedButtons
             })
           } 
-          
+          this.$message.success('更新成功')
         }
         this.updateLoading = false
         this.getMenuTree()
@@ -205,11 +210,9 @@ export default {
     addNewButton() {
       this.btnManage.dialogVisible = true
     },
-    changeMode() {
-      if (this.mode === 'add') {
-        this.mode = 'edit'
-      } else {
-        this.mode = 'add'
+    changeMode(mode) {
+      this.mode = mode
+      if (mode === 'add') {
         this.formData = {
           ...this.formData,
           menuUrl: '',

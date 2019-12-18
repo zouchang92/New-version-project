@@ -1,12 +1,13 @@
 import request from '@/utils/request'
 
-export const queryStudent = ({ page, rows, organId }) => {
+export const queryStudent = ({ page, rows, organId, curStatus }) => {
   return request({
     url: '/zhxyx/student/list',
     data: {
       page,
       rows,
-      organId
+      organId,
+      curStatus
     },
     method: 'post'
   })
@@ -47,5 +48,13 @@ export const delStudents = (ids) => {
     url: '/zhxyx/student/deletes',
     method: 'post',
     data: ids
+  })
+}
+
+export const importStudent = (formData) => {
+  return request({
+    url: '/zhxyx/teacher/import',
+    method: 'post',
+    data: formData
   })
 }

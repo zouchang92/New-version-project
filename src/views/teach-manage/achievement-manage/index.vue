@@ -14,7 +14,7 @@
         <avue-form ref="form" @submit="importScore" v-model="importObj" :option="importConfig">
           <template slot-scope="scope" slot="downloadTemplate">
             <div>
-              <a style="color: blue" :href="`${baseUrl}/template/stuScore_module.xlsx`" >下载模板</a>
+              <a style="color: blue" :href="`${baseUrl}/zhxyx/res/mod/stuScore_module.xlsx`" >下载模板</a>
             </div>
           </template>
         </avue-form>

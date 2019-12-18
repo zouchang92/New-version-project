@@ -14,14 +14,15 @@ export function queryDictList() {
   })
 }
 
-export function searchDictById({ id, page, rows }) {
+export function searchDictById({ id, page, rows, name }) {
   return request({
     url: '/zhxyx/dict/listDictItemByPid',
     method: 'post',
     data: {
       dictId: id,
       page, 
-      rows
+      rows,
+      name
     }
   })
 }
