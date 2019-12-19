@@ -46,6 +46,7 @@
             <div class="statistics-title">
               <p class="u-line" />
               <p class="title-text">社团统计</p>
+              <p class="title-more" @click="moreClub()">查看详情<i class="el-icon-d-arrow-right" /></p>
             </div>
             <div class="statistics-content">
               <ul>
@@ -176,6 +177,9 @@ export default {
   methods: {
     setActiveItem(index) {
       this.$refs.carousel.setActiveItem(index)
+    },
+    moreClub() {
+      this.$router.push('./Management1')
     }
   }
 }
@@ -246,6 +250,15 @@ export default {
 .Organization-statistics {
   .statistics-title {
     border-bottom: 1px solid #eff0f5;
+    .title-more{
+          position: absolute;
+          top: 6px;
+          font-size:19px;
+          font-family:Source Han Sans CN;
+          font-weight:300;
+          color:rgba(102,102,102,1);
+          line-height:24px;right: 28px;
+    }
   }
   .statistics-content {
     ul {

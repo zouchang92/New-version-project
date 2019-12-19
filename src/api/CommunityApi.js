@@ -21,7 +21,7 @@ export function addClub({ person, name, initTime, orgIds, description }) {
 export function delClub({ ids }) {
   return request({
     url: '/zhxyx/stClub/delete',
-    method: 'post',
+    method: 'get',
     data: {
       ids
     }

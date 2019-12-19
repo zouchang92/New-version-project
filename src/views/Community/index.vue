@@ -35,15 +35,15 @@ export default {
   },
   data() {
     return {
-      activeName: "first"
-    };
+      activeName: 'first'
+    }
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(tab, event)
     }
   }
-};
+}
 </script>
 <style>
 .Community-content .el-tabs__nav-wrap{
