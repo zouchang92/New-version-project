@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function queryUsers({ page, rows, account = '', userName = '', organId = '', status = '' }) {
+export function queryUsers({ page, rows, account = '', userName = '', organId = '', status = '', orgType = '' }) {
   return request({
     url: '/zhxyx/account/queryAll',
     data: {
@@ -9,7 +9,8 @@ export function queryUsers({ page, rows, account = '', userName = '', organId = 
       account,
       userName,
       organId,
-      status
+      status,
+      orgType
     },
     method: 'post'
   })

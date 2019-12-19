@@ -7,22 +7,22 @@ export function listMenuTree() {
   })
 }
 
-export function addMenu({ name, parentId, menuUrl, menuIcon, description, sort, threeMenu }) {
+export function addMenu({ name, parentId, menuUrl, menuIcon, description, sort, threeMenu, belongSystem }) {
   return request({
     url: '/zhxyx/menu/insertMenu',
     method: 'post',
     data: {
-      name, parentId, menuUrl, menuIcon, description, sort, threeMenu
+      name, parentId, menuUrl, menuIcon, description, sort, threeMenu, belongSystem
     }
   })
 }
 
-export function updateMenu({ name, parentId, menuUrl, menuIcon, description, sort, id, threeMenu }) {
+export function updateMenu({ name, parentId, menuUrl, menuIcon, description, sort, id, threeMenu, belongSystem }) {
   return request({
     url: '/zhxyx/menu/updateMenu',
     method: 'post',
     data: {
-      name, parentId, menuUrl, menuIcon, description, sort, id, threeMenu
+      name, parentId, menuUrl, menuIcon, description, sort, id, threeMenu, belongSystem
     }
   })
 }
