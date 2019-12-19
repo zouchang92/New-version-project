@@ -64,7 +64,7 @@
               <img src="@/assets/folder_icon.png" />
             </div>
             <div v-else>
-              <img v-if="item.fileType === 'jpeg' || item.fileType === 'png' || item.fileType === 'jpg' || item.fileType === 'gif' || item.fileType === 'svg'"  :src='baseUrl + item.filePath' />
+              <img v-if="item.fileType === 'jpeg' || item.fileType === 'png' || item.fileType === 'jpg' || item.fileType === 'gif' || item.fileType === 'svg'"  :src='baseUrl + item.filePath + item.name' />
               <img v-else :src="getIcon(item.fileType)" />
             </div>
             <label>{{item.name}}</label>
@@ -85,7 +85,7 @@
 <script>
 import _ from 'lodash'
 import { mapGetters } from 'vuex'
-import { querySubList, downloadFile, deleteFile, deleteFolder, queryRecyclerList, truncateFile, truncateDirectory } from '@/api/resourceManageApi'
+import { querySubList, downloadFile, deleteFile, deleteFolder, queryRecyclerList, queryMyFileList, truncateFile, truncateDirectory } from '@/api/resourceManageApi'
 import Abnor from '@/components/Abnor'
 import moment from 'moment'
 import VueContext from 'vue-context';
@@ -98,6 +98,11 @@ export default {
       bread: [],
       selection: [],
       baseUrl,
+      fnMap: {
+        normal: querySubList,
+        recycler: queryRecyclerList,
+        myFile: queryMyFileList
+      },
       contextFileMenuIndex: -1,
       contextFolderMenuIndex: -1,
       contextMenuType: {
@@ -108,6 +113,10 @@ export default {
         recycler: {
           file: 'recyclerMenu',
           folder: 'recyclerMenu'
+        },
+        myFile: {
+          file: 'fileMenu',
+          folder: 'folderMenu'
         }
       },
       itemClickTime: 0,
@@ -250,7 +259,7 @@ export default {
     },
     async getFolderFile(id) {
       this.loading = true
-      let fn = this.type === 'normal' ? querySubList : queryRecyclerList
+      let fn = this.fnMap[this.type]
       try {
         let res = await fn({parentId: id === 'root' ? '' : id})
         this.fileFilter(res.data)
@@ -262,7 +271,7 @@ export default {
         return res.data
       } catch(err) {
         this.loading = false
-        throw new Error()
+        throw new Error(err)
       }
     },
     filterType(files) {
@@ -312,7 +321,6 @@ export default {
 
     },
     fileFilter(file) {
-      console.log(this.filterType(file))
       this.currentFolder = this.filterType(file)
     },
     getIcon(type) {

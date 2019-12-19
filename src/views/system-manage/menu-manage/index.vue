@@ -27,6 +27,11 @@
               <el-form-item label="菜单编码" prop="menuUrl">
                 <el-input v-model="formData.menuUrl"></el-input>
               </el-form-item>
+              <el-form-item label="隶属系统" prop="belongSystem">
+                <el-select v-model="formData.belongSystem">
+                  <el-option v-for="(item, i) in systemDict" :key="i" :value="item.value" :label="item.label" />
+                </el-select>
+              </el-form-item>
               <el-form-item label="上级菜单">
                 <el-tree-select ref="treeSelect" :treeParams="treeParams" :data="treeData" v-model="formData.parentId"/>
               </el-form-item>
@@ -79,11 +84,14 @@
 import tableCommon from '@/mixins/table-common.js'
 import { listMenuTree, addMenu, updateMenu, deleteMenu, queryBtnByMenuId, menuBindButtons } from '@/api/menuManageApi'
 import { queryBtns } from '@/api/buttonManageApi'
-import { interArrayTree } from '@/utils'
+import { interArrayTree, getDictById } from '@/utils'
+
+const systemDict = getDictById('belongSystem')
 export default {
   name: 'menuManage',
   data() {
     return {
+      systemDict,
       mode: 'add',
       updateLoading: false,
       searchForm: {
@@ -101,6 +109,7 @@ export default {
         parentId: '',
         menuUrl: '',
         menuIcon: '',
+        belongSystem: '0',
         description: '',
         hasChildren: false,
         threeMenu: false,

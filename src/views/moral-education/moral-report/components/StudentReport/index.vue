@@ -34,6 +34,14 @@
           label="学号">
         </el-table-column>
         <el-table-column
+          prop="projectTitle"
+          label="一级指标">
+        </el-table-column>
+        <el-table-column
+          prop="projectItemTitle"
+          label="二级指标">
+        </el-table-column>
+        <el-table-column
           prop="score"
           label="德育得分">
         </el-table-column>

@@ -43,6 +43,10 @@
         </ul>
       </div>
     </div>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="handleSave">确定</el-button>
+      <el-button type="primary" @click="handleClose">取消</el-button>
+    </span>
   </el-dialog>
 </template>
 
@@ -65,14 +69,6 @@ export default {
       type: 'org',
       members: [],
       userLoading: false,
-      contextType: {
-        normal: {
-
-        },
-        recyler: {
-          
-        }
-      }
     }
   },
   props: {
@@ -114,7 +110,7 @@ export default {
       this.memberData = removeArray
     },
     handleClose() {
-      this.$emit('input',false)
+      this.$emit('input', false)
     },
     onBreadcrumbClick(item, i) {
       this.children = item.child
@@ -149,6 +145,7 @@ export default {
       }
     },
     handleSave() {
+      this.$emit('save', this.selectedValue)
       this.handleClose()
     }
   }
