@@ -67,7 +67,7 @@
             123
           </p>
           <p class="people">
-            <i class="el-icon-s-custom">{{ item.statistical.evaluationNum }}</i>
+            <i class="el-icon-s-custom">张三</i>
           </p>
           <el-popover placement="top" width="120" trigger="click">
             <div class="Open" style="display:flex;">

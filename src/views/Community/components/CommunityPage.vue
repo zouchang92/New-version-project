@@ -1,27 +1,32 @@
-  <template>
+<template>
   <div>
     <el-col style="background:#eee;height:1200px; margin-top: -15px;">
       <el-row :gutter="30" style="margin:17px;">
         <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14" style="height:513px;background:#fff">
           <div class="Wonderful-moment">
             <div class="moment-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p class="title-text">精彩瞬间</p>
             </div>
             <div class="moment-content">
               <el-row :gutter="30">
                 <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
                   <div class="item">
-                    <img style="width:407px;height:396px;" :src="dataList[currentIndex]" />
+                    <el-carousel ref="carousel" trigger="click" width="407px" height="396px">
+                      <el-carousel-item v-for="(item,index) in mess" :key="index" name="index">
+                        <img :src="item.img">
+                      </el-carousel-item>
+                    </el-carousel>
+                    <!-- <img style="width:407px;height:396px;" :src="dataList[currentIndex]"> -->
                   </div>
                 </el-col>
                 <el-col :xs="11" :sm="11" :md="11" :lg="11" :xl="11" style="padding-right:0px;">
                   <ul>
-                    <li v-for="(item,index) in mess" :key="index" @click="gotoPage(index)" :class="{'current':currentIndex == index}">
-                      <img style="width:58px;height:48px;border-radius:4px;" :src="item.img" alt />
-                      <p class="content-r">{{item.content}}</p>
-                      <span class="content-association">{{item.association}}</span>
-                      <span class="association-time">日期:{{item.time}}</span>
+                    <li v-for="(item,index) in mess" :key="index" :class="{'current':currentIndex == index}" @click="setActiveItem(index)">
+                      <img style="width:58px;height:48px;border-radius:4px;" :src="item.img" alt>
+                      <p class="content-r">{{ item.content }}</p>
+                      <span class="content-association">{{ item.association }}</span>
+                      <span class="association-time">日期:{{ item.time }}</span>
                     </li>
                   </ul>
                 </el-col>
@@ -39,7 +44,7 @@
         >
           <div class="Organization-statistics">
             <div class="statistics-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p class="title-text">社团统计</p>
             </div>
             <div class="statistics-content">
@@ -49,7 +54,7 @@
                     <img
                       src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                       alt
-                    />
+                    >
                     <p class="name">摄影社</p>
                     <p class="Person">负责人:李安</p>
                     <p class="grade">适用年级</p>
@@ -69,21 +74,21 @@
         <el-col :xs="7" :sm="7" :md="7" :lg="7" :xl="7" style="padding:0px;position:relative">
           <div class="Activity-statistics">
             <div class="Activity-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p
                 class="title-text"
                 style="margin:0px;padding-top: 5px;padding-left: 16px;padding-bottom:15px;"
               >活动统计</p>
             </div>
-            <div class="Activity-content" v-for="(item,i) in list" :key="i">
+            <div v-for="(item,i) in list" :key="i" class="Activity-content">
               <div class="content-title">
-                <span>{{item.title}}</span>
+                <span>{{ item.title }}</span>
               </div>
               <div class="content-name">
-                <span>{{item.name}}</span>
+                <span>{{ item.name }}</span>
               </div>
               <div class="content-state">
-                <span>{{item.state}}</span>
+                <span>{{ item.state }}</span>
               </div>
             </div>
           </div>
@@ -98,7 +103,7 @@
         >
           <div class="Payment-situation">
             <div class="situation-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p
                 class="title-text"
                 style="margin:0px;padding-top: 5px;padding-left: 15px;padding-bottom: 15px;"
@@ -114,70 +119,66 @@
   </div>
 </template>
 <script>
-import BoxCard from "./BoxCard";
+import BoxCard from './BoxCard'
 export default {
   components: {
     BoxCard
   },
   data() {
     return {
-      dataList: ["https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp,","https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=889b5d49c311728b302d8b24f0c7a4f3/eaf81a4c510fd9f98eb187b12b2dd42a2934a440.jpg", "https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=a5571170780e0cf3a0f749fd327d9522/cc11728b4710b912fdf94a9cc9fdfc0392452293.jpg","https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"],
-      currentIndex: 0, //默认显示图片
-      timer: null, //定时器
+      dataList: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1576730134813&di=4b1dbccdea66e8765463d46cdc6f1580&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D701741522%2C968032624%26fm%3D214%26gp%3D0.jpg', 'https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=889b5d49c311728b302d8b24f0c7a4f3/eaf81a4c510fd9f98eb187b12b2dd42a2934a440.jpg', 'https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=a5571170780e0cf3a0f749fd327d9522/cc11728b4710b912fdf94a9cc9fdfc0392452293.jpg', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1576730134813&di=4b1dbccdea66e8765463d46cdc6f1580&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D701741522%2C968032624%26fm%3D214%26gp%3D0.jpg'],
+      currentIndex: 0, // 默认显示图片
+      timer: null, // 定时器
       list: [
-        { title: "01 计算机协会", name: "李华", state: "进行中" },
-        { title: "02 口语协会", name: "李华", state: "进行中" },
-        { title: "03 计算机协会", name: "李华", state: "进行中" },
-        { title: "04 电子应用与计算机协会", name: "李华", state: "进行中" }
+        { title: '01 计算机协会', name: '李华', state: '进行中' },
+        { title: '02 口语协会', name: '李华', state: '进行中' },
+        { title: '03 计算机协会', name: '李华', state: '进行中' },
+        { title: '04 电子应用与计算机协会', name: '李华', state: '进行中' }
       ],
       mess: [
         {
           id: 0,
-          content: "社团与教师打乒乓球",
-          association: "乒乓球社",
-          time: "2019-10-01",
+          content: '社团与教师打乒乓球',
+          association: '乒乓球社',
+          time: '2019-10-01',
           img:
-            "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
+            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1576730134813&di=4b1dbccdea66e8765463d46cdc6f1580&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D701741522%2C968032624%26fm%3D214%26gp%3D0.jpg'
         },
         {
           id: 1,
-          content: "社团与教师打篮球",
-          association: "篮球社",
-          time: "2019-10-01",
+          content: '社团与教师打篮球',
+          association: '篮球社',
+          time: '2019-10-01',
           img:
-            "https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=889b5d49c311728b302d8b24f0c7a4f3/eaf81a4c510fd9f98eb187b12b2dd42a2934a440.jpg"
+            'https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=889b5d49c311728b302d8b24f0c7a4f3/eaf81a4c510fd9f98eb187b12b2dd42a2934a440.jpg'
         },
         {
           id: 2,
-          content: "社团与教师打乒乓球",
-          association: "乒乓球社",
-          time: "2019-10-03",
+          content: '社团与教师打乒乓球',
+          association: '乒乓球社',
+          time: '2019-10-03',
           img:
-            "https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=a5571170780e0cf3a0f749fd327d9522/cc11728b4710b912fdf94a9cc9fdfc0392452293.jpg"
+            'https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=a5571170780e0cf3a0f749fd327d9522/cc11728b4710b912fdf94a9cc9fdfc0392452293.jpg'
         },
         {
           id: 3,
-          content: "社团与教师打乒乓球",
-          association: "乒乓球社",
-          time: "2019-10-01",
+          content: '社团与教师打乒乓球',
+          association: '乒乓球社',
+          time: '2019-10-01',
           img:
-            "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
+            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1576730134813&di=4b1dbccdea66e8765463d46cdc6f1580&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D701741522%2C968032624%26fm%3D214%26gp%3D0.jpg'
         }
       ]
-    };
+    }
   },
-  created() {
-    this.gotoPage();
-  },
-  computed: {
-
-},
+  computed: {},
+  created() {},
   methods: {
-    gotoPage(index) {
-      this.currentIndex = index;
+    setActiveItem(index) {
+      this.$refs.carousel.setActiveItem(index)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .Wonderful-moment {
@@ -361,20 +362,4 @@ export default {
   }
 }
 </style>
-<style>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 150px;
-  margin: 0;
-}
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-</style>

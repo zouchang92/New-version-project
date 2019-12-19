@@ -168,15 +168,15 @@
               <div class="data-content">
                 <div style="color:#7D7D7F">
                   观看人数:
-                  <span style="color:red">111</span>
+                  <span style="color:red">33</span>
                 </div>
                 <div style="color:#7D7D7F;margin-top:10px;">
                   评论人数:
-                  <span style="color:red">111</span>
+                  <span style="color:red">3</span>
                 </div>
                 <div style="color:#7D7D7F;margin-top:10px;">
                   下载人数:
-                  <span style="color:red">111</span>
+                  <span style="color:red">6</span>
                 </div>
               </div>
             </div>
