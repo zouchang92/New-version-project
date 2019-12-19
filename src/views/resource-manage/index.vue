@@ -8,7 +8,7 @@
         </el-tab-pane>
         <el-tab-pane label="分享给我的" name="second">
           <div class="mortal-content" style="margin: 0 15px;">
-            <class-report />
+            <share-mine />
           </div>
         </el-tab-pane>
         <el-tab-pane label="公共资源" name="three">
@@ -28,6 +28,7 @@
 <script>
 import ResourceMine from './resource-mine'
 import Recycler from './recycler'
+import ShareMine from './share-mine'
 export default {
   name: 'moralReport',
   data() {
@@ -42,7 +43,8 @@ export default {
   },
   components: {
     ResourceMine,
-    Recycler
+    Recycler,
+    ShareMine
   }
 }
 </script>

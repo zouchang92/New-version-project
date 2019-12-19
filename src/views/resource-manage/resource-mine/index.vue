@@ -39,7 +39,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <member-select v-model="memberShow" />
+    <member-select @save="onShareFile" v-model="memberShow" />
     <upload-dialog @uploadSuccess="uploadFiles" :dialogVisible.sync="uploadDialogVisible" />
     <el-dialog :visible.sync="newFolderModalVisible">
       <div>
@@ -67,6 +67,7 @@ export default {
       uploadDialogVisible: false,
       fn: queryFolderTree,
       activeIndex: 0,
+      shareId: ''
     }
   },
   computed: {
@@ -79,6 +80,7 @@ export default {
 
     },
     shareFile(id) {
+      this.shareId = id
       this.memberShow = true
     },
     async addFolder() {
@@ -121,7 +123,7 @@ export default {
       try {
         let res = await uploadFile({
            parentId: currentPath.id === 'root' ? '' : currentPath.id, 
-           filePath: '/' + files[0].data[0].url, 
+           filePath: files[0].data[0].url, 
            name: files[0].data[0].name, 
            createUserId: ''
         })
@@ -137,6 +139,9 @@ export default {
       } catch(err) {
         
       }
+    },
+    async onShareFile(ids) {
+      console.log(ids)
     },
     async refreshFolder(id) {
       try {

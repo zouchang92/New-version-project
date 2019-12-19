@@ -39,6 +39,13 @@ export function querySubList({ parentId }) {
   })
 }
 
+export function queryMyFileList() {
+  return request({
+    url: '/zhxyx/zyFileShare/shareFileToMe',
+    method: 'post'
+  })
+}
+
 export function addFolder({parentId}) {
   return request({
     url: '/zhxyx/zyFile/createDirectory',
