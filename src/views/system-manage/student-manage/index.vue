@@ -52,6 +52,7 @@ const certTypeDict = getDictById('certificateType')
 const nationDic = getDictById('nation')
 const politicCountenanceDic = getDictById('politicCountenance')
 const enrollmentDic = getDictById('enrollmentType')
+const yearDic = getDictById('year')
 export default {
   name: 'studentManage',
   mixins: [tableCommon, permission],
@@ -195,7 +196,7 @@ export default {
               res: '0'
             },
             listType: 'picture-card',
-            span: 24,
+            span: 12,
           },
           {
             label: "证件类型",
@@ -204,12 +205,6 @@ export default {
             width: 150,
             hide: true,
             dicData: certTypeDict
-          },
-          {
-            label: "证件号码",
-            prop: "credNum",
-            width: 200,
-            hide: true
           },
           {
             label: "证件正面",
@@ -221,7 +216,7 @@ export default {
               res: '0',
             },
             listType: 'picture-card',
-            span: 24,
+            span: 12,
             hide: true
           },
           {
@@ -233,7 +228,7 @@ export default {
               res: '0',
             },
             listType: 'picture-card',
-            span: 24,
+            span: 12,
             hide: true
           },
           {
@@ -241,6 +236,12 @@ export default {
             prop: "nativeLand",
             type: "input",
             hide: true,
+          },
+          {
+            label: "证件号码",
+            prop: "credNum",
+            width: 200,
+            hide: true
           },
           {
             label: "民族",
@@ -288,7 +289,234 @@ export default {
             type: 'select',
             dicData: enrollmentDic
           },
-        ]
+        ],
+        group: [{
+          label: '本人信息',
+          prop: 'brxx',
+          icon: 'el-icon-edit-outline',
+          column: [{
+            label:'id',
+            prop:'id',
+            hide: true,
+            addDisplay: false,
+            editDisplay: false,
+            viewDisplay: false
+          },
+          {
+            label: '所在班级',
+            prop: 'organId',
+            type: 'tree',
+            search: true,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
+            rules: {
+              required: true,
+              message: '所在班级是必填项'
+            },
+            searchSpan: 8,
+          },
+          {
+            label: '姓名',
+            prop: 'userName',
+            rules: {
+              required: true,
+              message: '姓名是必填项'
+            },
+          },
+          {
+            label: '学号',
+            prop: 'loginName',
+            width: 150,
+            rules: {
+              required: true,
+              message: '学号是必填项'
+            },
+          },
+          {
+            label: '性别',
+            prop: 'gender',
+            type: 'radio',
+            dicData: genderDict,
+            rules: {
+              required: true,
+              message: '性别是必填项'
+            },
+          },
+          {
+            label:'在校状态',
+            prop:'curStatus',
+            rules: {
+              required: false,
+            },
+            search: true,
+            span: 12,
+            type: 'select',
+            dicData: curStatusDict,
+            rules: {
+              required: true,
+              message: '在校状态是必填项'
+            },
+          },
+          {
+            label:'全国学籍号',
+            prop:'nationNum',
+            rules: {
+              required: false,
+            },
+            width: 200,
+            hide: true
+          },
+          {
+            label:'入学时间',
+            prop:'initDtm',
+            type: 'datetime',
+            hide: true
+          },
+          {
+            label:'入学序号',
+            prop:'initNum',
+            hide: true
+          },
+          {
+            label:'入学信息备注',
+            prop:'inMemo',
+            type: 'textarea',
+            span: 24,
+            width: 150,
+            hide: true
+          },
+          {
+            label:'照片',
+            prop:'facePicFile',
+            type: 'upload',
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            limit: 1,
+            propsHttp: {
+              res: '0'
+            },
+            listType: 'picture-card',
+            span: 24,
+          },
+          {
+            label: "证件正面",
+            prop: "credPhotoObve",
+            type: 'upload',
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            limit: 1,
+            propsHttp: {
+              res: '0',
+            },
+            listType: 'picture-card',
+            span: 12,
+            hide: true
+          },
+          {
+            label: "证件反面",
+            prop: "credPhotoRever",
+            type: 'upload',
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            propsHttp: {
+              res: '0',
+            },
+            listType: 'picture-card',
+            span: 12,
+            hide: true
+          },
+          {
+            label: "证件类型",
+            prop: "credType",
+            type: 'select',
+            width: 150,
+            hide: true,
+            dicData: certTypeDict
+          },
+          {
+            label: "证件号码",
+            prop: "credNum",
+            width: 200,
+            hide: true
+          },
+          {
+            label: "籍贯",
+            prop: "nativeLand",
+            type: "input",
+            hide: true,
+          },
+
+          {
+            label: "民族",
+            prop: "volk",
+            type: "select",
+            hide: true,
+            dicData: nationDic
+          },
+          {
+            label: "政治面貌",
+            prop: "politstatus",
+            type: "select",
+            hide: true,
+            dicData: politicCountenanceDic
+          },
+          {
+            label: "家庭住址",
+            prop: "homeAddr",
+            hide: true
+          },
+          {
+            label: "来源",
+            prop: "comefromType",
+            hide: true
+          },
+          {
+            label: "录取分数",
+            prop: "score",
+            hide: true
+          },
+          {
+            label: "插班标注",
+            prop: "inClassType",
+            hide: true
+          },
+          {
+            label: "生源类别",
+            prop: "stuType",
+            hide: true
+          },
+          {
+            label: "就读方式",
+            prop: "schoolType",
+            hide: true,
+            type: 'select',
+            dicData: enrollmentDic
+          }]
+        }, {
+          label: '家长信息',
+          prop: 'brxx',
+          icon: 'el-icon-edit-outline',
+          column: [{
+            label:'家长姓名',
+            prop:'guarder',
+            width: 150,
+            hide: true
+          },
+          {
+            label:'家长关系',
+            prop:'guarderRelation',
+            type: 'select',
+            width: 150,
+            hide: true,
+            dicData: relationDict,
+          },
+          {
+            label:'家长电话',
+            prop:'guarderTel',
+            width: 150,
+            hide: true
+          }]
+        }]
       },
       obj: {}
     }

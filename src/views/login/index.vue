@@ -42,6 +42,20 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
+      <el-form-item prop="loginName">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-select
+          ref="schoolCode"
+          v-model="loginForm.schoolCode"
+          placeholder="学校"
+          name="schoolCode"
+          auto-complete="on"
+        >
+          <el-option v-for="(item, i) in schoolCodeList" :key="i" :label="item.name" :value="item.id" />
+        </el-select>
+      </el-form-item>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
       <div class="tips">
 
@@ -75,7 +89,8 @@ export default {
     return {
       loginForm: {
         loginName: '',
-        password: ''
+        password: '',
+        schoolCode: ''
       },
       loginRules: {
         loginName: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -89,7 +104,7 @@ export default {
   },
   mounted() {
     getSchoolCodeList().then(res => {
-      console.log(res)
+      this.schoolCodeList = res.data
     })
   },
   watch: {
@@ -120,7 +135,6 @@ export default {
             this.$router.push({ path: this.redirect || '/dashboard' })
             this.loading = false
           }).catch((err) => {
-            console.log(err)
             this.loading = false
           })
         } else {
@@ -166,7 +180,14 @@ $cursor: #fff;
       caret-color: $cursor;
     }
   }
-
+  .el-select {
+    display: inline-block;
+    width: 80%;
+    height: 40px;
+    .el-input {
+      width: 100%;
+    }
+  }
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);

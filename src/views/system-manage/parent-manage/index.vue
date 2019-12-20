@@ -153,6 +153,9 @@ export default {
     console.log(this)
   },
   methods: {
+    handleChange(e) {
+      this.fileObj = e.raw
+    },
     importClick() {
       this.importDialog = true
     },

@@ -1,8 +1,9 @@
 import { getDictionary, getOrganTree } from '@/api/systemApi'
-import { listMenuTree } from '@/api/menuManageApi'
 import { getUserMenu } from '@/api/userApi'
-import { interArrayTree } from '@/utils'
+import { interArrayTree, generateDateAxis } from '@/utils'
 import _ from 'lodash'
+import moment from 'moment'
+
 
 const state = {
   dictionary: {},
@@ -10,25 +11,18 @@ const state = {
   menuTree: [],
 }
 
-function toTree(data) {
-  _.forEach(data, n => {
-    delete n.children
-  })
-  let map = {}
-  _.forEach(data, n => {
-    map[n.menuId] = n
-  })
-  let val = []
-  _.forEach(data, n => {
-    let parent = map[n.parentId]
-    if (parent) {
-      (parent.children || ( parent.children = [] )).push(n)
-    } else {
-      val.push(n)
-    }
-  })
-  return val
+function getRecentYears() {
+  return generateDateAxis({
+    type: '年',
+    start: moment(),
+    length: 4,
+    target: 'YYYY',
+  }).map((n, i) => ({
+    value: n,
+    label: n + '年'
+  }))
 }
+
 
 const mutations = {
   SET_DICTIONARY: (state, dictionary) => {
@@ -48,12 +42,17 @@ const mutations = {
 const actions = { 
   async ['getDictionary']({ commit }) {
     try {
-      let dictonary = await getDictionary()
-      let groupDictionary = _.chain(dictonary.data).map(n => ({...n, label: n.name, value: n.code})).groupBy(n => (n.uniqueName)).value()
-      commit('SET_DICTIONARY', groupDictionary)
-      return dictonary
+      let dictionary = await getDictionary()
+      if (dictionary.data.length) {
+        
+        let groupDictionary = _.chain(dictionary.data).map(n => ({...n, label: n.name, value: n.code})).groupBy(n => (n.uniqueName)).value()
+        groupDictionary.year = getRecentYears()
+        commit('SET_DICTIONARY', groupDictionary)
+        return dictionary
+      }
     } catch(err) {
-      throw new Error()
+      console.log(err)
+      throw new Error(err)
     }
   },
   async ['getOrganTree']({ commit }) {
@@ -62,7 +61,7 @@ const actions = {
       commit('SET_ORGANTREE', interArrayTree(treeData.data))
       return treeData
     } catch(err) {
-      throw new Error()
+      throw new Error(err)
     }
   },
   async ['getMenuTree']({ commit }) {
@@ -70,7 +69,6 @@ const actions = {
       let data = await getUserMenu()
       let res = JSON.parse(data.data).find(n => n.menuId === 'root')
       let menu = res ? res.children.filter(n => n.belongSystem === '0') : []
-      console.log(menu)
       commit('SET_MENUTREE', menu)
       return menu
     } catch(err) {
