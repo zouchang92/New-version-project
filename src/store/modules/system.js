@@ -69,7 +69,8 @@ const actions = {
     try {
       let data = await getUserMenu()
       let res = JSON.parse(data.data).find(n => n.menuId === 'root')
-      let menu = res ? res.children : []
+      let menu = res ? res.children.filter(n => n.belongSystem === '0') : []
+      console.log(menu)
       commit('SET_MENUTREE', menu)
       return menu
     } catch(err) {

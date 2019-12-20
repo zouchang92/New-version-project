@@ -79,13 +79,24 @@
             <div slot="footer">
             </div>
     </el-dialog>
+    <el-dialog title="重命名" :visible.sync="renameDialog.show">
+      <el-form>
+        <el-form-item label="文件名">
+          <el-input v-model="renameDialog.name" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button :loading="renameDialog.loading" type="primary" @click="reName">确 定</el-button>
+        <el-button :disabled="renameDialog.loading" @click="renameDialog.show = false">取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
 import { mapGetters } from 'vuex'
-import { querySubList, downloadFile, deleteFile, deleteFolder, queryRecyclerList, queryMyFileList, truncateFile, truncateDirectory } from '@/api/resourceManageApi'
+import { querySubList, downloadFile, deleteFile, deleteFolder, queryRecyclerList, queryMyFileList, truncateFile, truncateDirectory, reNameFile, reNameFolder } from '@/api/resourceManageApi'
 import Abnor from '@/components/Abnor'
 import moment from 'moment'
 import VueContext from 'vue-context';
@@ -98,6 +109,13 @@ export default {
       bread: [],
       selection: [],
       baseUrl,
+      renameDialog: {
+        show: false,
+        type: '',
+        id: '',
+        name: '',
+        loading: false
+      },
       fnMap: {
         normal: querySubList,
         recycler: queryRecyclerList,
@@ -164,6 +182,44 @@ export default {
         this.selection.push(item.id);
       }
     },
+    async reName() {
+      const { type, id, name  } = this.renameDialog
+      this.renameDialog.loading = true
+      if (name === '') {
+        this.renameDialog.loading = false
+        return
+      }
+      const fn = type === 'file' ? reNameFile : reNameFolder
+      try {
+        let res = await fn({
+          id,
+          name
+        })
+        this.renameDialog = {
+          ...this.renameDialog,
+          loading: false,
+          show: false,
+          name: ''
+        }
+        this.$message.success('重命名成功')
+        await this.refreshCurrentFolder()
+      } catch(err) {
+        this.renameDialog = {
+          ...this.renameDialog,
+          loading: false,
+        }
+      }
+    },
+    openReNameDialog({id, type}) {
+      this.renameDialog = {
+        ...this.renameDialog,
+        id,
+        type,
+        loading: false,
+        show: true,
+        name: ''
+      }
+    },
     handleRecyclerMenuClick(action, data) {
       let file = data
       switch(action) {
@@ -178,6 +234,9 @@ export default {
         case 0:
           this.deleteFile('folder', file.id)
           break;
+        case 2:
+          this.openReNameDialog({id: file.id, type: 'folder'})
+          break;
       }
     },
     handleFileMenuClick(action, data) {
@@ -186,10 +245,14 @@ export default {
         case 0:
           this.deleteFile('file', file.id)
           break;
+      
         case 1:
           this.folderInfoDialog.show = true
           this.folderInfoDialog.title = `${file.name}简介`
           this.folderInfoDialog.info = `文件路径：${file.filePath}\n上传时间：${moment(file.updateTime).format('YYYY-MM-DD HH:mm:ss')}\n大小：${file.size}`
+          break;
+        case 2 :
+          this.openReNameDialog({id: file.id, type: 'file'})
           break;
         case 5:
           this.downloadFile(file.id)

@@ -133,3 +133,25 @@ export function restoreFolder(id) {
     }
   })
 }
+
+export function reNameFile({name, id}) {
+  return request({
+    url: '/zhxyx/zyFile/renameFile',
+    method: 'post',
+    data: {
+      name,
+      id
+    }
+  })
+}
+
+export function reNameFolder({ name, id }) {
+  return request({
+    url: '/zhxyx/zyFile/renameDirectory',
+    method: 'post',
+    data: {
+      name,
+      id
+    }
+  })
+}

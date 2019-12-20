@@ -14,14 +14,22 @@
       </div>
       <el-dialog :visible.sync="roleModal.visible">
         <div style="height: 450px;overflow: auto;" v-loading="roleModal.loading" class="">
-          <el-tree ref="authTree" :default-checked-keys="roleModal.defaultCheckedKeys" show-checkbox node-key="id" :data="roleModal.data" :props="treeProps">
-            <span class="custom-tree-node" slot-scope="{ node, data }">
-              <i :class="{'el-icon-menu' : data.menuName, 'el-icon-edit-outline': data.buttonId}"></i>
-              <span>
-                {{data.buttonId ? data.name : data.menuName}}
-              </span>
-            </span>
-          </el-tree>
+          <el-tabs type="border-card">
+             <el-tab-pane label="菜单权限">
+                <el-tree ref="authTree" :default-checked-keys="roleModal.defaultCheckedKeys" show-checkbox node-key="id" :data="roleModal.data" :props="treeProps">
+                 <span class="custom-tree-node" slot-scope="{ node, data }">
+                   <i :class="{'el-icon-menu' : data.menuName, 'el-icon-edit-outline': data.buttonId}"></i>
+                    <span>
+                      {{data.buttonId ? data.name : data.menuName}}
+                    </span>
+                    <span>
+                      <i :class="data.belongSystem === '0' ? 'el-icon-monitor' : 'el-icon-mobile-phone'" />
+                    </span>
+                  </span>
+                </el-tree>
+             </el-tab-pane>
+          </el-tabs>
+         
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" :loading="roleModal.submitLoading"  @click="bindAuthorize">确定</el-button>

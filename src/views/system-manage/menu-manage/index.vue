@@ -4,7 +4,18 @@
       <el-row :gutter="15">
         <el-col :span="6">
           <el-card>
-            <avue-tree nodeKey="id" ref="organTree" :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
+            <el-input size="small"
+                placeholder="输入关键字进行过滤"
+                v-model="filterText">
+            </el-input>
+            <el-tree ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" node-key="id" :props="treeOption.props" :data="treeData">
+              <span class="custom-tree-node" slot-scope="{ node, data }">
+                <span>{{ node.label }}</span>
+                <span>
+                  <i :class="data.belongSystem === '0' ? 'el-icon-monitor' : 'el-icon-mobile-phone'" />
+                </span>
+                </span>
+            </el-tree>
           </el-card>
         </el-col>
         <el-col :span="18">
@@ -94,6 +105,7 @@ export default {
       systemDict,
       mode: 'add',
       updateLoading: false,
+      filterText: '',
       searchForm: {
         id: ''
       },
@@ -132,6 +144,10 @@ export default {
         menuUrl: {
           required: true,
           message: '菜单编码是必填项'
+        },
+        belongSystem: {
+          required: true,
+          message: '隶属系统是必填项'
         }
       },
       treeOption: {
@@ -165,12 +181,17 @@ export default {
 
       }
     },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
+    },
     handleClose(id) {
       let index = this.btnManage.buttonIds.findIndex(n => n === id)
       this.btnManage.buttonIds.splice(index, 1)
     },
     async organSubmit() {
       this.updateLoading = true
+      let id = ''
       this.$refs['form'].validate(async (valid) => {
         if (valid) {
           try {
@@ -178,20 +199,21 @@ export default {
               if (!this.formData.parentId) {
                 this.formData.parentId = 'root'
               }
-              await addMenu(this.formData)
+              let res = await addMenu(this.formData)
+              id = res.menuId
               this.$message.success('添加成功')
             } else {
               await updateMenu(this.formData)
-          if (this.selectedButtons.length) {
-            await menuBindButtons({
-              id: this.formData.id,
-              buttons: this.selectedButtons
-            })
-          } 
-          this.$message.success('更新成功')
-        }
-        this.updateLoading = false
-        this.getMenuTree()
+              this.$message.success('更新成功')
+            }
+            if (this.selectedButtons.length) {
+              await menuBindButtons({
+                id: this.mode === 'add' ? id : this.formData.id,
+                buttons: this.selectedButtons
+              })
+            } 
+            this.updateLoading = false
+            this.getMenuTree()
         } catch(err) {
           this.updateLoading = false
         }
@@ -260,10 +282,12 @@ export default {
         menuUrl: this.mode === 'add' ? '' :  e.menuUrl,
         menuIcon: this.mode === 'add' ? '' : e.menuIcon,
         description: this.mode === 'add' ? '' : e.description,
+        belongSystem: this.mode === 'add' ? '0' : e.belongSystem,
         id: e.id,
         sort: this.mode === 'add' ? '' : e.sort,
-        hasChildren: e.child.length > 0,
-        threeMenu: e.threeMenu ? true : false
+        hasChildren: this.mode === 'add' ? false : e.child.length > 0,
+        threeMenu: e.threeMenu ? true : false,
+
       }
       if (this.mode === 'add') {
         this.btnManage.buttonIds = []
@@ -278,6 +302,11 @@ export default {
         this.$refs.treeSelect.treeDataUpdateFun(treeData)
       })
     },
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val)
+    }
   },
   computed: {
     selectedButtons() {
@@ -299,4 +328,12 @@ export default {
 .menu-container {
   margin: 15px;
 }
+.custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+  }
 </style>

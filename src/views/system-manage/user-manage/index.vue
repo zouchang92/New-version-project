@@ -30,6 +30,7 @@ import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'
 
 const genderDict = getDictById('gender')
+const orgTypeDict = getDictById('orgType')
 
 export default {
   name: 'studentManage',
@@ -95,6 +96,10 @@ export default {
             type: 'tree',
             searchSpan: 5,
             dicData: getOrgan(),
+            rules: {
+              required: true,
+              message: '组织机构是必填项'
+            },
             props: {
               label: 'orgName',
               value: 'id'
@@ -110,6 +115,10 @@ export default {
             dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/role/queryAll',
             dicMethod: 'post',
             hide: true,
+            rules: {
+              required: true,
+              message: '角色是必填项'
+            },
             dicQuery:{
               page: 1,
               rows: 100000,
@@ -119,6 +128,19 @@ export default {
               label: 'roleName',
               value: 'id'
             }
+          },
+          {
+            label: "人员类型",
+            prop: "orgType",
+            type: 'select',
+            search: true,
+            span: 24,
+            rules: {
+              required: true,
+              message: '人员类型是必填项'
+            },
+            dicData: orgTypeDict,
+            hide: true
           },
           {
             label:'账号',
@@ -223,13 +245,6 @@ export default {
             },
             listType: 'picture-card',
             span: 24,
-          },
-          {
-            label: "人员类型",
-            prop: "orgType",
-            type: 'select',
-            span: 24,
-            hide: true
           },
         ]
       },
