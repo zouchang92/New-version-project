@@ -10,6 +10,7 @@
         :table-loading="tableListLoading"
         @search-change="searchChange"
         @row-save="rowSave"
+        @row-update="rowUpdate"
         @selection-change="selectionChange"
       >
         <template slot="searchMenu">
@@ -31,7 +32,7 @@
 </template>
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryPerson, delPerson, addPerson } from '@/api/CommunityApi.js'
+import { queryPerson, delPerson, addPerson, editPerson } from '@/api/CommunityApi.js'
 import { getOrgan, getDictById } from '@/utils'
 const genderDict = getDictById('gender')
 
@@ -57,8 +58,21 @@ export default {
             label: '社团名称',
             prop: 'clubName',
             search: true,
+            type: 'select',
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list ',
+            dicMethod: 'post',
+            dicQuery: {
+              page: 1,
+              rows: 100000
+            },
+            props: {
+              res: 'data.list',
+              label: 'name',
+              value: 'name'
+            },
             rules: {
-              required: true
+              required: true,
+              message: '所属社团'
             }
           },
           {
@@ -70,11 +84,20 @@ export default {
             }
           },
           {
-            label: '所在班级',
-            prop: 'studentOrgName',
-            search: true,
+            label: '所属班级',
+            prop: 'organId',
             rules: {
-              required: true
+              required: true,
+              message: '所属机构'
+            },
+            type: 'tree',
+            search: true,
+            span: 12,
+            searchClearable: true,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
             }
           },
           {
@@ -108,6 +131,7 @@ export default {
   },
   created() {
     this.get()
+    console.log(this)
   },
   methods: {
     handleAdd() {
@@ -153,6 +177,17 @@ export default {
         this.get()
       } catch (err) {
         console.log(err)
+      }
+    },
+    async rowUpdate(row, index, done, loading) {
+      loading(true)
+      try {
+        // eslint-disable-next-line no-unused-vars
+        await editPerson(row)
+        done()
+      } catch (err) {
+        console.log(err)
+        loading(false)
       }
     }
   }

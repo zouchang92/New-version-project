@@ -102,6 +102,15 @@ export function delPerson({ id }) {
     }
   })
 }
+export function editPerson({ id, clubId, studentId, inTime, payStatus, studentGender, studentOrgId, studentName, clubName }) {
+  return request({
+    url: '/zhxyx/stClubStudent/upd',
+    method: 'post',
+    data: {
+      id, clubId, studentId, inTime, payStatus, studentGender, studentOrgId, studentName, clubName
+    }
+  })
+}
 export function queryAttendance() {
   return request({
     url: '/zhxyx/stActivitiesAttendance/list',

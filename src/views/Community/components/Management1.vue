@@ -74,20 +74,44 @@ export default {
           },
           {
             label: '学期',
-            prop: '',
+            prop: 'semesterId',
+            type: 'select',
             search: true,
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/semester/queryAll',
+            dicMethod: 'post',
+            dicQuery: {
+              page: 1,
+              rows: 100000
+            },
+            props: {
+              res: 'data.list',
+              label: 'name',
+              value: 'name'
+            },
             rules: {
               required: true,
               message: '学期'
             }
           },
           {
-            label: '社团名称',
+            label: '所属社团',
             prop: 'name',
+            type: 'select',
             search: true,
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list ',
+            dicMethod: 'post',
+            dicQuery: {
+              page: 1,
+              rows: 100000
+            },
+            props: {
+              res: 'data.list',
+              label: 'name',
+              value: 'name'
+            },
             rules: {
               required: true,
-              message: '社团名称'
+              message: '所属社团'
             }
           },
           {

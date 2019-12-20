@@ -24,7 +24,7 @@ import CommunityPage from './components/CommunityPage'
 import Management1 from './components/Management1'
 import ActivityManagement from './components/ActivityManagement'
 import ActivityAttendance from './components/ActivityAttendance'
-import PersonnelManagmement from './components/PersonnelManagement'
+import PersonnelManagement from './components/PersonnelManagement'
 export default {
   components: {
     ActivityAttendance,
