@@ -9,6 +9,15 @@ export function queryClub({ page, rows }) {
     }
   })
 }
+export function updateClub({ id, person, name, orgIds }) {
+  return request({
+    url: '/zhxyx/stClub/upd',
+    method: 'post',
+    data: {
+      id, person, name, orgIds
+    }
+  })
+}
 export function addClub({ person, name, initTime, orgIds, description }) {
   return request({
     url: '/zhxyx/stClub/add',
@@ -22,9 +31,7 @@ export function delClub({ ids }) {
   return request({
     url: '/zhxyx/stClub/delete',
     method: 'get',
-    data: {
-      ids
-    }
+    params: { ids }
   })
 }
 export function getIdClub({ id }) {
@@ -43,11 +50,13 @@ export function queryActivity() {
     data: {}
   })
 }
-export function addActivity() {
+export function addActivity({ name, clubId, time, activityType, classroomName, persons, semesterId, clubOrgId, description, honors }) {
   return request({
     url: '/zhxyx/stActivities/add',
     method: 'post',
-    data: {}
+    data: {
+      name, clubId, time, activityType, classroomName, persons, semesterId, clubOrgId, description, honors
+    }
   })
 }
 export function delActivity({ id }) {
@@ -59,11 +68,13 @@ export function delActivity({ id }) {
     }
   })
 }
-export function updateActivity() {
+export function updateActivity({ id, name, clubId, time, activityType, classroomName, persons, semesterId, clubOrgId, description, honors }) {
   return request({
     url: '/zhxyx/stActivities/upd',
     method: 'post',
-    data: {}
+    data: {
+      id, name, clubId, time, activityType, classroomName, persons, semesterId, clubOrgId, description, honors
+    }
   })
 }
 export function queryPerson() {
@@ -71,6 +82,15 @@ export function queryPerson() {
     url: '/zhxyx/stClubStudent/list',
     method: 'post',
     data: {}
+  })
+}
+export function addPerson({ id, clubId, studentId, inTime, payStatus, studentGender, studentOrgId, studentName, clubName }) {
+  return request({
+    url: '/zhxyx/stClubStudent/add',
+    method: 'post',
+    data: {
+      id, clubId, studentId, inTime, payStatus, studentGender, studentOrgId, studentName, clubName
+    }
   })
 }
 export function delPerson({ id }) {

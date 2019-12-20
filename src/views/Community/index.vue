@@ -38,6 +38,7 @@ export default {
       activeName: 'first'
     }
   },
+  mounted() {},
   methods: {
     handleClick(tab, event) {
       console.log(tab, event)
