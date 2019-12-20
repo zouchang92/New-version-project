@@ -260,6 +260,7 @@ export default {
       this.btnManage.dialogVisible = true
     },
     changeMode(mode) {
+      const e = this.$refs.tree.getCurrentNode()
       this.mode = mode
       if (mode === 'add') {
         this.formData = {
@@ -270,8 +271,24 @@ export default {
           name: '',
         }
       }
+      if (e) {
+        this.formData = {
+          ...this.formData,
+          name: this.mode === 'add' ? '' : e.name,
+          parentId: this.mode === 'add' ? e.id : e.parentId,
+          menuUrl: this.mode === 'add' ? '' :  e.menuUrl,
+          menuIcon: this.mode === 'add' ? '' : e.menuIcon,
+          description: this.mode === 'add' ? '' : e.description,
+          belongSystem: this.mode === 'add' ? '0' : e.belongSystem,
+          id: e.id,
+          sort: this.mode === 'add' ? '' : e.sort,
+          hasChildren: this.mode === 'add' ? false : e.child.length > 0,
+          threeMenu: e.threeMenu ? true : false,
+        }
+      }
     },
     nodeClick(e) {
+      this.mode = 'edit'
       this.searchForm = {
         ...this.searchForm,
         id: e.id

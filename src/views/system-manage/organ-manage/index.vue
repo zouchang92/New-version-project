@@ -141,6 +141,7 @@ export default {
       }); 
     },
     changeMode(mode) {
+      const e = this.$refs.organTree.$refs.tree.getCurrentNode()
       this.mode = mode
       if (mode === 'add') {
         this.formData = {
@@ -151,8 +152,19 @@ export default {
           orgType: ''
         }
       }
+      if (e) {
+        this.formData = {
+          orgName: this.mode === 'add' ? '' : e.orgName,
+          orgCode: this.mode === 'add' ? '' : e.orgCode,
+          description: this.mode === 'add' ? '' : e.description,
+          orgType: this.mode === 'add' ? '' : e.orgType,
+          parentId: this.mode === 'add' ? e.id : e.parentId,
+          id: e.id
+        }
+      }
     },
     nodeClick(e) {
+      this.mode = 'edit'
       this.searchForm = {
         ...this.searchForm,
         id: e.id
