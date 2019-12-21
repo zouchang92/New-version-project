@@ -13,19 +13,19 @@
         <el-form :model="form">
           <el-form-item label="学年:">
             <el-select v-model="form.region" placeholder="请选择学年">
-              <el-option label="2019年上学期" value="2019年上学期"></el-option>
-              <el-option label="2019年下学期" value="2019年下学期"></el-option>
+              <el-option label="2019年上学期" value="2019年上学期" />
+              <el-option label="2019年下学期" value="2019年下学期" />
             </el-select>
           </el-form-item>
           <el-form-item>
             <el-checkbox
-              :indeterminate="isIndeterminate"
               v-model="checkAll"
+              :indeterminate="isIndeterminate"
               @change="handleCheckAllChange"
             >全选</el-checkbox>
-            <div style="margin: 15px 0;"></div>
+            <div style="margin: 15px 0;" />
             <el-checkbox-group @change="handleCheckedCitiesChange">
-              <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+              <el-checkbox v-for="city in cities" :key="city" :label="city">{{ city }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
@@ -34,29 +34,31 @@
           <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
         </div>
       </el-dialog>
-      <line-chart :style="{height:height}" :data="options1"></line-chart>
+      <line-chart :style="{height:height}" :data="options1" />
     </div>
-    <div style="height:30px;background:rgb(235,236,243)"></div>
+    <div style="height:30px;background:rgb(235,236,243)" />
     <div class="Acadmic-table">
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column v-for="(item,i) in list" :key="i" :prop="item.prop" :label="item.label"></el-table-column>
+        <el-table-column v-for="(item,i) in list" :key="i" :prop="item.prop" :label="item.label" />
       </el-table>
     </div>
   </div>
 </template>
 <script>
-const Semester = ["期中", "期末"];
-import { listStu } from "@/api/growthArchivesApi";
-import LineChart from "../../dashboard/Teacher/components/LineChart";
-import isValidOption from "@/utils/isValidOption.js";
+const Semester = ['期中', '期末']
+import { listStu } from '@/api/growthArchivesApi'
+import LineChart from '../../dashboard/Teacher/components/LineChart'
+import isValidOption from '@/utils/isValidOption.js'
 export default {
   components: {
     LineChart
   },
   props: {
+    // eslint-disable-next-line vue/require-default-prop
     input: {
       type: String
     },
+    // eslint-disable-next-line vue/require-default-prop
     value: {
       type: String
     }
@@ -67,253 +69,253 @@ export default {
       cities: Semester,
       dialogFormVisible: false,
       form: {
-        region: "",
-        date1: "",
-        date2: "",
+        region: '',
+        date1: '',
+        date2: '',
         delivery: false,
         type: [],
-        resource: "",
-        desc: ""
+        resource: '',
+        desc: ''
       },
       list: [
-        { prop: "name", label: "名称" },
-        { prop: "courseYW", label: "语文" },
-        { prop: "courseSX", label: "数学" },
-        { prop: "courseYY", label: "英语" },
-        { prop: "courseHX", label: "物理" },
-        { prop: "courseLS", label: "化学" },
-        { prop: "courseWL", label: "历史" },
-        { prop: "courseSW", label: "生物" },
-        { prop: "courseYW", label: "道德与法" },
-        { prop: "courseYW", label: "个人总分" },
-        { prop: "courseYW", label: "班级均分" }
+        { prop: 'name', label: '名称' },
+        { prop: 'courseYW', label: '语文' },
+        { prop: 'courseSX', label: '数学' },
+        { prop: 'courseYY', label: '英语' },
+        { prop: 'courseHX', label: '物理' },
+        { prop: 'courseLS', label: '化学' },
+        { prop: 'courseWL', label: '历史' },
+        { prop: 'courseSW', label: '生物' },
+        { prop: 'courseYW', label: '道德与法' },
+        { prop: 'courseYW', label: '个人总分' },
+        { prop: 'courseYW', label: '班级均分' }
       ],
 
-
-      height: "570px",
+      height: '570px',
       citie: [
         {
-          label: "2019年下学期"
+          label: '2019年下学期'
         },
         {
-          label: "2019年上学期"
+          label: '2019年上学期'
         }
       ],
-      subject: [{ label: "语文" }, { label: "数学" }],
-      value2: "2019年下学期",
-      value1: "语文",
+      subject: [{ label: '语文' }, { label: '数学' }],
+      value2: '2019年下学期',
+      value1: '语文',
       tableData: {
-          name: "一月考",
-          Chinese:89,
-          Mathematics:90,
-          English: 39,
-          Physics: 57,
-          Chemistry: 60,
-          History: 90,
-          Geography: 99,
-          Biology: 70,
-          Morality: 77,
-          totalScore: "",
-          totalAvgScore: ""
+        name: '一月考',
+        Chinese: 89,
+        Mathematics: 90,
+        English: 39,
+        Physics: 57,
+        Chemistry: 60,
+        History: 90,
+        Geography: 99,
+        Biology: 70,
+        Morality: 77,
+        totalScore: '',
+        totalAvgScore: ''
       },
       options1: {
         title: {
-          text: "2019年下学期蔡启超成绩分析图",
-          left: "4%",
-          top: "10%",
+          text: '2019年下学期蔡启超成绩分析图',
+          left: '4%',
+          top: '10%',
           textStyle: {
-            color: "#000",
+            color: '#000',
             fontSize: 18,
             fontWeight: 600
           }
         },
         tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c}"
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c}'
         },
         legend: {
-          left: "35%",
-          bottom: "9%",
+          left: '35%',
+          bottom: '9%',
           data: [
-            { name: "语文" },
-            { name: "数学" },
-            { name: "英语" },
-            { name: "物理" },
-            { name: "化学" },
-            { name: "历史" },
-            { name: "地理" },
-            { name: "生物" },
-            { name: "道德与法" }
+            { name: '语文' },
+            { name: '数学' },
+            { name: '英语' },
+            { name: '物理' },
+            { name: '化学' },
+            { name: '历史' },
+            { name: '地理' },
+            { name: '生物' },
+            { name: '道德与法' }
           ]
         },
         xAxis: {
-          type: "category",
+          type: 'category',
           axisLine: {
             lineStyle: {
-              color: "#272729" //x轴的颜色
+              color: '#272729' // x轴的颜色
             }
           },
           splitLine: { show: true },
-          data: ["一月考", "二月考", "期中", "三月考", "四月考", "期末"]
+          data: ['一月考', '二月考', '期中', '三月考', '四月考', '期末']
         },
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "20%",
-          top: "20%",
+          left: '3%',
+          right: '4%',
+          bottom: '20%',
+          top: '20%',
           containLabel: true
         },
         yAxis: {
-          type: "value",
+          type: 'value',
           axisLine: {
             lineStyle: {
-              color: "#272729" //x轴的颜色
+              color: '#272729' // x轴的颜色
             }
           }
         },
         series: [
           {
-            name: "语文",
-            type: "line",
+            name: '语文',
+            type: 'line',
             smooth: false,
-            symbol: "circle", //折线点设置为实心点
-            symbolSize: 4, //折线点的大小
+            symbol: 'circle', // 折线点设置为实心点
+            symbolSize: 4, // 折线点的大小
             data: [55, 66, 39, 57, 60, 90],
             itemStyle: {
               normal: {
-                color: "#1890FF",
+                color: '#1890FF',
                 lineStyle: {
-                  color: "#1890FF" //折线的颜色
+                  color: '#1890FF' // 折线的颜色
                 }
               }
             }
           },
           {
-            name: "数学",
-            type: "line",
+            name: '数学',
+            type: 'line',
             smooth: false,
-            symbol: "circle", //折线点设置为实心点
-            symbolSize: 4, //折线点的大小
+            symbol: 'circle', // 折线点设置为实心点
+            symbolSize: 4, // 折线点的大小
             data: [73, 57, 62, 46, 89, 69],
             itemStyle: {
               normal: {
-                color: "#8E9CF0",
+                color: '#8E9CF0',
                 lineStyle: {
-                  color: "#8E9CF0" //折线的颜色
+                  color: '#8E9CF0' // 折线的颜色
                 }
               }
             }
           },
           {
-            name: "英语",
-            type: "line",
+            name: '英语',
+            type: 'line',
             smooth: false,
-            symbol: "circle", //折线点设置为实心点
-            symbolSize: 4, //折线点的大小
+            symbol: 'circle', // 折线点设置为实心点
+            symbolSize: 4, // 折线点的大小
             data: [80, 97, 92, 88, 90, 89],
             itemStyle: {
               normal: {
-                color: "#F09718",
+                color: '#F09718',
                 lineStyle: {
-                  color: "#F09718" //折线的颜色
+                  color: '#F09718' // 折线的颜色
                 }
               }
             }
           },
           {
-            name: "物理",
-            type: "line",
+            name: '物理',
+            type: 'line',
             smooth: false,
-            symbol: "circle", //折线点设置为实心点
-            symbolSize: 4, //折线点的大小
+            symbol: 'circle', // 折线点设置为实心点
+            symbolSize: 4, // 折线点的大小
             data: [20, 57, 62, 78, 90, 89],
             itemStyle: {
               normal: {
-                color: "#51B26F",
+                color: '#51B26F',
                 lineStyle: {
-                  color: "#51B26F" //折线的颜色
+                  color: '#51B26F' // 折线的颜色
                 }
               }
             }
           },
           {
-            name: "化学",
-            type: "line",
+            name: '化学',
+            type: 'line',
             smooth: false,
-            symbol: "circle", //折线点设置为实心点
-            symbolSize: 4, //折线点的大小
+            symbol: 'circle', // 折线点设置为实心点
+            symbolSize: 4, // 折线点的大小
             data: [50, 37, 52, 68, 80, 99],
             itemStyle: {
               normal: {
-                color: "#8FC31F",
+                color: '#8FC31F',
                 lineStyle: {
-                  color: "#8FC31F" //折线的颜色
+                  color: '#8FC31F' // 折线的颜色
                 }
               }
             }
           },
           {
-            name: "历史",
-            type: "line",
+            name: '历史',
+            type: 'line',
             smooth: false,
-            symbol: "circle", //折线点设置为实心点
-            symbolSize: 4, //折线点的大小
+            symbol: 'circle', // 折线点设置为实心点
+            symbolSize: 4, // 折线点的大小
             data: [70, 91, 99, 92, 98, 100],
             itemStyle: {
               normal: {
-                color: "#FF3761",
+                color: '#FF3761',
                 lineStyle: {
-                  color: "#FF3761" //折线的颜色
+                  color: '#FF3761' // 折线的颜色
                 }
               }
             }
           }
         ]
       }
-    };
+    }
+  },
+  watch: {
+    options(options) {
+      this.checkAndSetOption()
+    }
   },
   created() {
 
   },
-  watch: {
-    options(options) {
-      this.checkAndSetOption();
-    }
-  },
   methods: {
     checkAndSetOption() {
-      let options = this.options;
+      const options = this.options
       if (isValidOption(options)) {
-        this.myEcharts.setOption(options);
-        this.isOptionAbnormal = false;
+        this.myEcharts.setOption(options)
+        this.isOptionAbnormal = false
       } else {
-        this.isOptionAbnormal = true;
+        this.isOptionAbnormal = true
       }
     },
     handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
-      this.isIndeterminate = false;
+      // eslint-disable-next-line no-undef
+      this.checkedCities = val ? cityOptions : []
+      this.isIndeterminate = false
     },
     handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
+      const checkedCount = value.length
+      this.checkAll = checkedCount === this.cities.length
       this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
+        checkedCount > 0 && checkedCount < this.cities.length
     },
     async get() {
       try {
-        let orgName = this.value;
-        let studentName = this.input;
-        let semesterName = '2019年上学期'
+        const orgName = this.value
+        const studentName = this.input
+        const semesterName = '2019年上学期'
         // console.log(orgName,studentName)
-        let list = await listStu({ orgName, studentName, semesterName });
-        this.tableData = list.data;
+        const list = await listStu({ orgName, studentName, semesterName })
+        this.tableData = list.data
       } catch (err) {
-        console.log(213);
+        console.log(213)
       }
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .Academic {

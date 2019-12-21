@@ -5,18 +5,17 @@
         :data="tableList"
         :option="option"
         :page="page"
+        :table-loading="tableListLoading"
+        :cell-style="cellStyle"
         @row-del="singleDel"
         @row-update="rowUpdate"
-        :table-loading="tableListLoading"
         @selection-change="selectionChange"
-        :cell-style="cellStyle"
-      >
-      </avue-crud>
+      />
     </el-card>
   </div>
 </template>
 <script>
-import { queryHealth, delHealth, upadateHealth } from "@/api/growthArchivesApi";
+import { queryHealth, delHealth, upadateHealth } from '@/api/growthArchivesApi'
 import tableCommon from '@/mixins/table-common.js'
 export default {
   mixins: [tableCommon],
@@ -25,79 +24,79 @@ export default {
       page: {
         pageSize: 20
       },
-      fn:queryHealth,
-      singleDelFn:delHealth,
-      tableList:[],
+      fn: queryHealth,
+      singleDelFn: delHealth,
+      tableList: [],
       option: {
         selection: true,
-        align: "center",
-        menuAlign: "center",
+        align: 'center',
+        menuAlign: 'center',
         column: [
           {
-            label: "姓名",
-            prop: "studentName"
+            label: '姓名',
+            prop: 'studentName'
           },
           {
-            label: "身高",
-            prop: "height"
+            label: '身高',
+            prop: 'height'
           },
           {
-            label: "体重",
-            prop: "weight"
+            label: '体重',
+            prop: 'weight'
           },
           {
-            label: "视力",
-            prop: "sight"
+            label: '视力',
+            prop: 'sight'
           },
           {
-            label: "重大疾病",
-            prop: "zdjb"
+            label: '重大疾病',
+            prop: 'zdjb'
           },
           {
-            label: "体检日期",
-            type:"date",
-            prop: "checkTime"
+            label: '体检日期',
+            type: 'date',
+            prop: 'checkTime'
           },
           {
-            label: "备注",
-            prop: "createUserId",
-            width:100
+            label: '备注',
+            prop: 'createUserId',
+            width: 100
           }
         ]
       }
-    };
+    }
   },
-  created(){
-  
+  created() {
+
   },
   methods: {
     onLoad(page) {
-        this.$message.success('分页信息:' + JSON.stringify(page))
-        this.page.total = 20
-      },
-      selectionChange(list) {
-        this.$message.success("选中的数据" + JSON.stringify(list));
-      },
-      cellStyle({row,column,rowIndex,columnIndex}){
-        if(columnIndex==3){
-            return{
-                overflow:'hidden'
-            }
+      this.$message.success('分页信息:' + JSON.stringify(page))
+      this.page.total = 20
+    },
+    selectionChange(list) {
+      this.$message.success('选中的数据' + JSON.stringify(list))
+    },
+    cellStyle({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex == 3) {
+        return {
+          overflow: 'hidden'
         }
+      }
     },
     async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
-        let result = await upadateHealth(row)
+        const result = await upadateHealth(row)
         console.log(result)
         await this.resetList()
         done()
-      } catch(err) {
+      } catch (err) {
         console.log(err)
         loading(false)
       }
     }
   }
-};
+}
 </script>
 <style lang="">

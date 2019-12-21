@@ -9,7 +9,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </div>
       <div class="type">
@@ -20,12 +20,12 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </div>
       <div class="name">
         <p>名称:</p>
-        <el-input v-model="input" placeholder="请输入名称"></el-input>
+        <el-input v-model="input" placeholder="请输入名称" />
       </div>
       <div style="height:32px;margin-left:23px;margin-top:24px;">
         <el-button type="primary" icon="el-icon-search" size="small">搜索</el-button>
@@ -41,45 +41,45 @@
     <el-dialog title="新建计划" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="研训名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
         <el-form-item label="主讲人" :label-width="formLabelWidth">
-          <el-input v-model="form.presenter" autocomplete="off"></el-input>
+          <el-input v-model="form.presenter" autocomplete="off" />
         </el-form-item>
         <el-form-item label="研训时间" :label-width="formLabelWidth">
           <el-col :span="11">
             <el-date-picker
+              v-model="form.date1"
               type="date"
               placeholder="选择日期"
-              v-model="form.date1"
               style="width: 100%;"
-            ></el-date-picker>
+            />
           </el-col>
           <el-col class="line" :span="2">-</el-col>
           <el-col :span="11">
-            <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+            <el-time-picker v-model="form.date2" placeholder="选择时间" style="width: 100%;" />
           </el-col>
         </el-form-item>
         <el-form-item label="研训性质" :label-width="formLabelWidth">
           <el-select v-model="form.classProperty" placeholder="请选择研修性质">
-            <el-option label="必修" value="必修"></el-option>
-            <el-option label="选修" value="选修"></el-option>
+            <el-option label="必修" value="必修" />
+            <el-option label="选修" value="选修" />
           </el-select>
         </el-form-item>
         <el-form-item label="研训形式" :label-width="formLabelWidth">
-          <el-input v-model="form.classMethod" autocomplete="off"></el-input>
+          <el-input v-model="form.classMethod" autocomplete="off" />
         </el-form-item>
         <el-form-item label="研训类型" :label-width="formLabelWidth">
-          <el-input v-model="form.classType" autocomplete="off"></el-input>
+          <el-input v-model="form.classType" autocomplete="off" />
         </el-form-item>
         <el-form-item label="研训地点" :label-width="formLabelWidth">
-          <el-input v-model="form.place" autocomplete="off"></el-input>
+          <el-input v-model="form.place" autocomplete="off" />
         </el-form-item>
         <el-form-item label="课时" :label-width="formLabelWidth">
-          <el-input v-model="form.classTime" autocomplete="off"></el-input>
+          <el-input v-model="form.classTime" autocomplete="off" />
         </el-form-item>
         <el-form-item label="参训名单" :label-width="formLabelWidth">
-          <el-input v-model="form.trainUsers" autocomplete="off"></el-input>
+          <el-input v-model="form.trainUsers" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -89,7 +89,7 @@
     </el-dialog>
     <div class="content">
       <el-table :data="tableData" style="width: 100%;" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column type="selection" width="55" />
         <el-table-column label="研训名称" width="160">
           <template slot-scope="scope">
             <span>{{ scope.row.name }}</span>
@@ -102,7 +102,7 @@
         </el-table-column>
         <el-table-column label="研训时间" width="160">
           <template slot-scope="scope">
-            <span>{{ scope.row.classTime | formatTS}}</span>
+            <span>{{ scope.row.classTime | formatTS }}</span>
           </template>
         </el-table-column>
         <el-table-column label="研训性质">
@@ -122,7 +122,7 @@
         </el-table-column>
         <el-table-column label="研训地点">
           <template slot-scope="scope">
-            <span>{{ scope.row.place}}</span>
+            <span>{{ scope.row.place }}</span>
           </template>
         </el-table-column>
         <el-table-column label="课时">
@@ -162,111 +162,111 @@
   </div>
 </template>
 <script>
-import tableCommon from "@/mixins/table-common.js";
-import { formatDate } from "@/api/date.js";
+import tableCommon from '@/mixins/table-common.js'
+import { formatDate } from '@/api/date.js'
 import {
   queryResearch,
   addResearch,
   delResearch
-} from "@/api/ResearchTrainingApi";
+} from '@/api/ResearchTrainingApi'
 export default {
+  filters: {
+    formatTS(timestamp) {
+      const date = new Date(timestamp)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+    }
+  },
   mixins: [tableCommon],
   data() {
     return {
       fn: queryResearch,
       options: [
         {
-          value: "选项1",
-          label: "选修"
+          value: '选项1',
+          label: '选修'
         },
         {
-          value: "选项2",
-          label: "必修"
+          value: '选项2',
+          label: '必修'
         }
       ],
       options1: [
         {
-          value: "选项1",
-          label: "教育学培训"
+          value: '选项1',
+          label: '教育学培训'
         },
         {
-          value: "选项2",
-          label: "教育管理培训"
+          value: '选项2',
+          label: '教育管理培训'
         }
       ],
-      value: "",
-      value1: "",
-      input: "",
+      value: '',
+      value1: '',
+      input: '',
       dialogFormVisible: false,
-      formLabelWidth: "120px",
+      formLabelWidth: '120px',
       page: {
         pageSize: 20
       },
       searchForm: {},
       tableData: [],
       form: {
-        name: "",
-        presenter: "",
-        date1: "",
-        date2: "",
-        classProperty: "",
-        classMethod: "",
-        classType: "",
-        place: "",
-        classTime: "",
-        trainUsers: ""
+        name: '',
+        presenter: '',
+        date1: '',
+        date2: '',
+        classProperty: '',
+        classMethod: '',
+        classType: '',
+        place: '',
+        classTime: '',
+        trainUsers: ''
       }
-    };
+    }
   },
   mounted() {
-    this.get();
+    this.get()
   },
   methods: {
     handleEdit(index, row) {
-      console.log(index, row.id);
+      console.log(index, row.id)
     },
     async handleDelete(row) {
       try {
-        let id = row.id;
-        await delResearch({ id });
-        this.get();
+        const id = row.id
+        await delResearch({ id })
+        this.get()
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleSelection = val
     },
     async get() {
       try {
-        let page = 1;
-        let rows = 10000;
-        let List = await queryResearch({ page, rows });
-        this.tableData = List.data.list;
-        console.log(this.tableData);
+        const page = 1
+        const rows = 10000
+        const List = await queryResearch({ page, rows })
+        this.tableData = List.data.list
+        console.log(this.tableData)
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     },
     async submit() {
       try {
-        let form = JSON.stringify(this.form)
-        await addResearch({ form });
-        console.log(form);
-        this.dialogFormVisible = false;
-        this.get();
+        const form = JSON.stringify(this.form)
+        await addResearch({ form })
+        console.log(form)
+        this.dialogFormVisible = false
+        this.get()
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     }
-  },
-  filters: {
-    formatTS(timestamp) {
-      let date = new Date(timestamp);
-      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
-    }
   }
-};
+}
 </script>
 <style lang='scss' scpoed>
 .ResearchPlay {

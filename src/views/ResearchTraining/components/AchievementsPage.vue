@@ -9,7 +9,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </div>
       <div class="type">
@@ -20,12 +20,12 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </div>
       <div class="name">
         <p>名称:</p>
-        <el-input v-model="input" placeholder="请输入名称"></el-input>
+        <el-input v-model="input" placeholder="请输入名称" />
       </div>
       <div style="height:32px;margin-left:23px;margin-top:24px;">
         <el-button type="primary" icon="el-icon-search" size="small">搜索</el-button>
@@ -35,7 +35,7 @@
     </div>
     <div class="content">
       <el-table :data="tableData" style="width: 100%;" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column type="selection" width="55" />
         <el-table-column label="研训名称" width="160">
           <template slot-scope="scope">
             <span>{{ scope.row.name }}</span>
@@ -88,8 +88,8 @@
           </template>
         </el-table-column>
         <el-table-column label="研训报告">
-          <template slot-scope='scope'>
-            <span style="color:#1890FF">{{scope.row.Presentation}}</span>
+          <template slot-scope="scope">
+            <span style="color:#1890FF">{{ scope.row.Presentation }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -102,57 +102,57 @@ export default {
     return {
       options: [
         {
-          value: "选项1",
-          label: "选修"
+          value: '选项1',
+          label: '选修'
         },
         {
-          value: "选项2",
-          label: "必修"
+          value: '选项2',
+          label: '必修'
         }
       ],
       options1: [
         {
-          value: "选项1",
-          label: "教育学培训"
+          value: '选项1',
+          label: '教育学培训'
         },
         {
-          value: "选项2",
-          label: "教育管理培训"
+          value: '选项2',
+          label: '教育管理培训'
         }
       ],
-      value: "",
-      value1: "",
-      input: "",
+      value: '',
+      value1: '',
+      input: '',
       page: {
         pageSize: 20
       },
       searchForm: {},
       tableData: [
         {
-          name: "教师职业道德修养",
-          Nature: "选修",
-          Speaker: "王丹丹/校领导",
-          frequency: "3",
-          time: "3小时",
-          Attendance: "王林、李晓、蓝枫...",
-          NoComplete: "李晓、蓝枫",
-          Presentation:'13份'
+          name: '教师职业道德修养',
+          Nature: '选修',
+          Speaker: '王丹丹/校领导',
+          frequency: '3',
+          time: '3小时',
+          Attendance: '王林、李晓、蓝枫...',
+          NoComplete: '李晓、蓝枫',
+          Presentation: '13份'
         }
       ]
-    };
+    }
   },
   methods: {
     handleEdit(index, row) {
-      console.log(index, row);
+      console.log(index, row)
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      console.log(index, row)
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleSelection = val
     }
   }
-};
+}
 </script>
 <style lang='scss' scpoed>
 .ResearchPlay {

@@ -3,7 +3,7 @@
     <div class="home-search">
       <div class="search-title">
         学期:
-        <el-input style="width:224px;" v-model="input" placeholder="请输入学期"></el-input>
+        <el-input v-model="input" style="width:224px;" placeholder="请输入学期" />
         <el-button style="margin-left:31px;" type="primary" icon="el-icon-search">搜索</el-button>
         <el-button icon="el-icon-refresh" type="success">刷新</el-button>
       </div>
@@ -20,11 +20,11 @@
         >
           <div class="Teaching-resources">
             <div class="resources-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p class="title-text">师资分析</p>
               <p class="title-More">
                 更多
-                <i class="el-icon-d-arrow-right"></i>
+                <i class="el-icon-d-arrow-right" />
               </p>
             </div>
             <div class="resources-content">
@@ -35,15 +35,15 @@
         <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" style="padding-right: 17px;">
           <div class="Achievements">
             <div class="Achievements-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p class="title-text">研训成果</p>
               <p class="title-More">
                 更多
-                <i class="el-icon-d-arrow-right"></i>
+                <i class="el-icon-d-arrow-right" />
               </p>
             </div>
             <div class="Achievements-content">
-                 <pie-chard />
+              <pie-chard />
             </div>
           </div>
         </el-col>
@@ -59,31 +59,31 @@
         >
           <div class="Number-trainees">
             <div class="trainees-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p class="title-text">参训人数</p>
               <p class="title-More">
                 更多
-                <i class="el-icon-d-arrow-right"></i>
+                <i class="el-icon-d-arrow-right" />
               </p>
             </div>
             <div class="trainees-content" style="margin-top:-50px;">
-                <Histogram />
+              <Histogram />
             </div>
           </div>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8" style="padding-right: 17px;">
           <div class="School-statistics">
             <div class="statistics-title">
-              <p class="u-line"></p>
+              <p class="u-line" />
               <p class="title-text">校本研修统计</p>
               <p style="position:absolute;top:10px;left:158px;font-size:15px;color:#bbb;">(现状统计)</p>
               <p class="title-More">
                 更多
-                <i class="el-icon-d-arrow-right"></i>
+                <i class="el-icon-d-arrow-right" />
               </p>
             </div>
             <div class="statistics-content">
-                <CurrentSituation />
+              <CurrentSituation />
             </div>
           </div>
         </el-col>
@@ -92,7 +92,7 @@
   </div>
 </template>
 <script>
-import RaddarChart from "./RaddarChart";
+import RaddarChart from './RaddarChart'
 import PieChard from './PieChard'
 import Histogram from './Histogram'
 import CurrentSituation from './CurrentSituation'
@@ -105,10 +105,10 @@ export default {
   },
   data() {
     return {
-      input: ""
-    };
+      input: ''
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .homePage {

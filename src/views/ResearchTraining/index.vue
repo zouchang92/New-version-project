@@ -3,17 +3,17 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="研训首页" name="first">
         <div>
-         <ResearchPage />
+          <ResearchPage />
         </div>
       </el-tab-pane>
       <el-tab-pane label="研训计划" name="second">
         <div>
-         <ResearchPlay />
+          <ResearchPlay />
         </div>
       </el-tab-pane>
       <el-tab-pane label="研训成果" name="Three">
         <div>
-         <AchievementsPage />
+          <AchievementsPage />
         </div>
       </el-tab-pane>
       <el-tab-pane label="我的研训" name="Four">
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import MyResearch from "./components/MyResearch"
+import MyResearch from './components/MyResearch'
 import ResearchPage from './components/ResearchPage'
 import ResearchPlay from './components/ResearchPlay'
 import AchievementsPage from './components/AchievementsPage'
@@ -38,15 +38,15 @@ export default {
   },
   data() {
     return {
-      activeName: "first"
-    };
+      activeName: 'first'
+    }
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(tab, event)
     }
   }
-};
+}
 </script>
 <style>
 .Research-training .el-tabs__nav-wrap {

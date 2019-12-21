@@ -5,11 +5,11 @@
         <avue-crud
           :data="tableList"
           :option="option"
-          @search-change="searchChange"
           :page="page"
+          @search-change="searchChange"
           @selection-change="selectionChange"
         >
-          <template slot-scope="scope" slot="menu">
+          <template slot="menu" slot-scope="scope">
             <el-button
               type="text"
               size="small"
@@ -26,10 +26,10 @@
           <template slot="searchMenu">
             <el-button type="success" icon="el-icon-folder-checked" size="small">批量记录签到</el-button>
             <el-button
-              @click="batchDel()"
               type="danger"
               icon="el-icon-folder-delete"
               size="small"
+              @click="batchDel()"
             >批量记录缺勤</el-button>
           </template>
         </avue-crud>
@@ -38,8 +38,8 @@
   </div>
 </template>
 <script>
-import tableCommon from "@/mixins/table-common.js";
-import { queryAttendance } from "@/api/CommunityApi.js";
+import tableCommon from '@/mixins/table-common.js'
+import { queryAttendance } from '@/api/CommunityApi.js'
 
 export default {
   mixins: [tableCommon],
@@ -52,89 +52,90 @@ export default {
       searchForm: {},
       tableList: [
         {
-          semesterId: "街舞社",
-          clubName: "20190377927",
-          name: "王安",
-          clubOrgId: "三年级/5班",
-          person: "男",
-          classroomName: "2019-09-28 09:00"
+          semesterId: '街舞社',
+          clubName: '20190377927',
+          name: '王安',
+          clubOrgId: '三年级/5班',
+          person: '男',
+          classroomName: '2019-09-28 09:00'
         }
       ],
       option: {
         selection: true,
-        align: "center",
+        align: 'center',
         viewBtn: false,
         editBtn: false,
         delBtn: false,
-        menuAlign: "center",
+        menuAlign: 'center',
         column: [
           {
-            label: "社团名称",
-            prop: "clubName",
-            type: "select",
+            label: '社团名称',
+            prop: 'clubName',
+            type: 'select',
             search: true
           },
           {
-            label: "负责人",
-            prop: "person",
-            type: "select",
+            label: '负责人',
+            prop: 'person',
+            type: 'select',
             hide: true,
             search: true
           },
           {
-            label: "学号",
-            prop: "studentNum"
+            label: '学号',
+            prop: 'studentNum'
           },
           {
-            label: "活动日期",
-            prop: "daterange",
-            type: "daterange",
+            label: '活动日期',
+            prop: 'daterange',
+            type: 'daterange',
             hide: true,
             search: true
           },
           {
-            label: "姓名",
-            prop: "studentName",
+            label: '姓名',
+            prop: 'studentName',
             search: true
           },
           {
-            label: "所在班级",
-            prop: "studentOrgId",
-            type: "select",
+            label: '所在班级',
+            prop: 'studentOrgId',
+            type: 'select',
             search: true
           },
           {
-            label: "性别",
-            prop: "studentGender"
+            label: '性别',
+            prop: 'studentGender'
           },
           {
-            label: "报名日期",
-            prop: "days"
+            label: '报名日期',
+            prop: 'days'
           }
         ]
       }
-    };
+    }
   },
   methods: {
     onLoad(page) {
-      this.$message.success("分页信息:" + JSON.stringify(page));
-      this.page.total = 20;
+      this.$message.success('分页信息:' + JSON.stringify(page))
+      this.page.total = 20
     },
     handleEdit(row, index) {
-      this.$refs.crud.rowEdit(row, index);
+      this.$refs.crud.rowEdit(row, index)
     },
     selectionChange(list) {
-      this.$message.success("选中的数据" + JSON.stringify(list));
+      this.$message.success('选中的数据' + JSON.stringify(list))
     },
     cellStyle({ row, column, rowIndex, columnIndex }) {
+      // eslint-disable-next-line eqeqeq
       if (columnIndex == 3) {
         return {
-          overflow: "hidden"
-        };
+          overflow: 'hidden'
+        }
       }
     }
   }
-};
+}
 </script>
 <style>
 .ActivityAttendance .el-date-editor .el-range-separator {

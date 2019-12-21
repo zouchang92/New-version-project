@@ -127,6 +127,12 @@ export default {
   components: {
     BoxCard
   },
+  filters: {
+    formatTS(timestamp) {
+      const date = new Date(timestamp)
+      return formatDate(date, 'yyyy-MM-dd')
+    }
+  },
   data() {
     return {
       tableList: [],
@@ -190,12 +196,6 @@ export default {
       } catch (err) {
         console.log(err)
       }
-    }
-  },
-  filters: {
-    formatTS(timestamp) {
-      const date = new Date(timestamp)
-      return formatDate(date, 'yyyy-MM-dd')
     }
   }
 }

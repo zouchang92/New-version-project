@@ -29,41 +29,41 @@
                 :max-rating="rating"
               />
               <star-rating
+                v-model="rating1"
                 style="margin-top:30px"
                 :star-size="20"
                 read-only
                 show-rating
                 rtl
-                v-model="rating1"
-                v-bind:max-rating="rating1"
+                :max-rating="rating1"
               />
               <star-rating
+                v-model="rating2"
                 style="margin-top:27px"
                 :star-size="20"
                 read-only
                 show-rating
                 rtl
-                v-model="rating2"
-                v-bind:max-rating="rating2"
+                :max-rating="rating2"
               />
               <star-rating
+                v-model="rating3"
                 style="margin-top:26px"
                 :star-size="20"
                 read-only
                 show-rating
                 rtl
-                v-model="rating3"
-                v-bind:max-rating="rating3"
-              ></star-rating>
+                :max-rating="rating3"
+              />
               <star-rating
+                v-model="rating4"
                 style="margin-top:25px"
                 :star-size="20"
                 show-rating
                 rtl
                 read-only
-                v-model="rating4"
-                v-bind:max-rating="rating4"
-              ></star-rating>
+                :max-rating="rating4"
+              />
             </div>
             <span>语文、数学</span>
             <el-progress
@@ -72,7 +72,7 @@
               stroke-width="13"
               :format="format"
               color="#F2BB46"
-            ></el-progress>
+            />
             <span>物理</span>
             <el-progress
               style="padding-top:16px;"
@@ -80,7 +80,7 @@
               :format="format"
               stroke-width="13"
               color="#F2BB46"
-            ></el-progress>
+            />
             <span>英语</span>
             <el-progress
               style="padding-top:16px;"
@@ -88,7 +88,7 @@
               :format="format"
               stroke-width="13"
               color="#F2BB46"
-            ></el-progress>
+            />
             <span>化学</span>
             <el-progress
               style="padding-top:16px;"
@@ -96,7 +96,7 @@
               stroke-width="13"
               :format="format"
               color="#F2BB46"
-            ></el-progress>
+            />
             <span>音乐</span>
             <el-progress
               style="padding-top:16px;"
@@ -104,7 +104,7 @@
               :format="format"
               stroke-width="13"
               color="#F2BB46"
-            ></el-progress>
+            />
           </div>
         </div>
       </div>
@@ -122,58 +122,58 @@
                   style="height:48px;width:48px;border-radius:50%;"
                   src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                   alt
-                />
-                <p class="name">{{item.studentName}}</p>
-                <p class="subject">{{item.course}}</p>
+                >
+                <p class="name">{{ item.studentName }}</p>
+                <p class="subject">{{ item.course }}</p>
                 <p class="data">点评时间</p>
-                <p class="stardata">{{item.createTime | formatTS}}</p>
+                <p class="stardata">{{ item.createTime | formatTS }}</p>
                 <p class="Average">平均分</p>
                 <p class="branch">100分</p>
                 <p class="discipline">课堂纪律</p>
                 <star-rating
+                  v-model="rating"
                   class="discipline-l"
                   :star-size="20"
                   show-rating
-                  v-model="rating"
                   read-only
-                  v-bind:max-rating="rating"
-                ></star-rating>
+                  :max-rating="rating"
+                />
                 <p class="Absorbed">上课专注</p>
                 <star-rating
+                  v-model="rating"
                   class="Absorbed-l"
                   :star-size="20"
                   read-only
                   show-rating
-                  v-model="rating"
-                  v-bind:max-rating="rating"
-                ></star-rating>
+                  :max-rating="rating"
+                />
                 <p class="active">问答活跃</p>
                 <star-rating
+                  v-model="rating"
                   class="active-l"
                   :star-size="20"
                   read-only
                   show-rating
-                  v-model="rating"
-                  v-bind:max-rating="rating"
-                ></star-rating>
+                  :max-rating="rating"
+                />
                 <p class="note">随堂笔记情况</p>
                 <star-rating
+                  v-model="rating"
                   class="note-l"
                   :star-size="20"
                   read-only
                   show-rating
-                  v-model="rating"
-                  v-bind:max-rating="rating"
-                ></star-rating>
+                  :max-rating="rating"
+                />
                 <p class="work">作业情况</p>
                 <star-rating
+                  v-model="rating"
                   class="work-l"
                   :star-size="20"
                   read-only
                   show-rating
-                  v-model="rating"
-                  v-bind:max-rating="rating"
-                ></star-rating>
+                  :max-rating="rating"
+                />
               </div>
             </li>
           </ul>
@@ -183,12 +183,18 @@
   </div>
 </template>
 <script>
-import StarRating from "vue-star-rating";
-import { formatDate } from "@/api/date.js";
-import { stuLesson, listStucompre } from "@/api/growthArchivesApi";
+import StarRating from 'vue-star-rating'
+import { formatDate } from '@/api/date.js'
+import { stuLesson, listStucompre } from '@/api/growthArchivesApi'
 export default {
   components: {
     StarRating
+  },
+  filters: {
+    formatTS(timestamp) {
+      const date = new Date(timestamp)
+      return formatDate(date, 'yyyy-MM-dd hh:mm')
+    }
   },
   data() {
     return {
@@ -198,48 +204,42 @@ export default {
       rating3: 2,
       rating4: 1,
       value: 5,
-      customColor: "#F2BB46",
+      customColor: '#F2BB46',
       List: {},
       obj: {}
-    };
+    }
   },
   mounted() {
-    this.getLesson();
-    this.get();
+    this.getLesson()
+    this.get()
   },
   methods: {
     async getLesson() {
       try {
-        let list = await stuLesson({});
-        this.List = list.data.list;
-        console.log(this.List);
+        const list = await stuLesson({})
+        this.List = list.data.list
+        console.log(this.List)
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     },
     async get() {
       try {
-        let semesterName = "2019年上学期";
-        let orgName = "三年二班";
-        let studentName = "张三";
-        let list = await listStucompre({ semesterName, orgName, studentName });
-        this.obj = list.data.list;
-        console.log(list);
+        const semesterName = '2019年上学期'
+        const orgName = '三年二班'
+        const studentName = '张三'
+        const list = await listStucompre({ semesterName, orgName, studentName })
+        this.obj = list.data.list
+        console.log(list)
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     },
     format(percentage) {
-      return percentage === 100 ? "满" : `${percentage}%`;
-    }
-  },
-  filters: {
-    formatTS(timestamp) {
-      let date = new Date(timestamp);
-      return formatDate(date, "yyyy-MM-dd hh:mm");
+      return percentage === 100 ? '满' : `${percentage}%`
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .Performance {
@@ -401,7 +401,6 @@ export default {
 }
 </style>
 <style >
-.el-progress__text,
 .vue-star-rating-rating-text {
   display: none;
 }
