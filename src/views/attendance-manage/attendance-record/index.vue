@@ -2,10 +2,10 @@
   <div>
     <div style="margin-top: 10px;" class="table-container">
       <div class="basic-container">
-          <avue-crud @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
+          <avue-crud :permission="permission" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
             <template slot="searchMenu">
               
-              <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
+              <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
               <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
@@ -16,6 +16,7 @@
 
 <script>
 import tableCommon from '@/mixins/table-common'
+import permission from '@/mixins/permission'
 import DateSearch from '@/components/DateSearch'
 import { queryAttendanceRecord } from '@/api/attendanceManageApi'
 export default {
@@ -39,11 +40,11 @@ export default {
           type: 'datetime',
           format: 'YYYY-MM-DD HH:mm:ss'
         }]
-  }
+      }
     }
   },
   name: 'attendanceReoprt',
-  mixins: [tableCommon],
+  mixins: [tableCommon, permission],
   components: {
     DateSearch
   }

@@ -35,7 +35,7 @@ function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来
         route.children = filterAsyncRoutes(route.children, threeMap).accessedRouters
       }
       if (route.threeMenu) {
-        threeMap[route.name] = route
+        threeMap[route.menuUrl] = route
         return false
       } else {
         return true
@@ -43,7 +43,7 @@ function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来
     } else {
       
       if (route.threeMenu) { 
-        threeMap[route.name] = route
+        threeMap[route.menuUrl] = route
         return false
       }
       route.path = `/${route.menuName}`
@@ -84,6 +84,7 @@ const actions = {
       let accessedRoutes
       try {
         accessedRoutes = filterAsyncRoutes(routerMap)
+        console.log(accessedRoutes, 'routes')
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes.accessedRouters.concat([{
           path: '*',

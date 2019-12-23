@@ -8,11 +8,13 @@ export function queryFolderTree() {
   })
 }
 
-export function queryRecyclerList() {
+export function queryRecyclerList({ name }) {
   return request({
     url: '/zhxyx/zyFile/recyclerList',
     method: 'post',
-    data: {}
+    data: {
+      name
+    }
   })
 }
 
@@ -38,10 +40,23 @@ export function querySubList({ parentId, name }) {
   })
 }
 
-export function queryMyFileList() {
+export function queryMyFileList({ name }) {
   return request({
     url: '/zhxyx/zyFileShare/shareFileToMe',
-    method: 'post'
+    method: 'post',
+    data: {
+      name
+    }
+  })
+}
+
+export function queryPublicFile({ name }) {
+  return request({
+    url: '/zhxyx/zyFileShare/shareFileToAll',
+    method: 'post',
+    data: {
+      name
+    }
   })
 }
 
@@ -162,6 +177,26 @@ export function shareToPrivate({fileId, recUserId}) {
     data: {
       fileId, 
       recUserId
+    }
+  })
+}
+
+export function shareToPublic(id) {
+  return request({
+    url: '/zhxyx/zyFileShare/shareFileToPublic',
+    method: 'post',
+    data: {
+      fileId: id
+    }
+  })
+}
+
+export function batchDel(id) {
+  return request({
+    url: '/zhxyx/zyFile/batchDelete',
+    method: 'post',
+    data: {
+      id
     }
   })
 }
