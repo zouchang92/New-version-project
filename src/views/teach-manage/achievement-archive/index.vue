@@ -100,37 +100,14 @@ export default {
             addDisplay: false,
             editDisplay: false
           },
-          {
-            label:'100',
-            prop:'fullMarks',
-            span: 24,
-          },
-          {
-            label:'90-99',
-            prop:'ninetyPoints',
-            span: 24,
-          },
-          {
-            label:'80-89',
-            prop:'eightPoints',
-            span: 24,
-          },
-          {
-            label:'70-79',
-            prop:'seventyPoints',
-            span: 24,
-          },
-          {
-            label: '60-69',
-            prop: 'sixtyPoints'
-          },
+          
           {
             label: '不及格',
             prop: 'fail'
           },
           {
             label: '所属班级',
-            prop: 'orgName',
+            prop: 'orgId',
             hide: true,
             type: 'cascader',
             span: 24,
@@ -138,7 +115,7 @@ export default {
             dicData: getOrgan(),
             props: {
               label: 'orgName',
-              value: 'orgName'
+              value: 'id'
             },
             rules: {
               required: true,
@@ -226,16 +203,38 @@ export default {
       
     },
     processData(data) {
-      let score = data[0]
-      let barData = _.map(this.scoreMap, (n, i) => {
-        return {
-          '分段': n,
-          '人数': score[i] || ''
+      let score = data
+      this.option.column = this.option.column.filter(n => !n.isColumn)
+      let column = []
+      if (score.middle.length) {
+        column = score.middle.map(n => {
+          return {
+            label: n.midScore,
+            prop: n.midScore
+          }
+        })
+        this.option = {
+          ...this.option,
+          column: _.concat([], this.option.column, column)
         }
+      }
+      
+      let barData = _.map(score.middle, (n, i) => {
+        return {
+          '分段': n.midScore,
+          '人数': n.midNum,
+        }
+      })
+      let tableData = [{
+        fail: score.fail,
+        
+      }]
+      data.middle.forEach((n, i) => {
+        tableData[0][n.midScore] = n.midNum
       })
       this.classStoreData.rows = barData
       this.scoreInfo = score
-      return data
+      return tableData
     },
     async rowUpdate(row, index, done, loading) {
       loading(true)

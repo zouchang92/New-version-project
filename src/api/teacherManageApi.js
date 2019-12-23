@@ -1,13 +1,14 @@
 import request from '@/utils/request'
 
-export const queryTeacher = ({ page, rows, organId, userName }) => {
+export const queryTeacher = ({ page, rows, organId, userName, loginName }) => {
   return request({
     url: '/zhxyx/teacher/list',
     data: {
       page,
       rows,
       organId,
-      userName
+      userName,
+      loginName
     },
     method: 'post'
   })

@@ -74,7 +74,25 @@ export default {
             prop:'id',
             hide: true,
             addDisplay: false,
-            editDisplay: false
+            editDisplay: false,
+            viewDisplay: false,
+          },
+          {
+            label:'所属机构',
+            prop:'organId',
+            rules: {
+              required: true,
+              message: '所属机构'
+            },
+            type: 'tree',
+            search: true,
+            span: 12,
+            searchClearable: true,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
           },
           {
             label:'姓名',
@@ -93,6 +111,7 @@ export default {
             },
             search: true,
             span: 12,
+            editDisplay: false
           },
           {
             label: '性别',
@@ -104,23 +123,6 @@ export default {
               message: '性别是必填项'
             },
             dicData: genderDict
-          },
-          {
-            label:'所属机构',
-            prop:'organId',
-            rules: {
-              required: true,
-              message: '所属机构'
-            },
-            type: 'tree',
-            search: true,
-            span: 12,
-            searchClearable: true,
-            dicData: getOrgan(),
-            props: {
-              label: 'orgName',
-              value: 'id'
-            },
           },
           {
             label: "进校时间",
@@ -173,7 +175,6 @@ export default {
             hide: true,
             dicData: curStatusDict
           },
-          
           {
             label: "证件类型",
             prop: "credType",

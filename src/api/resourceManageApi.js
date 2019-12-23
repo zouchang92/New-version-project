@@ -16,25 +16,24 @@ export function queryRecyclerList() {
   })
 }
 
-export function uploadFile({ parentId, filePath, name, createUserId }) {
+export function uploadFile({ parentId, fileList }) {
   return request({
     url: '/zhxyx/zyFile/uploadZyFile',
     method: 'post',
     data: {
       parentId, 
-      filePath, 
-      name, 
-      createUserId
+      fileList, 
     }
   })
 }
 
-export function querySubList({ parentId }) {
+export function querySubList({ parentId, name }) {
   return request({
     url: '/zhxyx/zyFile/subList',
     method: 'post',
     data: {
-      parentId
+      parentId,
+      name
     }
   })
 }
@@ -152,6 +151,17 @@ export function reNameFolder({ name, id }) {
     data: {
       name,
       id
+    }
+  })
+}
+
+export function shareToPrivate({fileId, recUserId}) {
+  return request({
+    url: '/zhxyx/zyFileShare/shareFileToPrivate',
+    method: 'post',
+    data: {
+      fileId, 
+      recUserId
     }
   })
 }

@@ -153,6 +153,7 @@ export default {
             span: 24,
             search: true,
             searchSpan: 4,
+            editDisplay: false
           },
           {
             label:'姓名',

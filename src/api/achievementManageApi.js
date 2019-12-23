@@ -43,7 +43,7 @@ export function importAchievement({
 
 export function queryClassScore({
   semesterName, 
-  orgName = [], 
+  orgId = [], 
   course, 
   examType = ''
 }) {
@@ -52,7 +52,7 @@ export function queryClassScore({
     method: 'post',
     data: {
       semesterName, 
-      orgName: orgName[orgName.length - 1], 
+      orgId: orgId[orgId.length - 1], 
       course, 
       examType: examType ? [examType] : []
     }
