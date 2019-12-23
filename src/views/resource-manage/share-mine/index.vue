@@ -30,7 +30,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <member-select v-model="memberShow" />
+    <member-select @ v-model="memberShow" ref="memberSelect" />
     <upload-dialog @uploadSuccess="uploadFiles" :dialogVisible.sync="uploadDialogVisible" />
     <el-dialog :visible.sync="newFolderModalVisible">
       <div>
@@ -119,7 +119,6 @@ export default {
         await this.refreshFolder(currentPath.id)
         this.uploadDialogVisible = false
       } catch(err) {
-        console.log(err)
       }
     },
     async refrshResource() {

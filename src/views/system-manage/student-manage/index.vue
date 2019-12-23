@@ -114,6 +114,7 @@ export default {
               required: true,
               message: '学号是必填项'
             },
+            editDisplay: false
           },
           {
             label: '性别',

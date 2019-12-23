@@ -8,12 +8,12 @@
         </el-tab-pane>
         <el-tab-pane label="分享给我的" name="second">
           <div class="mortal-content" style="margin: 0 15px;">
-            <share-mine />
+            <share-mine v-if="activeName === 'second'" />
           </div>
         </el-tab-pane>
         <el-tab-pane label="公共资源" name="three">
           <div class="mortal-content" style="margin: 0 15px;">
-            <class-report />
+            <class-report v-if="activeName === 'three'" />
           </div>
         </el-tab-pane>
         <el-tab-pane label="回收站" name="four">

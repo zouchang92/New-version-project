@@ -6,7 +6,7 @@
           <el-col style="margin-bottom: 15px;" :span="24">
             <el-form size="small" style="margin-bottom: 0px;" class="avue-crud-search" :inline="true">
               <el-form-item label="文件名">
-                <el-input placeholder="请输入文件名" />
+                <el-input v-model="searchText" placeholder="请输入文件名" />
               </el-form-item>
               <el-form-item>
                 <el-button icon="el-icon-search" @click="search" type="primary">搜索</el-button>
@@ -18,7 +18,7 @@
                 <el-button @click="addFolder" icon="el-icon-upload" type="success">新建文件夹</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-download" type="info">批量下载</el-button>
+                <el-button @click="batchDownload" icon="el-icon-download" type="info">批量下载</el-button>
               </el-form-item>
               <el-form-item>
                 <el-button icon="el-icon-share" type="warning">批量分享</el-button>
@@ -53,9 +53,10 @@
 import UploadDialog from '../components/UploadDialog'
 import tableCommon from '@/mixins/table-common'
 import MemberSelect from '@/components/MemberSelect'
-import { queryFolderTree, uploadFile, querySubList, addFolder } from '@/api/resourceManageApi'
+import { queryFolderTree, uploadFile, querySubList, addFolder, shareToPrivate, downloadFile } from '@/api/resourceManageApi'
 import FileList from '../components/FileList'
 import permission from '@/mixins/permission'
+import { download } from '@/utils'
 import _ from 'lodash'
 export default {
   mixins: [tableCommon, permission],
@@ -67,7 +68,8 @@ export default {
       uploadDialogVisible: false,
       fn: queryFolderTree,
       activeIndex: 0,
-      shareId: ''
+      shareId: '',
+      searchText: ''
     }
   },
   computed: {
@@ -77,7 +79,20 @@ export default {
   },
   methods: {
     search() {
+      this.$refs['fileList'].refreshCurrentFolder(this.searchText)
+    },
+    async batchDownload() {
+      let ids = this.$refs['fileList'].selection
+      if (!ids.length) {
+        this.$message.warning('请至少选择一个文件')
+        return
+      }
+      try {
+        let res = await downloadFile(ids.join(','))
+        download(res.data)
+      } catch(err) {
 
+      }
     },
     shareFile(id) {
       this.shareId = id
@@ -122,10 +137,13 @@ export default {
       const { currentPath } = this.$refs['fileList']
       try {
         let res = await uploadFile({
-           parentId: currentPath.id === 'root' ? '' : currentPath.id, 
-           filePath: files[0].data[0].url, 
-           name: files[0].data[0].name, 
-           createUserId: ''
+          parentId: currentPath.id === 'root' ? '' : currentPath.id, 
+          fileList: _.map(files, n => {
+            return {
+              filePath: n['data'][0].url,
+              name: n['data'][0].name
+            }
+          })
         })
         await this.refreshFolder(currentPath.id)
         this.uploadDialogVisible = false
@@ -141,7 +159,15 @@ export default {
       }
     },
     async onShareFile(ids) {
-      console.log(ids)
+      try {
+        await shareToPrivate({
+          fileId: this.shareId,
+          recUserId: ids.join(',')
+        })
+        this.$message.success('分享成功')
+      } catch(err) {
+
+      }
     },
     async refreshFolder(id) {
       try {

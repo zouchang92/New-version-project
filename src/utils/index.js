@@ -455,3 +455,16 @@ export function generateDateAxis(config) {
 
   return axis;
 }
+
+export function download(files) {
+  const downloadFile = (href) => {
+    var a = document.createElement('a')
+    a.href = href
+    a.download = ''
+    a.click()
+    a.remove()
+  }
+  _.forEach(files, n => {
+    downloadFile(n)
+  })
+}

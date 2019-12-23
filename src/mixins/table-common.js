@@ -116,7 +116,7 @@ export default {
       fn.apply(this, [{ page: currentPage, rows: pageSize, ...this.searchForm }]).then(res => {
         this.tableListLoading = false
         let isArray = (res.data.constructor === Array)
-        if (isArray) {
+        if (isArray || !res.data.list) {
           this.tableList = this.processData(res.data)
           return
         }

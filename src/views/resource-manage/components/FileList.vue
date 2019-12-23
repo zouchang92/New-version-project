@@ -114,7 +114,8 @@ export default {
         type: '',
         id: '',
         name: '',
-        loading: false
+        loading: false,
+        fileType: ''
       },
       fnMap: {
         normal: querySubList,
@@ -168,6 +169,15 @@ export default {
     ...mapGetters(['name']),
     currentPath() {
       return this.bread[this.bread.length - 1]
+    },
+    selectedFiles() {
+      return _.filter(this.currentFolder, n => {
+        if (this.selection.indexOf(n.id) > -1) {
+          return true
+        } else {
+          return false
+        }
+      })
     }
   },
   mounted() {
@@ -183,7 +193,7 @@ export default {
       }
     },
     async reName() {
-      const { type, id, name  } = this.renameDialog
+      const { type, id, name, fileType  } = this.renameDialog
       this.renameDialog.loading = true
       if (name === '') {
         this.renameDialog.loading = false
@@ -193,7 +203,7 @@ export default {
       try {
         let res = await fn({
           id,
-          name
+          name: type === 'file' ? (name + '.' + fileType) : name
         })
         this.renameDialog = {
           ...this.renameDialog,
@@ -210,14 +220,15 @@ export default {
         }
       }
     },
-    openReNameDialog({id, type}) {
+    openReNameDialog({id, type, fileType}) {
       this.renameDialog = {
         ...this.renameDialog,
         id,
         type,
         loading: false,
         show: true,
-        name: ''
+        name: '',
+        fileType
       }
     },
     handleRecyclerMenuClick(action, data) {
@@ -235,7 +246,7 @@ export default {
           this.deleteFile('folder', file.id)
           break;
         case 2:
-          this.openReNameDialog({id: file.id, type: 'folder'})
+          this.openReNameDialog({id: file.id, type: 'folder', fileType: ''})
           break;
       }
     },
@@ -252,7 +263,7 @@ export default {
           this.folderInfoDialog.info = `文件路径：${file.filePath}\n上传时间：${moment(file.updateTime).format('YYYY-MM-DD HH:mm:ss')}\n大小：${file.size}`
           break;
         case 2 :
-          this.openReNameDialog({id: file.id, type: 'file'})
+          this.openReNameDialog({id: file.id, type: 'file', fileType: file.fileType})
           break;
         case 5:
           this.downloadFile(file.id)
@@ -288,8 +299,8 @@ export default {
         console.log(err)
       }
     },
-    refreshCurrentFolder() {
-      this.getFolderFile(this.currentPath.id)
+    refreshCurrentFolder(name = '') {
+      this.getFolderFile(this.currentPath.id, name)
     },
     async downloadFile(id) {
       try {
@@ -320,11 +331,11 @@ export default {
       this.bread = this.bread.slice(0, index + 1)
       this.getFolderFile(item.id)
     },
-    async getFolderFile(id) {
+    async getFolderFile(id, name = '') {
       this.loading = true
       let fn = this.fnMap[this.type]
       try {
-        let res = await fn({parentId: id === 'root' ? '' : id})
+        let res = await fn({parentId: id === 'root' ? '' : id, name})
         this.fileFilter(res.data)
         if (!res.data.length) {
           this.warnText = '该文件夹下还没有文件哦'

@@ -16,7 +16,7 @@
      <el-dialog title="家长导入" :visible.sync="importDialog">
         <el-form>
           <el-form-item label="下载模板">
-            <a style="color: blue" :href="`${baseUrl}/zhxyx/res/mod/学生档案.xlsx`">下载模板</a>
+            <a style="color: blue" :href="`${baseUrl}/zhxyx/res/mod/家长档案.xlsx`">下载模板</a>
           </el-form-item>
           <el-form-item label="上传">
             <el-upload
@@ -74,7 +74,8 @@ export default {
             prop:'id',
             hide: true,
             addDisplay: false,
-            editDisplay: false
+            editDisplay: false,
+            viewDisplay: false,
           },
           {
             label:'姓名',
@@ -97,6 +98,7 @@ export default {
               required: true,
               message: '账号是必填项'
             },
+            editDisplay: false
           },
           {
             label:'性别',
