@@ -122,24 +122,30 @@
       </div>
     </el-dialog>
     <el-dialog title="新建身心健康" :visible.sync="dialogTableVisible3">
-      <el-form :model="formH">
+      <el-form ref="formH" :model="formH">
         <el-form-item label="姓名" label-width="120" required>
           <el-input v-model="formH.studentName" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="身高" label-width="120" required>
-          <el-input v-model="formH.height" autocomplete="off" />
+        <el-form-item label="身高(cm)" label-width="120" required>
+          <el-input v-model="formH.itemHeight" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="体重" label-width="120" required>
-          <el-input v-model="formH.weight" autocomplete="off" />
+        <el-form-item label="体重(kg)" label-width="120" required>
+          <el-input v-model="formH.itemWeight" autocomplete="off" />
         </el-form-item>
         <el-form-item label="视力" label-width="120" required>
-          <el-input v-model="formH.sight" autocomplete="off" />
+          <el-input v-model="formH.itemSight" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="重大疾病" label-width="120" required>
-          <el-input v-model="formH.zdjb" autocomplete="off" />
+        <el-form-item label="重大疾病" prop="region">
+          <el-select v-model="formH.itemZdjb" placeholder="请选择有或者无">
+            <el-option label="有" value="有" />
+            <el-option label="无" value="无" />
+          </el-select>
         </el-form-item>
         <el-form-item label="参加日期" label-width="120">
           <el-date-picker v-model="formH.checkTime" type="date" placeholder="选择日期" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="备注" label-width="120" required>
+          <el-input v-model="formH.description" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -203,7 +209,9 @@ export default {
       },
       formas: {},
       formSer: {},
-      formH: {}
+      formH: {
+        studentName: '', itemHeight: '', itemWeight: '', itemSight: '', itemZdjb: '', checkTime: '', description: ''
+      }
     }
   },
   mounted() {
@@ -220,11 +228,33 @@ export default {
         this.show = true
       }
     },
-    search() {
-      this.$refs.academic.get()
-      this.$refs.child.get()
-      this.$refs.getClubQueryAll.getClubQueryAll()
-      //  this.$refs.health.getHealth()
+    async search() {
+      try {
+        if (this.activeName === 'first') {
+          this.$refs.academic.get()
+        }
+        if (this.activeName === 'second') {
+          this.$refs.performance.get()
+          this.$refs.performance.getLesson()
+        }
+        if (this.activeName === 'third') {
+          this.$refs.child.get()
+        }
+        if (this.activeName === 'fourth') {
+          this.$refs.getClubQueryAll.getClubQueryAll()
+        }
+        if (this.activeName === 'fifth') {
+          this.$refs.health.get()
+        }
+        if (this.activeName === 'sixth') {
+          console.log(222)
+        }
+        if (this.activeName === 'seventh') {
+          console.log(111)
+        }
+      } catch (err) {
+        console.log(err)
+      }
     },
     async add() {
       try {
@@ -339,29 +369,17 @@ export default {
         const orgName = '三年级二班'
         const studentNum = '10001'
         const studentName = JSON.parse(JSON.stringify(this.formH.studentName))
+        const itemHeight = JSON.parse(JSON.stringify(this.formH.itemHeight))
+        const itemWeight = JSON.parse(JSON.stringify(this.formH.itemWeight))
+        const itemSight = JSON.parse(JSON.stringify(this.formH.itemSight))
+        const itemZdjb = JSON.parse(JSON.stringify(this.formH.itemZdjb))
+        const description = JSON.parse(JSON.stringify(this.formH.description))
         const checkTime = JSON.parse(JSON.stringify(this.formH.checkTime))
-        const items = [
-          { item: '身高',
-            itemValue: this.formH.height
-          },
-          {
-            item: '体重',
-            itemValue: this.formH.weight
-          },
-          {
-            item: '视力',
-            itemValue: this.formH.height
-          },
-          {
-            item: '重大疾病',
-            itemValue: this.formH.zdjb
-          }
-        ]
+
         this.dialogTableVisible3 = false
-        console.log(this.formH)
-        console.log(semesterName, orgName, studentNum, studentName, items, checkTime)
         // eslint-disable-next-line eqeqeq
-        await addHealth({ semesterName, orgName, studentNum, studentName, items, checkTime })
+        await addHealth({ semesterName, orgName, studentNum, studentName, itemHeight, itemWeight, itemSight, itemZdjb, checkTime, description })
+        this.$refs.health.get()
       } catch (err) {
         console.log(err)
       }

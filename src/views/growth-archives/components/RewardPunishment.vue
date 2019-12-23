@@ -9,7 +9,6 @@
         v-model="obj"
         :data="tableList"
         :option="option"
-        :table-loading="tableListLoading"
         style="margin-top:10px;"
         @selection-change="selectionChange"
         @row-update="rowUpdate"
@@ -59,30 +58,23 @@
         <el-form-item label="姓名" label-width="120" required>
           <el-input v-model="forms.studentName" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="所在职务" label-width="120" required>
-          <el-input v-model="forms.duty" autocomplete="off" />
+        <el-form-item label="惩罚名称" label-width="120" required>
+          <el-input v-model="forms.itemName" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="工作内容" label-width="120" required>
-          <el-input v-model="forms.dutyContext" autocomplete="off" />
+        <el-form-item label="惩处类型" label-width="120" required>
+          <el-input v-model="forms.level" autocomplete="off" />
         </el-form-item>
-        <el-form-item
-          label="工作表现"
-          label-width="120"
-          required
-          :rules="{
-            required: true, message: '请输入工作表现', trigger: 'blur'
-          }"
-        >
-          <el-input v-model="forms.dutyComment" autocomplete="off" />
+        <el-form-item label="惩罚时间" label-width="120" required>
+          <el-date-picker v-model="forms.rapTime" type="date" placeholder="选择日期" style="width: 100%;" />
         </el-form-item>
-        <el-form-item label="开始时间" label-width="120" required>
-          <el-date-picker v-model="forms.startTime" type="date" placeholder="选择日期" style="width: 100%;" />
-        </el-form-item>
-        <el-form-item label="结束时间" label-width="120" required>
+        <el-form-item label="撤销时间" label-width="120" required>
           <el-date-picker v-model="forms.endTime" type="date" placeholder="选择日期" style="width: 100%;" />
         </el-form-item>
+        <el-form-item label="惩罚原因" label-width="120" required>
+          <el-input v-model="forms.reason" autocomplete="off" />
+        </el-form-item>
         <el-form-item label="备注" label-width="120" required>
-          <el-input v-model="forms.description" autocomplete="off" />
+          <el-input v-model="forms.reasons" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -94,7 +86,7 @@
 </template>
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { daRap, deleteDaRap, editDaRap, examineDaRap } from '@/api/growthArchivesApi'
+import { daRap, deleteDaRap, editDaRap, examineDaRap, addDaRap } from '@/api/growthArchivesApi'
 export default {
   mixins: [tableCommon],
   props: {
@@ -111,7 +103,6 @@ export default {
     return {
       // eslint-disable-next-line vue/no-dupe-keys
       input1: '',
-      fn: daRap,
       obj: [],
       obj1: [],
       tableList: [],
@@ -188,7 +179,7 @@ export default {
             prop: 'itemName'
           },
           {
-            label: '惩罚级别',
+            label: '惩罚类型',
             prop: 'level'
           },
           {
@@ -198,8 +189,14 @@ export default {
             format: 'yyyy-MM-dd'
           },
           {
+            label: '撤销日期',
+            prop: 'rapTime',
+            type: 'date',
+            format: 'yyyy-MM-dd'
+          },
+          {
             label: '惩罚原因',
-            prop: 'createUserId'
+            prop: 'reason'
           },
           {
             label: '备注',
@@ -214,9 +211,12 @@ export default {
       console.log(a, b)
     }
   },
-  mounted() {},
+  mounted() {
+    
+  },
   created() {
     this.get()
+    console.log(this.tableData, this.tableList)
   },
   methods: {
     handleAdd() {
@@ -232,8 +232,16 @@ export default {
       try {
         const list = await daRap()
         const a = list.data
-        this.tableData = list.data
-        console.log(a)
+        // eslint-disable-next-line eqeqeq
+        for (const i in a) {
+          // console.log(a[i])
+          if (a[i].status == 1) {
+            this.tableList.push(a[i])
+          }
+          if (a[i].status == 0) {
+            this.tableData.push(a[i])
+          }
+        }
       } catch (err) {
         console.log(err)
       }
@@ -284,8 +292,22 @@ export default {
     addPunishment() {
       this.dialogTableVisible2 = true
     },
-    Submit() {
-      console.log(this.forms)
+    async Submit() {
+      try {
+        const semesterName = '2019年上学期'
+        const orgName = '三年级二班'
+        const studentNum = '10001'
+        const studentName = JSON.parse(JSON.stringify(this.forms.studentName))
+        const itemName = JSON.parse(JSON.stringify(this.forms.itemName))
+        const level = JSON.parse(JSON.stringify(this.forms.level))
+        const rapTime = JSON.parse(JSON.stringify(this.forms.rapTime))
+        const reason = JSON.parse(JSON.stringify(this.forms.reason))
+        const status = 0
+        await addDaRap({ semesterName, orgName, studentNum, studentName, itemName, level, status, rapTime, reason })
+      } catch (err) {
+        console.log(err)
+      }
+      
     }
   }
 }

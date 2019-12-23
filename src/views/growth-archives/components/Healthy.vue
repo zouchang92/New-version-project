@@ -45,20 +45,20 @@ export default {
             prop: 'studentName'
           },
           {
-            label: '身高',
-            prop: 'height'
+            label: '身高(cm)',
+            prop: 'itemHeight'
           },
           {
-            label: '体重',
-            prop: 'weight'
+            label: '体重(kg)',
+            prop: 'itemWeight'
           },
           {
             label: '视力',
-            prop: 'sight'
+            prop: 'itemSight'
           },
           {
             label: '重大疾病',
-            prop: 'zdjb'
+            prop: 'itemZdjb'
           },
           {
             label: '体检日期',
@@ -68,7 +68,7 @@ export default {
           },
           {
             label: '备注',
-            prop: '',
+            prop: 'description',
             width: 100
           }
         ]

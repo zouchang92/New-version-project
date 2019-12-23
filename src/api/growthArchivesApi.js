@@ -135,12 +135,12 @@ export function deleteDaRap({ id }) {
     }
   })
 }
-export function addDaRap({ semesterName, orgName, studentNum, studentName, itemName, level, status }) {
+export function addDaRap({ semesterName, rapTime, orgName, studentNum, studentName, itemName, level, status, reason }) {
   return request({
     url: '/zhxyx/daRap/insertDaRap',
     method: 'post',
     data: {
-      semesterName, orgName, studentNum, studentName, itemName, level, status
+      semesterName, orgName, studentNum, studentName, itemName, level, status, rapTime, reason
     }
   })
 }
@@ -207,22 +207,22 @@ export function delHealth({ id }) {
     }
   })
 }
-export function addHealth({ id, semesterName, orgName, studentNum, studentName, items, checkTime }) {
+export function addHealth({ semesterName, orgName, studentNum, studentName, itemHeight, itemWeight, itemSight, itemZdjb, checkTime, description }) {
   return request({
-    url: '/zhxyx/stuHealth/delete',
+    url: '/zhxyx/stuHealth/addStuHealth',
     method: 'post',
     data: {
-      id, semesterName, orgName, studentNum, studentName, items, checkTime
+      semesterName, orgName, studentNum, studentName, itemHeight, itemWeight, itemSight, itemZdjb, checkTime, description
     }
   })
 }
 
-export function upadateHealth({ id, studentName, checkTime, items }) {
+export function upadateHealth({ id, semesterName, orgName, studentNum, studentName, itemHeight, itemWeight, itemSight, itemZdjb, checkTime, description }) {
   return request({
     url: '/zhxyx/stuHealth/updateHealth',
     method: 'post',
     data: {
-      id, studentName, checkTime, items
+      id, semesterName, orgName, studentNum, studentName, itemHeight, itemWeight, itemSight, itemZdjb, checkTime, description
     }
   })
 }

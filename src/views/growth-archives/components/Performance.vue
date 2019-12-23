@@ -8,15 +8,15 @@
         <div class="top-content">
           <div class="top-photo">
             <img
-              src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
+              :src="option.photo"
               alt
             >
-            <span class="top-name">姓名：张三</span>
-            <span class="top-numb">学号：20170828291</span>
+            <span class="top-name">姓名：{{ option.userName }}</span>
+            <span class="top-numb">学号：{{ option.studentNum }}</span>
           </div>
           <div class="top-Average">
             <span>表现平均分：</span>
-            <h3>86.3</h3>
+            <h3>{{ option.avgScore | numFilter }}</h3>
           </div>
           <div class="top-right">
             <div style="position: absolute;top: 34px;left: -227px;">
@@ -65,42 +65,42 @@
                 :max-rating="rating4"
               />
             </div>
-            <span>语文、数学</span>
+            <span>课堂纪律</span>
             <el-progress
               style="padding-top:16px;"
-              :percentage="100"
+              :percentage="option.disciplineScore | numFilter"
               stroke-width="13"
               :format="format"
               color="#F2BB46"
             />
-            <span>物理</span>
+            <span>上课专注</span>
             <el-progress
               style="padding-top:16px;"
-              :percentage="80"
+              :percentage="option.concentrationScore | numFilter"
               :format="format"
               stroke-width="13"
               color="#F2BB46"
             />
-            <span>英语</span>
+            <span>问答活跃</span>
             <el-progress
               style="padding-top:16px;"
-              :percentage="60"
+              :percentage="option.activeScore | numFilter"
               :format="format"
               stroke-width="13"
               color="#F2BB46"
             />
-            <span>化学</span>
+            <span>随堂笔记情况</span>
             <el-progress
               style="padding-top:16px;"
-              :percentage="40"
+              :percentage="option.noteScore | numFilter"
               stroke-width="13"
               :format="format"
               color="#F2BB46"
             />
-            <span>音乐</span>
+            <span>作业情况</span>
             <el-progress
               style="padding-top:16px;"
-              :percentage="20"
+              :percentage="option.homeworkScore | numFilter"
               :format="format"
               stroke-width="13"
               color="#F2BB46"
@@ -112,7 +112,7 @@
     <div style="height:590px;background:#fff;margin-top:20px;border-radius:1px;overflow: auto;">
       <div class="Performance-bottom">
         <div class="bottom-title">
-          <span>三年级二班蔡启超课堂表现</span>
+          <span>三年二班{{ option.userName }}课堂表现</span>
         </div>
         <div class="bottom-content">
           <ul>
@@ -123,12 +123,12 @@
                   src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                   alt
                 >
-                <p class="name">{{ item.studentName }}</p>
+                <p class="name">{{ item.courseTea }}</p>
                 <p class="subject">{{ item.course }}</p>
                 <p class="data">点评时间</p>
                 <p class="stardata">{{ item.createTime | formatTS }}</p>
                 <p class="Average">平均分</p>
-                <p class="branch">100分</p>
+                <p class="branch">{{ item.activeScore }}</p>
                 <p class="discipline">课堂纪律</p>
                 <star-rating
                   v-model="rating"
@@ -194,31 +194,47 @@ export default {
     formatTS(timestamp) {
       const date = new Date(timestamp)
       return formatDate(date, 'yyyy-MM-dd hh:mm')
+    },
+    numFilter(value) {
+      let realVal = ''
+      if (value) {
+        const tempVal = parseFloat(value).toFixed(2)
+        realVal = tempVal.substring(0, tempVal.length - 1)
+      } else {
+        realVal = '--'
+      }
+      return realVal
     }
   },
   data() {
     return {
-      rating: 5,
-      rating1: 4,
-      rating2: 3,
-      rating3: 2,
-      rating4: 1,
+      rating: 4,
+      rating1: 3,
+      rating2: 4,
+      rating3: 5,
+      rating4: 4,
       value: 5,
       customColor: '#F2BB46',
       List: {},
-      obj: {}
+      option: {
+        userName: ''
+      }
     }
   },
-  mounted() {
+  computed: {
+  },
+  created() {
     this.getLesson()
     this.get()
+  },
+  mounted() {
   },
   methods: {
     async getLesson() {
       try {
         const list = await stuLesson({})
         this.List = list.data.list
-        console.log(this.List)
+        // console.log(this.List)
       } catch (err) {
         console.log(err)
       }
@@ -229,14 +245,14 @@ export default {
         const orgName = '三年二班'
         const studentName = '张三'
         const list = await listStucompre({ semesterName, orgName, studentName })
-        this.obj = list.data.list
-        console.log(list)
+        this.option = list.data
+        console.log(this.option)
       } catch (err) {
         console.log(err)
       }
     },
     format(percentage) {
-      return percentage === 100 ? '100' : `${percentage}%`
+      return percentage === 100 ? '100' : `${percentage}分`
     }
   }
 }
@@ -296,7 +312,7 @@ export default {
       }
       .top-right {
         position: absolute;
-        left: 750px;
+        left: 723px;
         width: 40%;
         span {
           position: relative;
@@ -324,6 +340,8 @@ export default {
             .name {
               padding-left: 20px;
               margin: 0px;
+              width: 140px;
+              overflow: hidden;
             }
             .subject {
               position: absolute;
@@ -331,67 +349,75 @@ export default {
               left: 81px;
             }
             .data {
-              margin: 0px;
-              padding-left: 82px;
+              position: absolute;
+              top: 0px;
+              left: 228px;
             }
             .stardata {
               position: absolute;
               top: 34px;
-              left: 198px;
+              left: 228px;
             }
             .Average {
-              margin: 0px;
-              padding-left: 140px;
+              position: absolute;
+              top: 0px;
+              left: 437px;
             }
             .branch {
               position: absolute;
               top: 30px;
-              left: 400px;
+              left: 437px;
             }
             .discipline {
-              margin: 0px;
-              padding-left: 99px;
+              position: absolute;
+              top: 0px;
+              left: 582px;
             }
             .discipline-l {
               position: absolute;
               top: 42px;
-              left: 545px;
+              left: 582px;
             }
             .Absorbed {
-              margin: 0px;
-              padding-left: 69px;
+              position: absolute;
+              top: 0px;
+              left: 714px;
             }
             .Absorbed-l {
               position: absolute;
               top: 43px;
-              left: 677px;
+              left: 714px;
             }
             .active {
-              margin: 0px;
-              padding-left: 69px;
+              position: absolute;
+              top: 0px;
+              left: 847px;
             }
             .active-l {
               position: absolute;
               top: 43px;
-              left: 810px;
+              left: 847px;
             }
             .note {
-              margin: 0px;
-              padding-left: 69px;
+              position: absolute;
+              top: 0px;
+              left: 979px;
             }
             .note-l {
               position: absolute;
               top: 43px;
-              left: 944px;
+              left: 979px;
             }
             .work {
-              margin: 0px;
-              padding-left: 69px;
+              width: 120px;
+              position: absolute;
+              top: 0px;
+              left: 1146px;
             }
             .work-l {
               position: absolute;
               top: 43px;
-              left: 1113px;
+              left: 1146px;
             }
           }
         }
@@ -403,5 +429,8 @@ export default {
 <style >
 .vue-star-rating-rating-text {
   display: none;
+}
+.Performance .Performance-top .top-content .top-right .el-progress__text{
+  font-size: 14px !important;
 }
 </style>
