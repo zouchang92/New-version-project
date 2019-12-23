@@ -80,9 +80,16 @@ export default {
         id: ''
       },
       treeParams: {
+        dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/semester/queryAll',
+        dicMethod: 'post',
+        dicQuery: {
+          page: 1,
+          rows: 100000
+        },
         props: {
-          label: 'orgName',
-          value: 'id',
+          res: 'data.list',
+          label: 'name',
+          value: 'name'
         },
         data: []
       },

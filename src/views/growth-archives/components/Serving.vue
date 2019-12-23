@@ -10,13 +10,16 @@
           :page="page"
           :table-loading="tableListLoading"
           :cell-style="cellStyle"
-          @row-save="rowSave"
-          @row-del="del"
           @row-update="rowUpdate"
           @selection-change="selectionChange"
         >
-          <template slot="searchMenu">
-            <el-button type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
+          <template slot="menu" slot-scope="scope">
+            <el-button
+              type="text"
+              icon="el-icon-delete"
+              size="small"
+              @click.stop="handledel(scope.row,scope.index)"
+            >删除</el-button>
           </template>
         </avue-crud>
       </div>
@@ -24,14 +27,14 @@
   </div>
 </template>
 <script>
-import { duty, delduty, editDuty, adduty } from '@/api/growthArchivesApi'
+import { duty, delduty, editDuty } from '@/api/growthArchivesApi'
 import tableCommon from '@/mixins/table-common.js'
 export default {
   mixins: [tableCommon],
   data() {
     return {
       fn: duty,
-      del: delduty,
+      delBtn: false,
       page: {
         pageSize: 20
       },
@@ -137,17 +140,6 @@ export default {
         loading(false)
       }
     },
-    async rowSave(row, done, loading) {
-      loading(true)
-      try {
-        // eslint-disable-next-line no-unused-vars
-        const result = await adduty(row)
-        await this.resetList()
-        done()
-      } catch (err) {
-        loading(false)
-      }
-    },
     onLoad(page) {
       this.$message.success('分页信息:' + JSON.stringify(page))
       this.page.total = 20
@@ -178,6 +170,15 @@ export default {
             color: '#808080'
           }
         }
+      }
+    },
+    async handledel(row, index, loading) {
+      const id = row.id
+      try {
+        await delduty({ id })
+        this.get()
+      } catch (err) {
+        console.log(err)
       }
     }
   }

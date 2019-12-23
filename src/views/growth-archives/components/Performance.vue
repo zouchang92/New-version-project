@@ -236,7 +236,7 @@ export default {
       }
     },
     format(percentage) {
-      return percentage === 100 ? '满' : `${percentage}%`
+      return percentage === 100 ? '100' : `${percentage}%`
     }
   }
 }

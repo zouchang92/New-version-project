@@ -31,24 +31,65 @@
       <div style="border-bottom:1px solid #E9E9E9">
         <p>惩罚明细</p>
       </div>
-      <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="50px;" />
-        <el-table-column prop="name" label="姓名" />
-        <el-table-column prop="reward" label="惩罚名称" />
-        <el-table-column prop="level" label="惩罚级别" />
-        <el-table-column prop="data" label="撤销日期" />
-        <el-table-column prop="remarks" label="惩处原因" />
-        <el-table-column prop="remarks" label="备注" />
-        <el-table-column fixed="right" label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="handleClick(scope.row)">查看</el-button>
-            <el-button type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">审核</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-button style="width:100%;margin-top:20px;">+新增</el-button>
+      <avue-crud
+        ref="crud"
+        v-model="obj1"
+        :data="tableData"
+        :option="option1"
+        style="margin-top:10px;"
+        @selection-change="selectionChange"
+        @row-update="rowUpdate"
+        @row-save="rowSave"
+      >
+        <template slot="menu" slot-scope="scope">
+          <el-button
+            type="text"
+            icon="el-icon-delete"
+            size="small"
+            @click.stop="handledel(scope.row,scope.index)"
+          >删除</el-button>
+          <el-button class="el-button--text" size="small" @click.stop="examine(scope.row,scope.index)">审核
+          </el-button>
+        </template>
+      </avue-crud>
+      <el-button style="width:100%;margin-top:20px;" @click.stop="addPunishment()">+新增</el-button>
     </el-card>
+    <el-dialog title="新建惩罚" :visible.sync="dialogTableVisible2">
+      <el-form :model="forms">
+        <el-form-item label="姓名" label-width="120" required>
+          <el-input v-model="forms.studentName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="所在职务" label-width="120" required>
+          <el-input v-model="forms.duty" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="工作内容" label-width="120" required>
+          <el-input v-model="forms.dutyContext" autocomplete="off" />
+        </el-form-item>
+        <el-form-item
+          label="工作表现"
+          label-width="120"
+          required
+          :rules="{
+            required: true, message: '请输入工作表现', trigger: 'blur'
+          }"
+        >
+          <el-input v-model="forms.dutyComment" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="开始时间" label-width="120" required>
+          <el-date-picker v-model="forms.startTime" type="date" placeholder="选择日期" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="结束时间" label-width="120" required>
+          <el-date-picker v-model="forms.endTime" type="date" placeholder="选择日期" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="备注" label-width="120" required>
+          <el-input v-model="forms.description" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogTableVisible2 = false">取 消</el-button>
+        <el-button type="primary" @click="Submit()">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -69,15 +110,16 @@ export default {
   data() {
     return {
       // eslint-disable-next-line vue/no-dupe-keys
-      input: '',
+      input1: '',
       fn: daRap,
       obj: [],
+      obj1: [],
       tableList: [],
       tableData: [],
-      dialogVisible: false,
+      dialogTableVisible2: false,
+      forms: {},
       option: {
         selection: true,
-        addBtn: true,
         delBtn: false,
         header: true,
         align: 'center',
@@ -127,6 +169,43 @@ export default {
             prop: 'reason'
           }
         ]
+      },
+      option1: {
+        selection: true,
+        addBtn: true,
+        delBtn: false,
+        header: true,
+        align: 'center',
+        viewBtn: false,
+        menuAlign: 'center',
+        column: [
+          {
+            label: '姓名',
+            prop: 'studentNum'
+          },
+          {
+            label: '惩罚名称',
+            prop: 'itemName'
+          },
+          {
+            label: '惩罚级别',
+            prop: 'level'
+          },
+          {
+            label: '惩罚日期',
+            prop: 'rapTime',
+            type: 'date',
+            format: 'yyyy-MM-dd'
+          },
+          {
+            label: '惩罚原因',
+            prop: 'createUserId'
+          },
+          {
+            label: '备注',
+            prop: 'reason'
+          }
+        ]
       }
     }
   },
@@ -152,8 +231,9 @@ export default {
     async get() {
       try {
         const list = await daRap()
-        this.tableList = list.data
-        console.log(this.tableList)
+        const a = list.data
+        this.tableData = list.data
+        console.log(a)
       } catch (err) {
         console.log(err)
       }
@@ -200,6 +280,12 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    addPunishment() {
+      this.dialogTableVisible2 = true
+    },
+    Submit() {
+      console.log(this.forms)
     }
   }
 }

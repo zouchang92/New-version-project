@@ -9,14 +9,15 @@
       :table-loading="tableListLoading"
       @search-change="searchChange"
       @selection-change="selectChange"
-      @row-save="rowSave"
       @row-update="rowUpdate"
     >
-      <template slot="searchMenu">
-        <el-button type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
-        <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-        <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-        <el-button type="info" icon="el-icon-refresh" size="small" circle />
+      <template slot="menu" slot-scope="scope">
+        <el-button
+          type="text"
+          icon="el-icon-delete"
+          size="small"
+          @click.stop="handledel(scope.row,scope.index)"
+        >删除</el-button>
       </template>
     </avue-crud>
   </div>
@@ -38,6 +39,7 @@ export default {
       option: {
         selection: true,
         align: 'center',
+        delBtn: false,
         column: [
           {
             label: '姓名',
@@ -74,7 +76,7 @@ export default {
           },
           {
             label: '参加日期',
-            prop: 'createTime',
+            prop: 'activityTime',
             type: 'date',
             format: 'yyyy-MM-dd',
             valueFormat: 'yyyy-MM-dd',
@@ -130,6 +132,15 @@ export default {
       } catch (err) {
         console.log(err)
         loading(false)
+      }
+    },
+    async handledel(row, index, loading) {
+      const id = row.id
+      try {
+        await delclub({ id })
+        this.getClubQueryAll()
+      } catch (err) {
+        console.log(err)
       }
     }
   }

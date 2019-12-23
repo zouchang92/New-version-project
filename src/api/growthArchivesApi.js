@@ -92,12 +92,12 @@ export function daleteDuty() {
     data: { }
   })
 }
-export function editDuty({ id, duty, dutyComment, dutyContext, startTime, endTime }) {
+export function editDuty({ id, studentName, duty, dutyComment, dutyContext, startTime, endTime }) {
   return request({
     url: '/zhxyx/duty/updateStuDaDuty',
     method: 'post',
     data: {
-      id, duty, dutyComment, dutyContext, startTime, endTime
+      id, studentName, duty, dutyComment, dutyContext, startTime, endTime
     }
   })
 }
@@ -200,19 +200,29 @@ export function queryHealth({ id }) {
 }
 export function delHealth({ id }) {
   return request({
-    url: '/zhxyx/stuHealth/deletel',
+    url: '/zhxyx/stuHealth/delete',
     method: 'post',
     data: {
       id
     }
   })
 }
-export function upadateHealth({ id }) {
+export function addHealth({ id, semesterName, orgName, studentNum, studentName, items, checkTime }) {
+  return request({
+    url: '/zhxyx/stuHealth/delete',
+    method: 'post',
+    data: {
+      id, semesterName, orgName, studentNum, studentName, items, checkTime
+    }
+  })
+}
+
+export function upadateHealth({ id, studentName, checkTime, items }) {
   return request({
     url: '/zhxyx/stuHealth/updateHealth',
     method: 'post',
     data: {
-      id
+      id, studentName, checkTime, items
     }
   })
 }
@@ -225,12 +235,12 @@ export function updateClub({ id, semesterName, orgName, studentNum, studentName,
     }
   })
 }
-export function addStuComment({ id }) {
+export function addStuComment({ id, semesterName, commentTeacher, commentLeval, commentOpinion, createTime, createUserId }) {
   return request({
     url: '/zhxyx/stuComment/addStuComment',
     method: 'post',
     data: {
-      id
+      id, semesterName, commentTeacher, commentLeval, commentOpinion, createTime, createUserId
     }
   })
 }

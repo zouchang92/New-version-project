@@ -96,19 +96,7 @@ export default {
           {
             label: '所属社团',
             prop: 'name',
-            type: 'select',
             search: true,
-            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list ',
-            dicMethod: 'post',
-            dicQuery: {
-              page: 1,
-              rows: 100000
-            },
-            props: {
-              res: 'data.list',
-              label: 'name',
-              value: 'name'
-            },
             rules: {
               required: true,
               message: '所属社团'

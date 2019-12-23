@@ -7,10 +7,18 @@
         :page="page"
         :table-loading="tableListLoading"
         :cell-style="cellStyle"
-        @row-del="singleDel"
         @row-update="rowUpdate"
         @selection-change="selectionChange"
-      />
+      >
+        <template slot="menu" slot-scope="scope">
+          <el-button
+            type="text"
+            icon="el-icon-delete"
+            size="small"
+            @click.stop="handledel(scope.row,scope.index)"
+          >删除</el-button>
+        </template>
+      </avue-crud>
     </el-card>
   </div>
 </template>
@@ -25,11 +33,11 @@ export default {
         pageSize: 20
       },
       fn: queryHealth,
-      singleDelFn: delHealth,
       tableList: [],
       option: {
         selection: true,
         align: 'center',
+        delBtn: false,
         menuAlign: 'center',
         column: [
           {
@@ -55,11 +63,12 @@ export default {
           {
             label: '体检日期',
             type: 'date',
-            prop: 'checkTime'
+            prop: 'checkTime',
+            format: 'yyyy-MM-dd'
           },
           {
             label: '备注',
-            prop: 'createUserId',
+            prop: '',
             width: 100
           }
         ]
@@ -84,6 +93,17 @@ export default {
         }
       }
     },
+    async get() {
+      try {
+        const page = 1
+        const rows = 10000
+        const List = await queryHealth({ page, rows })
+        this.tableList = List.data.list
+        console.log(this.tableList)
+      } catch (err) {
+        console.log(err)
+      }
+    },
     async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
@@ -94,6 +114,15 @@ export default {
       } catch (err) {
         console.log(err)
         loading(false)
+      }
+    },
+    async handledel(row, index, loading) {
+      const id = row.id
+      try {
+        await delHealth({ id })
+        this.get()
+      } catch (err) {
+        console.log(err)
       }
     }
   }
