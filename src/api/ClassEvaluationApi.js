@@ -18,3 +18,12 @@ export function getDetail({ reviewId }) {
     }
   })
 }
+export function evaluation({ reviewId, teachingWay, teachingProgram, classStructure, importantPoints, teachingContent, operatorContent }) {
+  return request({
+    url: '/zhxyx/evaluation/courseComment',
+    method: 'post',
+    data: {
+      reviewId, teachingWay, teachingProgram, classStructure, importantPoints, teachingContent, operatorContent
+    }
+  })
+}

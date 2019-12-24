@@ -25,6 +25,36 @@
           </el-button>
         </template>
       </avue-crud>
+      <el-button style="width:100%;margin-top:20px;" @click.stop="addreward()">+新增</el-button>
+      <el-dialog title="新建奖励" :visible.sync="dialogTableVisible2">
+      <el-form :model="forms">
+        <el-form-item label="姓名" label-width="120" required>
+          <el-input v-model="forms.studentName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="奖励名称" label-width="120" required>
+          <el-input v-model="forms.itemName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="奖励级别" label-width="120" required>
+          <el-input v-model="forms.level" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="获奖时间" label-width="120" required>
+          <el-date-picker v-model="forms.rapTime" type="date" placeholder="选择日期" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="获奖名次" label-width="120" required>
+          <el-input v-model="forms.score" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="获奖照片" label-width="120" required>
+          <el-input v-model="forms.rapPic" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="备注" label-width="120" required>
+          <el-input v-model="forms.reasons" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogTableVisible2 = false">取 消</el-button>
+        <el-button type="primary" @click="Submit1()">确 定</el-button>
+      </div>
+    </el-dialog>
     </el-card>
     <el-card class="box-card" style="margin-top:20px;">
       <div style="border-bottom:1px solid #E9E9E9">
@@ -107,12 +137,12 @@ export default {
       obj1: [],
       tableList: [],
       tableData: [],
+      dialogTableVisible: false,
       dialogTableVisible2: false,
       forms: {},
       option: {
         selection: true,
         delBtn: false,
-        header: true,
         align: 'center',
         viewBtn: false,
         menuAlign: 'center',
@@ -165,14 +195,13 @@ export default {
         selection: true,
         addBtn: true,
         delBtn: false,
-        header: true,
         align: 'center',
         viewBtn: false,
         menuAlign: 'center',
         column: [
           {
             label: '姓名',
-            prop: 'studentNum'
+            prop: 'studentName'
           },
           {
             label: '惩罚名称',
@@ -292,22 +321,42 @@ export default {
     addPunishment() {
       this.dialogTableVisible2 = true
     },
+    addreward() {
+      this.dialogTableVisible = true
+    },
     async Submit() {
       try {
         const semesterName = '2019年上学期'
         const orgName = '三年级二班'
         const studentNum = '10001'
-        const studentName = JSON.parse(JSON.stringify(this.forms.studentName))
+        const studentName = JSON.parse(JSON.stringify(this.formsstudentName))
         const itemName = JSON.parse(JSON.stringify(this.forms.itemName))
         const level = JSON.parse(JSON.stringify(this.forms.level))
         const rapTime = JSON.parse(JSON.stringify(this.forms.rapTime))
         const reason = JSON.parse(JSON.stringify(this.forms.reason))
         const status = 0
         await addDaRap({ semesterName, orgName, studentNum, studentName, itemName, level, status, rapTime, reason })
+        this.get()
       } catch (err) {
         console.log(err)
       }
-      
+    },
+    async Submit1() {
+      try {
+        const semesterName = '2019年上学期'
+        const orgName = '三年级二班'
+        const studentNum = '10001'
+        const studentName = JSON.parse(JSON.stringify(this.formsstudentName))
+        const itemName = JSON.parse(JSON.stringify(this.forms.itemName))
+        const level = JSON.parse(JSON.stringify(this.forms.level))
+        const rapTime = JSON.parse(JSON.stringify(this.forms.rapTime))
+        const reason = JSON.parse(JSON.stringify(this.forms.reason))
+        const status = 1
+        await addDaRap({ semesterName, orgName, studentNum, studentName, itemName, level, status, rapTime, reason })
+        this.get()
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }

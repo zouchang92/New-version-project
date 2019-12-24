@@ -10,11 +10,13 @@ export function queryResearch({ page = 1, rows = 10000 }) {
   })
 }
 
-export function addResearch() {
+export function addResearch({ name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList }) {
   return request({
     url: '/zhxyx/yxTask/insert',
     method: 'post',
-    data: { }
+    data: {
+      name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList
+    }
   })
 }
 export function delResearch({ id }) {

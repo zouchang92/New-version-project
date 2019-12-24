@@ -22,10 +22,10 @@
             <div class="resources-title">
               <p class="u-line" />
               <p class="title-text">师资分析</p>
-              <p class="title-More">
+              <!-- <p class="title-More">
                 更多
                 <i class="el-icon-d-arrow-right" />
-              </p>
+              </p> -->
             </div>
             <div class="resources-content">
               <RaddarChart />
@@ -37,10 +37,10 @@
             <div class="Achievements-title">
               <p class="u-line" />
               <p class="title-text">研训成果</p>
-              <p class="title-More">
+              <!-- <p class="title-More">
                 更多
                 <i class="el-icon-d-arrow-right" />
-              </p>
+              </p> -->
             </div>
             <div class="Achievements-content">
               <pie-chard />
@@ -61,10 +61,10 @@
             <div class="trainees-title">
               <p class="u-line" />
               <p class="title-text">参训人数</p>
-              <p class="title-More">
+              <!-- <p class="title-More">
                 更多
                 <i class="el-icon-d-arrow-right" />
-              </p>
+              </p> -->
             </div>
             <div class="trainees-content" style="margin-top:-50px;">
               <Histogram />
@@ -77,10 +77,10 @@
               <p class="u-line" />
               <p class="title-text">校本研修统计</p>
               <p style="position:absolute;top:10px;left:158px;font-size:15px;color:#bbb;">(现状统计)</p>
-              <p class="title-More">
+              <!-- <p class="title-More">
                 更多
                 <i class="el-icon-d-arrow-right" />
-              </p>
+              </p> -->
             </div>
             <div class="statistics-content">
               <CurrentSituation />

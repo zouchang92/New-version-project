@@ -76,10 +76,13 @@
           <el-input v-model="form.place" autocomplete="off" />
         </el-form-item>
         <el-form-item label="课时" :label-width="formLabelWidth">
-          <el-input v-model="form.classTime" autocomplete="off" />
+          <el-input v-model="form.lession" autocomplete="off" />
         </el-form-item>
         <el-form-item label="参训名单" :label-width="formLabelWidth">
           <el-input v-model="form.trainUsers" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="未完成名单" :label-width="formLabelWidth">
+          <el-input v-model="form.undoneList" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -210,18 +213,7 @@ export default {
       },
       searchForm: {},
       tableData: [],
-      form: {
-        name: '',
-        presenter: '',
-        date1: '',
-        date2: '',
-        classProperty: '',
-        classMethod: '',
-        classType: '',
-        place: '',
-        classTime: '',
-        trainUsers: ''
-      }
+      form: { }
     }
   },
   mounted() {
@@ -256,9 +248,19 @@ export default {
     },
     async submit() {
       try {
-        const form = JSON.stringify(this.form)
-        await addResearch({ form })
-        console.log(form)
+        const name = JSON.stringify(this.form.name)
+        const presenter = JSON.stringify(this.form.presenter)
+        const classProperty = JSON.stringify(this.form.classProperty)
+        const classMethod = JSON.stringify(this.form.classMethod)
+        const classTime = JSON.stringify(this.form.classTime)
+        const classType = JSON.stringify(this.form.classType)
+        const place = JSON.stringify(this.form.place)
+        const lession = JSON.stringify(this.form.lession)
+        const memberList = JSON.stringify(this.form.trainUsers)
+        const undoneList = JSON.stringify(this.form.undoneList)
+
+        console.log(name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList)
+        await addResearch({ name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList })
         this.dialogFormVisible = false
         this.get()
       } catch (err) {

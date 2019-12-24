@@ -28,13 +28,13 @@
                     src="https://media.w3.org/2010/05/sintel/trailer.mp4"
                   />
                   <div class="brief">
-                    <p class="brief-title">二年级口算</p>
+                    <p class="brief-title">{{ data.name }}</p>
                     <div class="category">
                       <p class="category-text">
                         <i
                           style="margin-right:8px;"
                           class="el-icon-menu"
-                        />数学类
+                        />{{ data.resourcesName }}
                       </p>
                     </div>
                     <div class="data">
@@ -139,9 +139,7 @@
               <div class="Course-content">
                 <span
                   class="content-text"
-                >经济是一个很抽象的词语，因为抽象，所以怎么解释都行。你可以说发展经济是休养生息，也可以说大兴土木，也可以说自给自足，也可以说互通有无，也可以说烧杀抢掠，也可以说坑蒙拐骗。反正这些方式都是古往今来各个国家民族获取财富时经常用到的手段，所以说，经济学不是一门学科，而是所有学科的总和。或者说根本就不是学科，如果非要以如今人们对于经济的理解去研究什么经济学，还不如去研究上帝要来的靠谱一些。
-                  老子说：“名可名也，非恒名也”，如果看待一样事物仅仅局限于名称，那么你远得不出任何有价值的结论。但想要描述一件事物，又不得不利用名称，所以名称的准确性对于任一门学科都显得极为重要。故孔子才说：“名不正则言不
-                  顺，言不顺则事不成”。</span>
+                >{{ data.description }}</span>
               </div>
             </div>
             <div class="Compere-introduction">
@@ -151,14 +149,14 @@
               <div class="Compere-content">
                 <img
                   class="Compere-img"
-                  src="https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike60%2C5%2C5%2C60%2C20/sign=dd99e97fd62a6059461de948495d5ffe/a686c9177f3e670945ab40493ac79f3df9dc55d8.jpg"
+                  :src="data.teacher.photo"
                   alt
                 >
-                <p class="Compere-name">李连杰</p>
-                <p class="Compere-data">(1983年6月1日生)</p>
+                <p class="Compere-name">{{ data.teacher.userName }}</p>
+                <p class="Compere-data">{{ data.teacher.createTime | formatTS }}</p>
                 <span
                   class="Compere-text"
-                >武汉大学经济学博士，上海财经大学博士后，现为广东财经大学经济学院经济系主任、副教授、硕士生导师。曾任广西梧州市发展和改革委员会主任助理。兼任中国《资本论》研究会理事和中华外国经济学说研究会理事。</span>
+                >{{ data.teacher.description }}</span>
               </div>
             </div>
             <div class="data-statistics">
@@ -168,15 +166,15 @@
               <div class="data-content">
                 <div style="color:#7D7D7F">
                   观看人数:
-                  <span style="color:red">33</span>
+                  <span style="color:red">{{ data.statistical.watchNum }}</span>
                 </div>
                 <div style="color:#7D7D7F;margin-top:10px;">
                   评论人数:
-                  <span style="color:red">3</span>
+                  <span style="color:red">{{ data.statistical.evaluationNum }}</span>
                 </div>
                 <div style="color:#7D7D7F;margin-top:10px;">
                   下载人数:
-                  <span style="color:red">6</span>
+                  <span style="color:red">{{ data.statistical.downloadNum }}</span>
                 </div>
               </div>
             </div>
@@ -187,7 +185,7 @@
               <div class="download">
                 <div class="download-name">
                   课件名称:
-                  <span>二年级口算</span>
+                  <span>{{ data.name }}</span>
                 </div>
                 <div style="margin-top:20px;">
                   <a href>点击下载</a>
@@ -201,7 +199,16 @@
   </div>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
+import { evaluation } from '@/api/ClassEvaluationApi'
+import { formatDate } from '@/api/date.js'
 export default {
+  filters: {
+    formatTS(timestamp) {
+      const date = new Date(timestamp)
+      return formatDate(date, 'yyyy-MM-dd')
+    }
+  },
   data() {
     return {
       value1: null,
@@ -211,7 +218,7 @@ export default {
       value5: null,
       textarea: '',
       currentPage: 4,
-      data: []
+      data: {}
     }
   },
   created() {

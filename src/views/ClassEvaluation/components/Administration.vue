@@ -160,7 +160,7 @@ export default {
         const rows = 1000
         const list = await ClassQuery({ page, rows })
         this.List = list.data.list
-        console.log(this.List)
+        // console.log(this.List)
       } catch (err) {
         console.log(err)
       }
@@ -173,7 +173,7 @@ export default {
         // eslint-disable-next-line no-unused-vars
         const a = await getDetail({ reviewId })
         this.List1 = a.data
-        console.log(this.List1)
+        // console.log(this.List1)
         this.$router.push({
           path: '/comment/index',
           query: {
