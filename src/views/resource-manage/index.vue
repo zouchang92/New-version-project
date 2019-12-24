@@ -13,7 +13,7 @@
         </el-tab-pane>
         <el-tab-pane label="公共资源" name="three">
           <div class="mortal-content" style="margin: 0 15px;">
-            <class-report v-if="activeName === 'three'" />
+            <public-resource v-if="activeName === 'three'" />
           </div>
         </el-tab-pane>
         <el-tab-pane label="回收站" name="four">
@@ -29,6 +29,7 @@
 import ResourceMine from './resource-mine'
 import Recycler from './recycler'
 import ShareMine from './share-mine'
+import PublicResource from './public-source'
 export default {
   name: 'moralReport',
   data() {
@@ -44,7 +45,8 @@ export default {
   components: {
     ResourceMine,
     Recycler,
-    ShareMine
+    ShareMine,
+    PublicResource
   }
 }
 </script>

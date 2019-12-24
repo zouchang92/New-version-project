@@ -14,11 +14,17 @@
        <li @click="handleFolderMenuClick(4, child.data)">
          <a href="javascript:;">详情</a>
        </li>
+       <li @click="handleFolderMenuClick(5, child.data)">
+         <a href="javascript:;">分享</a>
+       </li>
+       <li @click="handleFolderMenuClick(6, child.data)">
+         <a href="javascript:;">分享(所有人)</a>
+       </li>
        <li @click="handleFolderMenuClick(0, child.data)">
          <a href="javascript:;"><span style="color: red;width: 300px">删除</span></a>
        </li>
     </template>
-        </vue-context>
+    </vue-context>
         <vue-context ref="fileMenu">
           <template slot-scope="child" v-if="child.data">
             <li @click="handleFileMenuClick(1, child.data)">
@@ -36,6 +42,9 @@
             <li @click="handleFileMenuClick(6, child.data)">
               <a href="javascript:;">分享</a>
             </li>
+            <li @click="handleFileMenuClick(7, child.data)">
+              <a href="javascript:;">分享(所有人)</a>
+            </li>
             <li @click="handleFileMenuClick(0, child.data)">
               <a href="javascript:;"><span style="color: red;width: 300px">删除</span></a>
             </li>
@@ -50,6 +59,19 @@
               <a href="javascript:;"><span style="color: red;width: 300px">删除</span></a>
             </li>
           </template>
+        </vue-context>
+        <vue-context ref="publicFileMenu">
+          <template slot-scope="child" v-if="child.data">
+            <li @click="handleFileMenuClick(1, child.data)">
+              <a href="javascript:;">详情</a>
+            </li>
+            <li @click="handleFileMenuClick(5, child.data)">
+              <a href="javascript:;">下载</a>
+            </li>
+          </template>
+        </vue-context>
+        <vue-context ref="publicFolderMenu">
+          
         </vue-context>
     <div class="file-list">
       <el-breadcrumb v-if="type==='normal'" separator="/">
@@ -96,7 +118,7 @@
 <script>
 import _ from 'lodash'
 import { mapGetters } from 'vuex'
-import { querySubList, downloadFile, deleteFile, deleteFolder, queryRecyclerList, queryMyFileList, truncateFile, truncateDirectory, reNameFile, reNameFolder } from '@/api/resourceManageApi'
+import { querySubList, downloadFile, deleteFile, deleteFolder, queryRecyclerList, queryMyFileList, queryPublicFile, truncateFile, truncateDirectory, reNameFile, reNameFolder, restoreFile, restoreFolder } from '@/api/resourceManageApi'
 import Abnor from '@/components/Abnor'
 import moment from 'moment'
 import VueContext from 'vue-context';
@@ -120,7 +142,8 @@ export default {
       fnMap: {
         normal: querySubList,
         recycler: queryRecyclerList,
-        myFile: queryMyFileList
+        myFile: queryMyFileList,
+        public: queryPublicFile
       },
       contextFileMenuIndex: -1,
       contextFolderMenuIndex: -1,
@@ -136,6 +159,10 @@ export default {
         myFile: {
           file: 'fileMenu',
           folder: 'folderMenu'
+        },
+        public: {
+          file: 'publicFileMenu',
+          folder: 'publicFolderMenu'
         }
       },
       itemClickTime: 0,
@@ -237,6 +264,20 @@ export default {
         case 0:
           this.truncateFile(data.isFile === '0' ? 'folder' : 'file', file.id)
           break;
+        case 1: 
+          this.recoverFile(file)
+          break;
+      }
+    },
+    async recoverFile(file) {
+      const isFile = file.isFile === '1'
+      let fn = isFile ? restoreFile : restoreFolder
+      try {
+        await fn(file.id)
+        this.$message.success('还原成功')
+        await this.refreshCurrentFolder()
+      } catch(err) {
+
       }
     },
     handleFolderMenuClick(action, data) {
@@ -247,6 +288,12 @@ export default {
           break;
         case 2:
           this.openReNameDialog({id: file.id, type: 'folder', fileType: ''})
+          break;
+        case 5: 
+          this.$emit('onShareFile', file.id)
+          break;
+        case 6:
+          this.$emit('onShareFilePublic', file.id)
           break;
       }
     },
@@ -270,6 +317,9 @@ export default {
           break;
         case 6:
           this.$emit('onShareFile', file.id)
+          break;
+        case 7:
+          this.$emit('onShareFilePublic', file.id)
           break;
       }
     },

@@ -16,7 +16,7 @@
         <div style="height: 450px;overflow: auto;" v-loading="roleModal.loading" class="">
           <el-tabs type="border-card">
              <el-tab-pane label="菜单权限">
-                <el-tree ref="authTree" :default-checked-keys="roleModal.defaultCheckedKeys" show-checkbox node-key="id" :data="roleModal.data" :props="treeProps">
+                <el-tree :default-expand-all="true" @check="clickDeal" highlight-current :check-strictly="true" ref="authTree" :default-checked-keys="roleModal.defaultCheckedKeys" show-checkbox node-key="id" :data="roleModal.data" :props="treeProps">
                  <span class="custom-tree-node" slot-scope="{ node, data }">
                    <i :class="{'el-icon-menu' : data.menuName, 'el-icon-edit-outline': data.buttonId}"></i>
                     <span>
@@ -62,7 +62,7 @@ export default {
         currentRoleId: ''
       },
       treeProps: {
-        children: 'data',
+        children: 'children',
         label: 'name',
 
       },
@@ -126,44 +126,138 @@ export default {
     console.log(this)
   },
   methods: {
+    clickDeal(currentObj, treeStatus) {
+      this.clickCheck(currentObj, treeStatus,this.$refs.authTree)
+    },
+    clickCheck(currentObj, treeStatus, ref) {
+      // 用于：父子节点严格互不关联时，父节点勾选变化时通知子节点同步变化，实现单向关联。
+      let selected = treeStatus.checkedKeys.indexOf(currentObj.id) // -1未选中
+      // 选中
+      if (selected !== -1) {
+        // 子节点只要被选中父节点就被选中
+        this.selectedParent(currentObj, ref)
+        // 统一处理子节点为相同的勾选状态
+        this.uniteChildSame(currentObj, true, ref)
+      } else {
+        // 取消子节点的选中状态触发
+        if (currentObj.parentId !== -1) {
+          this.removeParent(currentObj, ref)
+        }
+
+        // 未选中 处理子节点全部未选中
+        if (currentObj.children.length !== 0) {
+          this.uniteChildSame(currentObj, false, ref)
+        }
+      }
+    },
+    uniteChildSame(treeList, isSelected, ref) {
+      let treeListData = treeList.children;
+      let len = treeListData.length;
+      ref.setChecked(treeList.id, isSelected);
+      for (let i = 0; i < len; i++) {
+        this.uniteChildSame(treeListData[i], isSelected, ref);
+      }
+    },
+    selectedParent(currentObj, ref) {
+      let currentNode = ref.getNode(currentObj);
+      if (currentNode.parent.key !== undefined) {
+          ref.setChecked(currentNode.parentId, true);
+          return this.selectedParent(currentNode.parent, ref);
+      }
+    },
+    /**    子节点全没选中取消父级的选中状态   **/
+    removeParent(currentObj, ref) {
+      let a = 0;
+      let b = 0;
+      let currentNode = ref.getNode(currentObj)
+      if (currentNode.parent !== null) {
+        if (currentNode.parent.key !== undefined) {
+          ref.setChecked(currentNode.parent, true); //根节点
+          this.removeParent(currentNode.parent, ref); //递归判断子节点
+        }
+      }
+      //不为0表示为父节点
+      if (currentNode.childNodes.length !== 0) {
+      //循环判断父节点下的子节点
+        for (let i = 0; i < currentNode.childNodes.length; i++) {
+          //判断父节点下的子节点是否全为false
+          if (currentNode.childNodes[i].checked === false) {
+            ++a;
+            //a === currentNode.childNodes.length 表明子节点全为false
+            if (a === currentNode.childNodes.length) {
+              //等于 undefined 跳过,不等于继续执行
+              if (currentNode.childNodes[i].parent.key !== undefined) {
+                ref.setChecked(currentNode.childNodes[i].parent, false); //父元素设置为false
+                //循环上级父节点下的子节点
+                for (let i = 0; i < currentNode.parent.childNodes.length; i++) {
+                  //判断父节点下的子节点是否全为false
+                  if (currentNode.parent.childNodes[i].checked === false) {
+                    ++b;
+                    //b === currentNode.parent.childNodes.length 表明子节点全为false
+                    if (b === currentNode.parent.childNodes.length) {
+                      ref.setChecked(currentNode.parent.key, false); //父元素设置为false
+                      return this.removeParent(currentNode.parent, ref); //继续递归循环判断
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     handleAdd() {
       this.$refs.crud.rowAdd()
+    },
+    processRoleMenu(data) {
+      let _data = _.cloneDeep(data)
+      _.forEach(_data, (n, i) => {
+        n.id = n.menuId
+        n.name = n.menuName
+        n.lastChild = false
+        if (n.children && n.children.length) {
+          if (n.status === 1) {
+            this.roleModal.defaultCheckedKeys.push(n.menuId)
+          }
+          
+          n.children = this.processRoleMenu(n.children)
+        } else {
+          n.children = n.buttons
+          n.lastChild = true
+          if (n.status === 1) {
+            this.roleModal.defaultCheckedKeys.push(n.id)
+          }
+          if(n.children.length) {
+            _.forEach(n.children, k => {
+              k.parentId = n.id
+              k.children = []
+              if (k.status === 1) {
+                this.roleModal.defaultCheckedKeys.push(k.id)
+              }
+            })
+          }
+        }
+      })
+      return _data
     },
     async setAuthorize(row) {
       this.roleModal.loading = true
       this.roleModal.visible = true
+      this.roleModal.defaultCheckedKeys = []
       this.roleModal.currentRoleId = row.row.id
       try {
         let data = await getRoleAuthorize(row.row.id)
-        let pData = data.data.map(n => ({...n, id: n.menuId}))
+        let pData = this.processRoleMenu(data.data)
         this.roleModal = {
           ...this.roleModal,
           loading: false,
           visible: true,
           data: pData
         }
-        this.roleModal.defaultCheckedKeys = this.getDefaultCheck(pData)
       } catch(err) {
         this.roleModal.loading = false
         this.roleModal.visible = true
       }
-    },
-    getDefaultCheck(data, checkArray = []) {
-      data.forEach(n => {
-        if (n.menuName) {
-          if (!n.data.length && n.status === 1) {
-            checkArray.push(n.id)
-          }
-        } else {
-          if (n.status === 1) {
-            checkArray.push(n.id)
-          }
-        }
-        if (n.data && n.data.length) {
-          this.getDefaultCheck(n.data, checkArray)
-        }
-      })
-      return checkArray
     },
     async bindAuthorize() {
       this.roleModal.submitLoading = true
@@ -176,6 +270,7 @@ export default {
        this.roleModal.submitLoading = false
        this.roleModal.visible = false
       } catch(err) {
+        console.log(err)
         this.roleModal.submitLoading = false
         this.roleModal.visible = false
       }
@@ -188,15 +283,12 @@ export default {
         if (n.menuName) {
           tmp.id = n.id
           tmp.buttons = []
-          if (n.data.length) {
-            n.data.forEach(x => {
-              let exist = data.find(j => j.id === x.id)
-              if (exist) {
-                tmp.buttons.push({
-                  buttonId: exist.buttonId,
-                  buttonUrl: exist.buttonUrl
-                })
-              }
+          if (n.lastChild) {
+            n.children.forEach(x => {
+              tmp.buttons.push({
+                buttonId: x.buttonId,
+                buttonUrl: x.buttonUrl || ''
+              })
             })
           }
           output.push(tmp)

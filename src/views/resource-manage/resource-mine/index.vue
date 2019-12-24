@@ -6,7 +6,7 @@
           <el-col style="margin-bottom: 15px;" :span="24">
             <el-form size="small" style="margin-bottom: 0px;" class="avue-crud-search" :inline="true">
               <el-form-item label="文件名">
-                <el-input v-model="searchText" placeholder="请输入文件名" />
+                <el-input v-model="searchText" clearable placeholder="请输入文件名" />
               </el-form-item>
               <el-form-item>
                 <el-button icon="el-icon-search" @click="search" type="primary">搜索</el-button>
@@ -18,23 +18,23 @@
                 <el-button @click="addFolder" icon="el-icon-upload" type="success">新建文件夹</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button @click="batchDownload" icon="el-icon-download" type="info">批量下载</el-button>
+                <el-button v-if="false" @click="batchDownload" icon="el-icon-download" type="info">批量下载</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-share" type="warning">批量分享</el-button>
+                <el-button v-if="false" icon="el-icon-share" type="warning">批量分享</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-delete" type="danger">批量删除</el-button>
+                <el-button @click="batchDel" icon="el-icon-delete" type="danger">批量删除</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button @click="refrshResource" icon="el-icon-delete" type="info">刷新</el-button>
+                <el-button @click="refreshResource" icon="el-icon-delete" type="info">刷新</el-button>
               </el-form-item>
             </el-form>
           </el-col>
         </el-card>
         <el-card style="margin-top: 15px">
           <el-col style="margin-bottom: 15px;" :span="24">
-            <file-list @onShareFile="shareFile" ref="fileList" :fileList="treeData" />
+            <file-list @onShareFilePublic="shareFilePublic" @onShareFile="shareFile" ref="fileList" />
           </el-col>
         </el-card>
       </el-col>
@@ -51,35 +51,47 @@
 
 <script>
 import UploadDialog from '../components/UploadDialog'
-import tableCommon from '@/mixins/table-common'
 import MemberSelect from '@/components/MemberSelect'
-import { queryFolderTree, uploadFile, querySubList, addFolder, shareToPrivate, downloadFile } from '@/api/resourceManageApi'
+import { uploadFile, querySubList, addFolder, shareToPrivate, downloadFile, shareToPublic, batchDel } from '@/api/resourceManageApi'
 import FileList from '../components/FileList'
 import permission from '@/mixins/permission'
 import { download } from '@/utils'
 import _ from 'lodash'
 export default {
-  mixins: [tableCommon, permission],
+  mixins: [permission],
   data() {
     return {
       thirdMenuName: 'myResource',
       newFolderModalVisible: false,
       memberShow: false,
       uploadDialogVisible: false,
-      fn: queryFolderTree,
       activeIndex: 0,
       shareId: '',
       searchText: ''
     }
   },
-  computed: {
-    treeData() {
-      return this.toTree(this.tableList)
-    }
-  },
   methods: {
     search() {
       this.$refs['fileList'].refreshCurrentFolder(this.searchText)
+    },
+    async batchDel() {
+      let ids = this.$refs['fileList'].selection
+      if (!ids.length) {
+        this.$message.warning('请至少选择一个文件')
+        return
+      }
+      try {
+        await this.$confirm('确定删除这些文件?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        let res = await batchDel(ids.join(','))
+        this.$message.success('删除成功')
+        await this.$refs['fileList'].refreshCurrentFolder()
+      } catch(err) {
+
+      }
     },
     async batchDownload() {
       let ids = this.$refs['fileList'].selection
@@ -98,6 +110,14 @@ export default {
       this.shareId = id
       this.memberShow = true
     },
+    async shareFilePublic(id) {
+      try {
+        let res = await shareToPublic(id)
+        this.$message.success('分享成功')
+      } catch(err) {
+
+      }
+    },
     async addFolder() {
       const { currentPath } = this.$refs['fileList']
       try {
@@ -106,25 +126,6 @@ export default {
       } catch(err) {
 
       }
-    },
-    toTree(data) {
-      _.forEach(data, n => {
-        delete n.children
-      })
-      let map = {}
-      _.forEach(data, n => {
-        map[n.id] = n
-      })
-      let val = []
-      _.forEach(data, n => {
-        let parent = map[n.parentId]
-        if (parent) {
-          (parent.children || ( parent.children = [] )).push(n)
-        } else {
-          val.push(n)
-        }
-      })
-      return val
     },
     getIcon(type) {
       try {
@@ -151,7 +152,7 @@ export default {
         console.log(err)
       }
     },
-    async refrshResource() {
+    async refreshResource() {
       try {
         await this.$refs['fileList'].refreshCurrentFolder()
       } catch(err) {

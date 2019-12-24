@@ -12,7 +12,7 @@
                 <el-button icon="el-icon-search" @click="search" type="primary">搜索</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-download" type="info">批量下载</el-button>
+                <el-button v-if="false" icon="el-icon-download" type="info">批量下载</el-button>
               </el-form-item>
               <el-form-item>
                 <el-button icon="el-icon-delete" type="danger">批量删除</el-button>

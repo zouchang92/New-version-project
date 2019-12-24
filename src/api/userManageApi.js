@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
-export function queryUsers({ page, rows, account = '', userName = '', organId = '', status = '', orgType = '' }) {
+export function queryUsers({ page, rows, loginName = '', userName = '', organId = '', status = '', orgType = '' }) {
   return request({
     url: '/zhxyx/account/queryAll',
     data: {
       page,
       rows,
-      account,
+      loginName,
       userName,
       organId,
       status,
