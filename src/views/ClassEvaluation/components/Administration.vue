@@ -2,18 +2,10 @@
   <div class="Administration">
     <div class="title">
       <div class="Nature">
-        性质:
-        <el-select v-model="value" placeholder="请选择年级">
-          <el-option
-            v-for="(item,index) in options"
-            :key="index.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+        年级:<el-cascader :options="treeData" :show-all-levels="false" />
       </div>
       <div class="type">
-        类型:
+        科目:
         <el-select v-model="value1" placeholder="请选择科目">
           <el-option
             v-for="(item,index) in options1"
@@ -33,6 +25,7 @@
           type="success"
           icon="el-icon-plus"
           size="small"
+          @click="addAdministration"
         >新建</el-button>
         <el-button
           type="warning"
@@ -60,14 +53,14 @@
           <img class="play-img" src="../../../assets/bf_icon_slices/bf_icon@2x.png" alt="">
         </div>
         <div class="content-bottom">
-          <img src="" alt>
-          <p>123</p>
+          <img :src="item.teacher.photo" alt>
+          <p>{{ item.teacher.userName }}</p>
           <p class="number">
             <i class="el-icon-chat-dot-square" />
-            123
+            {{ item.statistical.evaluationNum }}
           </p>
           <p class="people">
-            <i class="el-icon-s-custom">张三</i>
+            <i class="el-icon-s-custom">{{ item.statistical.watchNum }}</i>
           </p>
           <el-popover placement="top" width="120" trigger="click">
             <div class="Open" style="display:flex;">
@@ -79,6 +72,7 @@
               </p>
               <p
                 style="margin:0px;padding: 4px 5px 0px 5px;color:#1890FF;border-right: 1px solid #e8e8e8;"
+                @click="delClass(item.statistical.reviewId)"
               >
                 删除
               </p>
@@ -105,25 +99,46 @@
         @current-change="handleCurrentChange"
       />
     </footer>
+    <el-dialog title="新建课件" :visible.sync="dialogTableVisible">
+      <el-form :model="formas">
+        <el-form-item label="请选择年级" label-width="120">
+          <el-input v-model="formas.orgName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="请选择科目" label-width="120">
+          <el-input v-model="formas.courseId" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="教师名称" label-width="120">
+          <el-input v-model="formas.teacherId" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="资源路径" label-width="120">
+          <el-input v-model="formas.resources" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="资源名称" label-width="120">
+          <el-input v-model="formas.resourcesName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="课件名称" label-width="120">
+          <el-input v-model="formas.evaName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="课件描述" label-width="120">
+          <el-input v-model="formas.description" type="textarea" maxlength="200" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogTableVisible = false">取 消</el-button>
+        <el-button type="primary" @click="add()">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
-import { ClassQuery, getDetail } from '@/api/ClassEvaluationApi'
-
+import { ClassQuery, getDetail, addClass, delClass } from '@/api/ClassEvaluationApi'
+import { getOrganTree } from '@/api/organManageApi'
+import { interArrayTree } from '@/utils'
 export default {
   data() {
     return {
-      options: [
-        {
-          value: '',
-          label: ''
-        },
-        {
-          value: '',
-          label: ''
-        }
-      ],
+      treeData: [],
       options1: [
         {
           value: '',
@@ -140,11 +155,14 @@ export default {
       List1: [],
       page: '',
       value2: true,
-      currentPage2: 5
+      currentPage2: 5,
+      dialogTableVisible: false,
+      formas: {}
     }
   },
   created() {
     this.get()
+    this.getOrganTree()
   },
   methods: {
     handleSizeChange(val) {
@@ -160,7 +178,7 @@ export default {
         const rows = 1000
         const list = await ClassQuery({ page, rows })
         this.List = list.data.list
-        // console.log(this.List)
+        console.log(this.List)
       } catch (err) {
         console.log(err)
       }
@@ -181,6 +199,51 @@ export default {
           }
         })
         console.log(this.List1)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    getOrganTree() {
+      getOrganTree().then(res => {
+        const treeData = interArrayTree(res.data)
+        this.treeData = treeData
+        console.log(this.treeData)
+      })
+    },
+    addAdministration() {
+      this.dialogTableVisible = true
+    },
+    int() {
+      this.formas.orgName = ''
+      this.formas.courseId = ''
+      this.formas.resources = ''
+      this.formas.resourcesName = ''
+      this.formas.teacherId = ''
+      this.formas.evaName = ''
+      this.formas.description = ''
+    },
+    async add() {
+      try {
+        const orgName = this.formas.orgName
+        const courseId = this.formas.courseId
+        const resources = this.formas.resources
+        const resourcesName = this.formas.resourcesName
+        const teacherId = this.formas.teacherId
+        const evaName = this.formas.evaName
+        const description = this.formas.description
+        await addClass({ orgName, courseId, resources, resourcesName, teacherId, evaName, description })
+        this.dialogTableVisible = false
+        this.get()
+        this.int()
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async delClass(e) {
+      try {
+        const reviewId = e
+        await delClass(reviewId)
+        this.get()
       } catch (err) {
         console.log(err)
       }
@@ -232,10 +295,10 @@ export default {
           width: 316px;
         }
         .play-img{
-          position: absolute;
-          top: 70px;
-          left: 132px;
-          opacity: 0.1;
+          position: relative;
+    top: -118px;
+    left: 118px;
+    opacity: 0.1;
         }
       }
       .content-bottom {

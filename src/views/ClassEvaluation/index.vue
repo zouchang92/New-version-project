@@ -5,16 +5,18 @@
         <div><Administration /></div>
       </el-tab-pane>
       <el-tab-pane label="评课设置" name="second">
-        <div>456</div>
+        <div><ClassSetting /></div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 <script>
 import Administration from './components/Administration'
+import ClassSetting from './components/ClassSetting'
 export default {
   components: {
-    Administration
+    Administration,
+    ClassSetting
   },
   data() {
     return {

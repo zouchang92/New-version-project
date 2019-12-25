@@ -14,7 +14,7 @@
                   <div class="item">
                     <el-carousel ref="carousel" trigger="click" width="407px" height="396px">
                       <el-carousel-item v-for="(item,index) in mess" :key="index" name="index">
-                        <img :src="item.img">
+                        <img :src="item.img" width="407" height="396">
                       </el-carousel-item>
                     </el-carousel>
                     <!-- <img style="width:407px;height:396px;" :src="dataList[currentIndex]"> -->

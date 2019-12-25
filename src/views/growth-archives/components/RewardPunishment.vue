@@ -7,12 +7,11 @@
       <avue-crud
         ref="crud"
         v-model="obj"
-        :data="tableList"
+        :data="tableList1"
         :option="option"
         style="margin-top:10px;"
         @selection-change="selectionChange"
         @row-update="rowUpdate"
-        @row-save="rowSave"
       >
         <template slot="menu" slot-scope="scope">
           <el-button
@@ -27,34 +26,34 @@
       </avue-crud>
       <el-button style="width:100%;margin-top:20px;" @click.stop="addreward()">+新增</el-button>
       <el-dialog title="新建奖励" :visible.sync="dialogTableVisible2">
-      <el-form :model="forms">
-        <el-form-item label="姓名" label-width="120" required>
-          <el-input v-model="forms.studentName" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="奖励名称" label-width="120" required>
-          <el-input v-model="forms.itemName" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="奖励级别" label-width="120" required>
-          <el-input v-model="forms.level" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="获奖时间" label-width="120" required>
-          <el-date-picker v-model="forms.rapTime" type="date" placeholder="选择日期" style="width: 100%;" />
-        </el-form-item>
-        <el-form-item label="获奖名次" label-width="120" required>
-          <el-input v-model="forms.score" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="获奖照片" label-width="120" required>
-          <el-input v-model="forms.rapPic" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="备注" label-width="120" required>
-          <el-input v-model="forms.reasons" autocomplete="off" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogTableVisible2 = false">取 消</el-button>
-        <el-button type="primary" @click="Submit1()">确 定</el-button>
-      </div>
-    </el-dialog>
+        <el-form :model="forms">
+          <el-form-item label="姓名" label-width="120" required>
+            <el-input v-model="forms.studentName" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="奖励名称" label-width="120" required>
+            <el-input v-model="forms.itemName" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="奖励级别" label-width="120" required>
+            <el-input v-model="forms.level" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="获奖时间" label-width="120" required>
+            <el-date-picker v-model="forms.rapTime" type="date" placeholder="选择日期" style="width: 100%;" />
+          </el-form-item>
+          <el-form-item label="获奖名次" label-width="120" required>
+            <el-input v-model="forms.score" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="获奖照片" label-width="120" required>
+            <el-input v-model="forms.rapPic" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="备注" label-width="120" required>
+            <el-input v-model="forms.reasons" autocomplete="off" />
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogTableVisible2 = false">取 消</el-button>
+          <el-button type="primary" @click="Submit1()">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-card>
     <el-card class="box-card" style="margin-top:20px;">
       <div style="border-bottom:1px solid #E9E9E9">
@@ -68,7 +67,6 @@
         style="margin-top:10px;"
         @selection-change="selectionChange"
         @row-update="rowUpdate"
-        @row-save="rowSave"
       >
         <template slot="menu" slot-scope="scope">
           <el-button
@@ -118,6 +116,7 @@
 import tableCommon from '@/mixins/table-common.js'
 import { daRap, deleteDaRap, editDaRap, examineDaRap, addDaRap } from '@/api/growthArchivesApi'
 export default {
+  inject: ['reload'],
   mixins: [tableCommon],
   props: {
     // eslint-disable-next-line vue/require-default-prop
@@ -127,15 +126,20 @@ export default {
     // eslint-disable-next-line vue/require-default-prop
     value: {
       type: String
+    },
+    // eslint-disable-next-line vue/require-default-prop
+    activeName: {
+      type: String
     }
   },
   data() {
     return {
       // eslint-disable-next-line vue/no-dupe-keys
+      fn: daRap,
       input1: '',
       obj: [],
       obj1: [],
-      tableList: [],
+      tableList1: [],
       tableData: [],
       dialogTableVisible: false,
       dialogTableVisible2: false,
@@ -197,6 +201,7 @@ export default {
         delBtn: false,
         align: 'center',
         viewBtn: false,
+        header: false,
         menuAlign: 'center',
         column: [
           {
@@ -235,17 +240,17 @@ export default {
       }
     }
   },
+  computed: {},
   watch: {
     option: function(a, b) {
       console.log(a, b)
     }
   },
   mounted() {
-    
+
   },
   created() {
     this.get()
-    console.log(this.tableData, this.tableList)
   },
   methods: {
     handleAdd() {
@@ -263,26 +268,17 @@ export default {
         const a = list.data
         // eslint-disable-next-line eqeqeq
         for (const i in a) {
-          // console.log(a[i])
+          // eslint-disable-next-line eqeqeq
           if (a[i].status == 1) {
-            this.tableList.push(a[i])
+            this.tableList1.push(a[i])
           }
+          // eslint-disable-next-line eqeqeq
           if (a[i].status == 0) {
             this.tableData.push(a[i])
           }
         }
       } catch (err) {
         console.log(err)
-      }
-    },
-    async rowSave(form, done, loading) {
-      loading(true)
-      try {
-        await addclub(form)
-        done()
-      } catch (err) {
-        console.log(123)
-        loading(false)
       }
     },
     async rowUpdate(row, index, done, loading) {
@@ -292,6 +288,7 @@ export default {
         const result = await editDaRap(row)
         console.log(result)
         await this.resetList()
+        // this.reload()
         done()
       } catch (err) {
         console.log(err)

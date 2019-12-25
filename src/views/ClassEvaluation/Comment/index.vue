@@ -8,7 +8,7 @@
         <p class="esc">返回至上一页</p>
       </div>
     </div>
-    <div class="content">
+    <div :id="data.statistical.reviewId" class="content">
       <el-row :gutter="10">
         <el-col
           :xs="17"
@@ -31,10 +31,9 @@
                     <p class="brief-title">{{ data.name }}</p>
                     <div class="category">
                       <p class="category-text">
-                        <i
-                          style="margin-right:8px;"
-                          class="el-icon-menu"
-                        />{{ data.resourcesName }}
+                        <i style="margin-right:8px;" class="el-icon-menu" />{{
+                          data.resourcesName
+                        }}
                       </p>
                     </div>
                     <div class="data">
@@ -90,6 +89,7 @@
                       <el-button
                         class="evaluate-content-button"
                         type="primary"
+                        @click="submitadd"
                       >提交</el-button>
                     </div>
                   </div>
@@ -103,21 +103,36 @@
                 :xl="24"
                 style="position:relative"
               >
-                <div style="background:#fff;height:684px;margin-top:15px;">
-                  <div class="All-comments">
-                    <p class="All-title">全部评论 (1111)</p>
+                <div style="background:#fff;height:684px;margin-top:15px;overflow: auto;overflow-x: hidden">
+                  <!-- <div class="All-comments">
+                    <p class="All-title">全部评论 ({{ data.evaluation.totalCount }})</p>
                     <el-pagination
                       style="position: absolute;top: 31px;right: 23px;"
                       :current-page="currentPage"
                       :page-sizes="[50, 100, 150, 200]"
                       :page-size="100"
                       layout="total, sizes, prev, pager, next, jumper"
-                      :total="200"
+                      :total="data.evaluation.totalCount"
                       @size-change="handleSizeChange"
                       @current-change="handleCurrentChange"
                     />
-                  </div>
-                  <div class="All-content" />
+                  </div> -->
+                  <Newlist :id="data.statistical.reviewId" ref="Newlist" />
+                  <!-- <div class="All-content">
+                    <ul>
+                      <li
+                        v-for="(item, index) in data.evaluation.list"
+                        :key="index"
+                      >
+                        <img src="" alt="">
+                        <p class="title-score">打了{{ item.score }}星</p>
+                        <p class="name-operator">{{ item.operatorName }}</p>
+                        <p class="content-operator">
+                          {{ item.operatorContent }}
+                        </p>
+                      </li>
+                    </ul>
+                  </div> -->
                 </div>
               </el-col>
             </el-row>
@@ -137,9 +152,7 @@
                 <p class="title-text">课程简介</p>
               </div>
               <div class="Course-content">
-                <span
-                  class="content-text"
-                >{{ data.description }}</span>
+                <span class="content-text">{{ data.description }}</span>
               </div>
             </div>
             <div class="Compere-introduction">
@@ -147,16 +160,12 @@
                 <p class="title-text">主讲人简介</p>
               </div>
               <div class="Compere-content">
-                <img
-                  class="Compere-img"
-                  :src="data.teacher.photo"
-                  alt
-                >
+                <img class="Compere-img" :src="data.teacher.photo" alt>
                 <p class="Compere-name">{{ data.teacher.userName }}</p>
-                <p class="Compere-data">{{ data.teacher.createTime | formatTS }}</p>
-                <span
-                  class="Compere-text"
-                >{{ data.teacher.description }}</span>
+                <p class="Compere-data">
+                  {{ data.teacher.createTime | formatTS }}
+                </p>
+                <span class="Compere-text">{{ data.teacher.description }}</span>
               </div>
             </div>
             <div class="data-statistics">
@@ -170,11 +179,15 @@
                 </div>
                 <div style="color:#7D7D7F;margin-top:10px;">
                   评论人数:
-                  <span style="color:red">{{ data.statistical.evaluationNum }}</span>
+                  <span style="color:red">{{
+                    data.statistical.evaluationNum
+                  }}</span>
                 </div>
                 <div style="color:#7D7D7F;margin-top:10px;">
                   下载人数:
-                  <span style="color:red">{{ data.statistical.downloadNum }}</span>
+                  <span style="color:red">{{
+                    data.statistical.downloadNum
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -200,9 +213,14 @@
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
-import { evaluation } from '@/api/ClassEvaluationApi'
+import { evaluation, getDetail } from '@/api/ClassEvaluationApi'
 import { formatDate } from '@/api/date.js'
+import Newlist from './news/Newlist'
 export default {
+  inject: ['reload'],
+  components: {
+    Newlist
+  },
   filters: {
     formatTS(timestamp) {
       const date = new Date(timestamp)
@@ -218,12 +236,12 @@ export default {
       value5: null,
       textarea: '',
       currentPage: 4,
-      data: {}
+      data: {},
+      list: {}
     }
   },
   created() {
     this.data = this.$route.query.list
-    console.log(this.data)
   },
   methods: {
     esc() {
@@ -235,6 +253,38 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+    },
+    int() {
+      this.value1 = null
+      this.value2 = null
+      this.value3 = null
+      this.value4 = null
+      this.value5 = null
+      this.textarea = ''
+    },
+    async submitadd() {
+      try {
+        const reviewId = this.$route.query.list.statistical.reviewId
+        const teachingWay = this.value1
+        const teachingProgram = this.value2
+        const classStructure = this.value3
+        const importantPoints = this.value4
+        const teachingContent = this.value5
+        const operatorContent = this.textarea
+        await evaluation({
+          reviewId,
+          teachingWay,
+          teachingProgram,
+          classStructure,
+          importantPoints,
+          teachingContent,
+          operatorContent
+        })
+        this.$refs.Newlist.get()
+        this.int()
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
@@ -357,19 +407,63 @@ export default {
           }
         }
       }
-      .All-comments {
-        border-bottom: 1px solid #efefef;
-        margin: 15px;
-        .All-title {
-          font-size: 20px;
-          font-family: Source Han Sans CN;
-          font-weight: bold;
-          color: rgba(21, 21, 21, 1);
-          line-height: 40px;
-          margin: 0px;
-          padding: 8px 0px 8px 3px;
-        }
-      }
+    //   .All-comments {
+    //     border-bottom: 1px solid #efefef;
+    //     margin: 15px;
+    //     .All-title {
+    //       font-size: 20px;
+    //       font-family: Source Han Sans CN;
+    //       font-weight: bold;
+    //       color: rgba(21, 21, 21, 1);
+    //       line-height: 40px;
+    //       margin: 0px;
+    //       padding: 8px 0px 8px 3px;
+    //     }
+    //   }
+    //   .All-content {
+    //     ul {
+    //       list-style: none;
+    //       overflow: auto;
+    //       li {
+    //             height: 130px;
+    //         p {
+    //           margin: 0px;
+    //         }
+    //         .title-score {
+    //           font-size: 18px;
+    //           font-family: Source Han Sans CN;
+    //           font-weight: 400;
+    //           color: rgba(0, 0, 0, 1);
+    //           line-height: 40px;
+    //               position: relative;
+    // top: -8px;
+    // left: 258px;
+    //         }
+    //         .name-operator {
+    //           font-size: 20px;
+    //           font-family: Source Han Sans CN;
+    //           font-weight: bold;
+    //           color: rgba(0, 157, 255, 1);
+    //           line-height: 40px;
+    //               position: relative;
+    // top: -50px;
+    // left: 128px;
+    //         }
+    //         .content-operator {
+
+    //           font-size: 18px;
+    //           font-family: Source Han Sans CN;
+    //           font-weight: 400;
+    //           color: rgba(0, 0, 0, 1);
+    //           line-height: 40px;
+    //           background: rgb(244, 245, 249);
+    //           position: relative;
+    // top: -17px;
+    // left: 124px;
+    //         }
+    //       }
+    //     }
+    //   }
     }
     .content-right {
       .Course-introduction {

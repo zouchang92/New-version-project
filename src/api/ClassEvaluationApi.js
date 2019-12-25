@@ -27,3 +27,32 @@ export function evaluation({ reviewId, teachingWay, teachingProgram, classStruct
     }
   })
 }
+export function addClass({ orgName, courseId, resources, resourcesName, teacherId, evaName, description }) {
+  return request({
+    url: '/zhxyx/evaluation/insertEvaSource',
+    method: 'post',
+    data: {
+      orgName, courseId, resources, resourcesName, teacherId, evaName, description
+    }
+  })
+}
+
+export function delClass(reviewId) {
+  return request({
+    url: '/zhxyx/evaluation/deleteEvaReview',
+    method: 'post',
+    data: {
+      reviewId
+    }
+  })
+}
+
+export function getOrgan(parentId) {
+  return request({
+    url: '/zhxyx/organ/listOrganByPid',
+    method: 'post',
+    data: {
+      parentId
+    }
+  })
+}
