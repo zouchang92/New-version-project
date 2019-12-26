@@ -77,7 +77,7 @@ export default {
           },
           {
             label: '姓名',
-            prop: 'studentName',
+            prop: 'studentId',
             search: true,
             type: 'select',
             dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/student/list ',
@@ -159,18 +159,20 @@ export default {
       try {
         const List = await queryPerson()
         this.tableList = List.data.list
+        console.log(this.tableList)
       } catch (err) {
         console.log(err)
       }
     },
     async rowSave(form, done, loading) {
       loading(true)
+      console.log(form)
       try {
-        const result = await addPerson(form)
+        await addPerson(form)
         await this.resetList()
         done()
       } catch (err) {
-        console.log(123)
+        console.log(err)
         loading(false)
       }
     },
@@ -188,7 +190,7 @@ export default {
       try {
         // eslint-disable-next-line no-unused-vars
         await editPerson(row)
-        await this.resetList()
+        this.get()
         done()
       } catch (err) {
         console.log(err)

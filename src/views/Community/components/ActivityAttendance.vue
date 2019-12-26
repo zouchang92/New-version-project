@@ -40,6 +40,8 @@
 <script>
 import tableCommon from '@/mixins/table-common.js'
 import { queryAttendance } from '@/api/CommunityApi.js'
+import { getOrgan, getDictById } from '@/utils'
+const genderDict = getDictById('gender')
 
 export default {
   mixins: [tableCommon],
@@ -50,16 +52,7 @@ export default {
         pageSize: 20
       },
       searchForm: {},
-      tableList: [
-        {
-          semesterId: '街舞社',
-          clubName: '20190377927',
-          name: '王安',
-          clubOrgId: '三年级/5班',
-          person: '男',
-          classroomName: '2019-09-28 09:00'
-        }
-      ],
+      tableList: [],
       option: {
         selection: true,
         align: 'center',
@@ -72,18 +65,48 @@ export default {
             label: '社团名称',
             prop: 'clubName',
             type: 'select',
-            search: true
+            search: true,
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list',
+            dicMethod: 'post',
+            dicQuery: {
+              page: 1,
+              rows: 100000
+            },
+            props: {
+              res: 'data.list',
+              label: 'name',
+              value: 'id'
+            },
+            rules: {
+              required: true,
+              message: '所属社团'
+            }
           },
           {
             label: '负责人',
             prop: 'person',
             type: 'select',
             hide: true,
-            search: true
+            search: true,
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list',
+            dicMethod: 'post',
+            dicQuery: {
+              page: 1,
+              rows: 100000
+            },
+            props: {
+              res: 'data.list',
+              label: 'person',
+              value: 'person'
+            },
+            rules: {
+              required: true,
+              message: '负责人'
+            }
           },
           {
             label: '学号',
-            prop: 'studentNum'
+            prop: 'studentId'
           },
           {
             label: '活动日期',
@@ -100,16 +123,30 @@ export default {
           {
             label: '所在班级',
             prop: 'studentOrgId',
-            type: 'select',
-            search: true
+            search: true,
+            rules: {
+              required: true,
+              message: '所属班级'
+            },
+            type: 'tree',
+            span: 12,
+            searchClearable: true,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            }
           },
           {
             label: '性别',
-            prop: 'studentGender'
+            prop: 'studentGender',
+            dicData: genderDict
           },
           {
             label: '报名日期',
-            prop: 'days'
+            prop: 'days',
+            type: 'date',
+            format: 'yyyy-MM-dd'
           }
         ]
       }
@@ -132,6 +169,15 @@ export default {
         return {
           overflow: 'hidden'
         }
+      }
+    },
+    async get() {
+      try {
+        const List = await queryAttendance()
+        this.tableList = List.data.list
+        console.log(this.tableList)
+      } catch (err) {
+        console.log(err)
       }
     }
   }

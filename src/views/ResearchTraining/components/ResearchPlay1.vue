@@ -1,21 +1,20 @@
 <template>
-  <div class="table-container">
+  <div class="table-container" style="height:900px;background:#eee">
     <div class="basic-container">
       <avue-crud
         ref="crud"
         v-model="obj"
+        row-key="id"
         :data="tableList"
         :option="option"
         :page="page"
         :table-loading="tableListLoading"
+        @row-save="rowSave"
+        @row-update="rowUpdate"
       >
-        <template slot="undoneList" slot-scope="scope">
-            <p>数学组/{{ scope.row.undoneList }}</p>
-        </template>
         <template slot="searchMenu">
           <el-button type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
           <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-          <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
         </template>
         <template slot="menu" slot-scope="scope">
           <el-button
@@ -35,8 +34,12 @@ import { formatDate } from '@/api/date.js'
 import {
   queryResearch,
   addResearch,
-  delResearch
+  delResearch,
+  updateResearch
 } from '@/api/ResearchTrainingApi'
+import { getDictById } from '@/utils'
+const research = getDictById('researchProperties')
+const researchForm = getDictById('researchForm')
 export default {
   filters: {
     formatTS(timestamp) {
@@ -48,38 +51,14 @@ export default {
   data() {
     return {
       fn: queryResearch,
-      optionsa: [
-        {
-          value: '选项1',
-          label: '选修'
-        },
-        {
-          value: '选项2',
-          label: '必修'
-        }
-      ],
-      options1: [
-        {
-          value: '选项1',
-          label: '教育学培训'
-        },
-        {
-          value: '选项2',
-          label: '教育管理培训'
-        }
-      ],
-      value: '',
-      value1: '',
-      input: '',
       obj: {},
-      dialogFormVisible: false,
-      formLabelWidth: '120px',
+      form: {},
+      value: '',
       page: {
         pageSize: 20
       },
       searchForm: {},
       tableList: [],
-      form: { },
       option: {
         selection: true,
         align: 'center',
@@ -96,6 +75,7 @@ export default {
           {
             label: '研训名称',
             prop: 'name',
+            search: true,
             rules: {
               required: true,
               message: '研训名称'
@@ -104,18 +84,9 @@ export default {
           {
             label: '主讲人',
             prop: 'presenter',
-            search: true,
             rules: {
               required: true,
               message: '主讲人'
-            }
-          },
-          {
-            label: '负责人',
-            prop: 'person',
-            rules: {
-              required: true,
-              message: '负责人'
             }
           },
           {
@@ -130,7 +101,14 @@ export default {
           },
           {
             label: '研训性质',
+            search: true,
+            type: 'select',
             prop: 'classProperty',
+            dicData: research,
+            props: {
+              label: 'label',
+              value: 'value'
+            },
             rules: {
               required: true,
               message: '研训性质'
@@ -138,7 +116,14 @@ export default {
           },
           {
             label: '研训形式',
+            search: true,
+            type: 'select',
             prop: 'classMethod',
+            dicData: researchForm,
+            props: {
+              label: 'label',
+              value: 'name'
+            },
             rules: {
               required: true,
               message: '研训形式'
@@ -170,19 +155,19 @@ export default {
           },
           {
             label: '参训名单',
-            prop: 'trainUsers.userName',
-            rules: {
-              required: true,
-              message: '参训名单'
-            }
+            prop: 'trainUsers'
+            // rules: {
+            //   required: true,
+            //   message: '参训名单'
+            // }
           },
           {
             label: '未完成人员',
-            prop: 'undoneList.userName',
-            rules: {
-              required: true,
-              message: '未完成人员'
-            }
+            prop: 'undoneList.userName'
+            // rules: {
+            //   required: true,
+            //   message: '未完成人员'
+            // }
           }
         ]
       }
@@ -190,19 +175,29 @@ export default {
   },
   mounted() {
     this.get()
-    console.log(this.tableList.id)
   },
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row.id)
+    handleAdd() {
+      this.$refs.crud.rowAdd()
     },
-    async handleDelete(row) {
+    async handledel(row, index, loading) {
+      const id = row.id
       try {
-        const id = row.id
         await delResearch({ id })
-        this.get()
+        await this.resetList()
       } catch (err) {
         console.log(err)
+      }
+    },
+    async rowSave(form, done, loading) {
+      loading(true)
+      try {
+        await addResearch(form)
+        await this.resetList()
+        done()
+      } catch (err) {
+        console.log(123)
+        loading(false)
       }
     },
     handleSelectionChange(val) {
@@ -219,74 +214,21 @@ export default {
         console.log(err)
       }
     },
-    async submit() {
+    async rowUpdate(row, index, done, loading) {
+      loading(true)
       try {
-        const name = JSON.parse(JSON.stringify(this.form.name))
-        const presenter = JSON.parse(JSON.stringify(this.form.presenter))
-        const classProperty = JSON.parse(JSON.stringify(this.form.classProperty))
-        const classMethod = JSON.parse(JSON.stringify(this.form.classMethod))
-        const classTime = JSON.parse(JSON.stringify(this.form.date1))
-        const classType = JSON.parse(JSON.stringify(this.form.classType))
-        const place = JSON.parse(JSON.stringify(this.form.place))
-        const lession = JSON.parse(JSON.stringify(this.form.lession))
-        const memberList = JSON.parse(JSON.stringify(this.form.memberList))
-        const undoneList = JSON.parse(JSON.stringify(this.form.undoneList))
-
-        console.log(name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList)
-        await addResearch({ name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList })
-        this.dialogFormVisible = false
-        this.get()
+        // eslint-disable-next-line no-unused-vars
+        await updateResearch(row)
+        await this.resetList()
+        done()
       } catch (err) {
         console.log(err)
+        loading(false)
       }
     }
   }
 }
 </script>
 <style lang='scss' scpoed>
-.ResearchPlay {
-  .title {
-    margin: 15px;
-    margin-top: 0px;
-    height: 84px;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 2px;
-    display: flex;
-    .Nature,
-    .type,
-    .name {
-      padding-top: 25px;
-      padding-left: 40px;
-    }
-    .name {
-      width: 270px;
-      display: flex;
-      p {
-        margin: 0px;
-        display: block;
-        width: 50px;
-        margin-top: 6px;
-      }
-    }
-  }
-  .content {
-    margin: 15px;
-    span {
-      font-size: 14px;
-      font-family: Source Han Sans CN;
-      font-weight: 300;
-      color: rgba(0, 0, 0, 1);
-      line-height: 22px;
-    }
-  }
-}
-</style>
-<style>
-.ResearchPlay .title .el-input__inner {
-  padding-right: 30px;
-  height: 32px;
-}
-.ResearchPlay .title .el-input__suffix {
-  top: 4px;
-}
+
 </style>

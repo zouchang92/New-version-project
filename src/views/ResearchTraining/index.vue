@@ -27,7 +27,7 @@
 <script>
 import MyResearch from './components/MyResearch'
 import ResearchPage from './components/ResearchPage'
-import ResearchPlay1 from './components/ResearchPlay'
+import ResearchPlay1 from './components/ResearchPlay1'
 import AchievementsPage from './components/AchievementsPage'
 export default {
   components: {

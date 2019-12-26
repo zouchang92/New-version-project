@@ -166,6 +166,7 @@ export default {
     },
     async rowSave(form, done, loading) {
       loading(true)
+      console.log(form)
       try {
         await addClub(form)
         await this.resetList()
@@ -199,7 +200,7 @@ export default {
       const ids = row.id
       try {
         await delClub({ ids })
-        this.get()
+        await this.resetList()
       } catch (err) {
         console.log(err)
       }

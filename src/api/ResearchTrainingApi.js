@@ -10,12 +10,22 @@ export function queryResearch({ page = 1, rows = 10000 }) {
   })
 }
 
-export function addResearch({ name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList }) {
+export function addResearch({ name, presenter, classProperty, classMethod, classTime, classType, place, lession, attachment }) {
   return request({
     url: '/zhxyx/yxTask/insert',
     method: 'post',
     data: {
-      name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList
+      name, presenter, classProperty, classMethod, classTime, classType, place, lession, attachment
+    }
+  })
+}
+
+export function updateResearch({ id, name, presenter, classProperty, classMethod, classTime, classType, place, lession, attachment, memberList, undoneList }) {
+  return request({
+    url: '/zhxyx/yxTask/update',
+    method: 'post',
+    data: {
+      id, name, presenter, classProperty, classMethod, classTime, classType, place, lession, attachment, memberList, undoneList
     }
   })
 }

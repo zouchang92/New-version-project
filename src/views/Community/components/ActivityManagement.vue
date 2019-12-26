@@ -178,6 +178,9 @@ export default {
       }
     }
   },
+  created() {
+    this.get()
+  },
   methods: {
     handleAdd() {
       this.$refs.crud.rowAdd()
@@ -201,6 +204,7 @@ export default {
       try {
         const List = await queryActivity()
         this.tableList = List.data.list
+        console.log(this.tableList)
       } catch (err) {
         console.log(err)
       }
