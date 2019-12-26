@@ -56,10 +56,10 @@ export default {
         column: [
           {
             label: '社团名称',
-            prop: 'clubName',
+            prop: 'clubId',
             search: true,
             type: 'select',
-            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list ',
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list',
             dicMethod: 'post',
             dicQuery: {
               page: 1,
@@ -68,7 +68,7 @@ export default {
             props: {
               res: 'data.list',
               label: 'name',
-              value: 'name'
+              value: 'id'
             },
             rules: {
               required: true,
@@ -79,16 +79,28 @@ export default {
             label: '姓名',
             prop: 'studentName',
             search: true,
+            type: 'select',
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/student/list ',
+            dicMethod: 'post',
+            dicQuery: {
+              page: 1,
+              rows: 100000
+            },
+            props: {
+              res: 'data.list',
+              label: 'userName',
+              value: 'id'
+            },
             rules: {
-              required: true
+              message: '姓名'
             }
           },
           {
             label: '所属班级',
-            prop: 'organId',
+            prop: 'studentOrgId',
             rules: {
               required: true,
-              message: '所属机构'
+              message: '所属班级'
             },
             type: 'tree',
             search: true,
@@ -104,26 +116,17 @@ export default {
             label: '性别',
             prop: 'studentGender',
             type: 'radio',
-            dicData: genderDict,
-            rules: {
-              required: true
-            }
+            dicData: genderDict
           },
           {
             label: '报名日期',
             prop: 'inTime',
             type: 'date',
-            format: 'yyyy-MM-dd',
-            rules: {
-              required: true
-            }
+            format: 'yyyy-MM-dd'
           },
           {
             label: '缴费情况',
-            prop: 'payStatus',
-            rules: {
-              required: true
-            }
+            prop: 'payStatus'
           }
         ]
       }
@@ -163,7 +166,8 @@ export default {
     async rowSave(form, done, loading) {
       loading(true)
       try {
-        await addPerson(form)
+        const result = await addPerson(form)
+        await this.resetList()
         done()
       } catch (err) {
         console.log(123)
@@ -174,7 +178,7 @@ export default {
       const id = row.id
       try {
         await delPerson({ id })
-        this.get()
+        await this.resetList()
       } catch (err) {
         console.log(err)
       }
@@ -184,6 +188,7 @@ export default {
       try {
         // eslint-disable-next-line no-unused-vars
         await editPerson(row)
+        await this.resetList()
         done()
       } catch (err) {
         console.log(err)

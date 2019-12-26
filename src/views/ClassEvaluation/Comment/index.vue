@@ -338,7 +338,7 @@ export default {
           left: 35px;
         }
         .category {
-          width: 110px;
+          width: auto;
           height: 36px;
           border: 1px solid rgba(205, 205, 205, 1);
           border-radius: 4px;
@@ -351,9 +351,9 @@ export default {
             font-weight: bold;
             color: rgba(128, 128, 128, 1);
             line-height: 47px;
-            position: absolute;
-            bottom: -22px;
-            right: 18px;
+            margin-top: -5px;
+            margin-left: 14px;
+    margin-right: 14px;
           }
         }
         .data {

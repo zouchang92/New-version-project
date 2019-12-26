@@ -8,7 +8,7 @@
       </el-tab-pane>
       <el-tab-pane label="研训计划" name="second">
         <div>
-          <ResearchPlay />
+          <ResearchPlay1 />
         </div>
       </el-tab-pane>
       <el-tab-pane label="研训成果" name="Three">
@@ -27,13 +27,13 @@
 <script>
 import MyResearch from './components/MyResearch'
 import ResearchPage from './components/ResearchPage'
-import ResearchPlay from './components/ResearchPlay'
+import ResearchPlay1 from './components/ResearchPlay'
 import AchievementsPage from './components/AchievementsPage'
 export default {
   components: {
     ResearchPage,
     MyResearch,
-    ResearchPlay,
+    ResearchPlay1,
     AchievementsPage
   },
   data() {

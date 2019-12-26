@@ -2,16 +2,23 @@
   <div class="Administration">
     <div class="title">
       <div class="Nature">
-        年级:<el-cascader :options="treeData" :show-all-levels="false" />
+        年级: <el-select ref="searchH" v-model="orgName" placeholder="请选择年级" @change="getSelectCourseByOrg(orgName)">
+          <el-option
+            v-for="item in classOrgName"
+            :key="item.orgName"
+            :label="item.orgName"
+            :value="item.orgId"
+          />
+        </el-select>
       </div>
       <div class="type">
         科目:
         <el-select v-model="value1" placeholder="请选择科目">
           <el-option
-            v-for="(item,index) in options1"
-            :key="index.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="(item,index) in options"
+            :key="index.course"
+            :label="item.course"
+            :value="item.courseId"
           />
         </el-select>
       </div>
@@ -20,6 +27,7 @@
           type="primary"
           icon="el-icon-search"
           size="small"
+          @click="search()"
         >搜索</el-button>
         <el-button
           type="success"
@@ -37,10 +45,11 @@
           icon="el-icon-delete"
           size="small"
         >批量删除</el-button>
+        <el-button type="info" icon="el-icon-refresh" size="small" circle @click="initList()" />
       </div>
     </div>
     <div class="content">
-      <div v-for="(item, index) in List" :key="index" class="content-text">
+      <div v-for="(item, index) in List.list" :key="index" class="content-text">
         <div
           :id="item.statistical.reviewId"
           class="content-top"
@@ -94,7 +103,7 @@
         :page-sizes="[10, 20, 30, 40]"
         :page-size="100"
         layout="sizes, prev, pager, next"
-        :total="page"
+        :total="List.currPage"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -102,13 +111,34 @@
     <el-dialog title="新建课件" :visible.sync="dialogTableVisible">
       <el-form :model="formas">
         <el-form-item label="请选择年级" label-width="120">
-          <el-input v-model="formas.orgName" autocomplete="off" />
+          <el-select ref="selectCh" v-model="formas.orgName" placeholder="请选择年级" size="small" @change="getSelectCourseByOrg(formas.orgName)">
+            <el-option
+              v-for="item in classOrgName"
+              :key="item.orgName"
+              :label="item.orgName"
+              :value="item.orgId"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="请选择科目" label-width="120">
-          <el-input v-model="formas.courseId" autocomplete="off" />
+          <el-select v-model="formas.courseId" placeholder="请选择年级" size="small" @change="getTeacher(formas.courseId)">
+            <el-option
+              v-for="(item,index) in options"
+              :key="index.course"
+              :label="item.course"
+              :value="item.courseId"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="教师名称" label-width="120">
-          <el-input v-model="formas.teacherId" autocomplete="off" />
+          <el-select v-model="formas.teacherId" size="small" placeholder="请选择老师">
+            <el-option
+              v-for="(item,index) in options1"
+              :key="index.teacherId"
+              :label="item.teacherName"
+              :value="item.teacherId"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="资源路径" label-width="120">
           <el-input v-model="formas.resources" autocomplete="off" />
@@ -124,7 +154,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogTableVisible = false">取 消</el-button>
+        <el-button @click="cancel()">取 消</el-button>
         <el-button type="primary" @click="add()">确 定</el-button>
       </div>
     </el-dialog>
@@ -132,37 +162,28 @@
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
-import { ClassQuery, getDetail, addClass, delClass } from '@/api/ClassEvaluationApi'
-import { getOrganTree } from '@/api/organManageApi'
-import { interArrayTree } from '@/utils'
+import { ClassQuery, getDetail, addClass, delClass, getSelectOrgName, getSelectCourseByOrg, getTeacher } from '@/api/ClassEvaluationApi'
 export default {
   data() {
     return {
-      treeData: [],
-      options1: [
-        {
-          value: '',
-          label: ''
-        },
-        {
-          value: '',
-          label: ''
-        }
-      ],
-      value: '',
+      options: [],
+      options1: [],
+      orgName: '',
       value1: '',
       List: [],
       List1: [],
-      page: '',
       value2: true,
       currentPage2: 5,
       dialogTableVisible: false,
-      formas: {}
+      formas: {},
+      classOrgName: {},
+      orgid: '',
+      searchData: []
     }
   },
   created() {
     this.get()
-    this.getOrganTree()
+    this.getSelectOrgName()
   },
   methods: {
     handleSizeChange(val) {
@@ -177,8 +198,31 @@ export default {
         this.page = page
         const rows = 1000
         const list = await ClassQuery({ page, rows })
-        this.List = list.data.list
+        this.List = list.data
         console.log(this.List)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    initList() {
+      this.value1 = ''
+      this.orgName = ''
+      this.get()
+    },
+    async search() {
+      try {
+        const orgName = this.$refs.searchH.selectedLabel
+        const courseId = this.value1
+        const a = await ClassQuery({ orgName, courseId })
+        this.searchData = a.data
+        // console.log(this.searchData.list.length)
+        // console.log(this.searchData)
+        if (this.searchData.list.length > 0) {
+          this.List = this.searchData
+        }
+        if (this.searchData.list.length === 0) {
+          alert('没有数据哦')
+        }
       } catch (err) {
         console.log(err)
       }
@@ -203,12 +247,39 @@ export default {
         console.log(err)
       }
     },
-    getOrganTree() {
-      getOrganTree().then(res => {
-        const treeData = interArrayTree(res.data)
-        this.treeData = treeData
-        console.log(this.treeData)
-      })
+    async getSelectOrgName() {
+      try {
+        const a = await getSelectOrgName()
+        this.classOrgName = a.data
+        console.log(this.classOrgName)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async getSelectCourseByOrg(val) {
+      try {
+        const orgId = val
+        console.log(orgId)
+        const a = await getSelectCourseByOrg({ orgId })
+        this.options = a.data
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async getTeacher() {
+      try {
+        const orgId = this.formas.orgName
+        const courseId = this.formas.courseId
+        const a = await getTeacher({ orgId, courseId })
+        this.options1 = a.data
+        console.log(a)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    cancel() {
+      this.dialogTableVisible = false
+      this.int()
     },
     addAdministration() {
       this.dialogTableVisible = true
@@ -224,7 +295,7 @@ export default {
     },
     async add() {
       try {
-        const orgName = this.formas.orgName
+        const orgName = this.$refs.selectCh.selectedLabel
         const courseId = this.formas.courseId
         const resources = this.formas.resources
         const resourcesName = this.formas.resourcesName
@@ -232,6 +303,7 @@ export default {
         const evaName = this.formas.evaName
         const description = this.formas.description
         await addClass({ orgName, courseId, resources, resourcesName, teacherId, evaName, description })
+        console.log(orgName, courseId, resources, resourcesName, teacherId, evaName, description)
         this.dialogTableVisible = false
         this.get()
         this.int()

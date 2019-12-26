@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
-export function ClassQuery({ page, rows }) {
+export function ClassQuery({ orgName, courseId, page, rows }) {
   return request({
     url: '/zhxyx/evaluation/listEvaReview',
     method: 'post',
     data: {
-      page, rows
+      orgName, courseId, page, rows
     }
   })
 }
@@ -43,6 +43,34 @@ export function delClass(reviewId) {
     method: 'post',
     data: {
       reviewId
+    }
+  })
+}
+
+export function getSelectOrgName() {
+  return request({
+    url: '/zhxyx/evaluation/selectOrgName',
+    method: 'get',
+    params: {}
+  })
+}
+
+export function getSelectCourseByOrg({ orgId }) {
+  return request({
+    url: '/zhxyx/evaluation/selectCourseByOrg',
+    method: 'get',
+    params: {
+      orgId
+    }
+  })
+}
+
+export function getTeacher({ orgId, courseId }) {
+  return request({
+    url: '/zhxyx/evaluation/selectCourseTeacher',
+    method: 'get',
+    params: {
+      orgId, courseId
     }
   })
 }

@@ -94,12 +94,12 @@ export default {
             }
           },
           {
-            label: '所属社团',
+            label: '社团名称',
             prop: 'name',
             search: true,
             rules: {
               required: true,
-              message: '所属社团'
+              message: '社团名称'
             }
           },
           {
@@ -168,6 +168,7 @@ export default {
       loading(true)
       try {
         await addClub(form)
+        await this.resetList()
         done()
       } catch (err) {
         console.log(123)

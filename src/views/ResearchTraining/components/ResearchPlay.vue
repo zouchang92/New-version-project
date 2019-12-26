@@ -47,18 +47,12 @@
           <el-input v-model="form.presenter" autocomplete="off" />
         </el-form-item>
         <el-form-item label="研训时间" :label-width="formLabelWidth">
-          <el-col :span="11">
-            <el-date-picker
-              v-model="form.date1"
-              type="date"
-              placeholder="选择日期"
-              style="width: 100%;"
-            />
-          </el-col>
-          <el-col class="line" :span="2">-</el-col>
-          <el-col :span="11">
-            <el-time-picker v-model="form.date2" placeholder="选择时间" style="width: 100%;" />
-          </el-col>
+          <el-date-picker
+            v-model="form.date1"
+            type="date"
+            placeholder="选择日期"
+            style="width: 100%;"
+          />
         </el-form-item>
         <el-form-item label="研训性质" :label-width="formLabelWidth">
           <el-select v-model="form.classProperty" placeholder="请选择研修性质">
@@ -79,7 +73,7 @@
           <el-input v-model="form.lession" autocomplete="off" />
         </el-form-item>
         <el-form-item label="参训名单" :label-width="formLabelWidth">
-          <el-input v-model="form.trainUsers" autocomplete="off" />
+          <el-input v-model="form.memberList" autocomplete="off" />
         </el-form-item>
         <el-form-item label="未完成名单" :label-width="formLabelWidth">
           <el-input v-model="form.undoneList" autocomplete="off" />
@@ -135,13 +129,13 @@
         </el-table-column>
         <el-table-column label="参训名单" width="150" style="overflow:hidden">
           <template slot-scope="scope">
-            <span>{{ scope.row.trainUsers.username }}</span>
+            <span>{{ scope.row.trainUsers }}</span>
           </template>
         </el-table-column>
         <el-table-column label="未完成人员" width="120">
           <template slot-scope="scope">
             <el-popover trigger="hover" placement="bottom">
-              <p>蓝山中学/数学组/{{ scope.row.undoneList }}</p>
+              <p>数学组/{{ scope.row.undoneList }}</p>
               <div slot="reference" class="name-wrapper">
                 <span>{{ }}</span>
               </div>
@@ -248,16 +242,16 @@ export default {
     },
     async submit() {
       try {
-        const name = JSON.stringify(this.form.name)
-        const presenter = JSON.stringify(this.form.presenter)
-        const classProperty = JSON.stringify(this.form.classProperty)
-        const classMethod = JSON.stringify(this.form.classMethod)
-        const classTime = JSON.stringify(this.form.classTime)
-        const classType = JSON.stringify(this.form.classType)
-        const place = JSON.stringify(this.form.place)
-        const lession = JSON.stringify(this.form.lession)
-        const memberList = JSON.stringify(this.form.trainUsers)
-        const undoneList = JSON.stringify(this.form.undoneList)
+        const name = JSON.parse(JSON.stringify(this.form.name))
+        const presenter = JSON.parse(JSON.stringify(this.form.presenter))
+        const classProperty = JSON.parse(JSON.stringify(this.form.classProperty))
+        const classMethod = JSON.parse(JSON.stringify(this.form.classMethod))
+        const classTime = JSON.parse(JSON.stringify(this.form.date1))
+        const classType = JSON.parse(JSON.stringify(this.form.classType))
+        const place = JSON.parse(JSON.stringify(this.form.place))
+        const lession = JSON.parse(JSON.stringify(this.form.lession))
+        const memberList = JSON.parse(JSON.stringify(this.form.memberList))
+        const undoneList = JSON.parse(JSON.stringify(this.form.undoneList))
 
         console.log(name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList)
         await addResearch({ name, presenter, classProperty, classMethod, classTime, classType, place, lession, memberList, undoneList })
