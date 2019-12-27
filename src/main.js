@@ -6,7 +6,6 @@ import './styles/element-variables.scss'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
-import Avue from '@smallwei/avue'
 import ElTreeSelect from 'el-tree-select'
 import VueFileAgent from 'vue-file-agent'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css'
