@@ -10,12 +10,6 @@ import ElTreeSelect from 'el-tree-select'
 import VueFileAgent from 'vue-file-agent'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css'
 
-
-
-
-
-import '@smallwei/avue/lib/index.css'
-
 import '@/styles/index.scss' // global css
 
 // 添加自定义组件
