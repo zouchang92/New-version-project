@@ -2,7 +2,18 @@
   <div>
     <div class="table-container">
       <div class="basic-container">
-          <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
+          <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="false" :data="tableList" :option="option" v-model="obj">
+            <template slot="orgLeaders" slot-scope="scope">
+              <div v-if="scope.row.orgLeaders.length">
+                <el-tag v-for="(item, i) in scope.row.orgLeaders" :key="i">{{item.userName}}</el-tag>
+              </div>
+
+            </template>
+            <template slot="orgTeachers" slot-scope="scope">
+              <div v-if="scope.row.orgTeachers.length">
+                <el-tag v-for="(item, i) in scope.row.orgTeachers" :key="i" style="margin-left: 5px;">{{item.userName}}</el-tag>
+              </div>
+            </template>
             <template slot="searchMenu">
               <el-button v-if="true" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
@@ -11,12 +22,12 @@
             </template>
             <template slot-scope="scope" slot="menu">
               <el-button type="text" icon="el-icon-search" size="small">查看</el-button>
-              <el-button type="text" icon="el-icon-edit" size="small">编辑</el-button>
+              <el-button @click="editCell(scope)" type="text" icon="el-icon-edit" size="small">编辑</el-button>
               <el-button type="text" icon="el-icon-delete" size="small">删除</el-button>
             </template>
           </avue-crud>
       </div>
-      <class-manage-modal @submit="formSubmit" v-model="modalParam" />
+      <class-manage-modal @submit="formSubmit" v-model="modalParam.modalVisible" :classInfo="modalParam.formValue" />
     </div>
   </div>
 </template>
@@ -26,6 +37,7 @@ import tableCommon from '@/mixins/table-common'
 import { queryClassList, addClass, editClass } from '@/api/classManageApi'
 import ClassManageModal from './components/ClassManageModal'
 import permission from '@/mixins/permission'
+import { getOrgan } from '@/utils'
 export default {
   name: 'classManage',
   mixins: [tableCommon, permission],
@@ -37,13 +49,13 @@ export default {
       modalParam: {
         modalVisible: false,
         formValue: {
-          classId: '',
+          orgName: '',
+          parentId: '',
           classRoomId: '',
-          classlogo: [{
-            name: '111',
-            url: 'http://1.jpg'
-          }],
-          classMotto: '111'
+          classlogo: [],
+          orgLeaders: [],
+          orgTeachers: [],
+          classMotto: ''
         }
       },
       fn: queryClassList,
@@ -52,6 +64,9 @@ export default {
         viewBtn: false,
         editBtn: false,
         delBtn: false,
+        treeProps: {
+          children: 'child'
+        },
         column: [
           {
             label:'id',
@@ -61,8 +76,8 @@ export default {
             editDisplay: false
           },
           {
-            label:'班级',
-            prop:'classroomId',
+            label:'班级名称',
+            prop:'orgName',
             rules: {
               required: false,
             },
@@ -70,36 +85,38 @@ export default {
             search: true
           },
           {
+            label:'所属年级',
+            prop:'parentId',
+            type: 'tree',
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
+            width: 200,
+            search: true
+          },
+          {
             label: '负责人',
-            prop:'dutyPeople',
+            prop:'orgLeaders',
             rules: {
               required: false,
             },
             width: 200,
+            slot: true
           },
           {
             label: '任课老师',
-            prop:'dutyTeacher',
+            prop:'orgTeachers',
             rules: {
               required: false,
             },
-            width: 200,
+            slot: true
           },
           {
-            label: '所在教室',
-            prop: 'belongclassRoom',
-            rules: {
-              required: false,
-            },
-            width: 200
-          },
-          {
-            label: '班级logo',
-            prop: 'logo',
-            rules: {
-              required: false,
-            },
-            type: 'upload',
+            label: '备注',
+            prop: 'description',
+            type: 'text',
             width: 200
           }
         ]
@@ -109,10 +126,21 @@ export default {
   },
   methods: {
     handleAdd() {
+      console.log(this)
       this.showModal()
     },
     showModal() {
+      this.modalParam = this.$data.modalParam
       this.modalParam.modalVisible = true
+    },
+    editCell(scope) {
+      this.modalParam = {
+        ...this.modalParam,
+        modalVisible: true,
+        formValue: {
+          ...scope.row
+        }
+      }
     },
     formSubmit() {
       console.log(this.modalParam.formValue)

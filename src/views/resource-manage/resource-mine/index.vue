@@ -163,7 +163,7 @@ export default {
       try {
         await shareToPrivate({
           fileId: this.shareId,
-          recUserId: ids.join(',')
+          recUserId: ids.value.join(',')
         })
         this.$message.success('分享成功')
       } catch(err) {
