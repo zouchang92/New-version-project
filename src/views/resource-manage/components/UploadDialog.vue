@@ -25,7 +25,7 @@
 export default {
   data() {
     return {
-      uploadUrl: `${process.env.VUE_APP_BASE_API}zhxyx/upload/zyFile`,
+      uploadUrl: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/zyFile`,
       filesData: [],
       filesDataForUpload: [],
       loading: false
@@ -71,9 +71,9 @@ export default {
     async uploadFiles() {
       this.loading = true
       try {
+        console.log(this.uploadUrl)
         let res = await this.$refs.vueFileAgent.upload(this.uploadUrl, {}, this.filesDataForUpload)
         this.loading = false
-        console.log(res)
         this.$emit('uploadSuccess', res)
         this.reset()
       } catch(err) {

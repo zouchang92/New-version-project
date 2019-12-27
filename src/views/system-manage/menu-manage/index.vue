@@ -24,11 +24,11 @@
               <el-form-item>
                 <el-button icon="el-icon-plus" @click="changeMode('add')" style="height: 32px;line-height: 12px" size="medium" type="primary">添加</el-button>
               </el-form-item>
-              <el-form-item>
-                <el-button icon="el-icon-edit" @click="changeMode('edit')" style="height: 32px;line-height: 12px" size="medium" type="primary">编辑</el-button>
+              <el-form-item v-if="this.mode !== 'add'">
+                <el-button icon="el-icon-edit"  @click="changeMode('edit')" style="height: 32px;line-height: 12px" size="medium" type="primary">编辑</el-button>
               </el-form-item>
-              <el-form-item>
-                <el-button icon="el-icon-delete" @click="deleteMenu" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
+              <el-form-item v-if="this.mode !== 'add'">
+                <el-button icon="el-icon-delete"  @click="deleteMenu" style="height: 32px;line-height: 12px" size="medium" type="danger">删除</el-button>
               </el-form-item>
             </el-form>
             <el-form ref="form" :model="formData" :rules="rules" label-width="80px" label-position="right" size="small">

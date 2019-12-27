@@ -1,14 +1,9 @@
 <template>
   <el-dialog @close="handleClose" :visible="value">
     <div class="member-select">
-      <el-select size="mini" style="width: 100%" :value="selectedValue" multiple placeholder="请选择">
-        <el-option
-          v-for="item in this.memberData"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
+      <div class="member-tag">
+        <el-tag size="medium" style="margin-right: 5px;" @close="handleCancel(item)" v-for="item in this.memberData" :key="item.value" closable>{{item.label}}</el-tag>
+      </div>
       <el-breadcrumb style="margin-top: 10px;" separator="/">
         <el-breadcrumb-item
           @click.native="onBreadcrumbClick(item, i)"
@@ -32,7 +27,7 @@
               :key="i"
             >
               <i class="el-icon-user" />
-              {{item.loginName}}
+              {{item.userName}}
               <el-checkbox
                 class="user-checkbox"
                 @click="triggerMember(item, i)"
@@ -69,6 +64,11 @@ export default {
       type: 'org',
       members: [],
       userLoading: false,
+      queryMap: {
+        teacher: 'teacherDuty',
+        student: 'studentDuty',
+        parent: 'parentDuty'
+      }
     }
   },
   props: {
@@ -79,6 +79,10 @@ export default {
     memberSelected: {
       type: Array,
       default: []
+    },
+    searchType: {
+      type: String,
+      default: 'teacher'
     }
   },
   computed: {
@@ -90,15 +94,22 @@ export default {
     Container
   },
   methods: {
+    handleCancel(item) {
+      this.removeMember(item.value)
+    },
     triggerMember(item, i) {
       if (this.selectedValue.indexOf(item.id) > -1) {
         this.removeMember(item.id)
       } else {
         this.memberData.push({
-          label: item.loginName,
+          label: item.userName,
           value: item.id
         })
       }
+    },
+    reset() {
+      this.breadcrumbData = []
+      this.members = []
     },
     removeMember(id) {
       let removeArray = []
@@ -121,10 +132,10 @@ export default {
       }
     },
     async getUser(id) {
+      var userType = this.queryMap[this.searchType]
       this.userLoading = true
-      
       try {
-        let data = await queryUsers({organId: id, page: 1, rows: 10000})
+        let data = await queryUsers({organId: id, page: 1, rows: 10000, orgType: userType})
         this.members = data.data.list
         this.userLoading = false
       } catch(err) {
@@ -148,12 +159,22 @@ export default {
       this.$emit('save', this.selectedValue)
       this.handleClose()
     }
-  }
+  },
+  watch: {
+    memberSelected(val) {
+      this.memberData = _.cloneDeep(val)
+    }
+  },
 }
 </script>
 
 <style lang="scss">
 .member-select {
+  .member-tag {
+    border: 1px solid #dcdcdc;
+    padding: 10px;
+    border-radius: 5px;
+  }
   .el-breadcrumb__item {
     font-size: 12px;
   }

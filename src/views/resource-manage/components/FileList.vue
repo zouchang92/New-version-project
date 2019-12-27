@@ -86,7 +86,7 @@
               <img src="@/assets/folder_icon.png" />
             </div>
             <div v-else>
-              <img v-if="item.fileType === 'jpeg' || item.fileType === 'png' || item.fileType === 'jpg' || item.fileType === 'gif' || item.fileType === 'svg'"  :src='baseUrl + item.filePath + item.name' />
+              <img v-if="item.fileType === 'jpeg' || item.fileType === 'png' || item.fileType === 'jpg' || item.fileType === 'gif' || item.fileType === 'svg'"  :src='baseUrl + "/" + item.filePath + item.name' />
               <img v-else :src="getIcon(item.fileType)" />
             </div>
             <label>{{item.name}}</label>
@@ -123,6 +123,7 @@ import Abnor from '@/components/Abnor'
 import moment from 'moment'
 import VueContext from 'vue-context';
 import 'vue-context/src/sass/vue-context.scss';
+import { download } from '@/utils'
 let baseUrl = process.env.VUE_APP_BASE_API
 export default {
   data() {
@@ -355,7 +356,7 @@ export default {
     async downloadFile(id) {
       try {
         let res = await downloadFile(id)
-        window.open(`${res.data}`)
+        download(res.data)
       } catch(err) {
         console.log(err)
       }

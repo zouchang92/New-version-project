@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import moment from 'moment'
+import { saveAs } from 'file-saver'
 
 /**
  * Created by PanJiaChen on 16/11/18.
@@ -458,11 +459,7 @@ export function generateDateAxis(config) {
 
 export function download(files) {
   const downloadFile = (href) => {
-    var a = document.createElement('a')
-    a.href = href
-    a.download = ''
-    a.click()
-    a.remove()
+    saveAs(href)
   }
   _.forEach(files, n => {
     downloadFile(n)

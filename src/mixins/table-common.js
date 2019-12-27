@@ -118,6 +118,7 @@ export default {
         let isArray = (res.data.constructor === Array)
         if (isArray || !res.data.list) {
           this.tableList = this.processData(res.data)
+          console.log(this.processData(res.data), 'process')
           return
         }
         const { currPage, list, pageSize, totalCount } = res.data
@@ -132,6 +133,7 @@ export default {
             }
           })
         })
+        
         this.tableList = this.processData(list)
       }).catch(err => {
         console.log(err)
