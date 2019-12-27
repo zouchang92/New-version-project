@@ -8,7 +8,7 @@
         <p class="esc">返回至上一页</p>
       </div>
     </div>
-    <div :id="data.statistical.reviewId" class="content">
+    <div :id="data.statistical.reviewId" :newdata="data" class="content">
       <el-row :gutter="10">
         <el-col
           :xs="17"

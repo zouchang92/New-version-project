@@ -153,22 +153,22 @@ export default {
               message: '课时'
             }
           },
-          {
-            label: '参训名单',
-            prop: 'trainUsers'
-            // rules: {
-            //   required: true,
-            //   message: '参训名单'
-            // }
-          },
-          {
-            label: '未完成人员',
-            prop: 'undoneList.userName'
-            // rules: {
-            //   required: true,
-            //   message: '未完成人员'
-            // }
-          }
+          // {
+          //   label: '参训名单',
+          //   prop: 'trainUsers'
+          //   rules: {
+          //     required: true,
+          //     message: '参训名单'
+          //   }
+          // },
+          // {
+          //   label: '未完成人员',
+          //   prop: 'undoneList.userName'
+          //   rules: {
+          //     required: true,
+          //     message: '未完成人员'
+          //   }
+          // }
         ]
       }
     }
