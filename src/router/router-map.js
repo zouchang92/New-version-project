@@ -250,6 +250,14 @@ export default {
     },
     component: () => import('@/views/teach-manage/vacation-manage')
   },
+  sthClassroomManage: {
+    path: 'sthClassroomManage',
+    name: 'sthClassroomManage',
+    meta: {
+      title: '教室场馆'
+    },
+    component: () => import('@/views/teach-manage/sthClassroom-manage')
+  },
   attendanceManage: {
     path: '/attendanceManage',
     name: 'attendanceManage',
@@ -414,6 +422,28 @@ export default {
     component: () => import('@/views/student-placement/placement-result'),
     alwaysShow: true,
     name: 'placementResult',
+    meta: { title: '', icon: '' }
+  },
+  //流程
+  processManage: {
+    path: 'processManage',
+    component: Layout,
+    alwaysShow: true,
+    name: 'processManage',
+    meta: { title: '', icon: '' }
+  },
+  processList: {
+    path: '/processList',
+    component: () => import('@/views/process-manage/process-list'),
+    alwaysShow: true,
+    name: 'processList',
+    meta: { title: '', icon: '' }
+  },
+  processType: {
+    path: '/processType',
+    component: () => import('@/views/process-manage/process-type'),
+    alwaysShow: true,
+    name: 'processType',
     meta: { title: '', icon: '' }
   }
 }

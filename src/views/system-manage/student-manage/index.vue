@@ -495,7 +495,7 @@ export default {
           }]
         }, {
           label: '家长信息',
-          prop: 'brxx',
+          prop: 'jzxx',
           icon: 'el-icon-edit-outline',
           column: [{
             label:'家长姓名',

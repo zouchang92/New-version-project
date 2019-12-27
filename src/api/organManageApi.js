@@ -36,3 +36,24 @@ export function deleteOrgan(id) {
     }
   })
 }
+
+export function getLeaderById(id) {
+  return request({
+    url: '/zhxyx/organ/listOrgLeader',
+    method: 'get',
+    params: {
+      id
+    }
+  })
+}
+
+export function setLeaderById({ organId, ids }) {
+  return request({
+    url: '/zhxyx/account/updateOrganLeader',
+    method: 'post',
+    data: {
+      organId, 
+      ids
+    }
+  })
+}

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="achievement-archive">
     <div class="table-container">
       <div class="basic-container">
           <avue-crud :permission="permission" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="false" :data="tableList" :option="option" v-model="obj">
@@ -10,6 +10,10 @@
               <el-button @click="initList()" type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
            </avue-crud>
+           <el-table border :data="tableList">
+             <el-table-column v-if="item.isColumn" :prop="item.prop" :label="item.label" v-for="(item, i) in option.column" :index="i">
+             </el-table-column>
+           </el-table>
       </div>
      <div v-loading="tableListLoading" class="basic-container" style="background: white;padding: 8px 0px;border-radius: 0">
        <h4 style="margin-left: 20px;">成绩报表统计</h4>
@@ -59,7 +63,8 @@ export default {
       classStoreData: {
         settings: {
           itemStyle: {
-            barBorderRadius: [20, 20, 20, 20]
+            barBorderRadius: [20, 20, 20, 20],
+            barWidth: 30
           },
           colors: [{
             type: 'linear',
@@ -90,6 +95,9 @@ export default {
         sixtyPoints: '60-69',
         fail: '不及格'
       },
+      option1: {
+
+      },
       option: {
         height: '120px',
         column: [
@@ -103,7 +111,8 @@ export default {
           
           {
             label: '不及格',
-            prop: 'fail'
+            prop: 'fail',
+            isColumn: true,
           },
           {
             label: '所属班级',
@@ -210,12 +219,17 @@ export default {
         column = score.middle.map(n => {
           return {
             label: n.midScore,
-            prop: n.midScore
+            prop: n.midScore,
+            isColumn: true
           }
         })
-        this.option = {
+        this.option1 = {
           ...this.option,
-          column: _.concat([], this.option.column, column)
+          column: _.concat([], this.option.column, column, [{
+            label: '不及格',
+            prop: 'fail',
+            isColumn: true,
+          }])
         }
       }
       
@@ -234,6 +248,7 @@ export default {
       })
       this.classStoreData.rows = barData
       this.scoreInfo = score
+      this.option = this.option1
       return tableData
     },
     async rowUpdate(row, index, done, loading) {
@@ -264,25 +279,33 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
-.info-list {
-  list-style: none;
-  margin: 10px;
-  padding: 0;
-  display: flex;
-  background: #f3f4f6;
-  padding: 10px;
-  li {
-    flex: 1;
-    text-align: center;
-    border-right: 1px solid #dcdcdc;
-    .title {
-      font-size: 14px;
+<style lang="less">
+.achievement-archive {
+  .avue-crud {
+    .el-table {
+      display: none;
     }
-    .score {
-      font-size: 18px;
-      margin-top: 12px;
+  }
+  .info-list {
+    list-style: none;
+    margin: 10px;
+    padding: 0;
+    display: flex;
+    background: #f3f4f6;
+    padding: 10px;
+    li {
+      flex: 1;
+      text-align: center;
+      border-right: 1px solid #dcdcdc;
+      .title {
+        font-size: 14px;
+      }
+      .score {
+        font-size: 18px;
+        margin-top: 12px;
+      }
     }
   }
 }
+
 </style>

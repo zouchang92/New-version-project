@@ -49,3 +49,34 @@ export function deleteCourses(ids) {
     }
   })
 }
+
+export function queryTeacherByCourseId({ 
+  page,
+  rows,
+  courseId,
+  teacherId = '' }) {
+  return request({
+    url: '/zhxyx/teacherCourse/list',
+    method: 'post',
+    data: {
+      page,
+      rows,
+      courseId,
+      teacherId
+    }
+  })
+}
+
+export function insertCourseTeacher({
+  teacherIds,
+  courseId
+}) {
+  return request({
+    url: '/zhxyx/teacherCourse/insert',
+    method: 'post',
+    data: {
+      teacherIds,
+      courseId
+    }
+  })
+}
