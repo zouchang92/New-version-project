@@ -53,7 +53,7 @@
         <div
           :id="item.statistical.reviewId"
           class="content-top"
-          @click="open(item.statistical.reviewId)"
+          @click="open(item.statistical.reviewId,item.review.type)"
         >
           <img
             class="content-img"
@@ -227,15 +227,13 @@ export default {
         console.log(err)
       }
     },
-    async open(e) {
+    async open(e, i) {
       try {
-        // eslint-disable-next-line no-unused-vars
         const reviewId = e
+        const type = i
         console.log(reviewId)
-        // eslint-disable-next-line no-unused-vars
-        const a = await getDetail({ reviewId })
+        const a = await getDetail({ reviewId, type })
         this.List1 = a.data
-        // console.log(this.List1)
         this.$router.push({
           path: '/comment/index',
           query: {

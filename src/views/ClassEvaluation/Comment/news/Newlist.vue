@@ -28,11 +28,26 @@
   </div>
 </template>
 <script>
+const List = {
+  props: {
+    newdata: {
+      type: Array,
+      default: function() {
+
+      }
+    }
+  },
+  template: '#newdata'
+}
 import { getDetail } from '@/api/ClassEvaluationApi'
 export default {
   props: {
     // eslint-disable-next-line vue/require-default-prop
     id: {
+      type: String
+    },
+    // eslint-disable-next-line vue/require-default-prop
+    tpid: {
       type: String
     }
   },
@@ -42,20 +57,21 @@ export default {
     }
   },
   created() {
-    this.get()
+    // this.get()
+    console.log(this.List, this.tpid)
   },
   methods: {
-    async get() {
-      try {
-        const reviewId = this.id
-        console.log(reviewId)
-        const a = await getDetail({ reviewId })
-        this.data = a.data
-        console.log(this.data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
+    // async get() {
+    //   try {
+    //     const reviewId = this.id
+    //     console.log(reviewId)
+    //     const a = await getDetail({ reviewId })
+    //     this.data = a.data
+    //     console.log(this.data)
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
+    // }
   }
 }
 </script>
