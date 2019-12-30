@@ -2,6 +2,7 @@ import { asyncRoutes, constantRoutes } from '@/router'
 import routerMap from '@/router/router-map'
 import _ from 'lodash'
 import { rejects } from 'assert'
+import { MenuContainer } from '@/layout/components'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -46,7 +47,8 @@ function filterAsyncRoutes(asyncRouterMap, threeMap = {}) { //遍历后台传来
         threeMap[route.menuUrl] = route
         return false
       }
-      route.path = `/${route.menuName}`
+      route.path = `/${route.menuId}`
+      route.component = MenuContainer
       route.meta = {
         icon: route.menuIcon,
         title: route.menuName,

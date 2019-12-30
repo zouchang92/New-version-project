@@ -17,21 +17,32 @@
 <script>
 import { queryClassPlan } from '@/api/classPlanManageApi'
 import tableCommon from '@/mixins/table-common'
+import { getOrgan } from '@/utils'
 export default {
   data() {
     return {
       fn: queryClassPlan,
       option: {
-        column: []
+        column: [{
+          label: '所属机构',
+          prop: 'orgId',
+          type: 'tree',
+          search: true,
+          dicData: getOrgan(),
+          props: {
+            label: 'orgName',
+            value: 'id'
+          },
+          searchSpan: 8,
+          span: 24
+        }]
       }
     }
   },
   mixins: [tableCommon],
   name: 'classPlanHome',
   mounted() {
-    this.tableList = [{
-      id: 11
-    }]
+
   },
   methods: {
     handleAdd() {

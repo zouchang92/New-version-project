@@ -14,7 +14,7 @@
       </el-form-item>
       <el-form-item label="班级logo">
         <el-upload
-          action="`${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`"
+          :action="`${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`"
           :file-list="info.classlogo"
           list-type="picture-card"
           :limit="1"

@@ -241,7 +241,7 @@ export default {
             label:'照片',
             prop:'photo',
             type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
             propsHttp: {
               res: '0'

@@ -158,7 +158,7 @@ export default {
             type: 'upload',
             listType: 'picture-card',
             span: 24,
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             propsHttp: {
               res: '0'
             },
@@ -191,7 +191,7 @@ export default {
             prop: "credPhotoObve",
             type: 'upload',
             listType: 'picture-card',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             span: 24,
             limit: 1,
             propsHttp: {
@@ -204,7 +204,7 @@ export default {
             prop: "credPhotoRever",
             type: 'upload',
             listType: 'picture-card',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
             span: 24,
             propsHttp: {

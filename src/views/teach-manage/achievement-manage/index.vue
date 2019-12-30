@@ -125,7 +125,7 @@ export default {
           label:'上传文件',
           prop:'excelPath',
           type: 'upload',
-          action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+          action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
           limit: 1,
           propsHttp: {
             res: '0'

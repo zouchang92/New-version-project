@@ -26,12 +26,12 @@ export function addUser({ loginName, userName, gender, organId, phone, credNum, 
   })
 }
 
-export function updateUser({ id, loginName, userName, gender, organId, phone, credNum, birthday, entryDay, description, password, photo, orgType, roleIds }) {
+export function updateUser({ id, loginName, userName, gender, organId, phone, credNum, birthday, entryDay, description, photo, orgType, roleIds }) {
   return request({
     url: '/zhxyx/account/updateUser',
     method: 'post',
     data: {
-      id, loginName, userName, gender, organId, phone, credNum, birthday, entryDay, description, password, photo, orgType, roleIds
+      id, loginName, userName, gender, organId, phone, credNum, birthday, entryDay, description, photo, orgType, roleIds
     }
   })
 }

@@ -191,7 +191,7 @@ export default {
             label:'照片',
             prop:'facePicFile',
             type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
             propsHttp: {
               res: '0'
@@ -211,7 +211,7 @@ export default {
             label: "证件正面",
             prop: "credPhotoObve",
             type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
             propsHttp: {
               res: '0',
@@ -224,7 +224,7 @@ export default {
             label: "证件反面",
             prop: "credPhotoRever",
             type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             propsHttp: {
               res: '0',
             },
@@ -393,7 +393,7 @@ export default {
             label:'照片',
             prop:'facePicFile',
             type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
             propsHttp: {
               res: '0'
@@ -405,7 +405,7 @@ export default {
             label: "证件正面",
             prop: "credPhotoObve",
             type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
             propsHttp: {
               res: '0',
@@ -418,7 +418,7 @@ export default {
             label: "证件反面",
             prop: "credPhotoRever",
             type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/file`,
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             propsHttp: {
               res: '0',
             },
