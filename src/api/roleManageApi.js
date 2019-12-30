@@ -52,7 +52,7 @@ export function getRoleAuthorize (id) {
 
 export function roleBindMenus({roleId, menuIds}) {
   return request({
-    url: 'zhxyx/role/roleBindMenus',
+    url: '/zhxyx/role/roleBindMenus',
     method: 'post',
     data: {
       roleId,

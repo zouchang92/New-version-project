@@ -130,7 +130,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then((res) => {
+          this.$store.dispatch('user/login', this.loginForm).then(res => {
             this.$router.addRoutes(res)
             this.$router.push({ path: this.redirect || '/dashboard' })
             this.loading = false

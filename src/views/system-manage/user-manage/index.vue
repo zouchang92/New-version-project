@@ -94,7 +94,7 @@ export default {
             prop:'organId',
             span: 24,
             type: 'tree',
-            searchSpan: 5,
+            searchSpan: 4,
             dicData: getOrgan(),
             rules: {
               required: true,
@@ -134,6 +134,7 @@ export default {
             prop: "orgType",
             type: 'select',
             search: true,
+            searchSpan: 4,
             span: 24,
             rules: {
               required: true,
@@ -233,7 +234,8 @@ export default {
             prop:'password',
             span: 24,
             type: 'password',
-            hide: true
+            hide: true,
+            editDisplay: false
           },
           {
             label:'照片',

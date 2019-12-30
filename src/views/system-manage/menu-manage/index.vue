@@ -39,7 +39,7 @@
                 <el-input v-model="formData.menuUrl"></el-input>
               </el-form-item>
               <el-form-item label="隶属系统" prop="belongSystem">
-                <el-select v-model="formData.belongSystem">
+                <el-select v-model="formData.belongSystem" clearable>
                   <el-option v-for="(item, i) in systemDict" :key="i" :value="item.value" :label="item.label" />
                 </el-select>
               </el-form-item>
