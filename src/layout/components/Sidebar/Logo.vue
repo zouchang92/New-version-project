@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '智慧校园',
+      title: '三墩中学',
       logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
     }
   }
