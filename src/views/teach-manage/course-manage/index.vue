@@ -82,7 +82,7 @@ export default {
       try {
         let res = await insertCourseTeacher({
           courseId: this.teacherModal.scope.id,
-          teacherIds: data
+          teacherIds: data.value
         })
         this.$message.success('设置成功')
         this.teacherModal = {

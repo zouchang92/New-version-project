@@ -156,7 +156,7 @@ export default {
       }
     },
     handleSave() {
-      this.$emit('save', this.selectedValue)
+      this.$emit('save', {value: this.selectedValue, data: this.memberData})
       this.handleClose()
     }
   },
