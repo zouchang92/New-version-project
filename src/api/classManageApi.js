@@ -15,14 +15,12 @@ export function queryClassList({ page, rows, id='' }) {
 export function addClass({
   parentId,
   orgName,
-  orgCode,
-  orgType,
   description,
   logo,
+  classroomId,
   motto,
-  teacherId,
-  courseId,
-  dutyId
+  leaderDtos,
+  schOrgTeacherDTOList,
 }) {
   return request({
     url: '/zhxyx/classes/addClasses',
@@ -30,21 +28,50 @@ export function addClass({
     data: {
       parentId,
       orgName,
-      orgCode,
-      orgType,
       description,
       logo,
+      classroomId,
       motto,
-      teacherId,
-      courseId,
-      dutyId
+      leaderDtos,
+      schOrgTeacherDTOList,
     }
   })
 }
 
-export function updateClass() {
+export function updateClass({
+  id,
+  parentId,
+  orgName,
+  description,
+  logo,
+  classroomId,
+  motto,
+  leaderDtos,
+  schOrgTeacherDTOList
+}) {
   return request({
     url: '/zhxyx/classes/updateClasses',
-    method: 'post'
+    method: 'post',
+    data: {
+      id,
+      parentId,
+      orgName,
+      description,
+      logo,
+      classroomId,
+      motto,
+      leaderDtos,
+      schOrgTeacherDTOList
+    }
+  })
+}
+
+export function deleteClass(id) {
+  return request({
+    url: '/zhxyx/classes/delete',
+    method: 'post',
+    data: {
+      id
+    }
   })
 }

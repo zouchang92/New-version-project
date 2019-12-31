@@ -5,25 +5,25 @@
           <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="false" :data="tableList" :option="option" v-model="obj">
             <template slot="orgLeaders" slot-scope="scope">
               <div v-if="scope.row.orgLeaders.length">
-                <el-tag v-for="(item, i) in scope.row.orgLeaders" :key="i">{{item.userName}}</el-tag>
+                <el-tag style="margin-right: 5px;" v-for="(item, i) in scope.row.orgLeaders" :key="i">{{item.userName || '未知'}}</el-tag>
               </div>
 
             </template>
             <template slot="orgTeachers" slot-scope="scope">
               <div v-if="scope.row.orgTeachers.length">
-                <el-tag v-for="(item, i) in scope.row.orgTeachers" :key="i" style="margin-left: 5px;">{{item.userName}}</el-tag>
+                <el-tag v-for="(item, i) in scope.row.orgTeachers" :key="i" style="margin-right: 5px;">{{item.userName || '未知'}}</el-tag>
               </div>
             </template>
             <template slot="searchMenu">
-              <el-button v-if="true" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
+              <el-button v-if="false" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
               <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
               <el-button v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
+              <el-button type="info" @click="initList()" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
             <template slot-scope="scope" slot="menu">
-              <el-button type="text" icon="el-icon-search" size="small">查看</el-button>
-              <el-button @click="editCell(scope)" type="text" icon="el-icon-edit" size="small">编辑</el-button>
-              <el-button type="text" icon="el-icon-delete" size="small">删除</el-button>
+              <el-button v-if="permission.viewBtn" type="text" icon="el-icon-search" size="small">查看</el-button>
+              <el-button v-if="permission.editBtn" @click="editCell(scope)" type="text" icon="el-icon-edit" size="small">编辑</el-button>
+              <el-button @click="singleDel(scope.row)" v-if="permission.delBtn" type="text" icon="el-icon-delete" size="small">删除</el-button>
             </template>
           </avue-crud>
       </div>
@@ -34,9 +34,9 @@
 
 <script>
 import tableCommon from '@/mixins/table-common'
-import { queryClassList, addClass, editClass } from '@/api/classManageApi'
-import ClassManageModal from './components/ClassManageModal'
 import permission from '@/mixins/permission'
+import { queryClassList, addClass, updateClass, deleteClass } from '@/api/classManageApi'
+import ClassManageModal from './components/ClassManageModal'
 import { getOrgan } from '@/utils'
 export default {
   name: 'classManage',
@@ -49,16 +49,18 @@ export default {
       modalParam: {
         modalVisible: false,
         formValue: {
+          id: '',
           orgName: '',
           parentId: '',
-          classRoomId: '',
-          classlogo: [],
+          classroomId: '',
+          logo: [],
           orgLeaders: [],
           orgTeachers: [],
-          classMotto: ''
+          motto: ''
         }
       },
       fn: queryClassList,
+      singleDelFn: deleteClass,
       data: [],
       option: {
         viewBtn: false,
@@ -126,7 +128,7 @@ export default {
   },
   methods: {
     handleAdd() {
-      console.log(this)
+      this.modalParam.formValue = this.$options.data().modalParam.formValue
       this.showModal()
     },
     showModal() {
@@ -138,12 +140,45 @@ export default {
         ...this.modalParam,
         modalVisible: true,
         formValue: {
-          ...scope.row
+          ...this.modalParam.formValue,
+          ...scope.row,
+          logo: [{url: scope.row.logo}]
         }
       }
     },
-    formSubmit() {
-      console.log(this.modalParam.formValue)
+    async formSubmit(data) {
+      try {
+        let leaderDtos = data.orgTeachers.map(n => ({
+          teacherId: n.userId,
+          dutyType: "1"
+        }))
+        let schOrgTeacherDTOList = data.orgLeaders.map(n => ({
+          teacherId: n.userId,
+          dutyType: "2"
+        }))
+        if (!data.id) {
+          await addClass({
+            ...data,
+            leaderDtos,
+            logo: data.logo ? '' : data.logo[0].url,
+            schOrgTeacherDTOList
+          })
+          this.$message.success('添加成功')
+        } else {
+          await updateClass({
+            ...data,
+            leaderDtos,
+            logo: data.logo ? '' : data.logo[0].url,
+            schOrgTeacherDTOList
+          })
+          this.$message.success('修改成功')
+        }
+        this.modalParam.modalVisible = false
+        await this.initList()
+      } catch(err) {
+        console.log(err)
+      }
+      
     },
     uploadBefore(file, done) {
       alert(1)

@@ -1,39 +1,42 @@
 <template>
 <div>
   <el-dialog @close="handleClose" :visible="value">
-    <el-form label-width="100px" :model="form" size="medium">
-      <el-form-item label="所属年级">
+    <el-form :rules="rules" ref="ruleForm" label-width="110px" :model="info" size="medium">
+      <el-form-item label="班级名称" prop="orgName">
+        <el-input v-model="info.orgName"/>
+      </el-form-item>
+      <el-form-item label="所属年级" prop="parentId">
           <el-tree-select ref="treeSelect" :treeParams="treeParams" :data="organData" v-model="info.parentId"/>
       </el-form-item>
-      <el-form-item label="所在教室">
+      <el-form-item label="所在教室" prop="classroomId">
         <el-select
-          v-model="info.classRoomId"
+          v-model="info.classroomId"
           >
           <el-option v-for="(item, i) in classRoomInfo" :value="item.id" :key="item.id" :label="item.roomNo" />
           </el-select>
       </el-form-item>
-      <el-form-item label="班级logo">
+      <el-form-item label="班级logo" prop="logo">
         <el-upload
-          :action="`${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`"
-          :file-list="info.classlogo"
+          :action="`${baseUrl}/zhxyx/upload/publicUpload`"
+          :file-list="info.logo"
           list-type="picture-card"
           :limit="1"
           ><i class="el-icon-plus"></i></el-upload>
       </el-form-item>
-      <el-form-item label="班级口号">
+      <el-form-item label="班级口号" prop="motto">
         <el-input
-          v-model="info.classMotto"
+          v-model="info.motto"
           ></el-input>
         </el-form-item>
-        <el-form-item class="add-duty-person" label="班级负责人">
+        <el-form-item class="add-duty-person" prop="orgLeaders" label="班级负责人">
           <div v-if="info && info.orgLeaders.length">
-            <el-tag v-for="(item, i) in info.orgLeaders" >{{item.userName}}</el-tag>
+            <el-tag style="margin-right: 5px;" v-for="(item, i) in info.orgLeaders" >{{item.userName || '未知'}}</el-tag>
           </div>
           <i @click="showTeacherModal('duty')" class="el-icon-plus"></i>
         </el-form-item>
-        <el-form-item class="add-duty-person" label="班级任课老师">
+        <el-form-item class="add-duty-person" prop="orgTeachers" label="班级任课老师">
           <div v-if="info && info.orgTeachers.length">
-            <el-tag v-for="(item, i) in info.orgTeachers" >{{item.userName}}</el-tag>
+            <el-tag style="margin-right: 5px;" v-for="(item, i) in info.orgTeachers" >{{item.userName || '未知'}}</el-tag>
           </div>
           <i @click="showTeacherModal('teacher')" class="el-icon-plus"></i>
         </el-form-item>
@@ -60,8 +63,29 @@ export default {
     return {
       info: _.cloneDeep(this.classInfo),
       organData: getOrgan(),
-      form: {
-        
+      rules: {
+        orgName: [{
+          required: true,
+          message: '班级名称是必填项'
+        }],
+        parentId: [{
+          required: true,
+          message: '所属年级是必填项'
+        }],
+        classroomId: [{
+          required: true,
+          message: '所在教室是必填项'
+        }],
+        orgLeaders: [{
+          type: 'array',
+          required: true,
+          message: '负责人是必填项'
+        }],
+        orgTeachers: [{
+          type: 'array',
+          required: true,
+          message: '任课老师是必填项'
+        }]
       },
       treeParams: {
         props: {
@@ -75,7 +99,8 @@ export default {
         visible: false,
         selected: [],
       },
-      classRoomInfo: []
+      classRoomInfo: [],
+      baseUrl: process.env.VUE_APP_BASE_API,
     }
   },
   components: {
@@ -123,8 +148,12 @@ export default {
       this.$emit('input', false)
     },
     handleSave() {
-      this.handleClose()
-      this.$emit('submit')
+      this.$refs.ruleForm.validate((success, param) => {
+        if (success) {
+          this.$emit('submit', this.info)
+        }
+      })
+      
     }
   }
 }

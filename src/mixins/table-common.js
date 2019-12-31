@@ -35,10 +35,10 @@ export default {
     }
   },
   mounted() {
-    if (!this.initLoad) {
-      return
+    if (this.initLoad) {
+      this.initList()
     }
-    this.initList()
+    
   },
   methods: {
     searchChange(param) {
