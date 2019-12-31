@@ -2,20 +2,36 @@
   <div>
     <div class="table-container">
       <div class="basic-container">
-          <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
-            <template slot="searchMenu">
-              <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-              <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
-              <el-button v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button type="info" icon="el-icon-refresh" size="small" circle></el-button>
-            </template>
-            <template slot-scope="scope" slot="menu">
-              <el-button @click="setTeacher(scope)" type="text" icon="el-icon-user" size="small">设置任课老师</el-button>
-             </template>
-           </avue-crud>
+        <avue-crud
+          ref="crud"
+          v-model="obj"
+          :permission="permission"
+          row-key="id"
+          :table-loading="tableListLoading"
+          :page="page"
+          :data="tableList"
+          :option="option"
+          @search-change="searchChange"
+          @selection-change="selectChange"
+          @size-change="pageSizeChange"
+          @current-change="currentPageChange"
+          @row-del="singleDel"
+          @row-save="rowSave"
+          @row-update="rowUpdate"
+        >
+          <template slot="searchMenu">
+            <el-button v-if="permission.addBtn" type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
+            <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
+            <el-button v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+            <el-button type="info" icon="el-icon-refresh" size="small" circle />
+          </template>
+          <template slot="menu" slot-scope="scope">
+            <el-button type="text" icon="el-icon-user" size="small" @click="setTeacher(scope)">设置任课老师</el-button>
+          </template>
+        </avue-crud>
       </div>
     </div>
-    <member-select @save="setCourseTeacher" :memberSelected="teacherModal.selectedTeacher" searchType="teacher" v-model="teacherModal.visible" />
+    <member-select v-model="teacherModal.visible" :member-selected="teacherModal.selectedTeacher" search-type="teacher" @save="setCourseTeacher" />
   </div>
 </template>
 
@@ -25,7 +41,10 @@ import permission from '@/mixins/permission'
 import MemberSelect from '@/components/MemberSelect'
 import { queryCourses, addCourse, updateCourse, deleteCourse, deleteCourses, queryTeacherByCourseId, insertCourseTeacher } from '@/api/courseManageApi'
 export default {
-  name: 'teacherManage',
+  name: 'TeacherManage',
+  components: {
+    MemberSelect
+  },
   mixins: [tableCommon, permission],
   data() {
     return {
@@ -43,35 +62,35 @@ export default {
       singleDelFn: deleteCourse,
       data: [],
       option: {
-        
+
         column: [
           {
-            label:'id',
-            prop:'id',
+            label: 'id',
+            prop: 'id',
             hide: true,
             addDisplay: false,
             editDisplay: false
           },
           {
-            label:'科目名称',
-            prop:'name',
+            label: '科目名称',
+            prop: 'name',
             rules: {
               required: true,
               message: '科目名称是必填项'
             },
             search: true,
-            span: 24,
+            span: 24
           },
           {
-            label:'科目代码',
-            prop:'code',
+            label: '科目代码',
+            prop: 'code',
             rules: {
               required: true,
               message: '科目代码是必填项'
             },
             search: true,
-            span: 24,
-          },
+            span: 24
+          }
         ]
       },
       obj: {}
@@ -80,7 +99,7 @@ export default {
   methods: {
     async setCourseTeacher(data) {
       try {
-        let res = await insertCourseTeacher({
+        const res = await insertCourseTeacher({
           courseId: this.teacherModal.scope.id,
           teacherIds: data.value
         })
@@ -89,7 +108,8 @@ export default {
           ...this.teacherModal,
           selectedTeacher: []
         }
-      } catch(err) {
+      // eslint-disable-next-line no-empty
+      } catch (err) {
 
       }
     },
@@ -104,45 +124,41 @@ export default {
         scope: data.row
       }
       try {
-       let res = await queryTeacherByCourseId({
-         courseId: data.row.id,
-         page: 1,
-         rows: 10000
-       })
-       this.teacherModal.selectedTeacher = res.data.list.map(n => {
-         return {
-           value: n.teacherId,
-           label: n.teacherName
-         }
-       })
-      } catch(err) {
+        const res = await queryTeacherByCourseId({
+          courseId: data.row.id,
+          page: 1,
+          rows: 10000
+        })
+        this.teacherModal.selectedTeacher = res.data.list.map(n => {
+          return {
+            value: n.teacherId,
+            label: n.teacherName
+          }
+        })
+      } catch (err) {
 
       }
     },
     async rowUpdate(row, index, done, loading) {
       loading(true)
       try {
-        let result = await updateCourse(row)
+        const result = await updateCourse(row)
         await this.resetList()
         done()
-      } catch(err) {
+      } catch (err) {
         loading(false)
       }
     },
     async rowSave(row, done, loading) {
       loading(true)
       try {
-        let result = await addCourse(row)
+        const result = await addCourse(row)
         await this.resetList()
         done()
-      } catch(err) {
+      } catch (err) {
         loading(false)
       }
-      
-    },
-  },
-  components: {
-    MemberSelect
+    }
   }
 }
 </script>

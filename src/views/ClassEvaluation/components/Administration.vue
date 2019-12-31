@@ -62,8 +62,8 @@
           <img class="play-img" src="../../../assets/bf_icon_slices/bf_icon@2x.png" alt="">
         </div>
         <div class="content-bottom">
-          <img :src="item.teacher.photo" alt>
-          <p>{{ item.teacher.userName }}</p>
+          <!-- <img :src="item.teacher.photo" alt>
+          <p>{{ item.teacher.userName }}</p> -->
           <p class="number">
             <i class="el-icon-chat-dot-square" />
             {{ item.statistical.evaluationNum }}

@@ -8,7 +8,7 @@
         <p class="esc">返回至上一页</p>
       </div>
     </div>
-    <div :id="data.statistical.reviewId" :data-id="data" class="content">
+    <div :id="data.statistical.reviewId" :sid="data.type" class="content">
       <el-row :gutter="10">
         <el-col
           :xs="17"
@@ -54,26 +54,10 @@
                       <p class="title-text">评价</p>
                     </div>
                     <div class="evaluate-content">
-                      <div class="evaluate-rate" style="display:flex;">
+                      <div v-for="(item,index) in data.itemValue" :key="index" class="evaluate-rate" style="display:flex;">
                         <div class="thinking">
-                          <span class="thinking-title">教学思路清晰:</span>
+                          <span class="thinking-title">{{ item.item }}:</span>
                           <el-rate v-model="value1" />
-                        </div>
-                        <div class="Standard">
-                          <span class="Standard-title">教学程序规范完善:</span>
-                          <el-rate v-model="value2" />
-                        </div>
-                        <div class="structure">
-                          <span class="structure-title">课堂结构内容:</span>
-                          <el-rate v-model="value3" />
-                        </div>
-                        <div class="prominent">
-                          <span class="prominent-title">教学重点突出:</span>
-                          <el-rate v-model="value4" />
-                        </div>
-                        <div class="vivid">
-                          <span class="vivid-title">教学内容生动:</span>
-                          <el-rate v-model="value5" />
                         </div>
                       </div>
                       <el-input
@@ -117,7 +101,7 @@
                       @current-change="handleCurrentChange"
                     />
                   </div> -->
-                  <Newlist :id="data.statistical.reviewId" ref="Newlist" />
+                  <Newlist :id="data.statistical.reviewId" ref="Newlist" :alist="data" :sid="data.type" />
                   <!-- <div class="All-content">
                     <ul>
                       <li
@@ -160,12 +144,12 @@
                 <p class="title-text">主讲人简介</p>
               </div>
               <div class="Compere-content">
-                <img class="Compere-img" :src="data.teacher.photo" alt>
-                <p class="Compere-name">{{ data.teacher.userName }}</p>
-                <p class="Compere-data">
+                <!-- <img class="Compere-img" :src="data.teacher.photo" alt>
+                <p class="Compere-name">{{ data.teacher.userName }}</p> -->
+                <!-- <p class="Compere-data">
                   {{ data.teacher.createTime | formatTS }}
-                </p>
-                <span class="Compere-text">{{ data.teacher.description }}</span>
+                </p> -->
+                <!-- <span class="Compere-text">{{ data.teacher.description }}</span> -->
               </div>
             </div>
             <div class="data-statistics">
@@ -242,6 +226,7 @@ export default {
   },
   created() {
     this.data = this.$route.query.list
+    console.log(this.data)
   },
   methods: {
     esc() {

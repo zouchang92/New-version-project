@@ -36,25 +36,34 @@ export default {
       type: String
     },
     // eslint-disable-next-line vue/require-default-prop
-    tpid: {
-      type: String
+    sid: {
+      type: Number
+    },
+    alist: {
+      type: Object
     }
   },
   data() {
     return {
-      data: {}
+      data: {},
+      list: this.alist
     }
   },
   created() {
     // this.get()
-    console.log(this.List, this.tpid)
+    // console.log(this.id)
+    console.log(123)
+  },
+  mounted() {
+    console.log(123)
   },
   methods: {
     async get() {
       try {
         const reviewId = this.id
-        console.log(reviewId)
-        const a = await getDetail({ reviewId })
+        const type = toString(this.sid)
+        console.log(reviewId, type)
+        const a = await getDetail({ reviewId, type })
         this.data = a.data
         console.log(this.data)
       } catch (err) {

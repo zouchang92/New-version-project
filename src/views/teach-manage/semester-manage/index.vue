@@ -2,16 +2,16 @@
   <div>
     <div class="table-container">
       <div class="basic-container">
-          <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
-            <template slot="searchMenu">
-              <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-              <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
-              <el-button v-if="permission.batchDelBtn" type="danger" @click="batchDel()" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button type="info" @click="initList()" icon="el-icon-refresh" size="small" circle></el-button>
-            </template>
-           </avue-crud>
+        <avue-crud :permission="permission" ref="crud" row-key="id" :table-loading="tableListLoading" :page="page" :data="tableList" @search-change="searchChange" :option="option" @selection-change="selectChange" v-model="obj" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate">
+          <template slot="searchMenu">
+            <el-button v-if="permission.addBtn" type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
+            <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>
+            <el-button v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small" @click="batchDel()">批量删除</el-button>
+            <el-button type="info" icon="el-icon-refresh" size="small" circle @click="initList()" />
+          </template>
+        </avue-crud>
       </div>
-     
+
     </div>
   </div>
 </template>
@@ -20,8 +20,10 @@
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
 import { querySemester, addSemesters, updateSemester, delSemester, delSemesters } from '@/api/semesterManageApi'
+import { getOrgan, getDictById } from '@/utils'
+const yearDic = getDictById('year')
 export default {
-  name: 'semesterManage',
+  name: 'SemesterManage',
   mixins: [tableCommon, permission],
   data() {
     return {
@@ -35,17 +37,17 @@ export default {
       option: {
         column: [
           {
-            label:'id',
-            prop:'id',
+            label: 'id',
+            prop: 'id',
             hide: true,
             addDisplay: false,
             editDisplay: false
           },
           {
-            label:'学期名称',
-            prop:'name',
+            label: '学期名称',
+            prop: 'name',
             rules: {
-              required: false,
+              required: false
             },
             width: 200,
             search: true,
@@ -53,10 +55,15 @@ export default {
             span: 24
           },
           {
-            label:'学年度',
-            prop:'year',
+            label: '学年度',
+            prop: 'year',
+            dicData: yearDic,
+            props: {
+              label: 'label',
+              value: 'value'
+            },
             rules: {
-              required: false,
+              required: false
             },
             width: 200,
             search: true,
@@ -68,7 +75,7 @@ export default {
             label: '开始时间',
             prop: 'starttime',
             rules: {
-              required: false,
+              required: false
             },
             type: 'date',
             width: 200,
@@ -82,7 +89,7 @@ export default {
             label: '结束时间',
             prop: 'endtime',
             rules: {
-              required: false,
+              required: false
             },
             type: 'date',
             search: true,
@@ -90,7 +97,7 @@ export default {
             span: 24,
             format: 'yyyy-MM-dd',
             valueFormat: 'yyyy-MM-dd'
-          },
+          }
         ]
       },
       obj: {}
@@ -105,25 +112,24 @@ export default {
     },
     async rowUpdate(row, index, done, loading) {
       loading(true)
-      try{
-        let result = await updateSemester(row)
+      try {
+        const result = await updateSemester(row)
         await this.resetList()
         done()
-      } catch(err) {
+      } catch (err) {
         loading(false)
       }
     },
     async rowSave(row, done, loading) {
       loading(true)
       try {
-        let result = await addSemesters(row)
+        const result = await addSemesters(row)
         await this.resetList()
         done()
-      } catch(err) {
+      } catch (err) {
         loading(false)
       }
-      
-    },
+    }
   }
 }
 </script>

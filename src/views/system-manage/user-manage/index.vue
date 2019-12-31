@@ -2,21 +2,34 @@
   <div>
     <div class="table-container">
       <div class="basic-container">
-          <avue-crud :permission="permission" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="page" :data="tableList" :option="option" v-model="obj">
-            <template slot="searchMenu">
-              <el-button v-if="permission.addBtn" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-              <!--<el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>-->
-              <el-button v-if="permission.changePassword" @click="batchReset" type="info" icon="el-icon-lock" size="small">批量重置密码</el-button>
-              <el-button v-if="permission.batchDelBtn" @click="batchDel" type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
-              <el-button @click="initList()" type="info" icon="el-icon-refresh" size="small" circle></el-button>
-            </template>
-           </avue-crud>
+        <avue-crud
+          ref="crud"
+          v-model="obj"
+          :permission="permission"
+          :table-loading="tableListLoading"
+          :page="page"
+          :data="tableList"
+          :option="option"
+          @search-change="searchChange"
+          @selection-change="selectChange"
+          @size-change="pageSizeChange"
+          @current-change="currentPageChange"
+          @row-del="singleDel"
+          @row-save="rowSave"
+          @row-update="rowUpdate"
+        >
+          <template slot="searchMenu">
+            <el-button v-if="permission.addBtn" type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
+            <!--<el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small">导入</el-button>-->
+            <el-button v-if="permission.changePassword" type="info" icon="el-icon-lock" size="small" @click="batchReset">批量重置密码</el-button>
+            <el-button v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small" @click="batchDel">批量删除</el-button>
+            <el-button type="info" icon="el-icon-refresh" size="small" circle @click="initList()" />
+          </template>
+        </avue-crud>
       </div>
     </div>
     <el-dialog :visible.sync="dialogShow">
-      <avue-form ref="resetPassword" v-model="passwordObj" :option="passwordOption">
-
-      </avue-form>
+      <avue-form ref="resetPassword" v-model="passwordObj" :option="passwordOption" />
     </el-dialog>
   </div>
 </template>
@@ -24,7 +37,7 @@
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
-import { queryUsers, addUser, updateUser, delUser, batchDel, batchResetPassword,  } from '@/api/userManageApi'
+import { queryUsers, addUser, updateUser, delUser, batchDel, batchResetPassword } from '@/api/userManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate.js'
 import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'
@@ -33,14 +46,14 @@ const genderDict = getDictById('gender')
 const orgTypeDict = getDictById('orgType')
 
 export default {
-  name: 'studentManage',
+  name: 'StudentManage',
   mixins: [tableCommon, permission],
   data() {
-    var validatePass2 = (rule, value, callback) =>  {
+    var validatePass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'));
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.passwordObj.password) {
-        callback(new Error('两次输入密码不一致!'));
+        callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
       }
@@ -83,15 +96,15 @@ export default {
       option: {
         column: [
           {
-            label:'id',
-            prop:'id',
+            label: 'id',
+            prop: 'id',
             hide: true,
             addDisplay: false,
             editDisplay: false
           },
           {
-            label:'组织机构',
-            prop:'organId',
+            label: '组织机构',
+            prop: 'organId',
             span: 24,
             type: 'tree',
             searchSpan: 4,
@@ -104,7 +117,7 @@ export default {
               label: 'orgName',
               value: 'id'
             },
-            search: true,
+            search: true
           },
           {
             label: '角色',
@@ -119,9 +132,9 @@ export default {
               required: true,
               message: '角色是必填项'
             },
-            dicQuery:{
+            dicQuery: {
               page: 1,
-              rows: 100000,
+              rows: 100000
             },
             props: {
               res: 'data.list',
@@ -130,8 +143,8 @@ export default {
             }
           },
           {
-            label: "人员类型",
-            prop: "orgType",
+            label: '人员类型',
+            prop: 'orgType',
             type: 'select',
             search: true,
             searchSpan: 4,
@@ -140,12 +153,11 @@ export default {
               required: true,
               message: '人员类型是必填项'
             },
-            dicData: orgTypeDict,
-            hide: true
+            dicData: orgTypeDict
           },
           {
-            label:'账号',
-            prop:'loginName',
+            label: '账号',
+            prop: 'loginName',
             rules: {
               required: true,
               message: '账号是必填项'
@@ -157,8 +169,8 @@ export default {
             editDisplay: false
           },
           {
-            label:'姓名',
-            prop:'userName',
+            label: '姓名',
+            prop: 'userName',
             span: 24,
             search: true,
             searchSpan: 4,
@@ -166,20 +178,20 @@ export default {
             rules: {
               required: true,
               message: '用户名是必填项'
-            },
+            }
           },
           {
-            label:'性别',
-            prop:'gender',
+            label: '性别',
+            prop: 'gender',
             span: 24,
             type: 'radio',
             searchSpan: 3,
-            dicData: genderDict,
+            dicData: genderDict
           },
-          
+
           {
-            label:'手机电话',
-            prop:'phone',
+            label: '手机电话',
+            prop: 'phone',
             span: 24,
             width: 150,
             rules: [{
@@ -191,13 +203,13 @@ export default {
             }]
           },
           {
-            label:'身份证',
-            prop:'credNum',
+            label: '身份证',
+            prop: 'credNum',
             span: 24,
             width: 200,
             rules: [{
               required: true,
-              message:'身份证是必填项'
+              message: '身份证是必填项'
             }, {
               pattern: credNumReg,
               message: '请输入正确的身份证'
@@ -205,8 +217,8 @@ export default {
             hide: true
           },
           {
-            label:'生日',
-            prop:'birthday',
+            label: '生日',
+            prop: 'birthday',
             span: 24,
             type: 'date',
             format: 'yyyy-MM-dd',
@@ -214,8 +226,8 @@ export default {
             hide: true
           },
           {
-            label:'入校时间',
-            prop:'entryDay',
+            label: '入校时间',
+            prop: 'entryDay',
             span: 24,
             type: 'date',
             format: 'yyyy-MM-dd',
@@ -223,23 +235,23 @@ export default {
             hide: true
           },
           {
-            label:'描述',
-            prop:'description',
+            label: '描述',
+            prop: 'description',
             span: 24,
             width: 100,
             hide: true
           },
           {
-            label:'密码',
-            prop:'password',
+            label: '密码',
+            prop: 'password',
             span: 24,
             type: 'password',
             hide: true,
             editDisplay: false
           },
           {
-            label:'照片',
-            prop:'photo',
+            label: '照片',
+            prop: 'photo',
             type: 'upload',
             action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
@@ -247,8 +259,8 @@ export default {
               res: '0'
             },
             listType: 'picture-card',
-            span: 24,
-          },
+            span: 24
+          }
         ]
       },
       obj: {}
@@ -263,7 +275,7 @@ export default {
         this.$message({
           type: 'warning',
           message: '请选中至少一条记录'
-          })
+        })
         return
       }
       try {
@@ -272,12 +284,12 @@ export default {
           cancelButtonText: '取消',
           type: 'danger'
         })
-        let ids = _.map(this.tableSelected, n => n.id)
-        let res = await batchResetPassword(ids)
+        const ids = _.map(this.tableSelected, n => n.id)
+        const res = await batchResetPassword(ids)
         this.$message.success('密码重置成功')
         this.$refs.resetPassword.resetForm()
         this.dialogShow = false
-      } catch(err) {
+      } catch (err) {
       }
     },
     openPasswordDialog(row) {
@@ -288,7 +300,7 @@ export default {
       this.$refs.crud.rowAdd()
     },
     rowDel(row, index) {
-      
+
     },
     async rowUpdate(row, index, done, loading) {
       loading(true)
@@ -296,10 +308,10 @@ export default {
         delete row.$gender
         delete row.$organId
         row.photo = row.photo && row.photo.length ? row.photo[0].value : ''
-        let result = await updateUser(row)
+        const result = await updateUser(row)
         await this.resetList()
         done()
-      } catch(err) {
+      } catch (err) {
         console.log(err)
         loading(false)
       }
@@ -310,14 +322,13 @@ export default {
         delete row.$gender
         delete row.$organId
         row.photo = row.photo.length ? row.photo[0].value : ''
-        let result = await addUser(row)
+        const result = await addUser(row)
         await this.resetList()
         done()
-      } catch(err) {
+      } catch (err) {
         loading(false)
       }
-      
-    },
+    }
   }
 }
 </script>
