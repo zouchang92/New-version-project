@@ -18,6 +18,15 @@ export function getDetail({ reviewId, type }) {
     }
   })
 }
+export function pinkItem({ itemType }) {
+  return request({
+    url: '/zhxyx/pinkItem/listAllItem',
+    method: 'get',
+    params: {
+      itemType
+    }
+  })
+}
 export function evaluation({ reviewId, teachingWay, teachingProgram, classStructure, importantPoints, teachingContent, operatorContent }) {
   return request({
     url: '/zhxyx/evaluation/courseComment',
