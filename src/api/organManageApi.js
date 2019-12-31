@@ -37,12 +37,12 @@ export function deleteOrgan(id) {
   })
 }
 
-export function getLeaderById(id) {
+export function getLeaderById(orgId) {
   return request({
     url: '/zhxyx/organ/listOrgLeader',
     method: 'get',
     params: {
-      id
+      orgId
     }
   })
 }

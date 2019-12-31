@@ -57,18 +57,21 @@
           </el-col>
         </el-row>
         <el-dialog title="添加机构负责人" :visible.sync="organLeader.visible">
-          <ul class="leader-select" v-loading="organLeader.modalLoading">
-            <li @click.stop="triggerMember(item, i)" v-for="(item, i) in organLeader.organPerson" :key="item.id">
-              <i class="el-icon-user" />
-              {{item.loginName}}
-              <el-checkbox
-                class="user-checkbox"
-                :value="findIndex(organLeader.selectedPerson, item.id) > -1"
-              ></el-checkbox>
-            </li>
-          </ul>
+          <div v-loading="organLeader.modalLoading">
+            <ul class="leader-select" v-if="organLeader.organPerson.length && !organLeader.modalLoading">
+              <li @click.stop="triggerMember(item, i)" v-for="(item, i) in organLeader.organPerson" :key="item.id">
+                <i class="el-icon-user" />
+                {{item.userName}}
+                <el-checkbox
+                  class="user-checkbox"
+                  :value="findIndex(organLeader.selectedPerson, item.id) > -1"
+                ></el-checkbox>
+              </li>
+            </ul>
+            <abnor type="DATA" v-if="!organLeader.organPerson.length && !organLeader.modalLoading" />
+          </div>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">确定</el-button>
+            <el-button @click="organLeader.visible = false">确定</el-button>
             <el-button type="primary" @click="organLeader.visible = false">取消</el-button>
           </span>
         </el-dialog>
@@ -79,9 +82,11 @@
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
+import Abnor from '@/components/Abnor'
 import { getOrganTree, insertOrgan, updateOrgan, deleteOrgan, getLeaderById, setLeaderById } from '@/api/organManageApi'
 import { queryUsers } from '@/api/userManageApi'
 import { interArrayTree } from '@/utils'
+
 import _ from 'lodash'
 export default {
   name: 'organManage',
@@ -141,6 +146,9 @@ export default {
   mounted() {
     this.getOrganTree()
   },
+  components: {
+    Abnor
+  },
   methods: {
     findIndex(arr, id) {
       return _.findIndex(arr, n => n.id === id)
@@ -185,7 +193,7 @@ export default {
         this.removeMember(item.id)
       } else {
         this.organLeader.selectedPerson.push({
-          name: item.loginName,
+          name: item.userName,
           id: item.id
         })
       }
