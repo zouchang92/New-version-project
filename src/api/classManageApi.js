@@ -65,3 +65,13 @@ export function updateClass({
     }
   })
 }
+
+export function deleteClass(id) {
+  return request({
+    url: '/zhxyx/classes/delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

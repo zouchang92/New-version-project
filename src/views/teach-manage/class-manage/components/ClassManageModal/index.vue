@@ -2,6 +2,9 @@
 <div>
   <el-dialog @close="handleClose" :visible="value">
     <el-form :rules="rules" ref="ruleForm" label-width="110px" :model="info" size="medium">
+      <el-form-item label="班级名称" prop="orgName">
+        <el-input v-model="info.orgName"/>
+      </el-form-item>
       <el-form-item label="所属年级" prop="parentId">
           <el-tree-select ref="treeSelect" :treeParams="treeParams" :data="organData" v-model="info.parentId"/>
       </el-form-item>
@@ -61,6 +64,10 @@ export default {
       info: _.cloneDeep(this.classInfo),
       organData: getOrgan(),
       rules: {
+        orgName: [{
+          required: true,
+          message: '班级名称是必填项'
+        }],
         parentId: [{
           required: true,
           message: '所属年级是必填项'
