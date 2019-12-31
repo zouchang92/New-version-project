@@ -29,3 +29,12 @@ export function deleteTimeTable(id) {
     }
   })
 }
+export function querySemester(id) {
+  return request({
+    url: '/zhxyx/semester/queryAll',
+    method: 'post',
+    data: {
+      orgId: id
+    }
+  })
+}
