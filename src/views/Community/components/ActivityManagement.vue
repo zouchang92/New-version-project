@@ -86,10 +86,10 @@ export default {
               label: 'name',
               value: 'name'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '学期'
-            }
+            }]
           },
           {
             label: '所属社团',
@@ -107,42 +107,42 @@ export default {
               label: 'name',
               value: 'name'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '所属社团'
-            }
+            }]
           },
           {
             label: '活动名称',
             prop: 'name',
-            rules: {
+            rules: [{
               required: true,
               message: '活动名称'
-            }
+            }]
           },
           {
             label: '活动单位',
             prop: 'clubOrgId',
-            rules: {
+            rules: [{
               required: true,
               message: '活动单位'
-            }
+            }]
           },
           {
             label: '负责人',
             prop: 'persons',
-            rules: {
+            rules: [{
               required: true,
               message: '负责人'
-            }
+            }]
           },
           {
             label: '所在场馆',
             prop: 'classroomName',
-            rules: {
+            rules: [{
               required: true,
               message: '所在场馆'
-            }
+            }]
           },
           {
             label: '活动荣耀',
@@ -169,10 +169,10 @@ export default {
             width: 150,
             format: 'yyyy-MM-dd',
             valueFormat: 'yyyy-MM-dd',
-            rules: {
+            rules: [{
               required: true,
               message: '活动时间'
-            }
+            }]
           }
         ]
       }

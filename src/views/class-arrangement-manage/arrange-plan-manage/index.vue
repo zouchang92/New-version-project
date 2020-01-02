@@ -60,10 +60,10 @@ export default {
               label: 'name',
               value: 'id'
             },
-            rules: {
+            rules: [{
             required: true,
             message: '学期是必填项'
-          }
+          }]
         }, {
           label: '所属机构',
           prop: 'orgId',
@@ -76,10 +76,10 @@ export default {
           },
           searchSpan: 8,
           span: 24,
-          rules: {
+          rules: [{
             required: true,
             message: '所属机构是必填项'
-          }
+          }]
         }, {
           label: '班级总数',
           prop: 'classCount',

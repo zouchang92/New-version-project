@@ -80,10 +80,10 @@ export default {
           {
             label:'所属机构',
             prop:'organId',
-            rules: {
+            rules: [{
               required: true,
               message: '所属机构'
-            },
+            }],
             type: 'tree',
             search: true,
             span: 12,
@@ -97,18 +97,18 @@ export default {
           {
             label:'姓名',
             prop:'userName',
-            rules: {
+            rules: [{
               required: true,
-            },
+            }],
             search: true,
             span: 12,
           },
           {
             label:'工号',
             prop:'loginName',
-            rules: {
+            rules: [{
               required: true,
-            },
+            }],
             search: true,
             span: 12,
             editDisplay: false
@@ -118,10 +118,10 @@ export default {
             prop: 'gender',
             span: 12,
             type: 'radio',
-            rules: {
+            rules: [{
               required: true,
               message: '性别是必填项'
-            },
+            }],
             dicData: genderDict
           },
           {
@@ -131,26 +131,26 @@ export default {
             format: 'yyyy-MM-dd',
             valueFormat: 'yyyy-MM-dd',
             width: 150,
-            rules: {
+            rules: [{
               required: true,
               message: '进校时间为必填项'
-            },
+            }],
           },
           {
             label: '职务',
             prop: 'duties',
-            rules: {
+            rules: [{
               required: true,
               message: '职务为必填项'
-            }
+            }]
           },
           {
             label: '职称',
             prop: 'titles',
-            rules: {
+            rules: [{
               required: true,
               message: '职称为必填项'
-            }
+            }]
           },
           {
             label:'照片',
@@ -167,9 +167,9 @@ export default {
           {
             label:'在校状态',
             prop:'curStatus',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
             span: 12,
             type: 'select',
             hide: true,

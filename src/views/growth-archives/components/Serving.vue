@@ -56,62 +56,62 @@ export default {
           {
             label: '姓名',
             prop: 'studentName',
-            rules: {
+            rules: [{
               required: true,
               message: '姓名'
-            }
+            }]
           },
           {
             label: '所在职务',
             prop: 'duty',
-            rules: {
+            rules: [{
               required: true,
               message: '所在职务'
-            }
+            }]
           },
           {
             label: '工作内容',
             prop: 'dutyContext',
-            rules: {
+            rules: [{
               required: true,
               message: '工作内容'
-            }
+            }]
           },
           {
             label: '工作表现',
             prop: 'dutyComment',
-            rules: {
+            rules: [{
               required: true,
               message: '工作表现'
-            }
+            }]
           },
           {
             label: '开始时间',
             prop: 'startTime',
             type: 'date',
             format: 'yyyy-MM-dd',
-            rules: {
+            rules: [{
               required: true,
               message: '开始时间'
-            }
+            }]
           },
           {
             label: '结束时间',
             prop: 'endTime',
             type: 'date',
             format: 'yyyy-MM-dd',
-            rules: {
+            rules: [{
               required: true,
               message: '结束时间'
-            }
+            }]
           },
           {
             label: '备注',
             prop: 'description',
-            rules: {
+            rules: [{
               required: true,
               message: '备注'
-            }
+            }]
           }
         ]
       }

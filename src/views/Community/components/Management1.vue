@@ -88,35 +88,35 @@ export default {
               label: 'name',
               value: 'name'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '学期'
-            }
+            }]
           },
           {
             label: '社团名称',
             prop: 'name',
             search: true,
-            rules: {
+            rules: [{
               required: true,
               message: '社团名称'
-            }
+            }]
           },
           {
             label: '负责人',
             prop: 'person',
-            rules: {
+            rules: [{
               required: true,
               message: '负责人'
-            }
+            }]
           },
           {
             label: '适用年级',
             prop: 'orgIds',
-            rules: {
+            rules: [{
               required: true,
               message: '适用年级'
-            }
+            }]
           },
           {
             label: '社团课表',

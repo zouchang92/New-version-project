@@ -18,6 +18,7 @@ export default {
         pageSize: 10
       },
       option: {
+        searchMenuSpan: 8,
         height: 'auto',
         addBtn: true,
         title: '',

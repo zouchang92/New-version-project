@@ -71,18 +71,18 @@ export default {
           label: '旧密码',
           prop: 'oldPassword',
           span: 24,
-          rules: {
+          rules: [{
             required: true,
             message: '旧密码是必填项'
-          }
+          }]
         }, {
           label: '新密码',
           prop: 'password',
           span: 24,
-          rules: {
+          rules: [{
             required: true,
             message: '新密码是必填项'
-          }
+          }]
         }, {
           label: '请再次输入密码',
           prop: 'rePassword',
@@ -109,10 +109,10 @@ export default {
             type: 'tree',
             searchSpan: 4,
             dicData: getOrgan(),
-            rules: {
+            rules: [{
               required: true,
               message: '组织机构是必填项'
-            },
+            }],
             props: {
               label: 'orgName',
               value: 'id'
@@ -128,10 +128,10 @@ export default {
             dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/role/queryAll',
             dicMethod: 'post',
             hide: true,
-            rules: {
+            rules: [{
               required: true,
               message: '角色是必填项'
-            },
+            }],
             dicQuery: {
               page: 1,
               rows: 100000
@@ -149,19 +149,19 @@ export default {
             search: true,
             searchSpan: 4,
             span: 24,
-            rules: {
+            rules: [{
               required: true,
               message: '人员类型是必填项'
-            },
+            }],
             dicData: orgTypeDict
           },
           {
             label: '账号',
             prop: 'loginName',
-            rules: {
+            rules: [{
               required: true,
               message: '账号是必填项'
-            },
+            }],
             width: 200,
             span: 24,
             search: true,
@@ -175,10 +175,10 @@ export default {
             search: true,
             searchSpan: 4,
             width: 150,
-            rules: {
+            rules: [{
               required: true,
               message: '用户名是必填项'
-            }
+            }]
           },
           {
             label: '性别',

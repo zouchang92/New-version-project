@@ -563,10 +563,10 @@ export default {
           {
             label: '机构名称',
             prop: 'orgId',
-            rules: {
+            rules: [{
               required: true,
               message: '机构名称是必填项'
-            },
+            }],
             type: 'tree',
             search: true,
             dicData: getOrgan(),
@@ -581,20 +581,20 @@ export default {
             label: '周几',
             prop: 'weekN',
             type: 'number',
-            rules: {
+            rules: [{
               required: true,
               message: '周几是必填项'
-            },
+            }],
             span: 24
           },
           {
             label: '第几节',
             prop: 'lessonN',
             type: 'number',
-            rules: {
+            rules: [{
               required: true,
               message: '第几节是必填项'
-            },
+            }],
             span: 24
           },
           {
@@ -603,10 +603,10 @@ export default {
             type: 'time',
             format: 'HH:mm:ss',
             valueFormat: 'HH:mm:ss',
-            rules: {
+            rules: [{
               required: true,
               message: '开始时间是必填项'
-            },
+            }],
             span: 24
           },
           {
@@ -615,10 +615,10 @@ export default {
             type: 'time',
             format: 'HH:mm:ss',
             valueFormat: 'HH:mm:ss',
-            rules: {
+            rules: [{
               required: true,
               message: '结束时间是必填项'
-            },
+            }],
             span: 24
           }
         ]

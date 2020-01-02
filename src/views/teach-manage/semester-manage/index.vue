@@ -46,9 +46,9 @@ export default {
           {
             label: '学期名称',
             prop: 'name',
-            rules: {
+            rules: [{
               required: false
-            },
+            }],
             width: 200,
             search: true,
             searchSpan: 4,
@@ -62,9 +62,9 @@ export default {
               label: 'label',
               value: 'value'
             },
-            rules: {
+            rules: [{
               required: false
-            },
+            }],
             width: 200,
             search: true,
             searchSpan: 4,
@@ -74,9 +74,9 @@ export default {
           {
             label: '开始时间',
             prop: 'starttime',
-            rules: {
+            rules: [{
               required: false
-            },
+            }],
             type: 'date',
             width: 200,
             search: true,
@@ -88,9 +88,9 @@ export default {
           {
             label: '结束时间',
             prop: 'endtime',
-            rules: {
+            rules: [{
               required: false
-            },
+            }],
             type: 'date',
             search: true,
             searchSpan: 5,

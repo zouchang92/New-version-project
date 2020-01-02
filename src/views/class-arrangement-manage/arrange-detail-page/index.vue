@@ -8,11 +8,7 @@
         <el-step title="自动排课"></el-step>
       </el-steps>
       <div style="margin-top: 15px;">
-        <div style="text-align: center" v-if="activeStep === 0">
-          <el-button @click="$router.push({name: 'classManage'})" type="primary">
-            跳转到班级设置
-          </el-button>
-        </div>
+        <class-settings v-if="activeStep === 0" />
         <course-settings v-if="activeStep === 1" />
         <rule-settings v-if="activeStep === 2" />
         <auto-arrange v-if="activeStep === 3" />

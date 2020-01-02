@@ -114,28 +114,28 @@ export default {
               label: 'orgName',
               value: 'id'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '所在班级是必填项'
-            },
+            }],
             searchSpan: 8
           },
           {
             label: '姓名',
             prop: 'userName',
-            rules: {
+            rules: [{
               required: true,
               message: '姓名是必填项'
-            }
+            }]
           },
           {
             label: '学号',
             prop: 'loginName',
             width: 150,
-            rules: {
+            rules: [{
               required: true,
               message: '学号是必填项'
-            },
+            }],
             editDisplay: false
           },
           {
@@ -143,32 +143,26 @@ export default {
             prop: 'gender',
             type: 'radio',
             dicData: genderDict,
-            rules: {
+            rules: [{
               required: true,
               message: '性别是必填项'
-            }
+            }]
           },
           {
             label: '在校状态',
             prop: 'curStatus',
-            rules: {
-              required: false
-            },
             search: true,
             span: 12,
             type: 'select',
             dicData: curStatusDict,
-            rules: {
+            rules: [{
               required: true,
               message: '在校状态是必填项'
-            }
+            }]
           },
           {
             label: '全国学籍号',
             prop: 'nationNum',
-            rules: {
-              required: false
-            },
             width: 200,
             hide: true
           },
@@ -335,60 +329,60 @@ export default {
               label: 'orgName',
               value: 'id'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '所在班级是必填项'
-            },
+            }],
             searchSpan: 8
           },
           {
             label: '姓名',
             prop: 'userName',
-            rules: {
+            rules: [{
               required: true,
               message: '姓名是必填项'
-            }
+            }]
           },
           {
             label: '学号',
             prop: 'loginName',
             width: 150,
-            rules: {
+            rules: [{
               required: true,
               message: '学号是必填项'
-            }
+            }]
           },
           {
             label: '性别',
             prop: 'gender',
             type: 'radio',
             dicData: genderDict,
-            rules: {
+            rules: [{
               required: true,
               message: '性别是必填项'
-            }
+            }]
           },
           {
             label: '在校状态',
             prop: 'curStatus',
-            rules: {
+            rules: [{
               required: false
-            },
+            }],
             search: true,
             span: 12,
             type: 'select',
             dicData: curStatusDict,
-            rules: {
+            rules: [{
               required: true,
               message: '在校状态是必填项'
-            }
+            }]
           },
           {
             label: '全国学籍号',
             prop: 'nationNum',
-            rules: {
+            rules: [{
               required: false
-            },
+            }],
             width: 200,
             hide: true
           },

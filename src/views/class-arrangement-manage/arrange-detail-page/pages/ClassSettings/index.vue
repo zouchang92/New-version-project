@@ -17,14 +17,20 @@
           <p style="color: red">未设置</p>
         </div>
       </template>
-    </avue-crud> 
+      <template slot="menu" slot-scope="scope">
+        <el-button @click="editCell(scope)" v-if="!scope.row.orgLeader.length || !scope.row.orgTeacher.length" type="text">设置</el-button>
+      </template>
+    </avue-crud>
+    <class-manage-modal @submit="formSubmit" v-model="modalParam.modalVisible" :classInfo="modalParam.formValue" />
   </div>
 </template>
 
 <script>
 import { queryOrgClass } from '@/api/classPlanManageApi'
+import { updatePerson } from '@/api/classManageApi'
 import tableCommon from '@/mixins/table-common'
 import { getOrgan } from '@/utils'
+import ClassManageModal from './components/ClassManageModal'
 export default {
   mixins: [tableCommon],
   data() {
@@ -37,6 +43,14 @@ export default {
       },
       obj: {
 
+      },
+      modalParam: {
+        modalVisible: false,
+        formValue: {
+          id: '',
+          orgLeaders: [],
+          orgTeachers: [],
+        }
       },
       searchForm: {
         orgId: this.$route.query.orgId
@@ -69,10 +83,6 @@ export default {
           prop: 'orgLeader',
           span: 24,
           slot: true
-        }, {
-          label: '上课地点',
-          prop: 'classRoomName',
-          span: 24,
         }]
       }
     }
@@ -84,6 +94,39 @@ export default {
     }
     
     this.initList()
+  },
+  methods: {
+    editCell(scope) {
+      this.modalParam = {
+        ...this.modalParam,
+        modalVisible: true,
+        formValue: {
+          ...this.modalParam.formValue,
+          ...scope.row,
+        }
+      }
+    },
+    async formSubmit(data) {
+      data.leaderDtos = data.orgLeaders.map(n => ({
+        teacherId: n.userId,
+        dutyType: "1"
+      }))
+      data.schOrgTeacherDTOList = data.orgTeachers.map(n => ({
+        teacherId: n.userId,
+        dutyType: "2"
+      }))
+      data.id = data.orgId
+      try {
+        let res = await updatePerson(data)
+        this.$message.success('设置成功')
+        await this.initList()
+      } catch(err) {
+
+      }
+    }
+  },
+  components: {
+    ClassManageModal
   }
 }
 </script>

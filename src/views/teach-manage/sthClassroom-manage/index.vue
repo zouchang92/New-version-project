@@ -47,10 +47,10 @@ export default {
           {
             label:'教室名称',
             prop:'roomNo',
-            rules: {
+            rules: [{
               required: true,
               message: '教室名称是必填项'
-            },
+            }],
             search: true,
             searchSpan: 6,
             span: 24,
@@ -58,10 +58,10 @@ export default {
           {
             label:'教室地址',
             prop:'address',
-            rules: {
+            rules: [{
               required: true,
               message: '教室地址是必填项'
-            },
+            }],
             searchSpan: 6,
             span: 24,
           },
@@ -69,10 +69,10 @@ export default {
             label:'教室类型',
             prop:'roomType',
             type: 'select',
-            rules: {
+            rules: [{
               required: true,
               message: '教室类型是必填项'
-            },
+            }],
             dicData: roomTypeDict,
             search: true,
             searchSpan: 6,
@@ -82,10 +82,10 @@ export default {
             label:'状态',
             prop:'status',
             type: 'select',
-            rules: {
+            rules: [{
               required: true,
               message: '教室状态是必填项'
-            },
+            }],
             dicData: roomStatusDict,
             search: true,
             searchSpan: 6,

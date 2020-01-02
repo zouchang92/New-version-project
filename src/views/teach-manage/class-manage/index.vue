@@ -21,9 +21,11 @@
               <el-button type="info" @click="initList()" icon="el-icon-refresh" size="small" circle></el-button>
             </template>
             <template slot-scope="scope" slot="menu">
-              <el-button v-if="permission.viewBtn" type="text" icon="el-icon-search" size="small">查看</el-button>
-              <el-button v-if="permission.editBtn" @click="editCell(scope)" type="text" icon="el-icon-edit" size="small">编辑</el-button>
-              <el-button @click="singleDel(scope.row)" v-if="permission.delBtn" type="text" icon="el-icon-delete" size="small">删除</el-button>
+              <div>
+                 <el-button v-if="permission.viewBtn" type="text" icon="el-icon-search" size="small">查看</el-button>
+                 <el-button v-if="permission.editBtn" @click="editCell(scope)" type="text" icon="el-icon-edit" size="small">编辑</el-button>
+                 <el-button @click="singleDel(scope.row)" v-if="permission.delBtn" type="text" icon="el-icon-delete" size="small">删除</el-button>
+              </div>
             </template>
           </avue-crud>
       </div>
@@ -52,7 +54,7 @@ export default {
           id: '',
           orgName: '',
           parentId: '',
-          classroomId: '',
+          classRoomId: '',
           logo: [],
           orgLeaders: [],
           orgTeachers: [],
@@ -80,9 +82,9 @@ export default {
           {
             label:'班级名称',
             prop:'orgName',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
             width: 200,
             search: true
           },
@@ -101,18 +103,18 @@ export default {
           {
             label: '负责人',
             prop:'orgLeaders',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
             width: 200,
             slot: true
           },
           {
             label: '任课老师',
             prop:'orgTeachers',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
             slot: true
           },
           {
