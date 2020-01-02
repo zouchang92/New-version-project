@@ -36,12 +36,12 @@ export function evaluation({ reviewId, teachingWay, teachingProgram, classStruct
     }
   })
 }
-export function addClass({ orgName, courseId, resources, resourcesName, teacherId, evaName, description }) {
+export function addClass({ orgName, courseId, resources, resourcesName, teacherId, evaName, description, type }) {
   return request({
     url: '/zhxyx/evaluation/insertEvaSource',
     method: 'post',
     data: {
-      orgName, courseId, resources, resourcesName, teacherId, evaName, description
+      orgName, courseId, resources, resourcesName, teacherId, evaName, description, type
     }
   })
 }
@@ -74,12 +74,22 @@ export function getSelectCourseByOrg({ orgId }) {
   })
 }
 
-export function getTeacher({ orgId, courseId }) {
+// export function getTeacher({ orgId, courseId }) {
+//   return request({
+//     url: '/zhxyx/evaluation/selectCourseTeacher',
+//     method: 'get',
+//     params: {
+//       orgId, courseId
+//     }
+//   })
+// }
+
+export function getTeacher({ courseId }) {
   return request({
-    url: '/zhxyx/evaluation/selectCourseTeacher',
-    method: 'get',
-    params: {
-      orgId, courseId
+    url: '/zhxyx/course/getTeacherByCourse',
+    method: 'post',
+    data: {
+      courseId
     }
   })
 }

@@ -140,6 +140,12 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="点平纬度">
+          <el-radio-group v-model="formas.resource">
+            <el-radio label="取各项平均分" />
+            <el-radio label="取各项总分" />
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="资源路径" label-width="120">
           <el-input v-model="formas.resources" autocomplete="off" />
         </el-form-item>
@@ -266,9 +272,8 @@ export default {
     },
     async getTeacher() {
       try {
-        const orgId = this.formas.orgName
         const courseId = this.formas.courseId
-        const a = await getTeacher({ orgId, courseId })
+        const a = await getTeacher({ courseId })
         this.options1 = a.data
         console.log(a)
       } catch (err) {
@@ -300,8 +305,14 @@ export default {
         const teacherId = this.formas.teacherId
         const evaName = this.formas.evaName
         const description = this.formas.description
-        await addClass({ orgName, courseId, resources, resourcesName, teacherId, evaName, description })
-        console.log(orgName, courseId, resources, resourcesName, teacherId, evaName, description)
+        if (this.formas.resource === '取各项平均分') {
+          var type = 1
+        }
+        if (this.formas.resource === '取各项总分') {
+          var type = 0
+        }
+        console.log(orgName, courseId, resources, resourcesName, teacherId, evaName, description, type)
+        await addClass({ orgName, courseId, resources, resourcesName, teacherId, evaName, description, type })
         this.dialogTableVisible = false
         this.get()
         this.int()

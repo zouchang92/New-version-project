@@ -50,18 +50,14 @@ export default {
     }
   },
   created() {
-    // this.get()
+    this.get()
     // console.log(this.id)
-    console.log(123)
-  },
-  mounted() {
-    console.log(123)
   },
   methods: {
     async get() {
       try {
         const reviewId = this.id
-        const type = toString(this.sid)
+        const type = this.sid
         console.log(reviewId, type)
         const a = await getDetail({ reviewId, type })
         this.data = a.data

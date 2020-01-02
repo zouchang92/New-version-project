@@ -34,6 +34,12 @@
                   />
                 </el-select>
               </el-form-item>
+              <el-form-item label="点平纬度">
+                <el-radio-group v-model="form.resource" @change="changefor">
+                  <el-radio label="取各项平均分" />
+                  <el-radio label="取各项总分" />
+                </el-radio-group>
+              </el-form-item>
               <el-form-item label="点评纬度">
                 <avue-crud
                   ref="crud"
@@ -55,12 +61,6 @@
                 </avue-crud>
                 <el-button style="width:100%;margin-top:20px;" @click.stop="add">+新增</el-button>
               </el-form-item>
-              <el-form-item label="点平纬度">
-                <el-radio-group v-model="form.resource">
-                  <el-radio label="取各项平均分" />
-                  <el-radio label="取各项总分" />
-                </el-radio-group>
-              </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="onSubmit">提交</el-button>
                 <el-button>保存</el-button>
@@ -73,10 +73,10 @@
       <el-dialog title="新建任职情况" :visible.sync="dialogTableVisible">
         <el-form :model="forms">
           <el-form-item label="指标名称" label-width="120" required>
-            <el-input v-model="forms.name" autocomplete="off" />
+            <el-input v-model="forms.item" autocomplete="off" />
           </el-form-item>
           <el-form-item label="指标分数" label-width="120" required>
-            <el-input v-model="forms.leve" autocomplete="off" />
+            <el-input v-model="forms.itemValue" autocomplete="off" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -102,6 +102,7 @@ export default {
   data() {
     return {
       mode: 'add',
+      fn: pinkItem,
       updateLoading: false,
       dialogTableVisible: false,
       form: {
@@ -150,15 +151,14 @@ export default {
         column: [
           {
             label: '指标名称',
-            prop: 'name'
+            prop: 'item'
           },
           {
             label: '指标分数',
-            prop: 'leve'
+            prop: 'itemValue'
           }
         ]
-      },
-      tableList: [{ 'name': '教学思路清晰', 'leve': '100' }, { 'name': '教学重点突出', 'leve': '100' }, { 'name': '教学程序规范完善', 'leve': '100' }, { 'name': '教学简单明了', 'leve': '100' }]
+      }
     }
   },
   mounted() {
