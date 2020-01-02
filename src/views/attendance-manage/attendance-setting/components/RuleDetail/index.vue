@@ -7,14 +7,8 @@
           <el-form-item label="考勤规则名称" prop="title">
             <el-input style="width: 200px" v-model="model.title"></el-input>
           </el-form-item>
-          <el-form-item label="考勤角色" prop="roleType">
-            <el-radio-group v-model="model.roleType">
-              <el-radio label="0">指定学生</el-radio>
-              <el-radio label="1">指定教师</el-radio>
-              <el-radio label="2">全校学生</el-radio>
-              <el-radio label="3">全校教师</el-radio>
-              <el-radio label="4">全校师生</el-radio>
-            </el-radio-group>
+          <el-form-item label="考勤机构" prop="orgIds">
+            <el-tree-select :multiple="true" ref="treeSelect" :treeParams="treeParams" :data="treeData" v-model="model.orgIds"/>
           </el-form-item>
           <el-form-item label="考勤类型">
             <el-select v-model="model.type">
@@ -70,8 +64,8 @@
           </el-form-item>
           <el-form-item label="打卡设置">
             <el-radio-group v-model="model.isSingle">
-              <el-radio label="0" key="0">签到签退两次打卡</el-radio>
-              <el-radio label="1" key="1">签到签退两次打卡</el-radio>
+              <el-radio :label="false" :key="false">签到签退两次打卡</el-radio>
+              <el-radio :label="true" :key="true">签到签退两次打卡</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -108,6 +102,7 @@ import AttendanceTable from '../Settings/components/AttendanceTable'
 import TimeSetting from '../Settings/components/TimeSetting'
 import moment from 'moment'
 import _ from 'lodash'
+import { getOrgan } from '@/utils'
 export default {
   data() {
     return {
@@ -118,7 +113,16 @@ export default {
       date: '',
       model: _.cloneDeep(this.ruleData),
       timeModel: [],
-      operation: ''
+      operation: '',
+      treeParams: {
+        props: {
+          label: 'orgName',
+          value: 'id',
+        },
+        showCheckbox: true,
+        data: getOrgan()
+      },
+      treeData: getOrgan()
     }
   },
   props: {
@@ -128,8 +132,11 @@ export default {
     }
   },
   watch: {
-    ruleData(value) {
-      this.model = _.cloneDeep(value)
+    ruleData: {
+      immediate: true,    // 这句重要
+      handler (val) {
+        this.model = _.cloneDeep(val)
+      }
     }
   },
   methods: {

@@ -10,22 +10,20 @@
         <div class="left-hand-TextDom" style="height: 49px; box-sizing: border-box;"></div>
         <div :class="`left-hand-${i} left-hand-item`" v-for="(item, i) in sortCourseTime" :key="i">
           <p class="left-hand-index">
-            第{{item.lessonN}}节
+            第{{item[0].lessonN}}节
           </p>
           <p class="left-hand-name">
-            ({{item.starttime}}-{{item.endtime}})
+            ({{item[0].starttime}}-{{item[0].endtime}})
           </p>
         </div>
       </div>
       <div class="course-content">
         <ul v-for="(item, i) in sortCourseTime" :key="i" :class="`stage-${i} stage-item`">
           <li v-for="(n, x) in weekData" :key="x" class="stage-sub-item">
-            <span :style="{backgroundColor: lesson.backgroundColor}" v-if="(lesson.lessonN === item.lessonN) && (lesson.weekN === (x+1))" v-for="(lesson, index) in courseWithPalette">
-              {{lesson.courseName}}
-              <p v-for="(item, i) in displayParams">
-                {{item.name}}:{{lesson[item.value]}}
-              </p>
-              
+            <span :style="{backgroundColor: lesson.backgroundColor}" v-if="(lesson.lessonN === item[0].lessonN) && (lesson.weekN === (x+1))" v-for="(lesson, index) in courseWithPalette">
+              <slot name="courseInfo" :lesson="lesson" :week="n" :courseTime="item[0]" >
+                default
+              </slot>
             </span>
           </li>
         </ul>
@@ -68,11 +66,11 @@ export default {
   },
   computed: {
     sortCourseTime() {
-      return _.chain(this.courseTime).sortBy(n => n.lessonN).map(n => ({
+      return _.chain(this.courseTime).map(n => ({
         ...n,
         starttime: moment(n.starttime).format('HH:mm'),
         endtime: moment(n.endtime).format('HH:mm')
-      })).value()
+      })).groupBy(n => n.lessonN).value()
     },
     courseWithPalette() {
       const { courseData, palette, paletteIndex } = this
@@ -96,16 +94,6 @@ export default {
   props: {
     courseTime: {
       type: Array,
-    },
-    displayParams: {
-      type: Array,
-      default: [{
-        name: '任课教师',
-        value: 'teacherName'
-      }, {
-        name: '教室',
-        value: 'classroomName'
-      }]
     },
     courseData: {
       type: Array
@@ -203,7 +191,7 @@ export default {
           p {
             margin: 0;
           }
-          span {
+          > span {
             position: absolute;
             z-index: 9;
             width: 100%;
