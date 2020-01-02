@@ -11,13 +11,13 @@ export function getAttendanceRules({ page, rows }) {
   })
 }
 
-export function addAttendanceRule({title, roleType, type, ruleDate, specDate, skipDate, isSingle, isEnabled}) {
+export function addAttendanceRule({title, orgIds, type, ruleDate, specDate, skipDate, isSingle, isEnabled}) {
   return request({
     url: '/zhxyx/kqRule/insert',
     method: 'post',
     data: {
       title, 
-      roleType, 
+      orgIds, 
       type, 
       ruleDate, 
       specDate, 
@@ -28,14 +28,14 @@ export function addAttendanceRule({title, roleType, type, ruleDate, specDate, sk
   })
 }
 
-export function updateAttendanceRule({id, title, roleType, type, ruleDate, specDate, skipDate, isSingle, isEnabled='1'}) {
+export function updateAttendanceRule({id, title, orgIds, type, ruleDate, specDate, skipDate, isSingle, isEnabled='1'}) {
   return request({
     url: '/zhxyx/kqRule/update',
     method: 'post',
     data: {
       id,
       title, 
-      roleType, 
+      orgIds, 
       type, 
       ruleDate, 
       specDate, 
@@ -69,6 +69,17 @@ export function queryAttendanceRecord({ page, rows, beginDate, endDate, orgCode,
       userName, 
       loginName
 
+    }
+  })
+}
+
+export function enableAttendace({ id, isEnabled }) {
+  return request({
+    url: '/zhxyx/kqRule/enabled',
+    method: 'post',
+    data: {
+      id, 
+      isEnabled
     }
   })
 }

@@ -4,15 +4,15 @@
       <el-card class="box-card">
         <el-form size="small" :inline="true">
           <el-form-item label="班级">
-            <el-cascader ref="treeSelect" :props="treeProps" :options="treeData" v-model="classId"/>
+            <el-cascader @change="changeOrg" ref="treeSelect" :props="treeProps" :options="treeData" v-model="classId"/>
           </el-form-item>
-          <el-form-item label="时间范围">
-            <el-date-picker
-              v-model="dateRange"
-              type="week"
-              format="yyyy 第 WW 周"
-              placeholder="选择周">
-            </el-date-picker>
+          <el-form-item label="老师">
+            <el-select
+              v-model="teacherId"
+>             <el-option :label="item.userName" :value="item.id" v-for="(item, i) in teacherData" :key="item.id" />
+
+               
+            </el-select>
           </el-form-item>
           <el-form-item label="">
             <el-button @click="search" type="primary">搜索</el-button>
@@ -21,8 +21,20 @@
       </el-card>
     </div>
     <div style="padding-top: 10px;" class="basic-container">
-      <el-card class="table-card">
-        <course-table :displayParams="displayParams" :merge="true" :courseTime="courseTime" :courseData="courseData" />
+      <el-card v-loading="loading" class="table-card">
+        <course-table v-if="courseData.length" :merge="true" :courseTime="courseTime" :courseData="courseData">
+          <template v-slot:courseInfo="{lesson, week, courseTime}">
+            <div>
+               <p class="courseName">
+                 {{lesson.courseName || '未知'}}<span style="font-size: 12px;">({{lesson.classroomName || '未知'}})</span>
+               </p>
+               <p class="teacherName" style="font-size: 12px;color: #1E1F1F">
+                 {{lesson.teacherName || '未知'}}
+               </p>
+            </div>
+          </template>
+        </course-table>
+        <abnor type="DATA" v-if="!loading && !courseTime.length && !courseData.length" />
       </el-card>
     </div>
   </div>
@@ -30,65 +42,66 @@
 
 <script>
 import { getOrgan } from '@/utils'
-import { getClassCourseTableById } from '@/api/classCourseTableApi'
+import { getTeacherCourseById } from '@/api/teacherCourseManageApi'
 import { queryTimeTable } from '@/api/courseTimeManageApi'
 import CourseTable from '@/components/CourseTable'
+import Abnor from '@/components/Abnor'
 import moment from 'moment'
+import { queryUsers } from '@/api/userManageApi'
 export default {
   name: 'teacherCourseTable',
   data() {
     return {
-      classId: '',
-      dateRange: '',
-      displayParams: [{
-        name: '班级',
-        value: 'className'
-      }, {
-        name: '教室',
-        value: 'classroomName'
-      }],
+      classId: [],
+      teacherId: '',
+      loading: false,
       treeProps: {
         value: 'id',
         label: 'orgName'
       },
       treeData: getOrgan(),
       courseTime: [
-        {"lessonN":2,"weekN":1498,"endtime":3173253239395,"id":"fD5","starttime":2976655741205,"orgId":"ncNEdUd"}, 
-        {"lessonN":1,"weekN":1498,"endtime":3173253239395,"id":"fD5","starttime":2976655741205,"orgId":"ncNEdUd"}, 
-        {"lessonN":3,"weekN":1498,"endtime":3173253239395,"id":"fD5","starttime":2976655741205,"orgId":"ncNEdUd"},
-        {"lessonN":4,"weekN":1498,"endtime":3173253239395,"id":"fD5","starttime":2976655741205,"orgId":"ncNEdUd"},
-        {"lessonN":5,"weekN":1498,"endtime":3173253239395,"id":"fD5","starttime":2976655741205,"orgId":"ncNEdUd"},
-        {"lessonN":6,"weekN":1498,"endtime":3173253239395,"id":"fD5","starttime":2976655741205,"orgId":"ncNEdUd"},
-        {"lessonN":7,"weekN":1498,"endtime":3173253239395,"id":"fD5","starttime":2976655741205,"orgId":"ncNEdUd"},
-        {"lessonN":8,"weekN":1498,"endtime":3173253239395,"id":"fD5","starttime":2976655741205,"orgId":"ncNEdUd"}
       ],
       courseData: [
-        {"lessonN":2,"weekN": 1,"classId":"5SFmmlBTh","courseName":"大学英语(Ⅳ)@10203","teacherId":"sBb","teacherName":"老师名称","classroomName":"dFxT","days":901482848872,"classroomId":"P16ws","className":"OMez","courseId":"RrG1"}, 
-        {"lessonN":3,"weekN": 1,"classId":"5SFmmlBTh","courseName":"大学英语(Ⅳ)@10203","teacherId":"sBb","teacherName":"老师名称1","classroomName":"dFxT","days":901482848872,"classroomId":"P16ws","className":"OMez","courseId":"RrG1"},
-        {"lessonN":2,"weekN": 5,"classId":"5SFmmlBTh","courseName":"模拟电子技术基础@16204","teacherId":"sBb","teacherName":"老师名称2","classroomName":"dFxT","days":901482848872,"classroomId":"P16ws","className":"OMez","courseId":"RrG"},
-        {"lessonN":3,"weekN": 5,"classId":"5SFmmlBTh","courseName":"电路、信号与系统实验","teacherId":"sBb","teacherName":"老师名称3","classroomName":"dFxT","days":901482848872,"classroomId":"P16ws","className":"OMez","courseId":"RrG"}
-      ]
+      ],
+      teacherData: []
     }
   },
   methods: {
-    async getTimeTable({ classId, startDay, endDay }) {
+    async changeOrg(e) {
       try {
-        let courseTime = await queryTimeTable({orgId: classId})
-        let courseData = await getClassCourseTableById({ id: classId, startDay, endDay })
+        let res = await queryUsers({page: 1, rows: 10000, organId: e[e.length - 1], orgType: 'teacherDuty'})
+        this.teacherData = res.data.list
       } catch(err) {
-
+      
+      }
+    },
+    async getTimeTable({ teacherId, startDay, endDay }) {
+      this.loading = true
+      const { classId } = this
+      try {
+        let courseTime = await queryTimeTable({orgId: classId[classId.length - 1]})
+        let courseData = await getTeacherCourseById({ teacherId: teacherId, startDay, endDay })
+        this.courseTime = courseTime.data
+        this.courseData = courseData.data.map(n => ({
+          ...n,
+          weekN: Number(moment(n.days).format('E'))
+        }))
+        this.loading = false
+      } catch(err) {
+        console.log(err)
+        this.loading = false
       }
     },
     search() {
-      const orgId = this.classId[this.classId.length - 1]
-      const startDay = moment(this.dateRange).weekday(1).format('YYYY-MM-DD')
-      const endDay = moment(this.dateRange).weekday(7).format('YYYY-MM-DD')
-      this.getTimeTable({ classId: orgId, startDay, endDay})
-      console.log(moment(this.dateRange).format('YYYY-MM-DD'))
+      const startDay = ''
+      const endDay = ''
+      this.getTimeTable({ teacherId: this.teacherId, startDay, endDay})
     }
   },
   components: {
-    CourseTable
+    CourseTable,
+    Abnor
   },
 }
 </script>

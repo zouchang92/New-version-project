@@ -218,6 +218,16 @@ export default {
     },
     component: () => import('@/views/teach-manage/class-manage')
   },
+  courseTable: {
+    path: '/courseTable',
+    component: Layout,
+    name: 'courseTable',
+    alwaysShow: true,
+    meta: {
+      title: '课表',
+      icon: 'nested'
+    }
+  },
   teacherCourseTable: {
     path: 'teacherCourseTable',
     name: 'teacherCourseTable',

@@ -1,18 +1,20 @@
 <template>
-  <div>
+  <div class="show-rules">
       <Container :loading="tableListLoading" :empty="tableList.length === 0">
         <div slot="child-slot">
           <el-card style="margin-top: 20px;" v-for="(item, i) in tableList" :key="i">
             <div slot="header" class="clearfix">
               <span>{{item.title}}</span>
+              <el-switch @change="e => triggerRules(e, item, i)" style="float: right; padding: 3px 6px;margin-right: 3px" :value="item.isEnabled"></el-switch>
               <el-button @click="singleDel(item)" style="float: right; padding: 3px 6px" icon="el-icon-delete" type="danger">删除</el-button>
               <el-button @click="editRules(item)" style="float: right; padding: 3px 6px;margin-right: 3px" icon="el-icon-edit" type="primary">修改</el-button>
+              
             </div>
             <div class="rule-list-wrapper">
               <div class="rule-list-item">
                 <el-form>
-                  <el-form-item label="考勤对象">
-                    {{item.realName}}
+                  <el-form-item label="考勤机构">
+                    <el-tree-select :disabled="true" ref="treeSelect" :treeParams="treeParams" v-model="item.orgIds"/>
                   </el-form-item>
                   <el-form-item label="考勤规则">
                     <attendance-table :canEdit="false" v-model="item.ruleDate" />
@@ -41,12 +43,12 @@
 </template>
 
 <script>
-import { getAttendanceRules, updateAttendanceRule, deleteAttendanceRule } from '@/api/attendanceManageApi'
+import { getAttendanceRules, updateAttendanceRule, deleteAttendanceRule, enableAttendace } from '@/api/attendanceManageApi'
 import tableCommon from '@/mixins/table-common'
 import Container from '@/components/Container'
 import RuleDetail from '../RuleDetail'
 import AttendanceTable from '../Settings/components/AttendanceTable'
-import { getDictById } from '@/utils'
+import { getDictById, getOrgan } from '@/utils'
 import MemberSelect from '@/components/MemberSelect'
 import _ from 'lodash'
 
@@ -63,6 +65,13 @@ export default {
           label: '老师1'
         }]
       },
+      treeParams: {
+        props: {
+          label: 'orgName',
+          value: 'id',
+        },
+        data: getOrgan()
+      },
       dialogVisible: false,
       saveLoading: false,
       fn: getAttendanceRules,
@@ -70,7 +79,7 @@ export default {
       ruleData: {
         id: '',
         title: '',
-        isSingle: '1',
+        isSingle: true,
         roleType: '',
         type: '1',
         attenDay: [],
@@ -111,11 +120,25 @@ export default {
       }
       try {
         let res = await updateAttendanceRule(data)
+        this.$message.success('修改成功')
         this.loading = false
         await this.initList()
         this.dialogVisible = false
       } catch(err) {
         this.loading = false
+      }
+    },
+    async triggerRules(e, item, i) {
+      try {
+        let res = await enableAttendace({
+          id: item.id,
+          isEnabled: e
+        })
+        this.$message.success(e ? '启用成功' : '禁用成功')
+        this.$set(this.tableList[i], 'isEnabled', e)
+        //await this.initList()
+      } catch(err) {
+
       }
     },
     processData(data) {
@@ -144,6 +167,9 @@ export default {
     },
     editRules(item) {
       this.dialogVisible = true
+      if (!item.orgIds) {
+        item.orgIds = []
+      }
       if(item.type === '0') {
         item.ruleDate.forEach(n => {
           if (n.rules.length) {
@@ -165,8 +191,17 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.rule-list-wrapper {
+<style lang="scss">
+.show-rules {
+  .rule-list-wrapper {
 
+  }
+  .el-tree-select {
+    width: 100%;
+    .el-select {
+      width: 100%!important;
+    }
+  }
 }
+
 </style>

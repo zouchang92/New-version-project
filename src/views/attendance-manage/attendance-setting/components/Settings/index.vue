@@ -22,11 +22,11 @@ export default {
       model: {
         id: '',
         title: '',
-        roleType: '',
+        orgIds: [],
         type: '1',
         attenDay: [],
         timeTable: [],
-        isSingle: '1',
+        isSingle: true,
         specDate: [],
         skipDate: [],
         ruleDate: [{
@@ -67,6 +67,8 @@ export default {
       try {
         let res = await addAttendanceRule(data)
         this.loading = false
+        this.$message.success('添加成功')
+        this.model = this.$data.model
       } catch(err) {
         this.loading = false
       }
