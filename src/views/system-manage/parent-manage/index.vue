@@ -83,10 +83,10 @@ export default {
             span: 24,
             search: true,
             searchSpan: 4,
-            rules: {
+            rules: [{
               required: true,
               message: '姓名是必填项'
-            },
+            }],
           },
           {
             label:'账号',
@@ -94,10 +94,10 @@ export default {
             span: 24,
             search: true,
             searchSpan: 4,
-            rules: {
+            rules: [{
               required: true,
               message: '账号是必填项'
-            },
+            }],
             editDisplay: false
           },
           {

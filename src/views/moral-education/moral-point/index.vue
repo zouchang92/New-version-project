@@ -89,17 +89,17 @@ export default {
         }, {
           prop: 'mutScore',
           label: '固定分值',
-          rules: {
+          rules: [{
             required: true,
             message: '固定分值为必填项'
-          }
+          }]
         }, {
           prop: 'variaScore',
           label: '酌情分值',
-          rules: {
+          rules: [{
             required: true,
             message: '酌情分值为必填项'
-          }
+          }]
         }, {
           prop: 'type',
           label: '类型',
@@ -159,18 +159,18 @@ export default {
           column: [{
             label:'指标名称',
             prop:'title',
-            rules: {
+            rules: [{
               required: true,
               message: '指标名称为必填项'
-            }
+            }]
           }, {
             label: '指标类型',
             prop: 'type',
             type: 'select',
-            rules: {
+            rules: [{
               required: true,
               message: '指标类型为必填项'
-            },
+            }],
             dicData: ioFlagDict
           }, {
             label: '是否应用于教室',

@@ -126,10 +126,10 @@ export default {
               label: 'orgName',
               value: 'id'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '班级是必填项'
-            }
+            }]
           }, {
             label: '学期',
             prop: 'semesterName',
@@ -148,10 +148,10 @@ export default {
               label: 'name',
               value: 'name'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '学期是必填项'
-            }
+            }]
           }, {
             label: '科目',
             prop: 'course',
@@ -170,10 +170,10 @@ export default {
               label: 'name',
               value: 'name'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '科目是必填项'
-            }
+            }]
           }, {
             label: '考试批次',
             prop: 'examType',
@@ -185,10 +185,10 @@ export default {
             props: {
               value: 'label'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '考试批次是必填项'
-            }
+            }]
           }, {
             label: '老师',
             prop: 'teacherName',

@@ -74,10 +74,10 @@ export default {
             label: '研训名称',
             prop: 'name',
             search: true,
-            rules: {
+            rules: [{
               required: true,
               message: '研训名称'
-            }
+            }]
           },
           {
             label: '研训性质',
@@ -89,10 +89,10 @@ export default {
               label: 'label',
               value: 'value'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '研训性质'
-            }
+            }]
           },
           {
             label: '研训类型',
@@ -111,34 +111,34 @@ export default {
               label: 'classType',
               value: 'id'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '研训性质'
-            }
+            }]
           },
           {
             label: '主讲人',
             prop: 'presenter',
-            rules: {
+            rules: [{
               required: true,
               message: '主讲人'
-            }
+            }]
           },
           {
             label: '次数',
             prop: 'classTime',
-            rules: {
+            rules: [{
               required: true,
               message: '次数'
-            }
+            }]
           },
           {
             label: '课时',
             prop: 'lession',
-            rules: {
+            rules: [{
               required: true,
               message: '课时'
-            }
+            }]
           },
           // {
           //   label: '参训名单',
@@ -151,10 +151,10 @@ export default {
           {
             label: '未完成人员',
             prop: 'place',
-            rules: {
+            rules: [{
               required: true,
               message: '研训地点'
-            }
+            }]
           }
           // {
           //   label: '参训名单',

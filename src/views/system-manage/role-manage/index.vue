@@ -81,25 +81,25 @@ export default {
           {
             label:'角色名称',
             prop:'roleName',
-            rules: {
+            rules: [{
               required: true,
-            },
+            }],
             width: 200,
             search: true
           },
           {
             label: '备注',
             prop: 'description',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
           },
           {
             label:'权限',
             prop:'permission',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
             width: 200,
             slot: true,
             addDisplay: false,
@@ -108,9 +108,9 @@ export default {
           {
             label: '创建时间',
             prop: 'createTime',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
             type: 'datetime',
             format: 'yyyy-MM-DD HH:mm:ss',
             width: 200,

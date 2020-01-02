@@ -26,7 +26,7 @@
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
-import { importAchievement, queryAchievement } from '@/api/achievementManageApi'
+import { importAchievement, queryAchievement, getTeacherByCourse } from '@/api/achievementManageApi'
 import { phoneReg, credNumReg } from '@/utils/validate'
 import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'
@@ -56,10 +56,10 @@ export default {
             label: 'orgName',
             value: 'id'
           },
-          rules: {
+          rules: [{
             required: true,
             message: '班级是必填项'
-          }
+          }]
         }, {
           label: '学期',
           prop: 'semesterName',
@@ -76,10 +76,10 @@ export default {
             label: 'name',
             value: 'id'
           },
-          rules: {
+          rules: [{
             required: true,
             message: '学期是必填项'
-          }
+          }]
         },{
           label: '科目',
           prop: 'course',
@@ -96,9 +96,13 @@ export default {
             label: 'name',
             value: 'id'
           },
-          rules: {
+          rules: [{
             required: true,
             message: '科目是必填项'
+          }],
+          change: (e) => {
+            alert(1)
+            this.getTeacherByCourse(e.value)
           }
         }, {
           label: '考试批次',
@@ -106,15 +110,19 @@ export default {
           span: 24,
           type: 'select',
           dicData: examType,
-          rules: {
+          rules: [{
             required: true,
             message: '考试批次是必填项'
-          }
+          }]
         }, {
           label: '老师',
           prop: 'teacherName',
           span: 24,
           type: 'select',
+          rules: [{
+            required: true,
+            message: '老师是必填项'
+          }]
         }, {
           label:'下载模板',
           prop:'downloadTemplate',
@@ -131,10 +139,10 @@ export default {
             res: '0'
           },
           span: 24,
-          rules: {
+          rules: [{
             required: true,
             message: '模板是必填项'
-          }
+          }]
         }]
       },
       option: {
@@ -149,10 +157,10 @@ export default {
             label: 'orgName',
             value: 'orgName'
           },
-          rules: {
+          rules: [{
             required: true,
             message: '班级是必填项'
-          }
+          }]
         }, {
           label: '学期',
           prop: 'semesterName',
@@ -170,10 +178,10 @@ export default {
             label: 'name',
             value: 'name'
           },
-          rules: {
+          rules: [{
             required: true,
             message: '学期是必填项'
-          }
+          }]
         },{
           label: '科目',
           prop: 'course',
@@ -191,10 +199,10 @@ export default {
             label: 'name',
             value: 'name'
           },
-          rules: {
+          rules: [{
             required: true,
             message: '科目是必填项'
-          }
+          }]
         }, {
           label: '考试批次',
           prop: 'examType',
@@ -205,15 +213,16 @@ export default {
           props: {
             value: 'label'
           },
-          rules: {
+          rules: [{
             required: true,
             message: '考试批次是必填项'
-          }
+          }]
         }, {
           label: '老师',
           prop: 'teacherName',
           span: 24,
           type: 'select',
+          dicData: []
         }]
       },
       obj: {}
@@ -242,6 +251,18 @@ export default {
         done()
       } catch(err) {
         done()
+      }
+    },
+    async getTeacherByCourse(id) {
+      try {
+        let res = await getTeacherByCourse(id)
+        let option = res.data.map(n => ({
+          label: n.teacherName,
+          value: n.teacherId
+        }))
+        this.$refs.form.updateDic('teacherName', option)
+      } catch(err) {
+
       }
     },
     handleAdd() {

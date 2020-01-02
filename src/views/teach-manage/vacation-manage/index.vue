@@ -60,10 +60,10 @@ export default {
           {
             label: '节假日名称',
             prop: 'name',
-            rules: {
+            rules: [{
               required: true,
               message: '节假日名称是必填项'
-            },
+            }],
             search: true,
             searchSpan: 6,
             span: 24
@@ -72,10 +72,10 @@ export default {
             label: '开始时间',
             prop: 'startTime',
             type: 'date',
-            rules: {
+            rules: [{
               required: true,
               message: '开始时间是必填项'
-            },
+            }],
             search: true,
             span: 24,
             format: 'yyyy-MM-dd',
@@ -85,10 +85,10 @@ export default {
             label: '结束时间',
             prop: 'endTime',
             type: 'date',
-            rules: {
+            rules: [{
               required: true,
               message: '结束时间是必填项'
-            },
+            }],
             search: true,
             span: 24,
             format: 'yyyy-MM-dd',

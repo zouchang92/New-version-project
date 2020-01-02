@@ -88,18 +88,18 @@ export default {
           prop:'sort',
           span: 24,
           type: 'number',
-          rules: {
+          rules: [{
             required: true,
             message: '排序是必填项'
-          }
+          }]
         }, {
           label:'特殊编码',
           prop:'uniqueName',
           span: 24,
-          rules: {
+          rules: [{
             required: true,
             message: '特殊编码是必填项'
-          },
+          }],
           editDisable: true
         }, {
           label:'id',
@@ -143,9 +143,9 @@ export default {
           {
             label: 'dictId',
             prop: 'dictId',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
             hide: true,
             addDisplay: false,
             editDisplay: false
@@ -153,10 +153,10 @@ export default {
           {
             label:'名称',
             prop:'name',
-            rules: {
+            rules: [{
               message: '名称是必填项',
               required: true,
-            },
+            }],
             span: 24,
             width: 200,
             search: true
@@ -164,10 +164,10 @@ export default {
           {
             label: '排序',
             prop: 'sort',
-            rules: {
+            rules: [{
               message: '排序是必填项',
               required: true,
-            },
+            }],
             type: 'number',
             span: 24,
             width: 200
@@ -175,19 +175,19 @@ export default {
           {
             label: '值',
             prop: 'code',
-            rules: {
+            rules: [{
               message: '值是必填项',
               required: true,
-            },
+            }],
             span: 24,
             width: 200
           },
           {
             label: '备注',
             prop: 'description',
-            rules: {
+            rules: [{
               required: false,
-            },
+            }],
             span: 24,
             width: 200
           },

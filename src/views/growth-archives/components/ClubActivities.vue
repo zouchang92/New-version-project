@@ -44,35 +44,35 @@ export default {
           {
             label: '姓名',
             prop: 'studentName',
-            rules: {
+            rules: [{
               required: true,
               message: '姓名'
-            }
+            }]
           },
           {
             label: '社团名称',
             prop: 'clubName',
-            rules: {
+            rules: [{
               required: true,
               message: '社团名称'
-            }
+            }]
           },
           {
             label: '活动内容',
             prop: 'activityName',
             width: 500,
-            rules: {
+            rules: [{
               required: true,
               message: '活动内容'
-            }
+            }]
           },
           {
             label: '社团类型',
             prop: 'orgName',
-            rules: {
+            rules: [{
               required: true,
               message: '社团类型'
-            }
+            }]
           },
           {
             label: '参加日期',
@@ -80,19 +80,19 @@ export default {
             type: 'date',
             format: 'yyyy-MM-dd',
             valueFormat: 'yyyy-MM-dd',
-            rules: {
+            rules: [{
               required: true,
               message: '参加日期'
-            }
+            }]
           },
           {
             label: '备注',
             prop: 'description',
             width: 100,
-            rules: {
+            rules: [{
               required: true,
               message: '备注'
-            }
+            }]
           }
         ]
       }

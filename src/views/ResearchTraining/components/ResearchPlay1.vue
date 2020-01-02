@@ -76,28 +76,28 @@ export default {
             label: '研训名称',
             prop: 'name',
             search: true,
-            rules: {
+            rules: [{
               required: true,
               message: '研训名称'
-            }
+            }]
           },
           {
             label: '主讲人',
             prop: 'presenter',
-            rules: {
+            rules: [{
               required: true,
               message: '主讲人'
-            }
+            }]
           },
           {
             label: '研训时间',
             prop: 'classTime',
             type: 'date',
             format: 'yyyy-MM-dd',
-            rules: {
+            rules: [{
               required: true,
               message: '研训时间'
-            }
+            }]
           },
           {
             label: '研训性质',
@@ -105,14 +105,14 @@ export default {
             type: 'select',
             prop: 'classProperty',
             dicData: research,
-            props: {
+            props: [{
               label: 'label',
               value: 'value'
-            },
-            rules: {
+            }],
+            rules: [{
               required: true,
               message: '研训性质'
-            }
+            }]
           },
           {
             label: '研训形式',
@@ -124,34 +124,34 @@ export default {
               label: 'label',
               value: 'name'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '研训形式'
-            }
+            }]
           },
           {
             label: '研训类型',
             prop: 'classType',
-            rules: {
+            rules: [{
               required: true,
               message: '研训类型'
-            }
+            }]
           },
           {
             label: '研训地点',
             prop: 'place',
-            rules: {
+            rules: [{
               required: true,
               message: '研训地点'
-            }
+            }]
           },
           {
             label: '课时',
             prop: 'lession',
-            rules: {
+            rules: [{
               required: true,
               message: '课时'
-            }
+            }]
           },
           // {
           //   label: '参训名单',

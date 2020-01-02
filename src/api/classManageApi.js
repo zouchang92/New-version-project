@@ -17,7 +17,7 @@ export function addClass({
   orgName,
   description,
   logo,
-  classroomId,
+  classRoomId,
   motto,
   leaderDtos,
   schOrgTeacherDTOList,
@@ -30,7 +30,7 @@ export function addClass({
       orgName,
       description,
       logo,
-      classroomId,
+      classRoomId,
       motto,
       leaderDtos,
       schOrgTeacherDTOList,
@@ -40,14 +40,14 @@ export function addClass({
 
 export function updateClass({
   id,
-  parentId,
-  orgName,
-  description,
-  logo,
-  classroomId,
-  motto,
-  leaderDtos,
-  schOrgTeacherDTOList
+  parentId = '',
+  orgName = '',
+  description = '',
+  logo = '',
+  classRoomId = '',
+  motto = '',
+  leaderDtos = [],
+  schOrgTeacherDTOList = []
 }) {
   return request({
     url: '/zhxyx/classes/updateClasses',
@@ -58,8 +58,24 @@ export function updateClass({
       orgName,
       description,
       logo,
-      classroomId,
+      classRoomId,
       motto,
+      leaderDtos,
+      schOrgTeacherDTOList
+    }
+  })
+}
+
+export function updatePerson({
+  id,
+  leaderDtos = [],
+  schOrgTeacherDTOList = []
+}) {
+  return request({
+    url: '/zhxyx/classes/updateClasses',
+    method: 'post',
+    data: {
+      id,
       leaderDtos,
       schOrgTeacherDTOList
     }

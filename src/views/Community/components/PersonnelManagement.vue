@@ -70,10 +70,10 @@ export default {
               label: 'name',
               value: 'id'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '所属社团'
-            }
+            }]
           },
           {
             label: '姓名',
@@ -91,17 +91,17 @@ export default {
               label: 'userName',
               value: 'id'
             },
-            rules: {
+            rules: [{
               message: '姓名'
-            }
+            }]
           },
           {
             label: '所属班级',
             prop: 'studentOrgId',
-            rules: {
+            rules: [{
               required: true,
               message: '所属班级'
-            },
+            }],
             type: 'tree',
             search: true,
             span: 12,

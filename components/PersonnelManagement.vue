@@ -50,54 +50,54 @@ export default {
             prop: "semesterId",
             type: "select",
             search: true,
-            rules: {
+            rules: [{
               required: true
-            }
+            }]
           },
           {
             label: "学号",
             prop: "clubName",
-            rules: {
+            rules: [{
               required: true
-            }
+            }]
           },
           {
             label: "姓名",
             prop: "name",
             search: true,
-            rules: {
+            rules: [{
               required: true
-            }
+            }]
           },
           {
             label: "所在班级",
             prop: "clubOrgId",
             type: "select",
             search: true,
-            rules: {
+            rules: [{
               required: true
-            }
+            }]
           },
           {
             label: "性别",
             prop: "person",
-            rules: {
+            rules: [{
               required: true
-            }
+            }]
           },
           {
             label: "报名日期",
             prop: "classroomName",
-            rules: {
+            rules: [{
               required: true
-            }
+            }]
           },
           {
             label: "缴费情况",
             prop: "Pay",
-            rules: {
+            rules: [{
               required: true
-            }
+            }]
           }
         ]
       }

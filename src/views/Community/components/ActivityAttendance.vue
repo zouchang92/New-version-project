@@ -77,10 +77,10 @@ export default {
               label: 'name',
               value: 'id'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '所属社团'
-            }
+            }]
           },
           {
             label: '负责人',
@@ -99,10 +99,10 @@ export default {
               label: 'person',
               value: 'person'
             },
-            rules: {
+            rules: [{
               required: true,
               message: '负责人'
-            }
+            }]
           },
           {
             label: '学号',
@@ -124,10 +124,10 @@ export default {
             label: '所在班级',
             prop: 'studentOrgId',
             search: true,
-            rules: {
+            rules: [{
               required: true,
               message: '所属班级'
-            },
+            }],
             type: 'tree',
             span: 12,
             searchClearable: true,

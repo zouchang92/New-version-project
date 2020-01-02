@@ -48,31 +48,31 @@ export default {
             label: "学期",
             prop: "stardata",
             search: true,
-            rules: {
+            rules: [{
               required: true,
-            }
+            }]
           },
           {
             label: "社团名称",
             prop: "name",
             search: true,
-            rules: {
+            rules: [{
               required: true,
-            }
+            }]
           },
           {
             label: "社团负责人",
             prop: "person",
-            rules: {
+            rules: [{
               required: true,
-            }
+            }]
           },
           {
             label: "适用年级",
             prop: "orgIds",
-            rules: {
+            rules: [{
               required: true,
-            }
+            }]
           },
           {
             label: "社团课表",

@@ -74,20 +74,20 @@ export default {
           {
             label: '科目名称',
             prop: 'name',
-            rules: {
+            rules: [{
               required: true,
               message: '科目名称是必填项'
-            },
+            }],
             search: true,
             span: 24
           },
           {
             label: '科目代码',
             prop: 'code',
-            rules: {
+            rules: [{
               required: true,
               message: '科目代码是必填项'
-            },
+            }],
             search: true,
             span: 24
           }
