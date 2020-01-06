@@ -20,8 +20,20 @@
           @row-update="rowUpdate"
         >
           <template slot="searchMenu">
-            <el-button v-if="permission.addBtn" type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
-            <el-button v-if="permission.import" type="warning" icon="el-icon-download" size="small" @click="importClick">导入</el-button>
+            <el-button
+              v-if="permission.addBtn"
+              type="success"
+              icon="el-icon-plus"
+              size="small"
+              @click.stop="handleAdd()"
+            >新建</el-button>
+            <el-button
+              v-if="permission.import"
+              type="warning"
+              icon="el-icon-download"
+              size="small"
+              @click="importClick"
+            >导入</el-button>
             <el-button
               v-if="permission.export"
               type="warning"
@@ -30,7 +42,13 @@
               @click="exportExcel(`${baseUrl}zhxyx/student/export
 `, ['organId', 'curStatus'])"
             >导出</el-button>
-            <el-button v-if="permission.batchDelBtn" type="danger" icon="el-icon-delete" size="small" @click="batchDel()">批量删除</el-button>
+            <el-button
+              v-if="permission.batchDelBtn"
+              type="danger"
+              icon="el-icon-delete"
+              size="small"
+              @click="batchDel()"
+            >批量删除</el-button>
             <el-button type="info" icon="el-icon-refresh" size="small" circle @click="initList()" />
           </template>
         </avue-crud>
@@ -63,26 +81,32 @@
 </template>
 
 <script>
-import tableCommon from '@/mixins/table-common'
-import permission from '@/mixins/permission'
-import { queryStudent, addStudent, delStudent, delStudents, updateStudent, importStudent } from '@/api/studentManageApi'
-import { getOrgan, getDictById } from '@/utils'
-const genderDict = getDictById('gender')
-const curStatusDict = getDictById('curStatus')
-const relationDict = getDictById('guardianRelation')
-const certTypeDict = getDictById('certificateType')
-const nationDic = getDictById('nation')
-const politicCountenanceDic = getDictById('politicCountenance')
-const enrollmentDic = getDictById('enrollmentType')
-const yearDic = getDictById('year')
+import tableCommon from "@/mixins/table-common";
+import permission from "@/mixins/permission";
+import { phoneReg, credNumReg } from "@/utils/validate";
+import {
+  queryStudent,
+  addStudent,
+  delStudent,
+  delStudents,
+  updateStudent,
+  importStudent
+} from "@/api/studentManageApi";
+import { getOrgan, getDictById } from "@/utils";
+const genderDict = getDictById("gender");
+const curStatusDict = getDictById("curStatus");
+const relationDict = getDictById("guardianRelation");
+const certTypeDict = getDictById("certificateType");
+const nationDic = getDictById("nation");
+const politicCountenanceDic = getDictById("politicCountenance");
+const enrollmentDic = getDictById("enrollmentType");
+const yearDic = getDictById("year");
 export default {
-  name: 'StudentManage',
+  name: "StudentManage",
   mixins: [tableCommon, permission],
   data() {
     return {
-      searchForm: {
-
-      },
+      searchForm: {},
       fileList: [],
       importDialog: false,
       fn: queryStudent,
@@ -90,521 +114,564 @@ export default {
       singleDelFn: delStudent,
       data: [],
       baseUrl: process.env.VUE_APP_BASE_API,
-      fileObj: '',
+      fileObj: "",
       importObj: {
         importLoading: false
       },
       option: {
+        labelWidth: 120,
         column: [
           {
-            label: 'id',
-            prop: 'id',
+            label: "id",
+            prop: "id",
             hide: true,
             addDisplay: false,
             editDisplay: false,
             viewDisplay: false
           },
           {
-            label: '所在班级',
-            prop: 'organId',
-            type: 'tree',
+            label: "所在班级",
+            prop: "organId",
+            type: "tree",
             search: true,
             dicData: getOrgan(),
             props: {
-              label: 'orgName',
-              value: 'id'
+              label: "orgName",
+              value: "id"
             },
-            rules: [{
-              required: true,
-              message: '所在班级是必填项'
-            }],
+            rules: [
+              {
+                required: true,
+                message: "所在班级是必填项"
+              }
+            ],
             searchSpan: 8
           },
           {
-            label: '姓名',
-            prop: 'userName',
-            rules: [{
-              required: true,
-              message: '姓名是必填项'
-            }]
+            label: "姓名",
+            prop: "userName",
+            rules: [
+              {
+                required: true,
+                message: "姓名是必填项"
+              }
+            ]
           },
           {
-            label: '学号',
-            prop: 'loginName',
+            label: "学号",
+            prop: "loginName",
             width: 150,
-            rules: [{
-              required: true,
-              message: '学号是必填项'
-            }],
+            rules: [
+              {
+                required: true,
+                message: "学号是必填项"
+              }
+            ],
             editDisplay: false
           },
           {
-            label: '性别',
-            prop: 'gender',
-            type: 'radio',
+            label: "性别",
+            prop: "gender",
+            type: "radio",
             dicData: genderDict,
-            rules: [{
-              required: true,
-              message: '性别是必填项'
-            }]
+            rules: [
+              {
+                required: true,
+                message: "性别是必填项"
+              }
+            ]
           },
           {
-            label: '在校状态',
-            prop: 'curStatus',
+            label: "在校状态",
+            prop: "curStatus",
             search: true,
             span: 12,
-            type: 'select',
+            type: "select",
             dicData: curStatusDict,
-            rules: [{
-              required: true,
-              message: '在校状态是必填项'
-            }]
+            rules: [
+              {
+                required: true,
+                message: "在校状态是必填项"
+              }
+            ]
           },
           {
-            label: '全国学籍号',
-            prop: 'nationNum',
+            label: "全国学籍号",
+            prop: "nationNum",
             width: 200,
             hide: true
           },
           {
-            label: '入学时间',
-            prop: 'initDtm',
-            type: 'datetime',
+            label: "入学时间",
+            prop: "initDtm",
+            type: "datetime",
             hide: true
           },
           {
-            label: '入学序号',
-            prop: 'initNum',
+            label: "入学序号",
+            prop: "initNum",
             hide: true
           },
           {
-            label: '监护人姓名',
-            prop: 'guarder',
+            label: "监护人姓名",
+            prop: "guarder",
             width: 150,
             hide: true
           },
           {
-            label: '监护人关系',
-            prop: 'guarderRelation',
-            type: 'select',
+            label: "监护人关系",
+            prop: "guarderRelation",
+            type: "select",
             width: 150,
             hide: true,
             dicData: relationDict
           },
           {
-            label: '监护人电话',
-            prop: 'guarderTel',
+            label: "监护人电话",
+            prop: "guarderTel",
             width: 150,
             hide: true
           },
           {
-            label: '入学信息备注',
-            prop: 'inMemo',
+            label: "入学信息备注",
+            prop: "inMemo",
             width: 150,
             hide: true
           },
           {
-            label: '照片',
-            prop: 'facePicFile',
-            type: 'upload',
+            label: "照片",
+            prop: "facePicFile",
+            type: "upload",
             action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
             propsHttp: {
-              res: '0'
+              res: "0"
             },
-            listType: 'picture-card',
+            listType: "picture-card",
             span: 12
           },
           {
-            label: '证件类型',
-            prop: 'credType',
-            type: 'select',
+            label: "证件类型",
+            prop: "credType",
+            type: "select",
             width: 150,
             hide: true,
             dicData: certTypeDict
           },
           {
-            label: '证件正面',
-            prop: 'credPhotoObve',
-            type: 'upload',
+            label: "证件正面",
+            prop: "credPhotoObve",
+            type: "upload",
             action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             limit: 1,
             propsHttp: {
-              res: '0'
+              res: "0"
             },
-            listType: 'picture-card',
+            listType: "picture-card",
             span: 12,
             hide: true
           },
           {
-            label: '证件反面',
-            prop: 'credPhotoRever',
-            type: 'upload',
+            label: "证件反面",
+            prop: "credPhotoRever",
+            type: "upload",
             action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
             propsHttp: {
-              res: '0'
+              res: "0"
             },
-            listType: 'picture-card',
+            listType: "picture-card",
             span: 12,
             hide: true
           },
           {
-            label: '籍贯',
-            prop: 'nativeLand',
-            type: 'input',
+            label: "籍贯",
+            prop: "nativeLand",
+            type: "input",
             hide: true
           },
           {
-            label: '证件号码',
-            prop: 'credNum',
+            label: "证件号码",
+            prop: "credNum",
             width: 200,
             hide: true
           },
           {
-            label: '民族',
-            prop: 'volk',
-            type: 'select',
+            label: "民族",
+            prop: "volk",
+            type: "select",
             hide: true,
             dicData: nationDic
           },
           {
-            label: '政治面貌',
-            prop: 'politstatus',
-            type: 'select',
+            label: "政治面貌",
+            prop: "politstatus",
+            type: "select",
             hide: true,
             dicData: politicCountenanceDic
           },
           {
-            label: '家庭住址',
-            prop: 'homeAddr',
+            label: "家庭住址",
+            prop: "homeAddr",
             hide: true
           },
           {
-            label: '来源',
-            prop: 'comefromType',
+            label: "来源",
+            prop: "comefromType",
             hide: true
           },
           {
-            label: '录取分数',
-            prop: 'score',
+            label: "录取分数",
+            prop: "score",
             hide: true
           },
           {
-            label: '插班标注',
-            prop: 'inClassType',
+            label: "插班标注",
+            prop: "inClassType",
             hide: true
           },
           {
-            label: '生源类别',
-            prop: 'stuType',
+            label: "生源类别",
+            prop: "stuType",
             hide: true
           },
           {
-            label: '就读方式',
-            prop: 'schoolType',
+            label: "就读方式",
+            prop: "schoolType",
             hide: true,
-            type: 'select',
+            type: "select",
             dicData: enrollmentDic
           }
         ],
-        group: [{
-          label: '本人信息',
-          prop: 'brxx',
-          icon: 'el-icon-edit-outline',
-          column: [{
-            label: 'id',
-            prop: 'id',
-            hide: true,
-            addDisplay: false,
-            editDisplay: false,
-            viewDisplay: false
+        group: [
+          {
+            label: "本人信息",
+            prop: "brxx",
+            icon: "el-icon-edit-outline",
+            column: [
+              {
+                label: "id",
+                prop: "id",
+                hide: true,
+                addDisplay: false,
+                editDisplay: false,
+                viewDisplay: false
+              },
+              {
+                label: "学号",
+                prop: "loginName",
+                width: 150,
+                rules: [
+                  {
+                    required: true,
+                    message: "学号是必填项"
+                  }
+                ],
+                editDisplay: false
+              },
+              {
+                label: "姓名",
+                prop: "userName",
+                rules: [
+                  {
+                    required: true,
+                    message: "姓名是必填项"
+                  }
+                ]
+              },
+              {
+                label: "性别",
+                prop: "gender",
+                type: "radio",
+                dicData: genderDict,
+                rules: [
+                  {
+                    required: true,
+                    message: "性别是必填项"
+                  }
+                ]
+              },
+              {
+                label: "出生日期",
+                prop: "birthday",
+                type: "datetime",
+                hide: true
+              },
+              {
+                label: "宗教信仰",
+                prop: "religion",
+                search: true,
+                span: 12,
+                type: "select",
+                dicData: curStatusDict,
+                rules: [
+                  {
+                    required: true,
+                    message: "宗教信仰是必填项"
+                  }
+                ]
+              },
+              {
+                label: "证件类型",
+                prop: "credType",
+                type: "select",
+                width: 150,
+                hide: true,
+                dicData: certTypeDict
+              },
+              {
+                label: "证件号码",
+                prop: "credNum",
+                width: 200,
+                hide: true
+              },
+              {
+                label: "证件正面",
+                prop: "credPhotoObve",
+                type: "upload",
+                action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
+                limit: 1,
+                propsHttp: {
+                  res: "0"
+                },
+                listType: "picture-card",
+                span: 12,
+                hide: true
+              },
+              {
+                label: "证件反面",
+                prop: "credPhotoRever",
+                type: "upload",
+                action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
+                propsHttp: {
+                  res: "0"
+                },
+                listType: "picture-card",
+                span: 12,
+                hide: true
+              },
+              {
+                label: "民族",
+                prop: "volk",
+                type: "select",
+                hide: true,
+                dicData: nationDic
+              },
+              {
+                label: "家庭住址",
+                prop: "homeAddr",
+                hide: true
+              },
+              {
+                label: "自我介绍",
+                prop: "memo",
+                hide: true,
+                type: "textarea"
+              }
+            ]
           },
           {
-            label: '所在班级',
-            prop: 'organId',
-            type: 'tree',
-            search: true,
-            dicData: getOrgan(),
-            props: {
-              label: 'orgName',
-              value: 'id'
-            },
-            rules: [{
-              required: true,
-              message: '所在班级是必填项'
-            }],
-            searchSpan: 8
+            label: "户口信息",
+            prop: "hkxx",
+            icon: "el-icon-edit-outline",
+            column: [
+              {
+                label: "户主姓名",
+                prop: "master",
+                width: 150,
+                hide: true,
+                rules: [
+                  {
+                    required: true,
+                    message: "户主姓名是必填项"
+                  }
+                ]
+              },
+              {
+                label: "户口所在地",
+                prop: "masterLocation",
+                width: 150,
+                hide: true,
+                rules: [
+                  {
+                    required: true,
+                    message: "户口所在地是必填项"
+                  }
+                ]
+              },
+              {
+                label: "户主身份证号",
+                prop: "masterCredNum",
+                width: 150,
+                hide: true,
+                rules: [
+                  {
+                    required: true,
+                    message: "户主身份证号是必填项"
+                  },
+                  {
+                    pattern: credNumReg,
+                    message: "请输入正确的身份证号"
+                  }
+                ]
+              },
+              {
+                label: "与户主关系",
+                prop: "masterRelaction",
+                width: 150,
+                hide: true,
+                rules: [
+                  {
+                    required: true,
+                    message: "与户主关系是必填项"
+                  }
+                ]
+              }
+            ]
           },
           {
-            label: '姓名',
-            prop: 'userName',
-            rules: [{
-              required: true,
-              message: '姓名是必填项'
-            }]
-          },
-          {
-            label: '学号',
-            prop: 'loginName',
-            width: 150,
-            rules: [{
-              required: true,
-              message: '学号是必填项'
-            }]
-          },
-          {
-            label: '性别',
-            prop: 'gender',
-            type: 'radio',
-            dicData: genderDict,
-            rules: [{
-              required: true,
-              message: '性别是必填项'
-            }]
-          },
-          {
-            label: '在校状态',
-            prop: 'curStatus',
-            rules: [{
-              required: false
-            }],
-            search: true,
-            span: 12,
-            type: 'select',
-            dicData: curStatusDict,
-            rules: [{
-              required: true,
-              message: '在校状态是必填项'
-            }]
-          },
-          {
-            label: '全国学籍号',
-            prop: 'nationNum',
-            rules: [{
-              required: false
-            }],
-            width: 200,
-            hide: true
-          },
-          {
-            label: '入学时间',
-            prop: 'initDtm',
-            type: 'datetime',
-            hide: true
-          },
-          {
-            label: '入学序号',
-            prop: 'initNum',
-            hide: true
-          },
-          {
-            label: '入学信息备注',
-            prop: 'inMemo',
-            type: 'textarea',
-            span: 24,
-            width: 150,
-            hide: true
-          },
-          {
-            label: '照片',
-            prop: 'facePicFile',
-            type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
-            limit: 1,
-            propsHttp: {
-              res: '0'
-            },
-            listType: 'picture-card',
-            span: 24
-          },
-          {
-            label: '证件正面',
-            prop: 'credPhotoObve',
-            type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
-            limit: 1,
-            propsHttp: {
-              res: '0'
-            },
-            listType: 'picture-card',
-            span: 12,
-            hide: true
-          },
-          {
-            label: '证件反面',
-            prop: 'credPhotoRever',
-            type: 'upload',
-            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
-            propsHttp: {
-              res: '0'
-            },
-            listType: 'picture-card',
-            span: 12,
-            hide: true
-          },
-          {
-            label: '证件类型',
-            prop: 'credType',
-            type: 'select',
-            width: 150,
-            hide: true,
-            dicData: certTypeDict
-          },
-          {
-            label: '证件号码',
-            prop: 'credNum',
-            width: 200,
-            hide: true
-          },
-          {
-            label: '籍贯',
-            prop: 'nativeLand',
-            type: 'input',
-            hide: true
-          },
-
-          {
-            label: '民族',
-            prop: 'volk',
-            type: 'select',
-            hide: true,
-            dicData: nationDic
-          },
-          {
-            label: '政治面貌',
-            prop: 'politstatus',
-            type: 'select',
-            hide: true,
-            dicData: politicCountenanceDic
-          },
-          {
-            label: '家庭住址',
-            prop: 'homeAddr',
-            hide: true
-          },
-          {
-            label: '来源',
-            prop: 'comefromType',
-            hide: true
-          },
-          {
-            label: '录取分数',
-            prop: 'score',
-            hide: true
-          },
-          {
-            label: '插班标注',
-            prop: 'inClassType',
-            hide: true
-          },
-          {
-            label: '生源类别',
-            prop: 'stuType',
-            hide: true
-          },
-          {
-            label: '就读方式',
-            prop: 'schoolType',
-            hide: true,
-            type: 'select',
-            dicData: enrollmentDic
-          }]
-        }, {
-          label: '家长信息',
-          prop: 'jzxx',
-          icon: 'el-icon-edit-outline',
-          column: [{
-            label: '家长姓名',
-            prop: 'guarder',
-            width: 150,
-            hide: true
-          },
-          {
-            label: '家长关系',
-            prop: 'guarderRelation',
-            type: 'select',
-            width: 150,
-            hide: true,
-            dicData: relationDict
-          },
-          {
-            label: '家长电话',
-            prop: 'guarderTel',
-            width: 150,
-            hide: true
-          }]
-        }]
+            label: "家庭信息",
+            prop: "jtxx",
+            icon: "el-icon-edit-outline",
+            column: [
+              {
+                label: "监护人姓名",
+                prop: "guarder",
+                width: 150,
+                hide: true,
+                rules: [
+                  {
+                    required: true,
+                    message: "监护人姓名是必填项"
+                  }
+                ]
+              },
+              {
+                label: "监护人关系",
+                prop: "guarderRelation",
+                type: "select",
+                width: 150,
+                hide: true,
+                dicData: relationDict,
+                rules: [
+                  {
+                    required: true,
+                    message: "监护人关系是必填项"
+                  }
+                ]
+              },
+              {
+                label: "监护人手机号",
+                prop: "guarderTel",
+                width: 150,
+                hide: true,
+                rules: [
+                  {
+                    required: true,
+                    message: "监护人电话是必填项"
+                  },
+                  {
+                    pattern: phoneReg,
+                    message: "请输入正确的电话号码"
+                  }
+                ]
+              },
+              {
+                label: "监护人国籍",
+                prop: "guarderCountry",
+                width: 150,
+                hide: true,
+                rules: [
+                  {
+                    required: true,
+                    message: "监护人国籍是必填项"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       obj: {}
-    }
+    };
   },
   mounted() {
-    console.log(this)
+    console.log(this);
   },
   methods: {
     async importStudent() {
-      this.importObj.importLoading = true
+      this.importObj.importLoading = true;
       if (!this.fileObj) {
-        this.$confirm('请选择文件', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-        this.importObj.importLoading = false
-        return
+        this.$confirm("请选择文件", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        });
+        this.importObj.importLoading = false;
+        return;
       }
       try {
-        const formData = new FormData()
-        formData.append('file', this.fileObj)
-        const res = await importStudent(formData)
-        await this.resetList()
-        this.$refs.upload.clearFiles()
-        this.$message.success('导入成功')
-        this.fileObj = ''
-        this.importObj.importLoading = false
+        const formData = new FormData();
+        formData.append("file", this.fileObj);
+        const res = await importStudent(formData);
+        await this.resetList();
+        this.$refs.upload.clearFiles();
+        this.$message.success("导入成功");
+        this.fileObj = "";
+        this.importObj.importLoading = false;
       } catch (err) {
-        this.importObj.importLoading = false
+        this.importObj.importLoading = false;
       }
     },
     handleChange(e) {
-      this.fileObj = e.raw
+      this.fileObj = e.raw;
     },
     importClick() {
-      this.importDialog = true
+      this.importDialog = true;
     },
     handleAdd() {
-      this.$refs.crud.rowAdd()
+      this.$refs.crud.rowAdd();
     },
     async rowUpdate(row, index, done, loading) {
-      loading(true)
-      row.credPhotoObve.length ? row.credPhotoObve = row.credPhotoObve[0].value : row.credPhotoObve = ''
-      row.credPhotoRever.length ? row.credPhotoRever = row.credPhotoRever[0].value : row.credPhotoRever = ''
-      row.facePicFile.length ? row.facePicFile = row.facePicFile[0].value : row.facePicFile = ''
+      loading(true);
+      row.credPhotoObve.length
+        ? (row.credPhotoObve = row.credPhotoObve[0].value)
+        : (row.credPhotoObve = "");
+      row.credPhotoRever.length
+        ? (row.credPhotoRever = row.credPhotoRever[0].value)
+        : (row.credPhotoRever = "");
+      row.facePicFile.length
+        ? (row.facePicFile = row.facePicFile[0].value)
+        : (row.facePicFile = "");
       try {
-        const result = await updateStudent(row)
-        await this.resetList()
-        done()
+        const result = await updateStudent(row);
+        await this.resetList();
+        done();
       } catch (err) {
-        loading(false)
+        loading(false);
       }
     },
     async rowSave(row, done, loading) {
-      loading(true)
-      row.credPhotoObve.length ? row.credPhotoObve = row.credPhotoObve[0].value : row.credPhotoObve = ''
-      row.credPhotoRever.length ? row.credPhotoRever = row.credPhotoRever[0].value : row.credPhotoRever = ''
-      row.facePicFile.length ? row.facePicFile = row.facePicFile[0].value : row.facePicFile = ''
+      loading(true);
+      row.credPhotoObve.length
+        ? (row.credPhotoObve = row.credPhotoObve[0].value)
+        : (row.credPhotoObve = "");
+      row.credPhotoRever.length
+        ? (row.credPhotoRever = row.credPhotoRever[0].value)
+        : (row.credPhotoRever = "");
+      row.facePicFile.length
+        ? (row.facePicFile = row.facePicFile[0].value)
+        : (row.facePicFile = "");
       try {
-        const result = await addStudent(row)
-        await this.resetList()
-        done()
+        const result = await addStudent(row);
+        await this.resetList();
+        done();
       } catch (err) {
-        loading(false)
+        loading(false);
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

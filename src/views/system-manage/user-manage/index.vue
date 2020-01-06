@@ -38,7 +38,7 @@
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
 import { queryUsers, addUser, updateUser, delUser, batchDel, batchResetPassword } from '@/api/userManageApi'
-import { phoneReg, credNumReg } from '@/utils/validate.js'
+import { phoneReg, credNumReg } from '@/utils/validate'
 import { getOrgan, getDictById } from '@/utils'
 import _ from 'lodash'
 
