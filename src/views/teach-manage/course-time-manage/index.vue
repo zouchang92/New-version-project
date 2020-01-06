@@ -226,7 +226,7 @@ export default {
             span: 24
           },
           {
-            label: '第几节',
+            label: '总节数',
             prop: 'lessonCount',
             type: 'number',
             rules: [
@@ -241,8 +241,8 @@ export default {
             label: '上课时间',
             prop: 'startTime',
             type: 'time',
-            format: 'HH:mm:ss',
-            valueFormat: 'HH:mm:ss',
+            format: 'HH:mm',
+            valueFormat: 'HH:mm',
             rules: [
               {
                 required: true,
@@ -255,8 +255,8 @@ export default {
             label: '下课时间',
             prop: 'endTime',
             type: 'time',
-            format: 'HH:mm:ss',
-            valueFormat: 'HH:mm:ss',
+            format: 'HH:mm',
+            valueFormat: 'HH:mm',
             rules: [
               {
                 required: true,
@@ -277,10 +277,11 @@ export default {
       this.$refs.crud.rowAdd()
     },
     async handleupdate(row, index) {
+      console.log(row.orgId)
       this.dialogTableVisible = true
       this.timer = row.items
       try {
-        this.getOrganTree()
+        this.value = row.orgId
         const { timer, form } = this
         this.a = {
           ...this.a,
@@ -342,7 +343,7 @@ export default {
     handleChange(value) {
       var a = value[value.length - 1]
       this.orgId = a
-      console.log(a)
+      console.log(value)
     },
     changevalue(valuea) {
       this.ssh = valuea
@@ -366,13 +367,6 @@ export default {
       const orgId = this.orgId
       const items = this.timer
       try {
-        // for (let i = 0; i < this.timer.length; i++) {
-        //   if (this.timer[i].starttime !== '') {
-        //     const items = []
-        //     items.push(this.timer[i])
-        //     console.log(this.timer[i], items)
-        //   }
-        // }
         if (orgId === '') {
           this.$confirm('机构是必须要填的', '提示')
         } else if (orgId !== '') {

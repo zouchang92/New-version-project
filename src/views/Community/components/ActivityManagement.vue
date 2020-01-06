@@ -14,6 +14,9 @@
           @row-save="rowSave"
           @row-update="rowUpdate"
         >
+          <template slot="honors" slot-scope="scope">
+            <el-button type="text">点击查看</el-button>
+          </template>
           <template slot="searchMenu">
             <el-button type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
             <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
@@ -74,7 +77,7 @@ export default {
             label: '学期',
             prop: 'semesterId',
             type: 'select',
-            width: 120,
+            width: 100,
             search: true,
             dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/semester/queryAll',
             dicMethod: 'post',
@@ -245,7 +248,7 @@ export default {
     },
     async rowSave(row, done, loading) {
       // row.description = row.description.length ? row.description[0].value : "";
-      // row.honors = row.honors.length ? row.honors[0].value : "";
+      row.honors = row.honors.length ? row.honors[0].value : "";
       loading(true)
       try {
         // eslint-disable-next-line no-unused-vars

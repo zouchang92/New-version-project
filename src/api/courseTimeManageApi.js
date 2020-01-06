@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function queryTimeTable({page, rows, orgId = ''}) {
+export function queryTimeTable({ page, rows, orgId = '' }) {
   return request({
     url: '/zhxyx/schTimetable/getTimetableByOrgId',
     method: 'post',
@@ -10,12 +10,12 @@ export function queryTimeTable({page, rows, orgId = ''}) {
   })
 }
 
-export function addTimeTable({orgId, items}) {
+export function addTimeTable({ orgId, items }) {
   return request({
     url: '/zhxyx/schTimetable/add',
     method: 'post',
     data: {
-      orgId, 
+      orgId,
       items
     }
   })

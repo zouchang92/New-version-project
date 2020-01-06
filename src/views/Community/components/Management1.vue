@@ -49,6 +49,8 @@
 import tableCommon from '@/mixins/table-common.js'
 // eslint-disable-next-line no-unused-vars
 import { queryClub, addClub, delClub, getIdClub, updateClub } from '@/api/CommunityApi.js'
+// eslint-disable-next-line no-unused-vars
+import { getOrgan, getDictById } from '@/utils'
 
 export default {
   name: 'Management1',
@@ -120,6 +122,13 @@ export default {
           {
             label: '适用年级',
             prop: 'orgIds',
+            type: 'tree',
+            width: 150,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
             rules: [{
               required: true,
               message: '适用年级'
