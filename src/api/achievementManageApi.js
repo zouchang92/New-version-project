@@ -60,7 +60,7 @@ export function queryClassScore({
 }
 export function getTeacherByCourse(id) {
   return request({
-    url: 'zhxyx/course/getTeacherByCourse',
+    url: '/zhxyx/course/getTeacherByCourse',
     method: 'post',
     data: {
       courseId: id

@@ -101,7 +101,6 @@ export default {
             message: '科目是必填项'
           }],
           change: (e) => {
-            alert(1)
             this.getTeacherByCourse(e.value)
           }
         }, {

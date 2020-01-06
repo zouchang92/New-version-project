@@ -167,6 +167,7 @@ export default {
           })
           this.$message.success('添加成功')
         } else {
+          
           await updateClass({
             ...data,
             leaderDtos,
