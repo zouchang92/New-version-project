@@ -103,6 +103,13 @@ export default {
             }]
           },
           {
+            label: '社团成立时间',
+            prop: 'initTime',
+            type: 'date',
+            format: 'yyyy-MM-dd',
+            hide: true
+          },
+          {
             label: '负责人',
             prop: 'person',
             rules: [{
@@ -122,13 +129,18 @@ export default {
             label: '社团课表',
             type: 'upload',
             prop: 'classMethod',
-            slot: true
+            formslot: true
           },
           {
             label: '人员名单',
             type: 'upload',
             prop: 'classType',
-            slot: true
+            formslot: true
+          },
+          {
+            label: '描述',
+            type: 'textarea',
+            prop: 'description'
           }
         ]
       },

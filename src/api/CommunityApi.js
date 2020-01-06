@@ -50,12 +50,12 @@ export function queryActivity() {
     data: {}
   })
 }
-export function addActivity({ name, clubId, time, activityType, classroomName, persons, semesterId, clubOrgId, description, honors }) {
+export function addActivity({ id, name, clubId, time, activityType, classroomName, persons, semesterId, clubOrgId, description, honors }) {
   return request({
     url: '/zhxyx/stActivities/add',
     method: 'post',
     data: {
-      name, clubId, time, activityType, classroomName, persons, semesterId, clubOrgId, description, honors
+      id, name, clubId, time, activityType, classroomName, persons, semesterId, clubOrgId, description, honors
     }
   })
 }
@@ -118,4 +118,12 @@ export function queryAttendance() {
     data: {}
   })
 }
-
+export function getById({ id }) {
+  return request({
+    url: '/zhxyx/stActivities/getById',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

@@ -74,6 +74,7 @@ export default {
             label: '学期',
             prop: 'semesterId',
             type: 'select',
+            width: 120,
             search: true,
             dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/semester/queryAll',
             dicMethod: 'post',
@@ -105,7 +106,7 @@ export default {
             props: {
               res: 'data.list',
               label: 'name',
-              value: 'name'
+              value: 'id'
             },
             rules: [{
               required: true,
@@ -123,10 +124,18 @@ export default {
           {
             label: '活动单位',
             prop: 'clubOrgId',
+            type: 'tree',
+            width: 150,
+            dicData: getOrgan(),
+            props: {
+              label: 'orgName',
+              value: 'id'
+            },
             rules: [{
               required: true,
-              message: '活动单位'
-            }]
+              message: '活动单位是必填的'
+            }],
+            searchSpan: 8
           },
           {
             label: '负责人',
@@ -146,21 +155,30 @@ export default {
           },
           {
             label: '活动荣耀',
-            // type: 'upload',
-            prop: 'honors'
-            // rules: {
-            //   required: true,
-            //   message: "活动荣耀"
-            // }
+            type: 'upload',
+            prop: 'honors',
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
+            limit: 1,
+            propsHttp: {
+              res: '0'
+            },
+            listType: 'picture-card',
+            span: 12
           },
           {
             label: '精彩瞬间',
-            // type: 'upload',
-            prop: 'description'
-            // rules: {
-            //   required: true,
-            //   message: "精彩瞬间"
-            // }
+            type: 'upload',
+            prop: 'photos',
+            action: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
+            limit: 1,
+            propsHttp: {
+              res: '0'
+            },
+            listType: 'picture-card',
+            span: 12
+          },
+          {
+            label: '参加人员'
           },
           {
             label: '活动时间',
@@ -173,6 +191,11 @@ export default {
               required: true,
               message: '活动时间'
             }]
+          },
+          {
+            label: '描述',
+            type: 'textarea',
+            prop: 'description'
           }
         ]
       }

@@ -10,12 +10,13 @@ export function queryTimeTable({page, rows, orgId = ''}) {
   })
 }
 
-export function addTimeTable({ id, orgId, lessonN, starttime, endtime }) {
+export function addTimeTable({orgId, items}) {
   return request({
     url: '/zhxyx/schTimetable/add',
     method: 'post',
     data: {
-      id, orgId, lessonN, starttime, endtime
+      orgId, 
+      items
     }
   })
 }
