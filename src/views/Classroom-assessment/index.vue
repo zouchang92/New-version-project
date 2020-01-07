@@ -40,8 +40,8 @@
           <CourseTable
             style="height:777px;"
             :merge="true"
-            :courseTime="courseTime"
-            :courseData="courseData"
+            :course-time="courseTime"
+            :course-data="courseData"
           />
         </div>
       </el-col>
@@ -53,17 +53,17 @@
             :fetch-suggestions="querySearchAsync"
             placeholder="请输入内容"
             @select="handleSelect"
-          ></el-autocomplete>
+          />
         </div>
         <ul>
-            <li></li>
+          <li />
         </ul>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import CourseTable from "@/components/CourseTable";
+import CourseTable from '@/components/CourseTable'
 export default {
   components: {
     CourseTable
@@ -71,172 +71,172 @@ export default {
   data() {
     return {
       restaurants: [],
-      state: "",
+      state: '',
       timeout: null,
-      citie: [{ label: "按天平" }],
+      citie: [{ label: '按天平' }],
       cities: [
         {
-          label: "三年级二班"
+          label: '三年级二班'
         },
         {
-          label: "三年级五班"
+          label: '三年级五班'
         }
       ],
-      value: "",
-      value1: "",
-      activeName: "first",
+      value: '',
+      value1: '',
+      activeName: 'first',
       courseTime: [
         {
           lessonN: 2,
           weekN: 1498,
           endtime: 3173253239395,
-          id: "fD5",
+          id: 'fD5',
           starttime: 2976655741205,
-          orgId: "ncNEdUd"
+          orgId: 'ncNEdUd'
         },
         {
           lessonN: 1,
           weekN: 1498,
           endtime: 3173253239395,
-          id: "fD5",
+          id: 'fD5',
           starttime: 2976655741205,
-          orgId: "ncNEdUd"
+          orgId: 'ncNEdUd'
         },
         {
           lessonN: 3,
           weekN: 1498,
           endtime: 3173253239395,
-          id: "fD5",
+          id: 'fD5',
           starttime: 2976655741205,
-          orgId: "ncNEdUd"
+          orgId: 'ncNEdUd'
         },
         {
           lessonN: 4,
           weekN: 1498,
           endtime: 3173253239395,
-          id: "fD5",
+          id: 'fD5',
           starttime: 2976655741205,
-          orgId: "ncNEdUd"
+          orgId: 'ncNEdUd'
         },
         {
           lessonN: 5,
           weekN: 1498,
           endtime: 3173253239395,
-          id: "fD5",
+          id: 'fD5',
           starttime: 2976655741205,
-          orgId: "ncNEdUd"
+          orgId: 'ncNEdUd'
         },
         {
           lessonN: 6,
           weekN: 1498,
           endtime: 3173253239395,
-          id: "fD5",
+          id: 'fD5',
           starttime: 2976655741205,
-          orgId: "ncNEdUd"
+          orgId: 'ncNEdUd'
         },
         {
           lessonN: 7,
           weekN: 1498,
           endtime: 3173253239395,
-          id: "fD5",
+          id: 'fD5',
           starttime: 2976655741205,
-          orgId: "ncNEdUd"
+          orgId: 'ncNEdUd'
         },
         {
           lessonN: 8,
           weekN: 1498,
           endtime: 3173253239395,
-          id: "fD5",
+          id: 'fD5',
           starttime: 2976655741205,
-          orgId: "ncNEdUd"
+          orgId: 'ncNEdUd'
         }
       ],
       courseData: [
         {
           lessonN: 2,
           weekN: 1,
-          classId: "5SFmmlBTh",
-          courseName: "大学英语(Ⅳ)@10203",
-          teacherId: "sBb",
-          teacherName: "老师名称",
-          classroomName: "教室1",
+          classId: '5SFmmlBTh',
+          courseName: '大学英语(Ⅳ)@10203',
+          teacherId: 'sBb',
+          teacherName: '老师名称',
+          classroomName: '教室1',
           days: 901482848872,
-          classroomId: "P16ws",
-          className: "班级1",
-          courseId: "RrG1"
+          classroomId: 'P16ws',
+          className: '班级1',
+          courseId: 'RrG1'
         },
         {
           lessonN: 3,
           weekN: 1,
-          classId: "5SFmmlBTh",
-          courseName: "大学英语(Ⅳ)@10203",
-          teacherId: "sBb",
-          teacherName: "老师名称1",
-          classroomName: "教室2",
+          classId: '5SFmmlBTh',
+          courseName: '大学英语(Ⅳ)@10203',
+          teacherId: 'sBb',
+          teacherName: '老师名称1',
+          classroomName: '教室2',
           days: 901482848872,
-          classroomId: "P16ws",
-          className: "班级1",
-          courseId: "RrG1"
+          classroomId: 'P16ws',
+          className: '班级1',
+          courseId: 'RrG1'
         },
         {
           lessonN: 2,
           weekN: 5,
-          classId: "5SFmmlBTh",
-          courseName: "模拟电子技术基础@16204",
-          teacherId: "sBb",
-          teacherName: "老师名称2",
-          classroomName: "教室3",
+          classId: '5SFmmlBTh',
+          courseName: '模拟电子技术基础@16204',
+          teacherId: 'sBb',
+          teacherName: '老师名称2',
+          classroomName: '教室3',
           days: 901482848872,
-          classroomId: "P16ws",
-          className: "班级2",
-          courseId: "RrG"
+          classroomId: 'P16ws',
+          className: '班级2',
+          courseId: 'RrG'
         },
         {
           lessonN: 3,
           weekN: 5,
-          classId: "5SFmmlBTh",
-          courseName: "电路、信号与系统实验",
-          teacherId: "sBb",
-          teacherName: "老师名称3",
-          classroomName: "教室4",
+          classId: '5SFmmlBTh',
+          courseName: '电路、信号与系统实验',
+          teacherId: 'sBb',
+          teacherName: '老师名称3',
+          classroomName: '教室4',
           days: 901482848872,
-          classroomId: "P16ws",
-          className: "班级2",
-          courseId: "RrG"
+          classroomId: 'P16ws',
+          className: '班级2',
+          courseId: 'RrG'
         }
       ]
-    };
+    }
+  },
+  mounted() {
+    this.restaurants = this.loadAll()
   },
   methods: {
     loadAll() {
-      return;
+      return
     },
     querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants;
+      var restaurants = this.restaurants
       var results = queryString
         ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants;
+        : restaurants
 
-      clearTimeout(this.timeout);
+      clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        cb(results);
-      }, 3000 * Math.random());
+        cb(results)
+      }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
       return state => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        );
-      };
+        )
+      }
     },
     handleSelect(item) {
-      console.log(item);
+      console.log(item)
     }
-  },
-  mounted() {
-    this.restaurants = this.loadAll();
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .Classroom-assessment {
