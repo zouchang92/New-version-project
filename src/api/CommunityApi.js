@@ -127,3 +127,12 @@ export function getById({ id }) {
     }
   })
 }
+export function stTimetable({ clubId }) {
+  return request({
+    url: '/zhxyx/stTimetable/list',
+    method: 'post',
+    data: {
+      clubId
+    }
+  })
+}

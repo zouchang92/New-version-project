@@ -16,7 +16,7 @@
         >
           >
           <template slot="classMethod" slot-scope="scope">
-            <el-button type="text" @click="showResult(scope.row)">点击查看</el-button>
+            <el-button type="text" @click="showResult(scope.row,scope.index)">点击查看</el-button>
           </template>
           <template slot="classType" slot-scope="scope">
             <el-button type="text" @click="dialogTableVisible1 = true">点击查看</el-button>
@@ -38,22 +38,26 @@
       </div>
     </div>
     <el-dialog title="社团课表" :visible.sync="dialogTableVisible">
-      <span>123</span>
+      <span></span>
     </el-dialog>
     <el-dialog title="人员名单" :visible.sync="dialogTableVisible1">
-      <span>123</span>
+      
     </el-dialog>
   </div>
 </template>
 <script>
 import tableCommon from '@/mixins/table-common.js'
 // eslint-disable-next-line no-unused-vars
-import { queryClub, addClub, delClub, getIdClub, updateClub } from '@/api/CommunityApi.js'
+import { queryClub, addClub, delClub, getIdClub, updateClub, stTimetable } from '@/api/CommunityApi.js'
 // eslint-disable-next-line no-unused-vars
 import { getOrgan, getDictById } from '@/utils'
+import PersonnelManagement from './PersonnelManagement'
 
 export default {
   name: 'Management1',
+  omponents: {
+    PersonnelManagement
+  },
   inject: ['reload'],
   mixins: [tableCommon],
   data() {
@@ -136,15 +140,15 @@ export default {
           },
           {
             label: '社团课表',
-            type: 'upload',
             prop: 'classMethod',
-            formslot: true
+            formslot: true,
+            slot: true
           },
           {
             label: '人员名单',
-            type: 'upload',
             prop: 'classType',
-            formslot: true
+            formslot: true,
+            slot: true
           },
           {
             label: '描述',
@@ -209,10 +213,14 @@ export default {
         loading(false)
       }
     },
-    async showResult(row) {
+    async showResult(row, index) {
       this.dialogTableVisible = true
+      // console.log(row, index)
+      const clubId = row.id
+      console.log(row.id)
       try {
-        // const result = await this.getResult()
+        const result = await stTimetable({ clubId })
+        console.log(result)
       } catch (err) {
         console.log(err)
       }

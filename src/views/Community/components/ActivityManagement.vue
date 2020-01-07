@@ -15,6 +15,9 @@
           @row-update="rowUpdate"
         >
           <template slot="honors" slot-scope="scope">
+            <el-button type="text" @click="clickhonors(scope.row)">点击查看</el-button>
+          </template>
+          <template slot="photos" slot-scope="scope">
             <el-button type="text">点击查看</el-button>
           </template>
           <template slot="searchMenu">
@@ -33,6 +36,28 @@
           </template>
         </avue-crud>
       </div>
+      <el-dialog
+        title="活动荣耀"
+        :visible.sync="DialogVisible"
+        width="40%"
+        center
+      >
+        <el-upload
+          :action="url"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+        >
+          <i class="el-icon-plus" />
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="DialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="DialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -58,6 +83,10 @@ export default {
         pageSize: 20
       },
       searchForm: {},
+      DialogVisible: false,
+      dialogImageUrl: '',
+      dialogVisible: false,
+      url: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
       tableList: [],
       option: {
         selection: true,
@@ -166,7 +195,8 @@ export default {
               res: '0'
             },
             listType: 'picture-card',
-            span: 12
+            span: 12,
+            slot: true
           },
           {
             label: '精彩瞬间',
@@ -178,7 +208,8 @@ export default {
               res: '0'
             },
             listType: 'picture-card',
-            span: 12
+            span: 12,
+            slot: true
           },
           {
             label: '参加人员'
@@ -248,7 +279,7 @@ export default {
     },
     async rowSave(row, done, loading) {
       // row.description = row.description.length ? row.description[0].value : "";
-      row.honors = row.honors.length ? row.honors[0].value : "";
+      row.honors = row.honors.length ? row.honors[0].value : ''
       loading(true)
       try {
         // eslint-disable-next-line no-unused-vars
@@ -267,6 +298,16 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    clickhonors() {
+      this.DialogVisible = true
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
     }
   }
 }
