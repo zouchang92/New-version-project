@@ -73,11 +73,12 @@ export default {
       try {
         let courseTime = await queryTimeTable({orgId: classId})
         let courseData = await getClassCourseTableById({ id: classId, startDay, endDay })
-        this.courseTime = courseTime.data
+        this.courseTime = courseTime.data[0].items
         this.courseData = courseData.data.map(n => ({
           ...n,
           weekN: Number(moment(n.days).format('E'))
         }))
+        console.log(this.courseData)
         this.loading = false
       } catch(err) {
         this.loading = false
