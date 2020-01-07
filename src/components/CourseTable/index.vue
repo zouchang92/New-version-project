@@ -20,7 +20,7 @@
       <div class="course-content">
         <ul v-for="(item, i) in sortCourseTime" :key="i" :class="`stage-${i} stage-item`">
           <li v-for="(n, x) in weekData" :key="x" class="stage-sub-item">
-            <span :style="{backgroundColor: lesson.backgroundColor}" v-if="(lesson.lessonN === item[0].lessonN) && (lesson.weekN === (x+1))" v-for="(lesson, index) in courseWithPalette">
+            <span :key="index" :style="{backgroundColor: lesson.backgroundColor}" v-if="(lesson.lessonN === item[0].lessonN) && (lesson.weekN === (x+1))" v-for="(lesson, index) in courseWithPalette">
               <slot name="courseInfo" :lesson="lesson" :week="n" :courseTime="item[0]" >
                 default
               </slot>
