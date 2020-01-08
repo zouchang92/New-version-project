@@ -28,11 +28,10 @@
               <i class="el-icon-user" />
               {{item.userName}}
               <el-checkbox
-                v-if="count !== 1"
                 class="user-checkbox"
-                :value="selectedValue.indexOf(item[defaultKey]) > -1"
+                @click="triggerMember(item, i)"
+                :value="selectedValue.indexOf(item.id) > -1"
               ></el-checkbox>
-              <el-radio v-else class="user-checkbox" :value="selectedValue.indexOf(item[defaultKey]) > -1" />
             </li>
           </Container>
         </ul>
@@ -93,12 +92,6 @@ export default {
         return []
       }
     },
-    count: {
-      type: Number,
-      default: () => {
-        return 9999
-      }
-    },
     searchOrgan: {
       type: String,
       default: () => {
@@ -109,12 +102,6 @@ export default {
       type: String,
       default: () => {
         return ''
-      }
-    },
-    defaultKey: {
-      type: String,
-      default: () => {
-        return 'id'
       }
     }
   },
@@ -137,25 +124,14 @@ export default {
       this.getUser()
     },
     triggerMember(item, i) {
-      const { defaultKey, count } = this
-      const memberData = {
-        label: item.userName,
-        value: item[this.defaultKey],
-        ...item
+      if (this.selectedValue.indexOf(item.id) > -1) {
+        this.removeMember(item.id)
+      } else {
+        this.memberData.push({
+          label: item.userName,
+          value: item.id
+        })
       }
-      switch (count) {
-        case 1: 
-          this.memberData = [memberData]
-        break;
-        default: 
-          if (this.selectedValue.indexOf(item[defaultKey]) > -1) {
-            this.removeMember(item[defaultKey])
-          } else {
-            this.memberData.push(memberData)
-          }
-          break;
-      }
-      
     },
     reset() {
       this.members = []
@@ -227,24 +203,18 @@ export default {
     font-size: 12px;
   }
   .list {
-    .container {
-      display: flex;
-      border: 3px #dcdcdc dashed;
-    }
     margin-top: 20px;
     ul {
       list-style: none;
-      height: 300px;
+      height: 200px;
       overflow-x: hidden;
       padding: 0;
       margin: 0;
-
       li {
         i {
           font-size: 14px;
           margin-right: 5px;
         }
-        flex: 1;
         width: auto;
         height: auto;
         display: block;

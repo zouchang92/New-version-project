@@ -5,6 +5,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? '/zhxyweb/' : '/',
+  lintOnSave: false,
   configureWebpack: config => {
     if (isProduction) {
       config.plugins.push(new CompressionWebpackPlugin({
