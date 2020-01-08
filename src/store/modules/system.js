@@ -26,7 +26,7 @@ function getRecentYears() {
 
 const mutations = {
   SET_DICTIONARY: (state, dictionary) => {
-    state.data = dictionary
+    state.dictionary = dictionary
     localStorage.setItem('dictionary', JSON.stringify(dictionary))
   },
   SET_ORGANTREE: (state, tree) => {

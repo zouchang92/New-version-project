@@ -436,24 +436,104 @@ export default {
   },
   //流程
   processManage: {
-    path: 'processManage',
+    path: '/processManage',
     component: Layout,
     alwaysShow: true,
     name: 'processManage',
     meta: { title: '', icon: '' }
   },
   processList: {
-    path: '/processList',
+    path: 'processList',
     component: () => import('@/views/process-manage/process-list'),
     alwaysShow: true,
     name: 'processList',
     meta: { title: '', icon: '' }
   },
   processType: {
-    path: '/processType',
+    path: 'processType',
     component: () => import('@/views/process-manage/process-type'),
     alwaysShow: true,
     name: 'processType',
     meta: { title: '', icon: '' }
-  }
+  },
+  //荣誉管理
+  honorManage: {
+    path: '/honorManage',
+    component: Layout,
+    alwaysShow: true,
+    name: 'honorManage',
+    meta: { title: '', icon: '' }
+  },
+  comprehensiveHonor: {
+    path: 'comprehensiveHonor',
+    component: () => import('@/views/moral-manage/honor-manage/comprehensive-honor'),
+    alwaysShow: true,
+    name: 'comprehensiveHonor',
+    meta: { title: '', icon: '' }
+  },
+  societyHonor: {
+    path: 'societyHonor',
+    component: () => import('@/views/moral-manage/honor-manage/society-honor'),
+    alwaysShow: true,
+    name: 'societyHonor',
+    meta: { title: '', icon: '' }
+  },
+  //身心健康
+  mentalHealth: {
+    path: '/mentalHealth',
+    component: Layout,
+    alwaysShow: true,
+    name: 'mentalHealth',
+    meta: { title: '', icon: '' }
+  },
+  psychologicaHealth: {
+    path: 'psychologicaHealth',
+    component: () => import('@/views/moral-manage/mental-health-manage/psychologica-health'),
+    alwaysShow: true,
+    name: 'psychologicaHealth',
+    meta: { title: '', icon: '' }
+  },
+  physicalRecord: {
+    path: 'physicalRecord',
+    component: () => import('@/views/moral-manage/mental-health-manage/physical-record'),
+    alwaysShow: true,
+    name: 'physicalRecord',
+    meta: { title: '', icon: '' }
+  },
+  sportEvaluate: {
+    path: 'sportEvaluate',
+    component: () => import('@/views/moral-manage/mental-health-manage/sport-evaluate'),
+    alwaysShow: true,
+    name: 'sportEvaluate',
+    meta: { title: '', icon: '' }
+  },
+  //道德与素养
+  moralityAndAccomplishment: {
+    path: '/moralityAndAccomplishment',
+    component: Layout,
+    alwaysShow: true,
+    name: 'moralityAndAccomplishment',
+    meta: { title: '', icon: '' }
+  },
+  dutyPoint: {
+    path: 'dutyPoint',
+    component: () => import('@/views/moral-manage/morality-and-accomplishment-manage/duty-point'),
+    alwaysShow: true,
+    name: 'dutyPoint',
+    meta: { title: '', icon: '' }
+  },
+  breachRecord: {
+    path: 'breachRecord',
+    component: () => import('@/views/moral-manage/morality-and-accomplishment-manage/breach-record'),
+    alwaysShow: true,
+    name: 'breachRecord',
+    meta: { title: '', icon: '' }
+  },
+  teachActivityAttendance: {
+    path: 'teachActivityAttendance',
+    component: () => import('@/views/moral-manage/morality-and-accomplishment-manage/teach-activity-attendance'),
+    alwaysShow: true,
+    name: 'teachActivityAttendance',
+    meta: { title: '', icon: '' }
+  },
 }

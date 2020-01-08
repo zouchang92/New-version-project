@@ -465,3 +465,51 @@ export function download(files) {
     downloadFile(n)
   })
 }
+
+/**
+ * 根据字典的value查找对应的树结构
+ */
+
+export function findTreeLabel(dic, value, props)  {
+  const DIC_SPLIT = '/'
+  const valueKey = props.value;
+  const labelKey = props.label;
+  const childrenKey = props.children;
+  function getPathByKey(value, key, arr, labelKey, childrenKey) {
+    let tempPath = [];
+    try {
+        function getNodePath(node){
+          // 这里可以自定义push的内容，而不是整个node,而且这里node也包含了children
+          tempPath.push(node);
+          //找到符合条件的节点，通过throw终止掉递归
+          if (node[key] === value) {
+            throw ("GOT IT!");
+          }
+          if (node[childrenKey] && node[childrenKey].length > 0) {
+            for (var i = 0; i < node[childrenKey].length; i++) {
+              getNodePath(node[childrenKey][i]);
+            }
+
+            //当前节点的子节点遍历完依旧没找到，则删除路径中的该节点
+            tempPath.pop();
+          }
+          else {
+
+            //找到叶子节点时，删除路径当中的该叶子节点
+            tempPath.pop();
+          }
+        }
+        for (let i = 0; i < arr.length; i++) {
+            getNodePath(arr[i]);
+        }
+    } catch (e) {
+      return tempPath;
+    }
+  }
+  let result = getPathByKey(value, valueKey, dic, labelKey, childrenKey)
+  if (!result) {
+    return value
+  } else {
+    return result.map(n => n[labelKey]).join(DIC_SPLIT)
+  }
+}
