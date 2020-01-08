@@ -4,6 +4,18 @@
       <div class="member-tag">
         <el-tag size="medium" style="margin-right: 5px;" @close="handleCancel(item)" v-for="item in this.memberData" :key="item.value" closable>{{item.label}}</el-tag>
       </div>
+      <div>
+        <el-form size="small" :inline="true">
+          <el-form-item>
+            <el-tree-select @node-click="onOrganChange" ref="treeSelect" :treeParams="treeParams" :data="children" v-model="formData.organId"/>
+          </el-form-item>
+          <el-form-item>
+            <el-select @change="onOrgTypeChange" clearable v-model="formData.orgType">
+              <el-option v-for="(item, i) in orgType" :key="i" :label="item.label" :value="item.value" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </div>
       <el-breadcrumb style="margin-top: 10px;" separator="/">
         <el-breadcrumb-item
           @click.native="onBreadcrumbClick(item, i)"
@@ -12,13 +24,7 @@
         >{{item.orgName}}</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="list">
-        <ul v-if="type==='org'">
-          <li @click="onItemClick(item)" v-for="(item, i) in children" :key="i">
-            <i class="el-icon-folder" />
-            {{item.orgName}}
-          </li>
-        </ul>
-        <ul v-if="type==='user'">
+        <ul>
           <Container :loading="userLoading" :empty="members.length === 0">
             <li
               slot="child-slot"
@@ -46,12 +52,13 @@
 </template>
 
 <script>
-import { getOrgan } from '@/utils'
+import { getOrgan, getDictById } from '@/utils'
 import tableCommon from '@/mixins/table-common.js'
 import { queryTeacher } from '@/api/teacherManageApi'
 import Container from '@/components/Container'
 import { queryUsers } from '@/api/userManageApi'
 import _ from 'lodash'
+const orgTypeDict = getDictById('orgType')
 export default {
   mixins: [tableCommon],
   data() {
@@ -62,8 +69,20 @@ export default {
       children: getOrgan(),
       checkboxHidden: true,
       type: 'org',
+      orgType: orgTypeDict,
       members: [],
+      treeParams: {
+        props: {
+          label: 'orgName',
+          value: 'id',
+        },
+        data: getOrgan()
+      },
       userLoading: false,
+      formData: {
+        organId: '',
+        orgType: ''
+      },
       queryMap: {
         teacher: 'teacherDuty',
         student: 'studentDuty',
@@ -78,7 +97,9 @@ export default {
     },
     memberSelected: {
       type: Array,
-      default: []
+      default: () => {
+        return []
+      }
     },
     searchType: {
       type: String,
@@ -96,6 +117,12 @@ export default {
   methods: {
     handleCancel(item) {
       this.removeMember(item.value)
+    },
+    onOrganChange() {
+      this.getUser()
+    },
+    onOrgTypeChange() {
+      this.getUser()
     },
     triggerMember(item, i) {
       if (this.selectedValue.indexOf(item.id) > -1) {
@@ -123,36 +150,15 @@ export default {
     handleClose() {
       this.$emit('input', false)
     },
-    onBreadcrumbClick(item, i) {
-      this.children = item.child
-      let type = this.setType(item.child)
-      this.breadcrumbData = this.breadcrumbData.slice(0, i + 1)
-      if (type === 'user') {
-        this.getUser(item.id)
-      }
-    },
-    async getUser(id) {
-      var userType = this.queryMap[this.searchType]
+    async getUser() {
+      const { orgType, organId }= this.formData
       this.userLoading = true
       try {
-        let data = await queryUsers({organId: id, page: 1, rows: 10000, orgType: userType})
+        let data = await queryUsers({organId, page: 1, rows: 10000, orgType})
         this.members = data.data.list
         this.userLoading = false
       } catch(err) {
         this.userLoading = false
-      }
-    },
-    setType(children) {
-      let type = children.length ? 'org' : 'user'
-      this.type = type
-      return type
-    },
-    onItemClick(item) {
-      this.breadcrumbData.push(item)
-      this.children = item.child
-      let type = this.setType(item.child)
-      if (type === 'user') {
-        this.getUser(item.id)
       }
     },
     handleSave() {
@@ -163,6 +169,9 @@ export default {
   watch: {
     memberSelected(val) {
       this.memberData = _.cloneDeep(val)
+    },
+    searchType(val) {
+
     }
   },
 }
@@ -174,6 +183,7 @@ export default {
     border: 1px solid #dcdcdc;
     padding: 10px;
     border-radius: 5px;
+    margin-bottom: 10px;
   }
   .el-breadcrumb__item {
     font-size: 12px;

@@ -9,6 +9,11 @@ import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import ElTreeSelect from 'el-tree-select'
 import VueFileAgent from 'vue-file-agent'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css'
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import './registerServiceWorker'
 
 import '@/styles/index.scss' // global css
 
@@ -31,6 +36,8 @@ Vue.use(window.AVUE)
 Vue.use(ElTreeSelect)
 
 Vue.use(VueFileAgent)
+
+Vue.use(VueQuillEditor)
 
 Vue.use(VCharts)
 
