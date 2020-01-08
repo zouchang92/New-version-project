@@ -73,12 +73,11 @@ export default {
       try {
         let courseTime = await queryTimeTable({orgId: classId})
         let courseData = await getClassCourseTableById({ id: classId, startDay, endDay })
-        this.courseTime = courseTime.data[0].items
-        this.courseData = courseData.data.map(n => ({
+        this.courseTime = courseTime.data.length ? courseTime.data[0].items : []
+        this.courseData = courseData.data.length ? courseData.data.map(n => ({
           ...n,
           weekN: Number(moment(n.days).format('E'))
-        }))
-        console.log(this.courseData)
+        })) : []
         this.loading = false
       } catch(err) {
         this.loading = false
@@ -89,7 +88,6 @@ export default {
       const startDay = moment(this.dateRange).weekday(1).format('YYYY-MM-DD')
       const endDay = moment(this.dateRange).weekday(7).format('YYYY-MM-DD')
       this.getTimeTable({ classId: orgId, startDay, endDay})
-      console.log(moment(this.dateRange).format('YYYY-MM-DD'))
     }
   },
   components: {
