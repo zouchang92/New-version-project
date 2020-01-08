@@ -169,6 +169,7 @@ export default {
             type: 'textarea',
             component: 'rich-text',
             prop: 'description',
+            span:24
           }
         ]
       },

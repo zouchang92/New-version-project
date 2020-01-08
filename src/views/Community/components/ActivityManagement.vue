@@ -41,6 +41,9 @@
         width="40%"
         center
       >
+      <div :data="dataOption">
+        <img :src="data.honors" alt="">
+      </div>
         <el-upload
           :action="url"
           list-type="picture-card"
@@ -60,9 +63,12 @@
       <el-dialog
         title="精彩瞬间"
         :visible.sync="Visible"
-        width="40%"
+        width="60%"
         center
       >
+      <div>
+        <img  width="40%" :src="data" alt="">
+      </div>
         <el-upload
           :action="url"
           list-type="picture-card"
@@ -91,7 +97,8 @@ import {
   queryActivity,
   addActivity,
   delActivity,
-  updateActivity
+  updateActivity,
+  getById
 } from '@/api/CommunityApi.js'
 export default {
   mixins: [tableCommon],
@@ -107,6 +114,8 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       Visible: false,
+      data: [],
+      dataOption: [],
       url: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
       tableList: [],
       option: {
@@ -251,7 +260,9 @@ export default {
           {
             label: '描述',
             type: 'textarea',
-            prop: 'description'
+            component: 'rich-text',
+            prop: 'description',
+            span: 24
           }
         ]
       }
@@ -321,11 +332,27 @@ export default {
         console.log(err)
       }
     },
-    clickhonors(row) {
-      this.DialogVisible = true
+    async clickhonors(row) {
+      const id = row.id
+      try {
+       const result = await getById({id})
+       console.log(result.data)
+       this.dataOption = result.data
+       this.DialogVisible = true
+      } catch (err) {
+        console.log(err)
+      }
     },
-    handelpho(row) {
-      this.Visible = true
+    async handelpho(row) {
+      const id = row.id
+      try {
+       const result = await getById({id})
+       console.log(result.data.photos)
+       this.data = result.data.photos
+       this.Visible = true
+      } catch (err) {
+        console.log(err)
+      }
     },
     handleRemove(file, fileList) {
       console.log(file, fileList)
