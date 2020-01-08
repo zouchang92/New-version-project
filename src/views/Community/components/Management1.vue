@@ -19,7 +19,7 @@
             <el-button type="text" @click="showResult(scope.row,scope.index)">点击查看</el-button>
           </template>
           <template slot="classType" slot-scope="scope">
-            <el-button type="text" @click="dialogTableVisible1 = true">点击查看</el-button>
+            <el-button type="text" @click="showclass(scope.row,scope.index)">点击查看</el-button>
           </template>
           <template slot="searchMenu">
             <el-button type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
@@ -37,8 +37,18 @@
         </avue-crud>
       </div>
     </div>
+    <template slot-scope="scope" slot="description">
+      <div>
+        <input type="text" @click="vie(scope)">
+      </div>
+   </template>
     <el-dialog title="社团课表" :visible.sync="dialogTableVisible">
-      <span></span>
+      <CourseTable
+            style="height:777px;"
+            :merge="true"
+            :course-time="courseTime"
+            :course-data="courseData"
+          />
     </el-dialog>
     <el-dialog title="人员名单" :visible.sync="dialogTableVisible1">
       
@@ -52,11 +62,14 @@ import { queryClub, addClub, delClub, getIdClub, updateClub, stTimetable } from 
 // eslint-disable-next-line no-unused-vars
 import { getOrgan, getDictById } from '@/utils'
 import PersonnelManagement from './PersonnelManagement'
+import tinymce from '@/components/Tinymce/index'
+import CourseTable from '@/components/CourseTable'
 
 export default {
   name: 'Management1',
   omponents: {
-    PersonnelManagement
+    PersonnelManagement,
+    CourseTable
   },
   inject: ['reload'],
   mixins: [tableCommon],
@@ -125,8 +138,9 @@ export default {
           },
           {
             label: '适用年级',
-            prop: 'orgIds',
+            prop: 'studentOrgName',
             type: 'tree',
+            multiple:true,
             width: 150,
             dicData: getOrgan(),
             props: {
@@ -151,9 +165,10 @@ export default {
             slot: true
           },
           {
-            label: '描述',
+            label: '社团简介',
             type: 'textarea',
-            prop: 'description'
+            component: 'rich-text',
+            prop: 'description',
           }
         ]
       },
@@ -164,7 +179,74 @@ export default {
       },
       searchForm: {},
       tableData: [],
-      form: {}
+      form: {},
+      courseTime: [
+        {
+          lessonN: 2,
+          weekN: 1498,
+          endtime: 3173253239395,
+          id: 'fD5',
+          starttime: 2976655741205,
+          orgId: 'ncNEdUd'
+        },
+        {
+          lessonN: 1,
+          weekN: 1498,
+          endtime: 3173253239395,
+          id: 'fD5',
+          starttime: 2976655741205,
+          orgId: 'ncNEdUd'
+        },
+        {
+          lessonN: 3,
+          weekN: 1498,
+          endtime: 3173253239395,
+          id: 'fD5',
+          starttime: 2976655741205,
+          orgId: 'ncNEdUd'
+        },
+        {
+          lessonN: 4,
+          weekN: 1498,
+          endtime: 3173253239395,
+          id: 'fD5',
+          starttime: 2976655741205,
+          orgId: 'ncNEdUd'
+        },
+        {
+          lessonN: 5,
+          weekN: 1498,
+          endtime: 3173253239395,
+          id: 'fD5',
+          starttime: 2976655741205,
+          orgId: 'ncNEdUd'
+        },
+        {
+          lessonN: 6,
+          weekN: 1498,
+          endtime: 3173253239395,
+          id: 'fD5',
+          starttime: 2976655741205,
+          orgId: 'ncNEdUd'
+        },
+        {
+          lessonN: 7,
+          weekN: 1498,
+          endtime: 3173253239395,
+          id: 'fD5',
+          starttime: 2976655741205,
+          orgId: 'ncNEdUd'
+        },
+        {
+          lessonN: 8,
+          weekN: 1498,
+          endtime: 3173253239395,
+          id: 'fD5',
+          starttime: 2976655741205,
+          orgId: 'ncNEdUd'
+        }
+      ],
+      courseData: []
     }
   },
   created() {
@@ -220,6 +302,7 @@ export default {
       console.log(row.id)
       try {
         const result = await stTimetable({ clubId })
+        this.courseData = result.data.timetables
         console.log(result)
       } catch (err) {
         console.log(err)
@@ -233,6 +316,9 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    showclass(row,index){
+      this.dialogTableVisible1 = true
     }
   }
 }

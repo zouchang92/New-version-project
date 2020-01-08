@@ -72,6 +72,7 @@
               :key="index"
               class="content-text"
               @click="clickadd(item, index)"
+              :id="item.lessonN" ref="dataInfo"
             >
               <div class="content-title">第{{ item.lessonN }}节课</div>
               <div v-if="item.starttime == ''" class="content-t">
@@ -88,6 +89,7 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
+        <el-button @click="addtime()">添加</el-button>
         <el-button @click="handlesc">取 消</el-button>
         <el-button type="primary" @click="addsub">确 定</el-button>
       </span>
@@ -195,6 +197,7 @@ export default {
       region: '',
       starttime: '',
       endtime: '',
+      a: '',
       option: {
         editBtn: false,
         column: [
@@ -392,6 +395,13 @@ export default {
         date1: item.starttime,
         date2: item.endtime
       }
+      this.a = item.lessonN
+    },
+    addtime() {
+      console.log(this.$refs.dataInfo.id)
+      let a = this.$refs.dataInfo[0].id
+      a++
+      this.timer.push({lessonN:a, starttime: '', endtime: ''})
     }
   }
 }

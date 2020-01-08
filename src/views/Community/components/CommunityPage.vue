@@ -2,11 +2,12 @@
   <div>
     <el-col style="background:#eee;height:1200px; margin-top: -15px;">
       <el-row :gutter="30" style="margin:17px;">
-        <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14" style="height:513px;background:#fff">
+        <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14" style=  "height:513px;background:#fff">
           <div class="Wonderful-moment">
             <div class="moment-title">
               <p class="u-line" />
               <p class="title-text">精彩瞬间</p>
+              <p class="title-more" @click="more()">更多<i class="el-icon-d-arrow-right" /></p>
             </div>
             <div class="moment-content">
               <el-row :gutter="30">
@@ -14,7 +15,7 @@
                   <div class="item">
                     <el-carousel ref="carousel" trigger="click" width="407px" height="396px">
                       <el-carousel-item v-for="(item,index) in mess" :key="index" name="index">
-                        <img :src="item.img" width="407" height="396">
+                        <img :src="item.photos.split(',',1)" width="407" height="396">
                       </el-carousel-item>
                     </el-carousel>
                     <!-- <img style="width:407px;height:396px;" :src="dataList[currentIndex]"> -->
@@ -23,10 +24,10 @@
                 <el-col :xs="11" :sm="11" :md="11" :lg="11" :xl="11" style="padding-right:0px;">
                   <ul>
                     <li v-for="(item,index) in mess" :key="index" :class="{'current':currentIndex == index}" @click="setActiveItem(index)">
-                      <img style="width:58px;height:48px;border-radius:4px;" :src="item.img" alt>
-                      <p class="content-r">{{ item.content }}</p>
-                      <span class="content-association">{{ item.association }}</span>
-                      <span class="association-time">日期:{{ item.time }}</span>
+                      <img style="width:58px;height:48px;border-radius:4px;" :src="item.photos" alt>
+                      <p class="content-r">{{ item.name }}</p>
+                      <span class="content-association">{{ item.clubName }}</span>
+                      <span class="association-time">日期:{{ item.createTime | formatTS }}</span>
                     </li>
                   </ul>
                 </el-col>
@@ -50,18 +51,18 @@
             </div>
             <div class="statistics-content">
               <ul>
-                <li v-for="(item,index) in tableList" :key="index">
+                <li v-for="(item,index) in List" :key="index">
                   <div class="content">
-                    <img
+                    <!-- <img
                       src="https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1382184082.17.webp"
                       alt
-                    >
+                    > -->
                     <p class="name">{{ item.name }}</p>
                     <p class="Person">负责人:{{ item.person }}</p>
                     <p class="grade">适用年级</p>
-                    <p class="Applicable">{{ item.orgIds }}</p>
+                    <p class="Applicable">{{ item.studentOrgName }}</p>
                     <p class="association">社团人数</p>
-                    <p class="Number">35</p>
+                    <p class="Number">{{ item.studentCount }}</p>
                     <p class="stardata">创建时间</p>
                     <p class="data">{{ item.createTime | formatTS }}</p>
                   </div>
@@ -80,13 +81,14 @@
                 class="title-text"
                 style="margin:0px;padding-top: 5px;padding-left: 16px;padding-bottom:15px;"
               >活动统计</p>
+              <p class="title-more" @click="more">更多<i class="el-icon-d-arrow-right" /></p>
             </div>
             <div v-for="(item,index) in tableList" :key="index" class="Activity-content">
               <div class="content-title">
                 <span>{{ item.name }}</span>
               </div>
               <div class="content-name">
-                <span>{{ item.person }}</span>
+                <span>{{ item.persons }}</span>
               </div>
               <div class="content-state">
                 <span>进行中</span>
@@ -109,9 +111,10 @@
                 class="title-text"
                 style="margin:0px;padding-top: 5px;padding-left: 15px;padding-bottom: 15px;"
               >缴费情况</p>
+              <p class="title-more" @click="morelive">更多<i class="el-icon-d-arrow-right" /></p>
             </div>
             <div class="situation-content">
-              <box-card />
+              <box-card :list="list"/>
             </div>
           </div>
         </el-col>
@@ -122,7 +125,7 @@
 <script>
 import BoxCard from './BoxCard'
 import { formatDate } from '@/api/date.js'
-import { queryClub } from '@/api/CommunityApi.js'
+import { queryClub, getHighlights, getStPayReport, getClubs, getActivities } from '@/api/CommunityApi.js'
 export default {
   components: {
     BoxCard
@@ -136,72 +139,94 @@ export default {
   data() {
     return {
       tableList: [],
-      dataList: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1576730134813&di=4b1dbccdea66e8765463d46cdc6f1580&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D701741522%2C968032624%26fm%3D214%26gp%3D0.jpg', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577117662120&di=e21e8e8587798335bb452fbaa03a60bf&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F00e93901213fb80e2157499231d12f2eb83894f4.jpg', 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=662286957,3140185160&fm=26&gp=0.jpg', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577712493&di=bd2819958d3fd1f0845c28f5c3c63a00&imgtype=jpg&er=1&src=http%3A%2F%2Fhz.wenming.cn%2Fwm_jy%2Fxcsng%2F201607%2FW020160727366514484990.jpg'],
       currentIndex: 0, // 默认显示图片
       timer: null, // 定时器
-      mess: [
-        {
-          id: 0,
-          content: '社团与教师打乒乓球',
-          association: '乒乓球社',
-          time: '2019-10-01',
-          img:
-            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1576730134813&di=4b1dbccdea66e8765463d46cdc6f1580&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D701741522%2C968032624%26fm%3D214%26gp%3D0.jpg'
-        },
-        {
-          id: 1,
-          content: '社团与教师打篮球',
-          association: '篮球社',
-          time: '2019-10-01',
-          img:
-            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577117662120&di=e21e8e8587798335bb452fbaa03a60bf&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F00e93901213fb80e2157499231d12f2eb83894f4.jpg'
-        },
-        {
-          id: 2,
-          content: '社团与教师羽毛球',
-          association: '羽毛球社',
-          time: '2019-10-03',
-          img:
-            'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=662286957,3140185160&fm=26&gp=0.jpg'
-        },
-        {
-          id: 3,
-          content: '象棋比赛',
-          association: '象棋社',
-          time: '2019-10-01',
-          img:
-            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577712493&di=bd2819958d3fd1f0845c28f5c3c63a00&imgtype=jpg&er=1&src=http%3A%2F%2Fhz.wenming.cn%2Fwm_jy%2Fxcsng%2F201607%2FW020160727366514484990.jpg'
-        }
-      ]
+      mess: [],
+      list: [],
+      List: []
     }
   },
   computed: {},
   created() {
-    this.get()
+    this.getActivities()
+    this.getHighlights()
+    this.getClubs()
   },
   methods: {
     setActiveItem(index) {
       this.$refs.carousel.setActiveItem(index)
     },
     moreClub() {
-      this.$router.push('./Management1')
+      this.$emit('Management')
     },
-    async get() {
+    async getActivities() {
       try {
-        const page = 1
-        const rows = 10000
-        const List = await queryClub({ page, rows })
-        this.tableList = List.data.list
+        const List = await getActivities()
+        this.tableList = List.data
         console.log(this.tableList)
       } catch (err) {
         console.log(err)
       }
+    },
+    async getHighlights() {
+      try {
+        const List = await getHighlights()
+        this.mess = List.data
+        console.log(this.mess)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async getStPayReport() {
+      try {
+        const List = await getStPayReport()
+        this.list = List.data
+        this.unPayCount= this.list.unPayCount
+        this.PayCount = this.list.payCount
+        console.log(this.unPayCount, this.list.payCount)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async getClubs() {
+      try {
+        const list = await getClubs()
+        this.List = list.data
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    more() {
+      this.$emit('ee')
+    },
+    morelive(){
+      console.log(123)
+      this.$emit('Personnel')
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .Wonderful-moment {
+  position:relative;
+  .title-more{
+          position: absolute;
+          top: -16px;
+    font-size: 19px;
+          font-family:Source Han Sans CN;
+          font-weight:300;
+          color:rgba(102,102,102,1);
+          line-height:24px;right: 28px;
+    }
+    .u-line {
+  display: block;
+  width: 5px;
+  height: 16px;
+  background: rgba(1, 142, 237, 1);
+  position: absolute;
+  left: -1px;
+    top: -11px;
+}
   .moment-content {
     ul {
       list-style: none;
@@ -359,6 +384,11 @@ export default {
   height: 413px;
   background: #fff;
   padding: 15px;
+  .title-more{
+    position: absolute;
+    top: 8px;
+    right: 11px;
+  }
   .Activity-title {
     border-bottom: 1px solid #eff0f5;
   }
@@ -382,6 +412,11 @@ export default {
   }
 }
 .Payment-situation {
+  .title-more{
+    position: absolute;
+    top: 8px;
+    right: 11px;
+  }
   height: 413px;
   background: #fff;
   padding: 15px;

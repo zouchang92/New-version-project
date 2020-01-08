@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div class="table-container">
       <div class="basic-container">
         <avue-crud
@@ -18,7 +17,7 @@
             <el-button type="text" @click="clickhonors(scope.row)">点击查看</el-button>
           </template>
           <template slot="photos" slot-scope="scope">
-            <el-button type="text">点击查看</el-button>
+            <el-button type="text" @click="handelpho(scope.row)">点击查看</el-button>
           </template>
           <template slot="searchMenu">
             <el-button type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
@@ -58,8 +57,29 @@
           <el-button type="primary" @click="DialogVisible = false">确 定</el-button>
         </span>
       </el-dialog>
+      <el-dialog
+        title="精彩瞬间"
+        :visible.sync="Visible"
+        width="40%"
+        center
+      >
+        <el-upload
+          :action="url"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+        >
+          <i class="el-icon-plus" />
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="Visible = false">取 消</el-button>
+          <el-button type="primary" @click="DialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
-  </div>
 </template>
 <script>
 import tableCommon from '@/mixins/table-common.js'
@@ -86,6 +106,7 @@ export default {
       DialogVisible: false,
       dialogImageUrl: '',
       dialogVisible: false,
+      Visible: false,
       url: `${process.env.VUE_APP_BASE_API}/zhxyx/upload/publicUpload`,
       tableList: [],
       option: {
@@ -129,7 +150,7 @@ export default {
             prop: 'clubId',
             type: 'select',
             search: true,
-            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list ',
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/stClub/list',
             dicMethod: 'post',
             dicQuery: {
               page: 1,
@@ -212,7 +233,8 @@ export default {
             slot: true
           },
           {
-            label: '参加人员'
+            label: '参加人员',
+            slot: true
           },
           {
             label: '活动时间',
@@ -299,8 +321,11 @@ export default {
         console.log(err)
       }
     },
-    clickhonors() {
+    clickhonors(row) {
       this.DialogVisible = true
+    },
+    handelpho(row) {
+      this.Visible = true
     },
     handleRemove(file, fileList) {
       console.log(file, fileList)

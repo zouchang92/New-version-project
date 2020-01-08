@@ -4,33 +4,52 @@
 
 <script>
 import F2 from "@antv/f2/lib/index-all";
-
+import { getStPayReport } from '@/api/CommunityApi.js'
 export default {
   data() {
     return {
-      
+      list:[],
+      unPayCount:'',
+      PayCount:''
     };
   },
+  created() {
+    this.getStPayReport()
+  },
   mounted() {
-    this.line();
+    var v = this;
+    this.$nextTick(()=>{
+      v.line();
+    });
   },
   methods: {
+    async getStPayReport() {
+      try {
+        const List = await getStPayReport()
+        this.list = List.data
+        this.unPayCount= this.list.unPayCount
+        this.PayCount = this.list.payCount
+        console.log(this.unPayCount, this.list.payCount)
+      } catch (err) {
+        console.log(err)
+      }
+    },
     line() {
-      const data = [
+      var data = [
         {
-          amount: 14,
+          amount: 0,
           ratio: 0.1,
           memo: "未缴",
           const: "const"
         },
         {
-          amount: 32,
+          amount: 2,
           ratio: 0.5,
           memo: "已缴",
           const: "const"
         }
       ];
-
+      console.log(data)
       var chart = new F2.Chart({
         id: "mount",
         pixelRatio: window.devicePixelRatio
@@ -51,7 +70,7 @@ export default {
       chart.guide().html({
         position: ["50%", "50%"],
         html:
-          '<div style="width: 100px;height: 20px;text-align: center;line-height: 20px;" id="Content"><div style="font-size:37px;font-family:Source Han Sans CN;font-weight:500;margin-top:-13px;">53</div><div style="font-size:16px;font-family:Source Han Sans CN;font-weight:500;padding-top:10px;">社团总人数</div></div>'
+          '<div style="width: 100px;height: 20px;text-align: center;line-height: 20px;" id="Content"><div style="font-size:37px;font-family:Source Han Sans CN;font-weight:500;margin-top:-13px;">2</div><div style="font-size:16px;font-family:Source Han Sans CN;font-weight:500;padding-top:10px;">社团总人数</div></div>'
       });
       // 配置文本饼图
       chart.pieLabel({

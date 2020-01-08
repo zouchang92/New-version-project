@@ -136,3 +136,40 @@ export function stTimetable({ clubId }) {
     }
   })
 }
+
+export function getHighlights() {
+  return request({
+    url: '/zhxyx/stHome/getHighlights',
+    method: 'post',
+    data: {
+      
+    }
+  })
+}
+export function getStPayReport() {
+  return request({
+    url: '/zhxyx/stHome/getStPayReport',
+    method: 'post',
+    data: {
+      
+    }
+  })
+}
+export function getClubs() {
+  return request({
+    url: '/zhxyx/stHome/getClubs',
+    method: 'post',
+    data: {
+      
+    }
+  })
+}
+export function getActivities() {
+  return request({
+    url: '/zhxyx/stHome/getActivities',
+    method: 'post',
+    data: {
+      
+    }
+  })
+}

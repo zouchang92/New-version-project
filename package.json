@@ -49,5 +49,17 @@
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"
-  }
+  },
+  "description": "## Project setup ``` yarn install ```",
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitea.huawangtech.com:3000/zouchang92/NewVersionProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
