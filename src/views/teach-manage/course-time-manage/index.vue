@@ -166,7 +166,7 @@ export default {
     return {
       searchForm: {},
       activeIndex: 0,
-      options: {},
+      options: [],
       value: null,
       list: {},
       timer: [
@@ -280,8 +280,8 @@ export default {
       this.$refs.crud.rowAdd()
     },
     async handleupdate(row, index) {
-      console.log(row.orgId)
       this.dialogTableVisible = true
+      this.getOrganTree()
       this.timer = row.items
       try {
         this.value = row.orgId
@@ -398,10 +398,17 @@ export default {
       this.a = item.lessonN
     },
     addtime() {
-      console.log(this.$refs.dataInfo.id)
-      let a = this.$refs.dataInfo[0].id
-      a++
-      this.timer.push({lessonN:a, starttime: '', endtime: ''})
+      var b = document.getElementsByClassName("content-title")
+      console.log(b.length)
+      let a = b.length
+      a+1
+      console.log(a++)
+      if(a+1<13 || a<13){
+        this.timer.push({lessonN:a, starttime: '', endtime: ''})
+      }else if(a+1>13 || a>13){
+        this.$confirm('不能添加了','提示')
+      }
+      
     }
   }
 }

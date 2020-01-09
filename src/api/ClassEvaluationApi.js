@@ -27,12 +27,12 @@ export function pinkItem({ itemType }) {
     }
   })
 }
-export function evaluation({ reviewId, teachingWay, teachingProgram, classStructure, importantPoints, teachingContent, operatorContent }) {
+export function evaluation({ reviewId, itemDto, operatorContent }) {
   return request({
     url: '/zhxyx/evaluation/courseComment',
     method: 'post',
     data: {
-      reviewId, teachingWay, teachingProgram, classStructure, importantPoints, teachingContent, operatorContent
+      reviewId, itemDto, operatorContent
     }
   })
 }

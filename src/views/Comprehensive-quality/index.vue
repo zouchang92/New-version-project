@@ -384,8 +384,6 @@ export default {
       height: 316px;
       margin-left: 21px;
       position: relative;
-      .Radar-title {
-      }
     }
     .Serving {
       background: #fff;

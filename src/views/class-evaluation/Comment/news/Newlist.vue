@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import { getDetail } from '@/api/ClassEvaluationApi'
+import { getDetail } from '@/api/classEvaluationApi'
 export default {
   props: {
     // eslint-disable-next-line vue/require-default-prop

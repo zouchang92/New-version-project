@@ -93,7 +93,7 @@
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
 import { getOrganTree } from '@/api/organManageApi'
-import { getOrgan, pinkItem } from '@/api/ClassEvaluationApi'
+import { getOrgan, pinkItem } from '@/api/classEvaluationApi'
 import { interArrayTree } from '@/utils'
 import { queryCourses } from '@/api/courseManageApi'
 export default {

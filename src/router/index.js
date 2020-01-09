@@ -82,7 +82,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/ClassEvaluation/Comment/index')
+        component: () => import('@/views/class-evaluation/Comment/index')
       }
     ]
   },

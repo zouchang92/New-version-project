@@ -58,7 +58,7 @@
 <script>
 import tableCommon from '@/mixins/table-common.js'
 // eslint-disable-next-line no-unused-vars
-import { queryClub, addClub, delClub, getIdClub, updateClub, stTimetable } from '@/api/CommunityApi.js'
+import { queryClub, addClub, delClub, getIdClub, updateClub, stTimetable } from '@/api/communityApi.js'
 // eslint-disable-next-line no-unused-vars
 import { getOrgan, getDictById } from '@/utils'
 import PersonnelManagement from './PersonnelManagement'

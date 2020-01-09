@@ -39,7 +39,7 @@
 </template>
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryAttendance } from '@/api/CommunityApi.js'
+import { queryAttendance } from '@/api/communityApi.js'
 import { getOrgan, getDictById } from '@/utils'
 const genderDict = getDictById('gender')
 

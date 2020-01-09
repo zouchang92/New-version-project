@@ -125,7 +125,7 @@
 <script>
 import BoxCard from './BoxCard'
 import { formatDate } from '@/api/date.js'
-import { queryClub, getHighlights, getStPayReport, getClubs, getActivities } from '@/api/CommunityApi.js'
+import { queryClub, getHighlights, getStPayReport, getClubs, getActivities } from '@/api/communityApi.js'
 export default {
   components: {
     BoxCard

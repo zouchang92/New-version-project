@@ -197,7 +197,7 @@
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
-import { evaluation, getDetail } from '@/api/ClassEvaluationApi'
+import { evaluation, getDetail } from '@/api/classEvaluationApi'
 import { formatDate } from '@/api/date.js'
 import Newlist from './news/Newlist'
 export default {

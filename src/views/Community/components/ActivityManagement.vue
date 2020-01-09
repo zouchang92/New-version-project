@@ -66,8 +66,8 @@
         width="60%"
         center
       >
-      <div>
-        <img  width="40%" :src="data" alt="">
+      <div style="display:flex">
+        <img v-for="(item,index) in data" :key="index"  width="40%" :src="item" alt="">
       </div>
         <el-upload
           :action="url"
@@ -99,7 +99,7 @@ import {
   delActivity,
   updateActivity,
   getById
-} from '@/api/CommunityApi.js'
+} from '@/api/communityApi.js'
 export default {
   mixins: [tableCommon],
   inject: ['reload'],
@@ -347,8 +347,10 @@ export default {
       const id = row.id
       try {
        const result = await getById({id})
-       console.log(result.data.photos)
-       this.data = result.data.photos
+      //  console.log(result.data.photos)
+       const a = (result.data.photos).split(",")
+       console.log(a)
+       this.data = a
        this.Visible = true
       } catch (err) {
         console.log(err)

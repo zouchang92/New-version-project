@@ -32,7 +32,7 @@
 </template>
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryPerson, delPerson, addPerson, editPerson } from '@/api/CommunityApi.js'
+import { queryPerson, delPerson, addPerson, editPerson } from '@/api/communityApi.js'
 import { getOrgan, getDictById } from '@/utils'
 const genderDict = getDictById('gender')
 

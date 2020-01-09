@@ -311,39 +311,39 @@ export default {
     meta: { title: '成长档案', icon: 'guide' }
   },
   //
-  Community: {
-    path: '/Community',
+  community: {
+    path: '/community',
     component: Layout,
-    redirect: '/Community/index',
-    name: 'Community',
+    redirect: '/community/index',
+    name: 'community',
     alwaysShow: true,
     meta: {
       title: '社团管理',
       icon: 'nested'
     }
   },
-  CommunityManagement: {
-    path: 'CommunityManagement',
-    component: () => import('@/views/Community'),
-    name: 'CommunityManagement',
+  communityManagement: {
+    path: 'communityManagement',
+    component: () => import('@/views/community'),
+    name: 'communityManagement',
     meta: { title: '社团管理', icon: 'guide' }
   },
   //
-  Comprehensive: {
-    path: '/Comprehensive',
+  comprehensive: {
+    path: '/comprehensive',
     component: Layout,
-    redirect: '/Comprehensive/index',
-    name: 'Comprehensive',
+    redirect: '/comprehensive/index',
+    name: 'comprehensive',
     alwaysShow: true,
     meta: {
       title: '学生综合素质',
       icon: 'nested'
     }
   },
-  ComprehensiveQuality: {
-    path: 'ComprehensiveQuality',
-    component: () => import('@/views/Comprehensive-quality'),
-    name: 'ComprehensiveQuality',
+  comprehensiveQuality: {
+    path: 'comprehensiveQuality',
+    component: () => import('@/views/comprehensive-quality'),
+    name: 'comprehensiveQuality',
     meta: { title: '学生综合素质', icon: 'guide' }
   },
   //
@@ -364,20 +364,20 @@ export default {
     meta: { title: '研训管理', icon: 'guide' }
   },
   //
-  Class: {
-    path: '/Class',
+  class: {
+    path: '/class',
     component: Layout,
-    name: 'Class',
+    name: 'class',
     alwaysShow: true,
     meta: {
       title: '评课管理',
       icon: 'nested'
     }
   },
-  ClassEvaluation: {
-    path: 'ClassEvaluation',
-    component: () => import('@/views/ClassEvaluation'),
-    name: 'ClassEvaluation',
+  classEvaluation: {
+    path: 'classEvaluation',
+    component: () => import('@/views/class-evaluation'),
+    name: 'classEvaluation',
     meta: { title: '评课管理', icon: 'guide' }
   },
   //
@@ -534,6 +534,35 @@ export default {
     component: () => import('@/views/moral-manage/morality-and-accomplishment-manage/teach-activity-attendance'),
     alwaysShow: true,
     name: 'teachActivityAttendance',
+    meta: { title: '', icon: '' }
+  },
+  //实践活动
+  practicalActivity: {
+    path: '/practicalActivity',
+    component: Layout,
+    alwaysShow: true,
+    name: 'practicalActivity',
+    meta: { title: '', icon: '' }
+  },
+  serving: {
+    path: 'serving',
+    component: () => import('@/views/moral-manage/practical-activity/serving'),
+    alwaysShow: true,
+    name: 'serving',
+    meta: { title: '', icon: '' }
+  },
+  publicWelfare: {
+    path: 'publicWelfare',
+    component: () => import('@/views/moral-manage/practical-activity/public-welfare'),
+    alwaysShow: true,
+    name: 'publicWelfare',
+    meta: { title: '', icon: '' }
+  },
+  socialPractice: {
+    path: 'socialPractice',
+    component: () => import('@/views/moral-manage/practical-activity/social-practice'),
+    alwaysShow: true,
+    name: 'socialPractices',
     meta: { title: '', icon: '' }
   },
 }

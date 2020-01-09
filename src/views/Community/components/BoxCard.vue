@@ -4,7 +4,7 @@
 
 <script>
 import F2 from "@antv/f2/lib/index-all";
-import { getStPayReport } from '@/api/CommunityApi.js'
+import { getStPayReport } from '@/api/communityApi.js'
 export default {
   data() {
     return {

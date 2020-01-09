@@ -168,7 +168,7 @@
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
-import { ClassQuery, getDetail, addClass, delClass, getSelectOrgName, getSelectCourseByOrg, getTeacher } from '@/api/ClassEvaluationApi'
+import { ClassQuery, getDetail, addClass, delClass, getSelectOrgName, getSelectCourseByOrg, getTeacher } from '@/api/classEvaluationApi'
 export default {
   data() {
     return {
