@@ -33,7 +33,7 @@
     <el-dialog title="荣誉导入" :visible.sync="importDialog.visible">
         <el-form>
           <el-form-item label="下载模板">
-            <a style="color: blue" :href="`${baseUrl}/zhxyx/res/mod/学生档案.xlsx`">下载模板</a>
+            <a style="color: blue" :href="`${baseUrl}/zhxyx/res/mod/ryaward.xlsx`">下载模板</a>
           </el-form-item>
           <el-form-item label="上传">
             <el-upload
@@ -76,7 +76,7 @@ export default {
       },
       baseUrl: process.env.VUE_APP_BASE_API,
       importDialog: {
-        visible: true,
+        visible: false,
         fileList: '',
         importLoading: false
       },
@@ -191,6 +191,7 @@ export default {
         this.$message.success("导入成功");
         this.importDialog.fileList = "";
         this.importDialog.importLoading = false;
+        this.importDialog.visible = false;
       } catch (err) {
         this.importDialog.importLoading = false;
       }

@@ -196,7 +196,7 @@ export default {
       try {
         row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
         let result = await updateParent(row)
-        console.log(result)
+        this.$message.success('更新成功')
         await this.resetList()
         done()
       } catch(err) {
@@ -209,6 +209,7 @@ export default {
       try {
         row.facePicFile = row.facePicFile&&row.facePicFile.length ? row.facePicFile[0].value : ''
         let result = await addParent(row)
+        this.$message.success('添加成功')
         await this.resetList()
         done()
       } catch(err) {

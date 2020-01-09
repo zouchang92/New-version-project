@@ -350,6 +350,7 @@ export default {
       try {
         row.name = row.roleName;
         let result = await updateRole(row);
+        this.$message.success('更新成功')
         await this.resetList();
         done();
       } catch (err) {
@@ -361,6 +362,7 @@ export default {
       try {
         row.name = row.roleName;
         let result = await addRole(row);
+        this.$message.success('添加成功')
         await this.resetList();
         done();
       } catch (err) {

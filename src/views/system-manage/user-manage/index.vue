@@ -309,6 +309,7 @@ export default {
         delete row.$organId
         row.photo = row.photo && row.photo.length ? row.photo[0].value : ''
         const result = await updateUser(row)
+        this.$message.success('更新成功')
         await this.resetList()
         done()
       } catch (err) {
@@ -323,6 +324,7 @@ export default {
         delete row.$organId
         row.photo = row.photo.length ? row.photo[0].value : ''
         const result = await addUser(row)
+        this.$message.success('添加成功')
         await this.resetList()
         done()
       } catch (err) {

@@ -44,7 +44,7 @@ export function updateComprehensiveHonor({id, studentNum, title, grade, ranking,
 
 export function importHonor(formData) {
   return request({
-    url: '/zhxyx/ryAward/export',
+    url: '/zhxyx/ryAward/import',
     method: 'post',
     data: formData
   })

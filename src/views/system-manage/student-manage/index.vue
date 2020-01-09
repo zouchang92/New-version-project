@@ -644,6 +644,7 @@ export default {
         : (row.facePicFile = "");
       try {
         const result = await updateStudent(row);
+        this.$message.success('更新成功')
         await this.resetList();
         done();
       } catch (err) {
@@ -663,7 +664,9 @@ export default {
         : (row.facePicFile = "");
       try {
         const result = await addStudent(row);
+        this.$message.success('添加成功')
         await this.resetList();
+        
         done();
       } catch (err) {
         loading(false);

@@ -174,7 +174,7 @@ export default {
             logo: data.logo ? '' : data.logo[0].url,
             schOrgTeacherDTOList
           })
-          this.$message.success('修改成功')
+          this.$message.success('更新成功')
         }
         this.modalParam.modalVisible = false
         await this.initList()

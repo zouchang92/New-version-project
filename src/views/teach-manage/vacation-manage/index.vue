@@ -107,6 +107,7 @@ export default {
       loading(true)
       try {
         const result = await updateVacation(row)
+        this.$message.success('更新成功')
         await this.resetList()
         done()
       } catch (err) {
@@ -117,6 +118,7 @@ export default {
       loading(true)
       try {
         const result = await addVacation(row)
+        this.$message.success('添加成功')
         await this.resetList()
         done()
       } catch (err) {

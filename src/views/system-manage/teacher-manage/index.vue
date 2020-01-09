@@ -378,6 +378,7 @@ export default {
       loading(true);
       try {
         let result = await updateTeacher(row);
+        this.$message.success('更新成功')
         await this.resetList();
         done();
       } catch (err) {
@@ -392,10 +393,11 @@ export default {
       row.credPhotoObve = row.credPhotoObve.length
         ? row.credPhotoObve[0].value
         : "";
-      console.log(row);
+      
       loading(true);
       try {
         let result = await addTeacher(row);
+        this.$message.success('添加成功')
         await this.resetList();
         done();
       } catch (err) {

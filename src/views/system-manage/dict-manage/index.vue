@@ -269,6 +269,7 @@ export default {
       const { id, parentId, name, sort } = data
       try {
         await updateDict({ id, name, sort, dict_id: parentId })
+        this.$message.success('更新成功')
         done()
       } catch(err) {
         

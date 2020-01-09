@@ -8,7 +8,7 @@
                 placeholder="输入关键字进行过滤"
                 v-model="filterText">
             </el-input>
-            <el-tree ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" node-key="id" :props="treeOption.props" :data="treeData">
+            <el-tree draggable :allow-drop="allowDrop" ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" node-key="id" :props="treeOption.props" :data="treeData">
               <span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
                 <span>
@@ -167,6 +167,9 @@ export default {
     this.queryAllBtns()
   },
   methods: {
+    allowDrop() {
+      return true
+    },
     async deleteMenu() {
       try {
         await this.$confirm('是否删除该菜单?', '提示', {
