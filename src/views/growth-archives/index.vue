@@ -238,7 +238,7 @@ export default {
           this.$refs.performance.getLesson()
         }
         if (this.activeName === 'third') {
-          this.$refs.child.get()
+          // this.$refs.child.get()
         }
         if (this.activeName === 'fourth') {
           this.$refs.getClubQueryAll.getClubQueryAll()

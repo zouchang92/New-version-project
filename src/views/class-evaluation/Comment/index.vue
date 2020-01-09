@@ -250,19 +250,11 @@ export default {
     async submitadd() {
       try {
         const reviewId = this.$route.query.list.statistical.reviewId
-        const teachingWay = this.value1
-        const teachingProgram = this.value2
-        const classStructure = this.value3
-        const importantPoints = this.value4
-        const teachingContent = this.value5
+        const itemDto = this.value1
         const operatorContent = this.textarea
         await evaluation({
           reviewId,
-          teachingWay,
-          teachingProgram,
-          classStructure,
-          importantPoints,
-          teachingContent,
+          itemDto,
           operatorContent
         })
         this.$refs.Newlist.get()
