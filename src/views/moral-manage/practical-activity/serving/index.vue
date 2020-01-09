@@ -57,6 +57,7 @@ export default {
           {
             label: '姓名',
             prop: 'studentName',
+            search:true,
             rules: [{
               required: true,
               message: '姓名'
