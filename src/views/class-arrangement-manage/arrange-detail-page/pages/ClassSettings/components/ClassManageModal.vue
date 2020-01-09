@@ -53,7 +53,7 @@ export default {
           {
             type: "array",
             required: true,
-            message: "负责人是必填项"
+            message: "负责人是必填项!"
           }
         ],
         orgTeachers: [
