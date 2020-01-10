@@ -32,13 +32,13 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   // {
-  //   path: '/Classroom',
+  //   path: '/classroom',
   //   component: Layout,
-  //   redirect: '/Classroom-assessment/index',
+  //   redirect: '/classroom-assessment/index',
   //   children: [
   //     {
   //       path: 'index',
-  //       component: () => import('@/views/Classroom-assessment/index'),
+  //       component: () => import('@/views/classroom-assessment/index'),
   //       name: '/Growth',
   //       meta: { title: '课堂评分', icon: 'guide', noCache: true }
   //     }

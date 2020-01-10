@@ -16,60 +16,125 @@
         >
           >
           <template slot="classMethod" slot-scope="scope">
-            <el-button type="text" @click="showResult(scope.row,scope.index)">点击查看</el-button>
+            <el-button type="text" @click="showResult(scope.row, scope.index)"
+              >点击查看</el-button
+            >
           </template>
           <template slot="classType" slot-scope="scope">
-            <el-button type="text" @click="showclass(scope.row,scope.index)">点击查看</el-button>
+            <el-button type="text" @click="showclass(scope.row, scope.index)"
+              >点击查看</el-button
+            >
           </template>
           <template slot="searchMenu">
-            <el-button type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
-            <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="small">批量删除</el-button>
+            <el-button
+              type="success"
+              icon="el-icon-plus"
+              size="small"
+              @click.stop="handleAdd()"
+              >新建</el-button
+            >
+            <el-button type="warning" icon="el-icon-download" size="small"
+              >导入</el-button
+            >
+            <el-button type="danger" icon="el-icon-delete" size="small"
+              >批量删除</el-button
+            >
           </template>
           <template slot="menu" slot-scope="scope">
             <el-button
               type="text"
               icon="el-icon-delete"
               size="small"
-              @click.stop="handledel(scope.row,scope.index)"
-            >删除</el-button>
+              @click.stop="handledel(scope.row, scope.index)"
+              >删除</el-button
+            >
           </template>
         </avue-crud>
       </div>
     </div>
     <template slot-scope="scope" slot="description">
       <div>
-        <input type="text" @click="vie(scope)">
+        <input type="text" @click="vie(scope)" />
       </div>
-   </template>
+    </template>
     <el-dialog title="社团课表" :visible.sync="dialogTableVisible">
-      <CourseTable
-            style="height:777px;"
-            :merge="true"
-            :course-time="courseTime"
-            :course-data="courseData"
-          />
+      <div class="class-table">
+        <div class="table-wrapper">
+          <div class="tabel-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>年级</th>
+                  <th v-for="(week, index) in weeks" :key="index">
+                    {{ "周" + digital2Chinese(index + 1, "week") }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody v-for="(week, index) in classTableData" :key="index">
+                <tr>
+                  <td>
+                    <p class="period">{{ week.orgId }}</p>
+                  </td>
+                  <td>
+                    <p class="period"></p>
+                  </td>
+                  <td>
+                    <p class="period"></p>
+                  </td>
+                  <td>
+                    <p class="period"></p>
+                  </td>
+                  <td>
+                    <p class="period"></p>
+                  </td>
+                  <td>
+                    <p class="period"></p>
+                  </td>
+                  <td>
+                    <p class="period"></p>
+                  </td>
+                  <td>
+                    <p class="period"></p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogTableVisible = false">取 消</el-button>
+        <el-button type="success">编辑</el-button>
+        <el-button type="primary" @click="dialogTableVisible = false"
+          >保存</el-button
+        >
+      </span>
     </el-dialog>
     <el-dialog title="人员名单" :visible.sync="dialogTableVisible1">
-      
     </el-dialog>
   </div>
 </template>
 <script>
-import tableCommon from '@/mixins/table-common.js'
-import { queryClub, addClub, delClub, getIdClub, updateClub, stTimetable } from '@/api/communityApi.js'
-import { getOrgan, getDictById } from '@/utils'
-import PersonnelManagement from './PersonnelManagement'
-import tinymce from '@/components/Tinymce/index'
-import CourseTable from '../../../components/CourseTable/index'
+import tableCommon from "@/mixins/table-common.js";
+import {
+  queryClub,
+  addClub,
+  delClub,
+  getIdClub,
+  updateClub,
+  stTimetable
+} from "@/api/communityApi.js";
+import { getOrgan, getDictById } from "@/utils";
+import PersonnelManagement from "./PersonnelManagement";
+import CourseTable from "@/components/CourseTable/index";
 
 export default {
-  name: 'Management1',
+  name: "Management1",
   omponents: {
     PersonnelManagement,
     CourseTable
   },
-  inject: ['reload'],
+  inject: ["reload"],
   mixins: [tableCommon],
   data() {
     return {
@@ -78,96 +143,104 @@ export default {
       dialogTableVisible1: false,
       option: {
         selection: true,
-        align: 'center',
+        align: "center",
         delBtn: false,
-        menuAlign: 'center',
+        menuAlign: "center",
         column: [
           {
-            label: 'id',
-            prop: 'id',
+            label: "id",
+            prop: "id",
             hide: true,
             addDisplay: false,
             editDisplay: false
           },
           {
-            label: '学期',
-            prop: 'semesterId',
-            type: 'select',
+            label: "学期",
+            prop: "semesterId",
+            type: "select",
             search: true,
-            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/semester/queryAll',
-            dicMethod: 'post',
+            dicUrl: process.env.VUE_APP_BASE_API + "/zhxyx/semester/queryAll",
+            dicMethod: "post",
             dicQuery: {
               page: 1,
               rows: 100000
             },
             props: {
-              res: 'data.list',
-              label: 'name',
-              value: 'name'
+              res: "data.list",
+              label: "name",
+              value: "name"
             },
-            rules: [{
-              required: true,
-              message: '学期'
-            }]
+            rules: [
+              {
+                required: true,
+                message: "学期"
+              }
+            ]
           },
           {
-            label: '社团名称',
-            prop: 'name',
+            label: "社团名称",
+            prop: "name",
             search: true,
-            rules: [{
-              required: true,
-              message: '社团名称'
-            }]
+            rules: [
+              {
+                required: true,
+                message: "社团名称"
+              }
+            ]
           },
           {
-            label: '社团成立时间',
-            prop: 'initTime',
-            type: 'date',
-            format: 'yyyy-MM-dd',
+            label: "社团成立时间",
+            prop: "initTime",
+            type: "date",
+            format: "yyyy-MM-dd",
             hide: true
           },
           {
-            label: '负责人',
-            prop: 'person',
-            rules: [{
-              required: true,
-              message: '负责人'
-            }]
+            label: "负责人",
+            prop: "person",
+            rules: [
+              {
+                required: true,
+                message: "负责人"
+              }
+            ]
           },
           {
-            label: '适用年级',
-            prop: 'studentOrgName',
-            type: 'tree',
-            multiple:true,
+            label: "适用年级",
+            prop: "studentOrgName",
+            type: "tree",
+            multiple: true,
             width: 150,
             dicData: getOrgan(),
             props: {
-              label: 'orgName',
-              value: 'id'
+              label: "orgName",
+              value: "orgName"
             },
-            rules: [{
-              required: true,
-              message: '适用年级'
-            }]
+            rules: [
+              {
+                required: true,
+                message: "适用年级"
+              }
+            ]
           },
           {
-            label: '社团课表',
-            prop: 'classMethod',
+            label: "社团课表",
+            prop: "classMethod",
             formslot: true,
             slot: true
           },
           {
-            label: '人员名单',
-            prop: 'classType',
+            label: "人员名单",
+            prop: "classType",
             formslot: true,
             slot: true
           },
           {
-            label: '社团简介',
-            type: 'textarea',
-            component: 'rich-text',
-            prop: 'description',
-            span:24
+            label: "社团简介",
+            type: "textarea",
+            component: "rich-text",
+            prop: "description",
+            span: 24
           }
         ]
       },
@@ -179,203 +252,113 @@ export default {
       searchForm: {},
       tableData: [],
       form: {},
-      courseTime: [
-        {
-          lessonN: 2,
-          weekN: 1498,
-          endtime: 3173253239395,
-          id: 'fD5',
-          starttime: 2976655741205,
-          orgId: 'ncNEdUd'
-        },
-        {
-          lessonN: 1,
-          weekN: 1498,
-          endtime: 3173253239395,
-          id: 'fD5',
-          starttime: 2976655741205,
-          orgId: 'ncNEdUd'
-        },
-        {
-          lessonN: 3,
-          weekN: 1498,
-          endtime: 3173253239395,
-          id: 'fD5',
-          starttime: 2976655741205,
-          orgId: 'ncNEdUd'
-        },
-        {
-          lessonN: 4,
-          weekN: 1498,
-          endtime: 3173253239395,
-          id: 'fD5',
-          starttime: 2976655741205,
-          orgId: 'ncNEdUd'
-        },
-        {
-          lessonN: 5,
-          weekN: 1498,
-          endtime: 3173253239395,
-          id: 'fD5',
-          starttime: 2976655741205,
-          orgId: 'ncNEdUd'
-        },
-        {
-          lessonN: 6,
-          weekN: 1498,
-          endtime: 3173253239395,
-          id: 'fD5',
-          starttime: 2976655741205,
-          orgId: 'ncNEdUd'
-        },
-        {
-          lessonN: 7,
-          weekN: 1498,
-          endtime: 3173253239395,
-          id: 'fD5',
-          starttime: 2976655741205,
-          orgId: 'ncNEdUd'
-        },
-        {
-          lessonN: 8,
-          weekN: 1498,
-          endtime: 3173253239395,
-          id: 'fD5',
-          starttime: 2976655741205,
-          orgId: 'ncNEdUd'
-        }
+      weeks: [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
       ],
-       courseData: [
-        {
-          lessonN: 2,
-          weekN: 1,
-          classId: '5SFmmlBTh',
-          courseName: '大学英语(Ⅳ)@10203',
-          teacherId: 'sBb',
-          teacherName: '老师名称',
-          classroomName: '教室1',
-          days: 901482848872,
-          classroomId: 'P16ws',
-          className: '班级1',
-          courseId: 'RrG1'
-        },
-        {
-          lessonN: 3,
-          weekN: 1,
-          classId: '5SFmmlBTh',
-          courseName: '大学英语(Ⅳ)@10203',
-          teacherId: 'sBb',
-          teacherName: '老师名称1',
-          classroomName: '教室2',
-          days: 901482848872,
-          classroomId: 'P16ws',
-          className: '班级1',
-          courseId: 'RrG1'
-        },
-        {
-          lessonN: 2,
-          weekN: 5,
-          classId: '5SFmmlBTh',
-          courseName: '模拟电子技术基础@16204',
-          teacherId: 'sBb',
-          teacherName: '老师名称2',
-          classroomName: '教室3',
-          days: 901482848872,
-          classroomId: 'P16ws',
-          className: '班级2',
-          courseId: 'RrG'
-        },
-        {
-          lessonN: 3,
-          weekN: 5,
-          classId: '5SFmmlBTh',
-          courseName: '电路、信号与系统实验',
-          teacherId: 'sBb',
-          teacherName: '老师名称3',
-          classroomName: '教室4',
-          days: 901482848872,
-          classroomId: 'P16ws',
-          className: '班级2',
-          courseId: 'RrG'
-        }
-      ]
-    }
+      classTableData: []
+    };
   },
   created() {
-    this.get()
+    this.get();
   },
   methods: {
     handleAdd() {
-      this.$refs.crud.rowAdd()
+      this.$refs.crud.rowAdd();
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val
-      console.log(val)
+      this.multipleSelection = val;
+      console.log(val);
     },
     async get() {
       try {
-        const page = 1
-        const rows = 10000
-        const List = await queryClub({ page, rows })
-        this.tableList = List.data.list
-        console.log(this.tableList)
+        const page = 1;
+        const rows = 10000;
+        const List = await queryClub({ page, rows });
+        this.tableList = List.data.list;
+        console.log(this.tableList);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
     async rowSave(form, done, loading) {
-      loading(true)
-      console.log(form)
+      loading(true);
+      console.log(form);
       try {
-        await addClub(form)
-        await this.resetList()
-        done()
+        await addClub(form);
+        await this.resetList();
+        done();
       } catch (err) {
-        console.log(123)
-        loading(false)
+        console.log(123);
+        loading(false);
       }
     },
     async rowUpdate(row, index, done, loading) {
-      loading(true)
+      loading(true);
       try {
-        const result = await updateClub(row)
-        console.log(result)
-        await this.resetList()
-        done()
+        const result = await updateClub(row);
+        console.log(result);
+        await this.resetList();
+        done();
       } catch (err) {
-        console.log(err)
-        loading(false)
+        console.log(err);
+        loading(false);
       }
     },
     async showResult(row, index) {
-      this.dialogTableVisible = true
+      this.dialogTableVisible = true;
       // console.log(row, index)
-      const clubId = row.id
-      console.log(row.id)
+      const clubId = row.id;
+      console.log(row.id);
       try {
-        const result = await stTimetable({ clubId })
-        this.courseData = result.data.timetables
-        console.log(result)
+        const result = await stTimetable({ clubId });
+        this.classTableData = result.data;
+        console.log(result);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
     async handledel(row, index, loading) {
-      const ids = row.id
+      const ids = row.id;
       try {
-        await delClub({ ids })
-        await this.resetList()
+        await delClub({ ids });
+        await this.resetList();
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
-    showclass(row,index){
-      this.dialogTableVisible1 = true
+    showclass(row, index) {
+      this.dialogTableVisible1 = true;
+    },
+    digital2Chinese(num, identifier) {
+      const character = [
+        "零",
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六",
+        "七",
+        "八",
+        "九",
+        "十",
+        "十一",
+        "十二"
+      ];
+      return identifier === "week" && (num === 0 || num === 7)
+        ? "日"
+        : character[num];
     }
   }
-}
+};
 </script>
-<style lang='scss' scpoed>
+<style lang="scss" scpoed>
 .Management {
   .title {
     margin: 15px;
@@ -412,6 +395,51 @@ export default {
     }
   }
 }
+.class-table {
+  .table-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+  .tabel-container {
+    margin: 7px;
+
+    table {
+      table-layout: fixed;
+      width: 100%;
+
+      thead {
+        background-color: #67a1ff;
+        th {
+          color: #fff;
+          line-height: 17px;
+          font-weight: normal;
+        }
+      }
+      tbody {
+        background-color: #eaf2ff;
+        td {
+          color: #677998;
+          line-height: 12px;
+        }
+      }
+      th,
+      td {
+        width: 60px;
+        padding: 12px 2px;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      tr td:first-child {
+        color: #333;
+        .period {
+          font-size: 8px;
+        }
+      }
+    }
+  }
+}
 </style>
 <style>
 .Management .title .el-input__inner {
@@ -421,7 +449,7 @@ export default {
 .Management .title .el-input__suffix {
   top: 4px;
 }
-.Management .v-modal{
-  z-index: 1990 !important
+.Management .v-modal {
+  z-index: 1990 !important;
 }
 </style>

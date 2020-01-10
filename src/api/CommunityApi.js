@@ -18,12 +18,12 @@ export function updateClub({ id, person, name, orgIds }) {
     }
   })
 }
-export function addClub({ person, name, initTime, orgIds, description }) {
+export function addClub({ person, name, initTime, studentOrgName, orgIds, description }) {
   return request({
     url: '/zhxyx/stClub/add',
     method: 'post',
     data: {
-      person, name, initTime, orgIds, description
+      person, name, initTime, studentOrgName, orgIds, description
     }
   })
 }
