@@ -13,8 +13,10 @@
           @row-update="rowUpdate"
           @selection-change="selectionChange"
         >
+        <template slot="searchMenu">
+              <el-button v-if="false" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
+        </template>
           <template slot="menu" slot-scope="scope">
-            <el-button v-if="false" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
             <el-button
               type="text"
               icon="el-icon-delete"
@@ -46,6 +48,7 @@ export default {
         selection: true,
         align: 'center',
         menuAlign: 'center',
+        delBtn: false,
         column: [
           {
             label: 'id',

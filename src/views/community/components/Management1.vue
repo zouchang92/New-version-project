@@ -57,13 +57,11 @@
 </template>
 <script>
 import tableCommon from '@/mixins/table-common.js'
-// eslint-disable-next-line no-unused-vars
 import { queryClub, addClub, delClub, getIdClub, updateClub, stTimetable } from '@/api/communityApi.js'
-// eslint-disable-next-line no-unused-vars
 import { getOrgan, getDictById } from '@/utils'
 import PersonnelManagement from './PersonnelManagement'
 import tinymce from '@/components/Tinymce/index'
-import CourseTable from '@/components/CourseTable'
+import CourseTable from '../../../components/CourseTable/index'
 
 export default {
   name: 'Management1',
@@ -247,7 +245,60 @@ export default {
           orgId: 'ncNEdUd'
         }
       ],
-      courseData: []
+       courseData: [
+        {
+          lessonN: 2,
+          weekN: 1,
+          classId: '5SFmmlBTh',
+          courseName: '大学英语(Ⅳ)@10203',
+          teacherId: 'sBb',
+          teacherName: '老师名称',
+          classroomName: '教室1',
+          days: 901482848872,
+          classroomId: 'P16ws',
+          className: '班级1',
+          courseId: 'RrG1'
+        },
+        {
+          lessonN: 3,
+          weekN: 1,
+          classId: '5SFmmlBTh',
+          courseName: '大学英语(Ⅳ)@10203',
+          teacherId: 'sBb',
+          teacherName: '老师名称1',
+          classroomName: '教室2',
+          days: 901482848872,
+          classroomId: 'P16ws',
+          className: '班级1',
+          courseId: 'RrG1'
+        },
+        {
+          lessonN: 2,
+          weekN: 5,
+          classId: '5SFmmlBTh',
+          courseName: '模拟电子技术基础@16204',
+          teacherId: 'sBb',
+          teacherName: '老师名称2',
+          classroomName: '教室3',
+          days: 901482848872,
+          classroomId: 'P16ws',
+          className: '班级2',
+          courseId: 'RrG'
+        },
+        {
+          lessonN: 3,
+          weekN: 5,
+          classId: '5SFmmlBTh',
+          courseName: '电路、信号与系统实验',
+          teacherId: 'sBb',
+          teacherName: '老师名称3',
+          classroomName: '教室4',
+          days: 901482848872,
+          classroomId: 'P16ws',
+          className: '班级2',
+          courseId: 'RrG'
+        }
+      ]
     }
   },
   created() {
