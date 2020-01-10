@@ -11,7 +11,9 @@ const state = {
   photo: '', 
   token: getToken(), 
   userName: '',
-  roles: ''
+  roles: '',
+  organId: '',
+  personType: ''
 }
 
 const mutations = {
@@ -34,9 +36,11 @@ const mutations = {
     state.token = ''
     state.userName = '',
     state.roles = ''
+    state.organId = ''
+    state.personType = ''
   },
   SET_USERINFO: (state, userInfo) => {
-    const { credNum, gender, id, loginName, phone, photo, token, userName } = userInfo
+    const { credNum, gender, id, loginName, phone, photo, token, userName, organId, personType } = userInfo
     localStorage.setItem('userInfo', JSON.stringify(userInfo))
     state.userName = userName
     state.token = token
@@ -46,6 +50,8 @@ const mutations = {
     state.credNum = credNum
     state.gender = gender
     state.id = id
+    state.organId = organId
+    state.personType = personType
   }
 }
 
