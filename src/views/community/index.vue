@@ -5,7 +5,7 @@
         <div><CommunityPage ref="first" @ee='more' @Management="moreManagement" @Personnel="morePersonnel" name="CommunityPage"/></div>
       </el-tab-pane>
       <el-tab-pane label="社团管理" name="second">
-        <div><Management1 name="Management1"/></div>
+        <div><Management1 name="Management1" @Personnel="morePersonnel"/></div>
       </el-tab-pane>
       <el-tab-pane label="活动管理" name="third">
         <div><ActivityManagement name="ActivityManagement"/></div>

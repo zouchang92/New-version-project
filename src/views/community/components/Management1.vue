@@ -110,8 +110,6 @@
         >
       </span>
     </el-dialog>
-    <el-dialog title="人员名单" :visible.sync="dialogTableVisible1">
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -333,7 +331,9 @@ export default {
       }
     },
     showclass(row, index) {
-      this.dialogTableVisible1 = true;
+      // this.dialogTableVisible1 = true;
+      console.log(123)
+      this.$emit('Personnel')
     },
     digital2Chinese(num, identifier) {
       const character = [
