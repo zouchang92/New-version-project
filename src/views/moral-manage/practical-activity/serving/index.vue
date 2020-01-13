@@ -13,9 +13,6 @@
           @row-update="rowUpdate"
           @selection-change="selectionChange"
         >
-        <template slot="searchMenu">
-              <el-button v-if="false" type="success" @click.stop="handleAdd()" icon="el-icon-plus" size="small">新建</el-button>
-        </template>
           <template slot="menu" slot-scope="scope">
             <el-button
               type="text"
@@ -32,6 +29,8 @@
 <script>
 import { duty, delduty, editDuty } from '@/api/growthArchivesApi'
 import tableCommon from '@/mixins/table-common.js'
+import { getOrgan, getDictById } from '@/utils'
+const ServingType = getDictById('servingType')
 export default {
   mixins: [tableCommon],
   data() {
@@ -84,7 +83,9 @@ export default {
           },
           {
             label: '工作表现',
+            type: 'select',
             prop: 'dutyComment',
+            dicData: ServingType,
             rules: [{
               required: true,
               message: '工作表现'
@@ -153,20 +154,16 @@ export default {
       this.$message.success('选中的数据' + JSON.stringify(list))
     },
     cellStyle({ row, column, rowIndex, columnIndex }) {
-      // eslint-disable-next-line eqeqeq
-      if (columnIndex == 4) {
-        // eslint-disable-next-line eqeqeq
-        if (row.dutyComment == '优秀') {
+      if (columnIndex === 4) {
+        if (row.dutyComment == '0') {
           return {
             color: 'red'
           }
-        // eslint-disable-next-line eqeqeq
-        } else if (row.dutyComment == '良好') {
+        } else if (row.dutyComment == '1') {
           return {
             color: '#1890FF'
           }
-        // eslint-disable-next-line eqeqeq
-        } else if (row.dutyComment == '一般') {
+        } else if (row.dutyComment == '2') {
           return {
             color: '#000'
           }
@@ -179,6 +176,7 @@ export default {
     },
     async handledel(row, index, loading) {
       const id = row.id
+      console.log(row.dutyComment)
       try {
         await delduty({ id })
         this.get()
