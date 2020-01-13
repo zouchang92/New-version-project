@@ -1,12 +1,16 @@
 <template>
   <div>
-    22
+    <flow-panel></flow-panel>
   </div>
 </template>
 
 <script>
+import FlowPanel from '@/components/NodeFlow/NodePanel'
 export default {
-  name: 'processList'
+  name: 'processList',
+  components: {
+    FlowPanel
+  }
 }
 </script>
 
