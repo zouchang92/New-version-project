@@ -121,9 +121,16 @@ export default {
           addDisplay: false,
           editDisplay: false,
         }, {
+          label: '所属机构',
+          prop: 'orgName',
+          addDisplay: false,
+          editDisplay: false,
+          search: true,
+        }, {
           label: '学生',
           prop: 'stuDtos',
           formslot: true,
+          hide: true,
           span: 24,
           rules: [{
             type: 'array',
@@ -144,19 +151,12 @@ export default {
           prop: 'absenteeismDate',
           type: 'datetime',
           search: true,
-          valueFormat: 'yyyy-MM-DD',
-          format: 'yyyy-MM-DD',
+          valueFormat: 'yyyy-MM-dd',
+          format: 'yyyy-MM-dd',
           rules: [{
             required: true,
             message: '缺勤日期是必填项'
           }]
-        }, {
-          label: '所在班级',
-          prop: 'orgName',
-          search: true,
-          addDisplay: false,
-          editDisplay: false,
-          viewDisplay: false
         }]
       },
       obj: {

@@ -92,3 +92,11 @@ export function undoBreachs(ids) {
     }
   })
 }
+
+export function importBreach(formData) {
+  return request({
+    url: '/zhxyx/discipline/importExcel',
+    method: 'post',
+    data: formData
+  })
+}
