@@ -33,7 +33,7 @@ export function updateBuilding({ id, buildingNo, buildingName, buildingType = ''
     data: {
       id,
       buildingNo, 
-      buildingName, 
+      buildingName,
       buildingType
     }
   })

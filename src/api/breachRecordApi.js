@@ -17,7 +17,7 @@ export function queryBreachRecord({ page, rows, absenteeismDate, type, orgCode, 
 
 export function addBreachRecord({
   semesterName,
-  orgCode,
+  orgName,
   stuNum,
   stuName,
   discipline,
@@ -31,7 +31,7 @@ export function addBreachRecord({
     method: 'post',
     data: {
       semesterName,
-      orgCode,
+      orgName,
       stuNum,
       stuName,
       discipline,
@@ -46,7 +46,7 @@ export function addBreachRecord({
 export function updateBreachRecord({
   id,
   semesterName,
-  orgCode,
+  orgName,
   stuNum,
   stuName,
   discipline,
@@ -61,7 +61,7 @@ export function updateBreachRecord({
     data: {
       id,
       semesterName,
-      orgCode,
+      orgName,
       stuNum,
       stuName,
       discipline,

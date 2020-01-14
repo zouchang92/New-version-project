@@ -134,7 +134,12 @@ export default {
           children: {
             column: [{
               label: 'id',
-              prop: 'id',
+              prop: 'itemId',
+              type: 'input',
+              hide: true,
+            }, {
+              label: 'healthId',
+              prop: 'healthId',
               type: 'input',
               hide: true,
             }, {
