@@ -18,7 +18,9 @@
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
+import { getDictById } from '@/utils'
 import { queryBuilding, addBuilding, updateBuilding, deleteBuilding } from '@/api/buildingManageApi'
+const buildingTypeDict = getDictById('buildingType')
 export default {
   name: 'buildingManage',
   data() {
@@ -48,6 +50,16 @@ export default {
             required: true,
             message: '楼栋编号为必填项'
           }],
+          search: true
+        }, {
+          label: '楼栋类型',
+          prop: 'buildingType',
+          type: 'select',
+          rules: [{
+            required: true,
+            message: '楼栋类型为必填项'
+          }],
+          dicData: buildingTypeDict,
           search: true
         }]
       },

@@ -247,6 +247,8 @@ export default {
       }
     },
     async rowUpdate(row, index, done, loading) {
+      const orgs = row.$orgCode.split('/')
+      row.orgName = orgs[orgs.length - 1]
       row.disciplinePic ? row.disciplinePic = row.disciplinePic.map(n => n.value).join(',') : ''
       loading(true)
       try {
@@ -260,6 +262,8 @@ export default {
       }
     },
     async rowSave(row, done, loading) {
+      const orgs = row.$orgCode.split('/')
+      row.orgName = orgs[orgs.length - 1]
       row.disciplinePic ? row.disciplinePic = row.disciplinePic.map(n => n.value).join(',') : ''
       loading(true)
       try {

@@ -1,28 +1,29 @@
 import request from '@/utils/request'
 
-export function querySthClassroom({page, rows, roomNo, roomType, status}) {
+export function querySthClassroom({page, rows, roomName, roomType, status}) {
   return request({
     url: '/zhxyx/schClassroom/list',
     method: 'post',
     data: {
       page,
       rows,
-      roomNo,
+      roomName,
       roomType,
       status
     }
   })
 }
 
-export function insertSthClassroom({ roomNo, address, roomType, buildingNo, floorNo, studentQty, status }) {
+export function insertSthClassroom({ roomName, address, roomType, buildingId, roomNo, floorNo, studentQty, status }) {
   return request({
     url: '/zhxyx/schClassroom/insert',
     method: 'post',
     data: {
-      roomNo,
+      roomName,
       address,
       roomType,
-      buildingNo,
+      buildingId,
+      roomNo,
       floorNo,
       studentQty,
       status
@@ -30,16 +31,17 @@ export function insertSthClassroom({ roomNo, address, roomType, buildingNo, floo
   })
 }
 
-export function updateSthClassroom({ id, roomNo, address, roomType, buildingNo, floorNo, studentQty, status }) {
+export function updateSthClassroom({ id, roomName, buildingId, roomNo, address, roomType, floorNo, studentQty, status }) {
   return request({
     url: '/zhxyx/schClassroom/update',
     method: 'post',
     data: {
       id, 
-      roomNo, 
+      roomName,
+      buildingId,
+      roomNo,
       address, 
       roomType, 
-      buildingNo, 
       floorNo, 
       studentQty, 
       status
