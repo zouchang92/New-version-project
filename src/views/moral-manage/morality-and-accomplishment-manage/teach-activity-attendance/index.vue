@@ -49,7 +49,7 @@
             <a style="color: blue" :href="`${baseUrl}/zhxyx/res/mod/morality_attendance.xlsx`">下载模板</a>
           </el-form-item>
           <el-form-item label="班级">
-            <el-tree-select ref="treeSelect" :treeParams="treeParams" v-model="importDialog.orgCode"/>
+            <el-tree-select ref="treeSelect" :treeParams="treeParams" v-model="importDialog.orgName"/>
           </el-form-item>
           <el-form-item label="上传">
             <el-upload
@@ -97,12 +97,12 @@ export default {
         visible: false,
         fileList: [],
         importLoading: false,
-        orgCode: ''
+        orgName: ''
       },
       treeParams: {
         props: {
           label: "orgName",
-          value: "id"
+          value: "orgName"
         },
         data: getOrgan()
       },
@@ -174,9 +174,9 @@ export default {
         ...this.obj,
         stuDtos: data.data.map((n) => {
           return {
-            stuName: n.userName,
-            stuNum: n.loginName,
-            orgCode: n.organId
+            stuName: n.label,
+            stuNum: n.value,
+            orgName: n.orgName
           }
         })
       }
@@ -185,7 +185,7 @@ export default {
       this.importDialog.fileList = e.raw;
     },
     async importAttendance() {
-      const { fileList, orgCode } = this.importDialog
+      const { fileList, orgName } = this.importDialog
       this.importDialog.importLoading = true;
       if (!this.importDialog.fileList) {
         this.$confirm("请选择文件", "提示", {
@@ -199,7 +199,7 @@ export default {
       try {
         const formData = new FormData();
         formData.append('file', fileList);
-        formData.append('orgCode', orgCode)
+        formData.append('orgName', orgName)
         const res = await importAttendance(formData);
         await this.resetList();
         this.$refs.upload.clearFiles();
@@ -216,7 +216,8 @@ export default {
         visible: true,
         selectedMember: this.obj.stuDtos ? this.obj.stuDtos.map((n) => ({
           label: n.stuName,
-          value: n.stuNum
+          value: n.stuNum,
+          orgName: n.orgName
         })) : []
       }
     },

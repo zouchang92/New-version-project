@@ -8,13 +8,10 @@
             <el-form-item label="名称">
                 <el-input v-model="node.name"></el-input>
             </el-form-item>
-            <el-form-item label="left坐标">
-                <el-input v-model="node.left"></el-input>
+            <el-form-item label="审批人">
+                <el-input v-model="node.ico"></el-input>
             </el-form-item>
-            <el-form-item label="top坐标">
-                <el-input v-model="node.top"></el-input>
-            </el-form-item>
-            <el-form-item label="ico图标">
+            <el-form-item label="审批条件">
                 <el-input v-model="node.ico"></el-input>
             </el-form-item>
         </el-form>

@@ -13,12 +13,13 @@ export function querySportEvaluate({ page, rows, studentName, assessName }) {
   })
 }
 
-export function addSportEvaluate({ assessName, assessScore, assessTime, studentNo, studentName }) {
+export function addSportEvaluate({ className, assessName, assessScore, assessTime, studentNo, studentName }) {
   return request({
     url: '/zhxyx/stuSportAssess/insert',
     method: 'post',
     data: {
-      assessName, 
+      className,
+      assessName,
       assessScore, 
       assessTime, 
       studentNo, 

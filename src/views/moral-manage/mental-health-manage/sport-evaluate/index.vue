@@ -103,14 +103,8 @@ export default {
           disabled: true,
         }, {
           label: '所属班级',
-          prop: 'classId',
+          prop: 'className',
           disabled: true,
-          dicData: getOrgan(),
-          type: 'tree',
-          props: {
-            label: 'orgName',
-            value: 'id'
-          },
           rules: [{
             required: true,
             message: '所属班级是必填项'
@@ -155,7 +149,7 @@ export default {
         ...this.obj,
         studentName: data.data[0].userName,
         studentNo: data.data[0].value,
-        classId: data.data[0].organId
+        className: data.data[0].orgName
       }
     },
     handleChange(e) {

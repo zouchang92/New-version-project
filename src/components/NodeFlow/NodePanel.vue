@@ -378,13 +378,10 @@
               const fromLines = lodash.filter(lineList, n => n.from === from) // 该节点连接了多少个节点
               const toLines = lodash.filter(lineList, n => n.to === from) // 有多少节点连接了该节点
               const isAttatchToStart = this.isAttatchToStart(from) //是否连接到开始节点
-              if (type === 'start' && fromLines.length === 0) {
+              if (type === 'start') {
                 return true
               } 
-              if (isAttatchToStart) {
-                return true
-              }
-              if (!isAttatchToStart && fromLines.length === 0) {
+              if (fromLines.length === 0) {
                 return true
               }
               return false
@@ -411,15 +408,101 @@
                 this.menu.left = evt.x + 'px'
                 this.menu.top = evt.y + 'px'
             },
+            getNodeData(data) {
+              const startId = this.getUUID()
+              const nodeList = lodash.chain(data).flattenDeep().map(n => ({
+                  ...n,
+                  id: n.id,
+                  name: n.taskName,
+                  type: 'flow',
+                  ico: 'el-icon-video-play',
+                  show: true,
+                  top: '0px',
+                  left: '0px'
+              })).concat({
+                id: startId,
+                name: '开始',
+                top: '0px',
+                left: '0px',
+                type: 'start',
+                ico: 'el-icon-video-play',
+                show: true,
+              }).value()
+              
+              const lineList = lodash.reduce(nodeList, (result, value, key) => {
+                if (value.type === 'start') {
+                  return result
+                }
+                if (!value.parentId) {
+                  result.push({
+                    from: startId,
+                    to: value.id
+                  })
+                } else {
+                  let parents = value.parentId.split(',')
+                  lodash.forEach(parents, n => {
+                    result.push({
+                      from: n,
+                      to: value.id
+                    })
+                  })
+                }
+                return result
+              }, [])
+              return {nodeList, lineList}
+            },
             // 加载流程图
             dataReload(data) {
+                const s = {
+                  "flowTaskDTO":[
+                  [
+                    {
+                      "id":"1",
+                      "parentId":"",
+                      "taskType":"1",
+                      "taskName":"一级审批"
+                    },
+                    {
+                      "id":"2",
+                      "parentId":"",
+                      "taskType":"2",
+                      "taskName":"一级审批"
+                    },
+                    {
+                      "id":"3",
+                      "parentId":"",
+                      "taskType":"3",
+                      "taskName":"一级审批"
+                    }
+                  ],
+                  [
+                    { 
+                      "id":"4",
+                      "parentId":"1,2",
+                      "taskType":"1,2",
+                      "taskName":"二级审批",
+                      "rules":"<=3"
+                    }
+                  ],
+                [
+                  {
+          "id":"5",
+             "parentId":"4",
+                "taskType":"1,2",
+                "taskName":"三级审批",
+                "rules":">3"
+            }
+        ]
+    ],
+ "flowId":"QQRFHDY0O9C1L3GGRVNMEMVSVONLJNX9"
+}
+                this.getNodeData(s.flowTaskDTO)
                 this.easyFlowVisible = false
-                this.data.nodeList = []
-                this.data.lineList = []
+                this.data = this.getNodeData(s.flowTaskDTO)
                 this.$nextTick(() => {
                     data = lodash.cloneDeep(data)
                     this.easyFlowVisible = true
-                    this.data = data
+                    //this.data = data
                     this.$nextTick(() => {
                         this.jsPlumb = jsPlumb.getInstance()
                         this.$nextTick(() => {
