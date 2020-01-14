@@ -4,17 +4,19 @@
       <avue-crud
         ref="crud"
         v-model="obj"
-        :data="tableList"
+        :data="tabledata"
         :option="option"
         :page="page"
         :table-loading="tableListLoading"
         @search-change="searchChange"
+        @row-update="rowUpdate"
       >
         <template slot="score" slot-scope="scope">
           <el-rate
-            :v-model="scope.score"
+            v-model="scope.row.score"
             disabled
             text-color="#ff9900"
+            @change="handelclick(scope.row)"
           >
           </el-rate>
         </template>
@@ -41,6 +43,12 @@ const genderDict = getDictById("gender");
 
 export default {
   mixins: [tableCommon],
+  filters: {
+    formatMS(fen) {
+      var yuan = fen / 100.0;
+      return yuan.toFixed(2);
+    }
+  },
   data() {
     return {
       fn: getStudentScore,
@@ -51,6 +59,8 @@ export default {
       },
       searchForm: {},
       tableList: [],
+      tabledata: [],
+      value: "",
       option: {
         selection: true,
         align: "center",
@@ -153,7 +163,8 @@ export default {
           {
             label: "活动表现",
             prop: "score",
-            slot: true
+            slot: true,
+            width: 150
           },
           {
             label: "表现分值",
@@ -164,14 +175,47 @@ export default {
     };
   },
   created() {
-      
+    this.get();
   },
-  mounted() {
-      
-  },
+  mounted() {},
   methods: {
     handleAdd() {
       this.$refs.crud.rowAdd();
+    },
+    async get() {
+      try {
+        const page = 1;
+        const rows = 10000;
+        const a = await getStudentScore({ page, rows });
+        this.tabledata = a.data.list;
+        for(let i=0;i<this.tabledata.length;i++){
+            console.log(this.tabledata[i].score)
+            if(this.tabledata[i].score <= 20){
+                this.tabledata[i].score = 1
+            }else if(this.tabledata[i].score <= 40 && this.tabledata[i].score >= 20){
+                this.tabledata[i].score = 2
+            }else if(this.tabledata[i].score <= 60 && this.tabledata[i].score >= 40){
+                this.tabledata[i].score = 3
+            }else if(this.tabledata[i].score <= 80 && this.tabledata[i].score >= 60){
+                this.tabledata[i].score = 4
+            }else if(this.tabledata[i].score <= 100 && this.tabledata[i].score >= 80){
+                this.tabledata[i].score = 5
+            }
+        }
+        console.log(this.tabledata);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async rowUpdate(row, index, done, loading) {
+      loading(true);
+      try {
+        const result = await updateStudentScore(row);
+        await this.resetList();
+        done();
+      } catch (err) {
+        loading(false);
+      }
     }
   }
 };

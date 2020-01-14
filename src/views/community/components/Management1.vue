@@ -237,8 +237,8 @@ export default {
             label: "社团简介",
             type: "textarea",
             component: "rich-text",
-            prop: "description",
-            span: 24
+            span: 24,
+            prop: "description"
           }
         ]
       },
