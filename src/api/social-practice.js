@@ -27,7 +27,7 @@ export function updatePractice({ id, memo  }) {
       }
     })
 }
-export function delPractice({ id  }) {
+export function delPractice( id ) {
     return request({
       url: '/zhxyx/sjPractice/delete',
       method: 'post',
@@ -36,7 +36,7 @@ export function delPractice({ id  }) {
       }
     })
 }
-export function delsPractice({ ids  }) {
+export function delsPractice( ids ) {
     return request({
       url: '/zhxyx/sjPractice/deletes',
       method: 'post',
