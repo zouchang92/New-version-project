@@ -13,7 +13,7 @@ export function queryPhysicalRecord({ page, rows,  }) {
 }
 
 export function addPhysicalRecord({ 
-  orgId,
+  orgName,
   stuNum,
   stuName,
   checkDate,
@@ -24,7 +24,7 @@ export function addPhysicalRecord({
     url: '/zhxyx/health/insertStuHealth',
     method: 'post',
     data: {
-      orgId,
+      orgName,
       stuNum,
       stuName,
       checkDate,
@@ -36,7 +36,7 @@ export function addPhysicalRecord({
 
 export function updatePhysicalRecord({ 
   id,
-  orgId,
+  orgName,
   stuNum,
   stuName,
   checkDate,
@@ -48,7 +48,7 @@ export function updatePhysicalRecord({
     method: 'post',
     data: {
       id,
-      orgId,
+      orgName,
       stuNum,
       stuName,
       checkDate,

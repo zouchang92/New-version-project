@@ -114,18 +114,10 @@ export default {
           disabled: true,
         }, {
           label: '所属班级',
-          prop: 'orgId',
+          prop: 'orgName',
           disabled: true,
-          dicData: getOrgan(),
-          type: 'tree',
-          props: {
-            label: 'orgName',
-            value: 'id'
-          },
-          rules: [{
-            required: true,
-            message: '所属班级是必填项'
-          }]
+          type: 'input',
+
         }, {
           label: '体检项目',
           prop: 'items',
@@ -208,7 +200,7 @@ export default {
         ...this.obj,
         stuName: data.data[0].userName,
         stuNum: data.data[0].value,
-        orgId: data.data[0].organId
+        orgName: data.data[0].orgName
       }
     },
     handleChange(e) {
