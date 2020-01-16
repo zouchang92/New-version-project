@@ -50,7 +50,7 @@
               size="small"
               @click="
                 exportExcel(
-                  `${baseUrl}zhxyx/activity/exportExcel
+                  `${baseUrl}/zhxyx/activity/exportExcel
 `,
                   []
                 )
