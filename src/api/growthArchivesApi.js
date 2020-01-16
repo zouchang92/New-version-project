@@ -58,10 +58,19 @@ export function adduty({ semesterName, orgName, studentNum, studentName, duty, d
 
 export function delduty({ id }) {
   return request({
-    url: 'zhxyx/duty/deleteStuDaDuty',
+    url: '/zhxyx/duty/deleteStuDaDuty',
     method: 'post',
     data: {
       id
+    }
+  })
+}
+export function delsduty({ ids }) {
+  return request({
+    url: '/zhxyx/duty/deletesStuDaDuty',
+    method: 'post',
+    data: {
+      ids
     }
   })
 }

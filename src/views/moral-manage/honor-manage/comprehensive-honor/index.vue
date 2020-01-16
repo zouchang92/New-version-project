@@ -207,7 +207,7 @@ export default {
     },
     async rowUpdate(row, index, done, loading) {
       loading(true)
-      row.certPic.length ? (row.certPic = row.certPic[0].url) : row.certPic = ''
+      row.certPic = row.certPic ? (row.certPic[0].url) :  ''
       try {
         let res = await updateComprehensiveHonor(row)
         await this.resetList()
@@ -219,7 +219,7 @@ export default {
       }
     },
     async rowSave(row, done, loading) {
-      row.certPic.length ? row.certPic = row.certPic[0].url : row.certPic = ''
+      row.certPic = row.certPic ? (row.certPic[0].url) :  ''
       loading(true)
       try {
         let res = await addComprehensiveHonor(row)

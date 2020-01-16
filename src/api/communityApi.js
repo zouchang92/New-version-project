@@ -18,12 +18,12 @@ export function updateClub({ id, person, name, orgIds }) {
     }
   })
 }
-export function addClub({ person, name, initTime, orgIds, description }) {
+export function addClub({ person, name, initTime, studentOrgName, orgIds, description }) {
   return request({
     url: '/zhxyx/stClub/add',
     method: 'post',
     data: {
-      person, name, initTime, orgIds, description
+      person, name, initTime, studentOrgName, orgIds, description
     }
   })
 }
@@ -170,6 +170,51 @@ export function getActivities() {
     method: 'post',
     data: {
       
+    }
+  })
+}
+export function getStudentScore({ page, rows }) {
+  return request({
+    url: '/zhxyx/stStudentScore/list',
+    method: 'post',
+    data: {
+      page, rows
+    }
+  })
+}
+export function addStudentScore({ clubId, actId, studentNum, score, photos, memo }) {
+  return request({
+    url: '/zhxyx/stStudentScore/insert',
+    method: 'post',
+    data: {
+      clubId, actId, studentNum, score, photos, memo
+    }
+  })
+}
+export function delStudentScore({ id }) {
+  return request({
+    url: '/zhxyx/stStudentScore/delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+export function updateStudentScore({ id, clubId, actId, studentNum, score, photos, memo }) {
+  return request({
+    url: '/zhxyx/stStudentScore/update',
+    method: 'post',
+    data: {
+      id, clubId, actId, studentNum, score, photos, memo
+    }
+  })
+}
+export function importStudentScore({ file}) {
+  return request({
+    url: '/zhxyx/stStudentScore/import',
+    method: 'post',
+    data: {
+       file
     }
   })
 }

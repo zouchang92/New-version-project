@@ -26,13 +26,13 @@
               :key="i"
             >
               <i class="el-icon-user" />
-              {{item.userName}}
+              
               <el-checkbox
                 v-if="count !== 1"
                 class="user-checkbox"
                 :value="selectedValue.indexOf(item[defaultKey]) > -1"
-              ></el-checkbox>
-              <el-radio v-else class="user-checkbox" :value="selectedValue.indexOf(item[defaultKey]) > -1" />
+              >{{item.userName}}</el-checkbox>
+              <el-radio v-else class="user-checkbox" :label="item[defaultKey]" :value="selectedValue[0]" >{{item.userName}}</el-radio>
             </li>
           </Container>
         </ul>
@@ -190,6 +190,7 @@ export default {
   },
   watch: {
     memberSelected(val) {
+      console.log(val, 'member')
       this.memberData = _.cloneDeep(val)
     },
     value(val) {

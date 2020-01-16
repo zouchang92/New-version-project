@@ -5,7 +5,7 @@
         <div><CommunityPage ref="first" @ee='more' @Management="moreManagement" @Personnel="morePersonnel" name="CommunityPage"/></div>
       </el-tab-pane>
       <el-tab-pane label="社团管理" name="second">
-        <div><Management1 name="Management1"/></div>
+        <div><Management1 name="Management1" @Personnel="morePersonnel"/></div>
       </el-tab-pane>
       <el-tab-pane label="活动管理" name="third">
         <div><ActivityManagement name="ActivityManagement"/></div>
@@ -16,6 +16,9 @@
       <el-tab-pane label="活动考勤">
         <div><ActivityAttendance /></div>
       </el-tab-pane>
+      <el-tab-pane label="社团表现">
+        <div><performance /></div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -25,13 +28,15 @@ import Management1 from './components/Management1'
 import ActivityManagement from './components/ActivityManagement'
 import ActivityAttendance from './components/ActivityAttendance'
 import PersonnelManagement from './components/PersonnelManagement'
+import performance from './components/performance'
 export default {
   components: {
     ActivityAttendance,
     ActivityManagement,
     CommunityPage,
     Management1,
-    PersonnelManagement
+    PersonnelManagement,
+    performance
   },
   data() {
     return {

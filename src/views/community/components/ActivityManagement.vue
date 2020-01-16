@@ -128,9 +128,6 @@ export default {
             label: 'id',
             prop: 'id',
             hide: true,
-            addDisplay: false,
-            editDisplay: false,
-            viewDisplay: false
           },
           {
             label: '学期',

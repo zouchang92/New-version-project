@@ -202,6 +202,14 @@ export default {
     },
     component: () => import('@/views/teach-manage/course-time-manage')
   },
+  buildingManage: {
+    path: 'buildingManage',
+    name: 'buildingManage',
+    meta: {
+      title: '楼栋管理'
+    },
+    component: () => import('@/views/teach-manage/building-manage')
+  },
   courseManage: {
     path: 'courseManage',
     name: 'courseManage',

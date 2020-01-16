@@ -46,7 +46,7 @@ export default {
           },
           {
             label:'教室名称',
-            prop:'roomNo',
+            prop:'roomName',
             rules: [{
               required: true,
               message: '教室名称是必填项'
@@ -56,13 +56,43 @@ export default {
             span: 24,
           },
           {
+            label:'教室编号',
+            prop:'roomNo',
+            rules: [{
+              required: true,
+              message: '教室编号是必填项'
+            }],
+            searchSpan: 6,
+            span: 24,
+          },
+          {
+           label: '所属楼栋',
+           prop: 'buildingId',
+           type: 'select',
+           dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/schBuilding/list',
+           dicMethod: 'post',
+           dicQuery: {
+             page: 1,
+             rows: 100000
+           },
+           props: {
+             res: 'data.list',
+             label: 'buildingName',
+             value: 'id'
+           },
+           rules: [{
+             required: true,
+             message: '所属楼栋是必填项'
+           }],
+           span: 24,
+          },
+          {
             label:'教室地址',
             prop:'address',
             rules: [{
               required: true,
               message: '教室地址是必填项'
             }],
-            searchSpan: 6,
             span: 24,
           },
           {
@@ -92,11 +122,6 @@ export default {
             span: 24,
           },
           {
-            label:'楼编号',
-            prop:'buildingNo',
-            span: 24,
-          },
-          {
             label:'楼层号',
             prop:'floorNo',
             span: 24,
@@ -104,6 +129,7 @@ export default {
           {
             label:'容纳人数(人)',
             prop:'studentQty',
+            type: 'number',
             span: 24,
           },
         ]
