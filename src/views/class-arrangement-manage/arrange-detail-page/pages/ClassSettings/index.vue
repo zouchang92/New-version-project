@@ -1,136 +1,164 @@
 <template>
-  <div>
-    <avue-crud :permission="permission" rowKey="id" @search-change="searchChange" @selection-change="selectChange" @size-change="pageSizeChange" @current-change="currentPageChange" @row-del="singleDel" @row-save="rowSave" @row-update="rowUpdate" :table-loading="tableListLoading" ref="crud" :page="{}" :data="tableList" :option="option" v-model="obj">
-      <template slot="orgTeacher" slot-scope="scope">
-        <div v-if="scope.row.orgTeacher && scope.row.orgTeacher.length">
-          {{scope.row.orgTeacher.map(n => n.userName).join(',')}}
+  <div class="dashboard-editor-container">
+
+    <el-row :gutter="32" style="height:300px;position:relative">
+
+      <el-col :xs="12" :sm="12" :lg="12" :xl="12" class="f-association-l" style=" position:relative; ">
+        <div class="f-association">
+          <div class="association-title">
+            <p class="u-line" />
+            <span>班级信息(确认班级是否完整)</span>
+            <div style=" position:absolute;  top: 19px;  right: 35px;">设置
+            </div>
+          </div>
+          <div  v-for="(item,index) in classList" :key="index" class="assocition-content">
+             <div>{{ item.orgName }}<br />
+             <span v-if="item.classroomId==null">未设置教室</span>
+             <span v-else>{{item.classroomName}}</span> </div>
+          </div>
+        </div>  
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="12" :xl="12" class="f-association-l" style=" position:relative; ">
+        <Classroom name="Classroom" />
+      </el-col>
+    </el-row>
+    <el-row :gutter="32" style="height:300px;position:relative">
+
+      <el-col :xs="12" :sm="12" :lg="12" :xl="12" class="f-association-l" style=" position:relative; ">
+        <CourseTeacher name="CourseTeacher"  ref="CourseTeacher" />
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="12" :xl="12" class="f-association-l" style=" position:relative; ">
+        <Course @restCourses='restCourses' name="Course" />
+      </el-col>
+    </el-row>
+    <el-row :gutter="32" style="height:300px;position:relative">
+
+      <el-col :xs="12" :sm="12" :lg="12" :xl="12" class="f-association-l" style=" position:relative; ">
+        <CourseTime name="CourseTime" ref="CourseTime" />
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="12" :xl="12" class="f-association-l">
+        <div class="f-association">
+          <div >
+            <el-tabs >
+              <el-tab-pane name="first" label="课程组设置" >
+                <CourseGroup name="CourseGroup"/>
+              </el-tab-pane>
+              <el-tab-pane label="教师组设置">
+                 <TeacherGroup name="TeacherGroup"/>
+              </el-tab-pane>
+            </el-tabs>
+
+          </div>
+          
         </div>
-        <div v-else>
-          <p style="color: red">未设置</p>
-        </div>
-      </template>
-      <template slot="orgLeader" slot-scope="scope">
-        <div v-if="scope.row.orgLeader && scope.row.orgLeader.length">
-          {{scope.row.orgLeader.map(n => n.userName).join(',')}}
-        </div>
-        <div v-else>
-          <p style="color: red">未设置</p>
-        </div>
-      </template>
-      <template slot="menu" slot-scope="scope">
-        <el-button @click="editCell(scope)" v-if="!scope.row.orgLeader.length || !scope.row.orgTeacher.length" type="text">设置</el-button>
-      </template>
-    </avue-crud>
-    <class-manage-modal @submit="formSubmit" v-model="modalParam.modalVisible" :classInfo="modalParam.formValue" />
-  </div>
+      </el-col>
+    </el-row>
+</div>
 </template>
 
 <script>
-import { queryOrgClass } from '@/api/classPlanManageApi'
-import { updatePerson } from '@/api/classManageApi'
-import tableCommon from '@/mixins/table-common'
-import { getOrgan } from '@/utils'
-import ClassManageModal from './components/ClassManageModal'
-export default {
-  mixins: [tableCommon],
-  data() {
-    return {
-      permission: {
-        addRowBtn: false,
-        editBtn: false,
-        viewBtn: false,
-        delBtn: false
-      },
-      obj: {
+import {  queryOrgClass,queryTaskCourse,queryCourseTeachers,queryClassroom } from '@/api/classPlanManageApi'
+import { queryCourses } from '@/api/courseManageApi'
+import CourseGroup from './components/CourseGroup'
+import TeacherGroup from './components/TeacherGroup'
+import CourseTime from './components/CourseTime'
+import Course from './components/Course'
+import CourseTeacher from './components/CourseTeacher'
+import Classroom from './components/Classroom'
 
-      },
-      modalParam: {
-        modalVisible: false,
-        formValue: {
-          id: '',
-          orgLeaders: [],
-          orgTeachers: [],
-        }
-      },
-      searchForm: {
-        orgId: this.$route.query.orgId
-      },
-      fn: queryOrgClass,
-      initLoad: false,
-      option: {
-        column: [{
-          label: '所属机构',
-          prop: 'orgId',
-          type: 'tree',
-          dicData: getOrgan(),
-          props: {
-            label: 'orgName',
-            value: 'id'
-          },
-          searchSpan: 8,
-          span: 24,
-          rules: {
-            required: true,
-            message: '所属机构是必填项'
-          }
-        }, {
-          label: '任课教师',
-          prop: 'orgTeacher',
-          span: 24,
-          slot: true
-        }, {
-          label: '班级负责人',
-          prop: 'orgLeader',
-          span: 24,
-          slot: true
-        }]
-      }
+export default {
+  components: {
+    CourseGroup,
+    TeacherGroup,
+    CourseTime,
+    Course,
+    CourseTeacher,
+    Classroom
+  }, 
+  data() {
+     return {
+      classList: []//班级
     }
   },
+  
   mounted() {
-    this.searchForm = {
-      ...this.searchForm,
-      orgId: this.$route.query.orgId
-    }
-    
-    this.initList()
+     this.queryOrgClass()
   },
   methods: {
-    editCell(scope) {
-      this.modalParam = {
-        ...this.modalParam,
-        modalVisible: true,
-        formValue: {
-          ...this.modalParam.formValue,
-          ...scope.row,
-        }
+    // 获取任务年级
+    async queryOrgClass() {
+      try {
+        const List = await queryOrgClass({orgId:this.$route.query.orgId})
+        this.classList = List.data
+      } catch (err) {
+        console.log(err)
       }
     },
-    async formSubmit(data) {
-      data.leaderDtos = data.orgLeaders.map(n => ({
-        teacherId: n.userId,
-        dutyType: "1"
-      }))
-      data.schOrgTeacherDTOList = data.orgTeachers.map(n => ({
-        teacherId: n.userId,
-        dutyType: "2"
-      }))
-      data.id = data.orgId
-      try {
-        let res = await updatePerson(data)
-        this.$message.success('设置成功')
-        await this.initList()
-      } catch(err) {
-
-      }
+    restCourses()
+    {
+      this.$refs.CourseTeacher.queryCourseTeachers()
+      this.$refs.CourseTime.resetList()
     }
-  },
-  components: {
-    ClassManageModal
   }
 }
 </script>
 
 <style lang="less">
 
+.dashboard-editor-container {
+  padding: 15px 14px 0px 14px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
+
+  span {
+    padding-left: 15px;
+    line-height: 18px;
+    font-size: 16px;
+    color: #666;
+  }
+
+  .f-association-l {
+    padding-left: 20px;
+    padding-right: 20px;
+    top: 17px;
+
+    .f-association {
+      background: #fff;
+      height: 280px;
+      padding: 16px 16px 0;
+      .association-title {
+        height: 35px;
+        border-bottom: 1px solid #eee;
+        margin: 0px 7px 0px 1px;
+        span {
+          margin-bottom: 11px;
+          display: block;
+        }
+      }
+      .u-line {
+        display: block;
+        width: 5px;
+        height: 16px;
+        background: #018eed;
+        position: absolute;
+        left: 32px;
+        top: 3px;
+      }
+
+      .assocition-content {
+        display: flex;
+        height: 30px;
+        justify-content: space-between;
+        background: #f5f6fa;
+        margin-top: 10px;
+        span {
+          font-size: 14px;
+          font-family: Source Han Sans CN;
+          font-weight: 400;
+          color: #000;
+        }
+      }
+    }
+  }
+}
 </style>

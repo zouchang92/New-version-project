@@ -2,12 +2,12 @@
   <div style="margin: 15px;" >
     <el-card>
       <el-steps :active="activeStep" align-center>
-        <el-step title="班级设置"></el-step>
-        <el-step title="课时设置"></el-step>
+        <el-step title="排课设置"></el-step>
         <el-step title="规则设置"></el-step>
+        <el-step title="预先安排固定课程"></el-step>
         <el-step title="自动排课"></el-step>
       </el-steps>
-      <div style="margin-top: 15px;">
+      <div style=" margin-top: 15px;">
         <class-settings v-if="activeStep === 0" />
         <course-settings v-if="activeStep === 1" />
         <rule-settings v-if="activeStep === 2" />
