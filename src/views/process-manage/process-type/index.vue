@@ -75,6 +75,7 @@ export default {
       try {
         let res = await updateProcessType(row)
         await this.resetList()
+        this.$message.success('更新成功')
         loading(false)
         done()
       } catch(err) {
@@ -86,6 +87,7 @@ export default {
       try {
         let res = await addProcessType(row)
         await this.resetList()
+        this.$message.success('添加成功')
         loading(false)
         done()
       } catch(err) {

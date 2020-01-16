@@ -7,17 +7,6 @@
             </el-col>
             <el-col :span="21">
                 <el-row>
-                    <!--顶部工具菜单-->
-                    <el-col :span="24">
-                        <div style="margin-bottom: 5px; margin-left: 10px">
-                            <el-link type="primary">{{data.name}}</el-link>
-                            <el-button type="primary" @click="dataReloadA" icon="el-icon-refresh">切换流程A</el-button>
-                            <el-button type="success" @click="dataReloadB" icon="el-icon-refresh">切换流程B</el-button>
-                            <el-button type="warning" @click="dataReloadC" icon="el-icon-refresh">切换流程C</el-button>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row>
                     <!--画布-->
                     <el-col :span="24">
                         <div id="flowContainer" class="container">
@@ -289,7 +278,13 @@
                     top: top + 'px',
                     ico: nodeMenu.ico,
                     show: true,
-                    type: nodeMenu.type
+                    type: nodeMenu.type,
+                    rules: null,
+                    flowId: null,
+                    isEndTask: 0,
+                    parentId: "",
+                    assigneeId: []
+
                 }
                 /**
                  * 这里可以进行业务判断、是否能够添加该节点
@@ -409,7 +404,8 @@
                 this.menu.top = evt.y + 'px'
             },
             getNodeData(data) {
-              const startId = this.getUUID()
+              const startId = 'start'
+              const endId = 'end'
               const nodeList = lodash.chain(data).flattenDeep().map(n => ({
                   ...n,
                   id: n.id,
@@ -422,10 +418,18 @@
               })).concat({
                 id: startId,
                 name: '开始',
-                top: '0px',
+                top: '80px',
                 left: '0px',
                 type: 'start',
                 ico: 'el-icon-video-play',
+                show: true,
+              }).concat({
+                id: endId,
+                name: '结束',
+                top: '80px',
+                right: '0px',
+                type: 'end',
+                ico: 'el-icon-video-pause',
                 show: true,
               }).value()
               
@@ -433,12 +437,7 @@
                 if (value.type === 'start') {
                   return result
                 }
-                if (!value.parentId) {
-                  result.push({
-                    from: startId,
-                    to: value.id
-                  })
-                } else {
+                if (value.parentId) {
                   let parents = value.parentId.split(',')
                   lodash.forEach(parents, n => {
                     result.push({
@@ -451,54 +450,27 @@
               }, [])
               return {nodeList, lineList}
             },
+            getSubmitData() {
+              const { lineList, nodeList } = this.data
+              return lodash.reduce(nodeList, (result, value, key) => {
+                let parent = lodash.filter(lineList, n => {
+                  return n.to === value.id
+                })
+                let isAttatchToEnd = lodash.filter(lineList, n => n.from === value.id && n.to === 'end')
+                
+                if (parent) {
+                  value.parentId = lodash.map(parent, n => n.from).join(',')
+                }
+                value.isEndTask = isAttatchToEnd.length ? 1 : 0
+                value.taskName = value.name
+                result.push(value)
+                return result
+              }, [])
+            },
             // 加载流程图
-            dataReload(data) {
-                const s = {
-                  "flowTaskDTO":[
-                  [
-                    {
-                      "id":"1",
-                      "parentId":"",
-                      "taskType":"1",
-                      "taskName":"一级审批"
-                    },
-                    {
-                      "id":"2",
-                      "parentId":"",
-                      "taskType":"2",
-                      "taskName":"一级审批"
-                    },
-                    {
-                      "id":"3",
-                      "parentId":"",
-                      "taskType":"3",
-                      "taskName":"一级审批"
-                    }
-                  ],
-                  [
-                    { 
-                      "id":"4",
-                      "parentId":"1,2",
-                      "taskType":"1,2",
-                      "taskName":"二级审批",
-                      "rules":"<=3"
-                    }
-                  ],
-                [
-                  {
-          "id":"5",
-             "parentId":"4",
-                "taskType":"1,2",
-                "taskName":"三级审批",
-                "rules":">3"
-            }
-        ]
-    ],
- "flowId":"QQRFHDY0O9C1L3GGRVNMEMVSVONLJNX9"
-}
-                this.getNodeData(s.flowTaskDTO)
+            dataReload(data = []) {
                 this.easyFlowVisible = false
-                this.data = this.getNodeData(s.flowTaskDTO)
+                this.data = this.getNodeData(data)
                 this.$nextTick(() => {
                     data = lodash.cloneDeep(data)
                     this.easyFlowVisible = true
@@ -510,18 +482,6 @@
                         })
                     })
                 })
-            },
-            // 模拟载入数据dataA
-            dataReloadA() {
-                this.dataReload(getDataA())
-            },
-            // 模拟载入数据dataB
-            dataReloadB() {
-                this.dataReload(getDataB())
-            },
-            // 模拟载入数据dataC
-            dataReloadC() {
-                this.dataReload(getDataC())
             },
         }
     }

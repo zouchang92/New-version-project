@@ -11,7 +11,7 @@
             <i :class="nodeIcoClass"></i>
             <!--鼠标移入到节点中时右上角的【编辑】、【删除】 按钮-->
             <div v-show="mouseEnter" class="flow-node-operate">
-                <div @click="editNode"><img src="@/assets/flow/edit.png"></div>&nbsp;
+                <div v-if="node.type !== 'start' && node.type !== 'end'" @click="editNode"><img src="@/assets/flow/edit.png"></div>&nbsp;
                 <div @click="deleteNode"><img src="@/assets/flow/delete.png"></div> &nbsp;
             </div>
         </div>

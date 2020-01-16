@@ -1,5 +1,5 @@
 <template>
-  <el-dialog @close="handleClose" :visible="value">
+  <el-dialog append-to-body @close="handleClose" :visible="value">
     <div class="member-select">
       <div class="member-tag">
         <el-tag size="medium" style="margin-right: 5px;" @close="handleCancel(item)" v-for="item in this.memberData" :key="item.value" closable>{{item.label}}</el-tag>

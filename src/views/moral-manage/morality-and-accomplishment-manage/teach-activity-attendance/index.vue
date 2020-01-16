@@ -18,8 +18,8 @@
               type="warning"
               icon="el-icon-upload2"
               size="small"
-              @click="exportExcel(`${baseUrl}zhxyx/ryAward/export
-`, [])"
+              @click="exportExcel(`${baseUrl}/zhxyx/morality/exportExcel
+`, ['theme', 'orgName', 'absenteeismDate'])"
             >导出</el-button>
               <el-button @click="initList()" type="info" icon="el-icon-refresh" size="small" circle></el-button>
             </template>

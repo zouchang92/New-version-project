@@ -44,3 +44,53 @@ export function deleteProcessType(id) {
     }
   })
 }
+
+export function queryFlowDefined({ page, rows, flowName, categoryName }) {
+  return request({
+    url: '/zhxyx/flowDefined/listFlowDefined',
+    method: 'post',
+    data: {
+      page, rows, flowName, categoryName
+    }
+  })
+}
+
+export function addFlowDefined({ flowName, categoryId, description }) {
+  return request({
+    url: '/zhxyx/flowDefined/insertFlowDefined',
+    method: 'post',
+    data: {
+      flowName, 
+      categoryId, 
+      description
+    }
+  })
+}
+
+export function deleteFlowDefined(flowId) {
+  return request({
+    url: '/zhxyx/flowDefined/deleteFlowDefined',
+    method: 'post',
+    data: {
+      flowId
+    }
+  })
+}
+
+export function queryFlowNode(flowId) {
+  return request({
+    url: '/zhxyx/flowDefined/listFlowTaskByFlowId',
+    method: 'get',
+    params: {
+      flowId
+    }
+  })
+}
+
+export function addFlowNode(info) {
+  return request({
+    url: '/zhxyx/flowDefined/insertFlowTask',
+    method: 'post',
+    data: info
+  })
+}
