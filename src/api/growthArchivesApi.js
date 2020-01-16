@@ -79,7 +79,6 @@ export function dutyStuDuty({ id, result }) {
     url: '/zhxyx/duty/checkStuDuty',
     method: 'post',
     data: {
-      // eslint-disable-next-line no-sequences
       id, result
     }
   })
@@ -89,7 +88,6 @@ export function addutyStuDuty({ semesterName, orgName, studentNum, studentName, 
     url: '/zhxyx/duty/checkStuDuty',
     method: 'post',
     data: {
-      // eslint-disable-next-line no-sequences
       semesterName, orgName, studentNum, studentName, duty, dutyComment, dutyContext, startTime, endTime
     }
   })
@@ -101,12 +99,12 @@ export function daleteDuty() {
     data: { }
   })
 }
-export function editDuty({ id, studentName, duty, dutyComment, dutyContext, startTime, endTime }) {
+export function editDuty({ id, studentName, duty, dutyComment, dutyContext, startTime, endTime, description }) {
   return request({
     url: '/zhxyx/duty/updateStuDaDuty',
     method: 'post',
     data: {
-      id, studentName, duty, dutyComment, dutyContext, startTime, endTime
+      id, studentName, duty, dutyComment, dutyContext, startTime, endTime, description
     }
   })
 }

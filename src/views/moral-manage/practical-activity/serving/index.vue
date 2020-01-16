@@ -229,13 +229,6 @@ export default {
         loading(false)
       }
     },
-    onLoad(page) {
-      this.$message.success('分页信息:' + JSON.stringify(page))
-      this.page.total = 20
-    },
-    selectionChange(list) {
-      this.$message.success('选中的数据' + JSON.stringify(list))
-    },
     cellStyle({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 4) {
         if (row.dutyComment == '0') {
@@ -262,6 +255,7 @@ export default {
       console.log(row.dutyComment)
       try {
         await delduty({ id })
+        this.$message.success("删除成功");
         this.get()
       } catch (err) {
         console.log(err)
