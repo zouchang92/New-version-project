@@ -61,7 +61,11 @@
       </div>
     </div>
     <div>
-      <el-table :data="tableList" stripe style="width: 100%">
+      <el-table :data="tableList" stripe style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table-column
+      type="selection"
+      width="55">
+    </el-table-column>
         <el-table-column prop="clubName" label="社团名称" width="180">
         </el-table-column>
         <el-table-column prop="person" label="负责人" width="180">

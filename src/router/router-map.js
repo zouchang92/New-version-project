@@ -367,7 +367,7 @@ export default {
   },
   ResearchTraining: {
     path: 'ResearchTraining',
-    component: () => import('@/views/ResearchTraining'),
+    component: () => import('@/views/research-training'),
     name: 'ResearchTraining',
     meta: { title: '研训管理', icon: 'guide' }
   },

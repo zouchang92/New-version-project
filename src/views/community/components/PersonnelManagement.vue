@@ -78,7 +78,7 @@ export default {
           },
           {
             label: '姓名',
-            prop: 'studentId',
+            prop: 'studentName',
             search: true,
             type: 'select',
             dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/student/list ',
