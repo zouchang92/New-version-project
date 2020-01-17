@@ -109,7 +109,7 @@ import {
   delsPractice,
   impPractice,
   expPractice
-} from "@/api/socialPractice.js";
+} from "@/api/socialPracticeApi.js";
 
 import { querySemester } from "@/api/semesterManageApi";
 export default {

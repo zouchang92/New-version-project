@@ -106,7 +106,7 @@ import {
   addPracticeActivity,
   delPracticeActivity,
   updatePracticeActivity
-} from "@/api/public-welfare.js";
+} from "@/api/publicWelfareApi.js";
 
 import { querySemester } from "@/api/semesterManageApi";
 const genderPba = getDictById('Pba')

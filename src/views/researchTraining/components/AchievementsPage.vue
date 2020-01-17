@@ -9,9 +9,13 @@
         :option="option"
         :page="page"
         :table-loading="tableListLoading"
+        @search-change="searchChange"
         @row-save="rowSave"
         @row-update="rowUpdate"
       >
+        <template slot="permission" slot-scope="scope">
+          <el-button @click.native="setAuthorize(scope)">设置菜单权限</el-button>
+        </template>
         <template slot="searchMenu">
           <el-button type="success" icon="el-icon-plus" size="small" @click.stop="handleAdd()">新建</el-button>
           <el-button type="warning" icon="el-icon-download" size="small">导入</el-button>
@@ -31,15 +35,9 @@
 <script>
 import tableCommon from '@/mixins/table-common.js'
 import { formatDate } from '@/api/date.js'
-import {
-  queryResearch,
-  addResearch,
-  delResearch,
-  updateResearch
-} from '@/api/ResearchTrainingApi'
+import { queryList } from '@/api/researchTrainingApi'
 import { getDictById } from '@/utils'
 const research = getDictById('researchProperties')
-const researchForm = getDictById('researchForm')
 export default {
   filters: {
     formatTS(timestamp) {
@@ -50,7 +48,7 @@ export default {
   mixins: [tableCommon],
   data() {
     return {
-      fn: queryResearch,
+      fn: queryList,
       obj: {},
       form: {},
       value: '',
@@ -82,6 +80,43 @@ export default {
             }]
           },
           {
+            label: '研训性质',
+            search: true,
+            type: 'select',
+            prop: 'classProperty',
+            dicData: research,
+            props: {
+              label: 'label',
+              value: 'value'
+            },
+            rules: [{
+              required: true,
+              message: '研训性质'
+            }]
+          },
+          {
+            label: '研训类型',
+            search: true,
+            hide: true,
+            type: 'select',
+            prop: 'classType',
+            dicUrl: process.env.VUE_APP_BASE_API + '/zhxyx/yxTask/list',
+            dicMethod: 'post',
+            dicQuery: {
+              page: 1,
+              rows: 100000
+            },
+            props: {
+              res: 'data.list',
+              label: 'classType',
+              value: 'id'
+            },
+            rules: [{
+              required: true,
+              message: '研训性质'
+            }]
+          },
+          {
             label: '主讲人',
             prop: 'presenter',
             rules: [{
@@ -90,59 +125,11 @@ export default {
             }]
           },
           {
-            label: '研训时间',
+            label: '次数',
             prop: 'classTime',
-            type: 'date',
-            format: 'yyyy-MM-dd',
             rules: [{
               required: true,
-              message: '研训时间'
-            }]
-          },
-          {
-            label: '研训性质',
-            search: true,
-            type: 'select',
-            prop: 'classProperty',
-            dicData: research,
-            props: [{
-              label: 'label',
-              value: 'value'
-            }],
-            rules: [{
-              required: true,
-              message: '研训性质'
-            }]
-          },
-          {
-            label: '研训形式',
-            search: true,
-            type: 'select',
-            prop: 'classMethod',
-            dicData: researchForm,
-            props: {
-              label: 'label',
-              value: 'name'
-            },
-            rules: [{
-              required: true,
-              message: '研训形式'
-            }]
-          },
-          {
-            label: '研训类型',
-            prop: 'classType',
-            rules: [{
-              required: true,
-              message: '研训类型'
-            }]
-          },
-          {
-            label: '研训地点',
-            prop: 'place',
-            rules: [{
-              required: true,
-              message: '研训地点'
+              message: '次数'
             }]
           },
           {
@@ -153,6 +140,22 @@ export default {
               message: '课时'
             }]
           },
+          // {
+          //   label: '参训名单',
+          //   prop: 'classType',
+          //   rules: {
+          //     required: true,
+          //     message: '研训类型'
+          //   }
+          // },
+          {
+            label: '未完成人员',
+            prop: 'place',
+            rules: [{
+              required: true,
+              message: '研训地点'
+            }]
+          }
           // {
           //   label: '参训名单',
           //   prop: 'trainUsers'
