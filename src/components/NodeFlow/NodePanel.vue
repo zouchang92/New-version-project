@@ -283,7 +283,7 @@
                     flowId: null,
                     isEndTask: 0,
                     parentId: "",
-                    assigneeId: []
+                    assigneeMsg: []
 
                 }
                 /**

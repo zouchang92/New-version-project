@@ -24,7 +24,7 @@
 <script>
 import tableCommon from '@/mixins/table-common'
 import permission from '@/mixins/permission'
-import { queryFlowDefined, addFlowDefined, queryFlowNode, addFlowNode, deleteFlowDefined } from '@/api/processManageApi'
+import { queryFlowDefined, addFlowDefined, updateFlowDefined, queryFlowNode, addFlowNode, deleteFlowDefined } from '@/api/processManageApi'
 import FlowNode from '@/components/NodeFlow/NodePanel'
 export default {
   name: 'processList',
@@ -58,7 +58,7 @@ export default {
           },
           rules: [{
             required: true,
-            mseesage: '流程类型为必填项'
+            message: '流程类型为必填项'
           }],
           search: true
         }, {
@@ -69,14 +69,14 @@ export default {
             message: '流程名称为必填项'
           }],
           search: true
+        },{
+          label: '描述',
+          prop: 'description',
         }, {
           label: '节点数',
           prop: 'flowNodes',
           formslot: true,
           span: 24
-        }, {
-          label: '描述',
-          prop: 'description',
         }, {
           label: '状态',
           prop: 'status',
@@ -119,10 +119,9 @@ export default {
     },
     async rowUpdate(row, index, done, loading) {
       loading(true)
-      const flowData = this.$refs.flowNode.getSubmitData()
-      return
       try {
-        let res = await updateProcessType(row)
+        const flowData = this.$refs.flowNode.getSubmitData()
+        let res = await updateFlowDefined(row)
         await this.resetList()
         loading(false)
         done()
@@ -132,13 +131,14 @@ export default {
     },
     async rowSave(row, done, loading) {
       loading(true)
-      const flowData = this.$refs.flowNode.getSubmitData()
       try {
-        let res = await addProcessType(row)
+        const flowData = this.$refs.flowNode.getSubmitData()
+        let res = await addFlowDefined(row)
         await this.resetList()
         loading(false)
         done()
       } catch(err) {
+        console.log(err)
         loading(false)
       }
     }

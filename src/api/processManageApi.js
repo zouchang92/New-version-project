@@ -67,6 +67,19 @@ export function addFlowDefined({ flowName, categoryId, description }) {
   })
 }
 
+export function updateFlowDefined({ id, flowName, categoryId, description }) {
+  return request({
+    url: '/zhxyx/flowDefined/updateFlowDefined',
+    method: 'post',
+    data: {
+      id, 
+      flowName, 
+      categoryId, 
+      description
+    }
+  })
+}
+
 export function deleteFlowDefined(flowId) {
   return request({
     url: '/zhxyx/flowDefined/deleteFlowDefined',
