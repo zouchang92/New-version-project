@@ -24,6 +24,7 @@
             ><span style="color:red;">缺勤</span></el-button>
           </template>
           <template slot="searchMenu">
+            <el-button type="success" icon="el-icon-folder-checked" size="small" @click="Searchlist()">搜索</el-button>
             <el-button type="success" icon="el-icon-folder-checked" size="small">批量记录签到</el-button>
             <el-button
               type="danger"
@@ -39,7 +40,7 @@
 </template>
 <script>
 import tableCommon from '@/mixins/table-common.js'
-import { queryAttendance } from '@/api/communityApi.js'
+import { queryAttendance, signIn, notSignIn } from '@/api/communityApi.js'
 import { getOrgan, getDictById } from '@/utils'
 const genderDict = getDictById('gender')
 
@@ -177,6 +178,13 @@ export default {
         this.tableList = List.data.list
         console.log(this.tableList)
       } catch (err) {
+        console.log(err)
+      }
+    },
+    async batchDel() {
+      try {
+        await notSignIn()
+      }catch(err){
         console.log(err)
       }
     }

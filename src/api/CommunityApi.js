@@ -218,3 +218,21 @@ export function importStudentScore({ file}) {
     }
   })
 }
+export function signIn({ clubId, studentId, days, skTime }) {
+  return request({
+    url: '/zhxyx/stActivitiesAttendance/signIn',
+    method: 'post',
+    data: {
+      clubId, studentId, days, skTime
+    }
+  })
+}
+export function notSignIn({ clubId, studentId, days, skTime }) {
+  return request({
+    url: '/zhxyx/stActivitiesAttendance/notSignIn',
+    method: 'post',
+    data: {
+      clubId, studentId, days, skTime
+    }
+  })
+}
