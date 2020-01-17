@@ -35,6 +35,7 @@ import tableCommon from '@/mixins/table-common.js'
 import { queryPerson, delPerson, addPerson, editPerson } from '@/api/communityApi.js'
 import { getOrgan, getDictById } from '@/utils'
 const genderDict = getDictById('gender')
+const genderPay = getDictById('payStatus')
 
 export default {
   mixins: [tableCommon],
@@ -126,7 +127,9 @@ export default {
           },
           {
             label: '缴费情况',
-            prop: 'payStatus'
+            prop: 'payStatus',
+            type: 'select',
+            dicData: genderPay
           }
         ]
       }

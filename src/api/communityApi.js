@@ -18,6 +18,16 @@ export function updateClub({ id, person, name, orgIds }) {
     }
   })
 }
+export function getIdClub({ id }) {
+  return request({
+    url: '/zhxyx/stClub/getById',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
 export function addClub({ person, name, initTime, studentOrgName, orgIds, description }) {
   return request({
     url: '/zhxyx/stClub/add',
@@ -32,15 +42,6 @@ export function delClub({ ids }) {
     url: '/zhxyx/stClub/delete',
     method: 'get',
     params: { ids }
-  })
-}
-export function getIdClub({ id }) {
-  return request({
-    url: '/zhxyx/stClub/delete',
-    method: 'post',
-    data: {
-      id
-    }
   })
 }
 export function queryActivity() {
@@ -111,11 +112,13 @@ export function editPerson({ id, clubId, studentId, inTime, payStatus, studentGe
     }
   })
 }
-export function queryAttendance() {
+export function queryAttendance({clubId,startTime,person,studentOrgId,studentName}) {
   return request({
     url: '/zhxyx/stActivitiesAttendance/list',
     method: 'post',
-    data: {}
+    data: {
+      clubId,startTime,person,studentOrgId,studentName
+    }
   })
 }
 export function getById({ id }) {
