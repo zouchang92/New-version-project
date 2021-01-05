@@ -11,7 +11,7 @@
     "@antv/f2": "^3.4.2",
     "@smallwei/avue": "^2.2.3",
     "@tinymce/tinymce-vue": "^3.0.1",
-    "axios": "0.18.1",
+    "axios": "0.21.1",
     "core-js": "^3.4.4",
     "echarts": "^4.4.0",
     "el-tree-select": "^3.1.7",
